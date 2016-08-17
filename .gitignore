@@ -1,13 +1,13 @@
 contents.xcworkspacedata
 xcuserdata/
 __tmp/
+local.properties
 
 .DS_Store
 *.swp
 
 gpg-cpp-sdk.*.zip
 gpg.framework/
-js/frameworks/runtime-src/proj.android/gpg/
 
 
 cpp/bin/
@@ -18,23 +18,30 @@ cpp/proj.android/obj/
 cpp/proj.android/bin/
 cpp/proj.android/gen/
 cpp/proj.android/gpg/
+cpp/proj.android/libs/armeabi/
+cpp/proj.android/libs/gps/bin/
+cpp/proj.android/libs/gps/gen/
 
-lua/frameworks/runtime-src/proj.ios_mac/build
-lua/frameworks/runtime-src/proj.android/local.properties
+lua/frameworks/runtime-src/proj.ios_mac/build/
 lua/frameworks/runtime-src/proj.android/assets/
 lua/frameworks/runtime-src/proj.android/obj/
 lua/frameworks/runtime-src/proj.android/bin/
 lua/frameworks/runtime-src/proj.android/gen/
 lua/frameworks/runtime-src/proj.android/gpg/
-lua/simulator
+lua/simulator/
+lua/frameworks/runtime-src/proj.android/jars/gps/bin/
+lua/frameworks/runtime-src/proj.android/jars/gps/gen/
+lua/frameworks/runtime-src/proj.android/libs/armeabi/
 
-
-js/frameworks/runtime-src/proj.ios_mac/build
-js/frameworks/runtime-src/proj.android/local.properties
+js/frameworks/runtime-src/proj.ios_mac/build/
 js/frameworks/runtime-src/proj.android/assets/
 js/frameworks/runtime-src/proj.android/obj/
 js/frameworks/runtime-src/proj.android/bin/
 js/frameworks/runtime-src/proj.android/gen/
-js/frameworks/runtime-src/proj.android/gen/
-js/simulator
+js/frameworks/runtime-src/proj.android/gpg/
+js/simulator/
+js/frameworks/runtime-src/proj.android/libs/armeabi/
+js/frameworks/runtime-src/proj.android/libs/gps/bin/
+js/frameworks/runtime-src/proj.android/libs/gps/gen/
+
 
