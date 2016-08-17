@@ -54,7 +54,6 @@
 		96C542C01D6481F5009E476A /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542B11D6481F5009E476A /* GoogleSignIn.framework */; };
 		96C542C11D6481F5009E476A /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542B21D6481F5009E476A /* GoogleSymbolUtilities.framework */; };
 		96C542C21D6481F5009E476A /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542B31D6481F5009E476A /* GoogleUtilities.framework */; };
-		96C542C31D6481F5009E476A /* gpg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96C542B41D6481F5009E476A /* gpg.bundle */; };
 		96C542C41D6481F5009E476A /* gpg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542B51D6481F5009E476A /* gpg.framework */; };
 		96C542C61D6481F5009E476A /* sdkbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542B71D6481F5009E476A /* sdkbox.framework */; };
 		96C542C81D6482C0009E476A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542C71D6482BF009E476A /* AddressBook.framework */; };
@@ -68,6 +67,8 @@
 		96C542DA1D64843E009E476A /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542D91D64843E009E476A /* libsqlite3.0.tbd */; };
 		96C542DC1D64847D009E476A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542DB1D64847D009E476A /* Security.framework */; };
 		96C542E51D64B906009E476A /* PluginSdkboxGooglePlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542E41D64B906009E476A /* PluginSdkboxGooglePlay.framework */; };
+		96C542E71D64BFA2009E476A /* gpg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542E61D64BFA2009E476A /* gpg.framework */; };
+		96C542EB1D64C01A009E476A /* gpg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96C542EA1D64C01A009E476A /* gpg.bundle */; };
 		AA9C410483CFB8EE306FCEBA /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB0549D4984AE4807A61D96C /* CoreMedia.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -139,7 +140,6 @@
 		96C542B11D6481F5009E476A /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
 		96C542B21D6481F5009E476A /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
 		96C542B31D6481F5009E476A /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = "<group>"; };
-		96C542B41D6481F5009E476A /* gpg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = gpg.bundle; sourceTree = "<group>"; };
 		96C542B51D6481F5009E476A /* gpg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = gpg.framework; sourceTree = "<group>"; };
 		96C542B71D6481F5009E476A /* sdkbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = sdkbox.framework; sourceTree = "<group>"; };
 		96C542C71D6482BF009E476A /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AddressBook.framework; sourceTree = DEVELOPER_DIR; };
@@ -153,6 +153,8 @@
 		96C542D91D64843E009E476A /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/usr/lib/libsqlite3.0.tbd; sourceTree = DEVELOPER_DIR; };
 		96C542DB1D64847D009E476A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		96C542E41D64B906009E476A /* PluginSdkboxGooglePlay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PluginSdkboxGooglePlay.framework; sourceTree = "<group>"; };
+		96C542E61D64BFA2009E476A /* gpg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = gpg.framework; sourceTree = "<group>"; };
+		96C542EA1D64C01A009E476A /* gpg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = gpg.bundle; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -179,6 +181,7 @@
 				96C542D61D648338009E476A /* UIKit.framework in Frameworks */,
 				96C542D41D648333009E476A /* SystemConfiguration.framework in Frameworks */,
 				96C542D21D648319009E476A /* SafariServices.framework in Frameworks */,
+				96C542E71D64BFA2009E476A /* gpg.framework in Frameworks */,
 				96C542D01D6482F5009E476A /* CoreText.framework in Frameworks */,
 				96C542CE1D6482E4009E476A /* CoreLocation.framework in Frameworks */,
 				96C542CC1D6482DE009E476A /* CoreData.framework in Frameworks */,
@@ -281,6 +284,7 @@
 				1CDCD7981CC93D2C0037CB30 /* GameKit.framework */,
 				96C542A91D6481F4009E476A /* GoogleAppUtilities.framework */,
 				96C542AA1D6481F4009E476A /* GoogleAuthUtilities.framework */,
+				96C542EA1D64C01A009E476A /* gpg.bundle */,
 				96C542E41D64B906009E476A /* PluginSdkboxGooglePlay.framework */,
 				96C542AB1D6481F4009E476A /* GoogleNetworkingUtilities.framework */,
 				96C542AC1D6481F4009E476A /* GoogleOpenSource.framework */,
@@ -289,9 +293,9 @@
 				96C542AF1D6481F4009E476A /* GoogleService-Info.plist */,
 				96C542B01D6481F4009E476A /* GoogleSignIn.bundle */,
 				96C542B11D6481F5009E476A /* GoogleSignIn.framework */,
+				96C542E61D64BFA2009E476A /* gpg.framework */,
 				96C542B21D6481F5009E476A /* GoogleSymbolUtilities.framework */,
 				96C542B31D6481F5009E476A /* GoogleUtilities.framework */,
-				96C542B41D6481F5009E476A /* gpg.bundle */,
 				96C542B51D6481F5009E476A /* gpg.framework */,
 				503AE11A17EB9C5A00D1A890 /* IOKit.framework */,
 				1ACB3243164770DE00914215 /* libcurl.a */,
@@ -433,7 +437,7 @@
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
-				96C542C31D6481F5009E476A /* gpg.bundle in Resources */,
+				96C542EB1D64C01A009E476A /* gpg.bundle in Resources */,
 				96C542BF1D6481F5009E476A /* GoogleSignIn.bundle in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
