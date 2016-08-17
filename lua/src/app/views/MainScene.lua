@@ -2,7 +2,7 @@
 if not json then
     require "cocos.cocos2d.json"
 end
-local cbm = require "app.views.sdkboxgpg"
+local gpg = require "app.views.sdkboxgpg"
 
 local MainScene = class("MainScene", cc.load("mvc").ViewBase)
 
@@ -24,15 +24,15 @@ function MainScene:onCreate()
 
     self:setupTestMenu()
 
-
     local config = {ClientID="com.googleusercontent.apps.777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni"}
     local s = json.encode(config)
     print(s)
+    sdkbox.PluginSdkboxGooglePlay:CreateGameServices(s)
+
 
     --cbm:addCallbackById(1, self:onAuthStart)
     --CallbackManager:addCallbackById(2, self:onAuthFinished)
 
-    sdkbox.PluginSdkboxGooglePlay:CreateGameServices(s)
 
 end
 
@@ -47,6 +47,7 @@ function MainScene:setupTestMenu()
             if not self._signed_in then
                 self._signed_in = true
                 print("signing in")
+                sdkbox.PluginSdkboxGooglePlay:StartAuthorizationUI()
             end
         end),
         cc.MenuItemFont:create("Sign Out"):onClicked(function()

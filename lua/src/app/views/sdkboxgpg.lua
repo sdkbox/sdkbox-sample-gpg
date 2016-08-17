@@ -88,7 +88,6 @@ function resetDefaultCallbacks()
     self._callbacks = {}
 end
 
-gpg = {}
 gpg.ResponseStatus = {
     VALID = BaseStatus.VALID,
     VALID_BUT_STALE = BaseStatus.VALID_BUT_STALE,
@@ -143,4 +142,12 @@ function gpg.IsSuccess(response_status)
 end
 ]]
 
-return CallbackManager
+local gpg = {}
+
+function gpg:ShowAuthorizationUI()
+    print("ShowAuthorizationUI")
+end
+
+gpg['CallbackManager'] = CallbackManager
+
+return gpg
