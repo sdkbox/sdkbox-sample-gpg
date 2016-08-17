@@ -1,0 +1,58 @@
+#!/bin/bash
+CUR_DIR=$(cd "$(dirname $0)" && pwd)
+
+cd "$CUR_DIR"
+
+if [ ! -d ../sdkbox-cocos2d-x-binary ]; then
+    cd "$CUR_DIR/.."
+    git clone --depth 1 https://github.com/sdkbox/sdkbox-cocos2d-x-binary.git
+fi
+
+
+cd $CUR_DIR
+
+MD5="MD5 (gpg-cpp-sdk.v2.1.zip) = 3e139c7179338050cc8d545f60d0d042"
+ZIP_FILENAME="gpg-cpp-sdk.v2.1.zip"
+TMP_DIR="__tmp"
+
+if [ -f $ZIP_FILENAME ]; then
+	# check zip
+	CHECK_MD5=`md5 $ZIP_FILENAME`
+	echo $CHECK_MD5, $MD5
+	if [ "$CHECK_MD5" != "$MD5" ]; then
+		echo rm $ZIP_FILENAME
+		rm $ZIP_FILENAME
+	fi
+fi
+
+if [ ! -f $ZIP_FILENAME ]; then
+	curl -o $ZIP_FILENAME "https://developers.google.com/games/services/downloads/gpg-cpp-sdk.v2.1.zip"
+fi
+
+if [ -d $TMP_DIR ]; then
+	rm -fr $TMP_DIR
+fi
+
+mkdir $TMP_DIR
+cd $TMP_DIR
+unzip ../$ZIP_FILENAME
+
+IOS_FRAMEWORK="gpg-cpp-sdk/ios/gpg.framework"
+ANDROID_MODULE="gpg-cpp-sdk/android"
+if [ -d ../cpp ]; then
+	cp -R $IOS_FRAMEWORK ../cpp/proj.ios_mac/
+fi
+if [ -d ../lua ]; then
+	cp -R $IOS_FRAMEWORK ../lua/frameworks/runtime-src/proj.ios_mac/
+fi
+if [ -d ../js ]; then
+	cp -R $IOS_FRAMEWORK ../js/frameworks/runtime-src/proj.ios_mac/
+	cp -R $ANDROID_MODULE ../js/frameworks/runtime-src/proj.android/gpg
+fi
+
+cd ..
+rm -fr $TMP_DIR
+
+echo ""
+echo "Done."
+echo ""
