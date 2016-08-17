@@ -1,8 +1,16 @@
 
+if not json then
+    require "cocos.cocos2d.json"
+end
+local cbm = require "app.views.sdkboxgpg"
+
 local MainScene = class("MainScene", cc.load("mvc").ViewBase)
 
 function MainScene:onCreate()
+
     print("Sample Startup")
+
+    self._signed_in = false
 
     local label = cc.Label:createWithSystemFont("QUIT", "sans", 32)
     local quit = cc.MenuItemLabel:create(label)
@@ -15,6 +23,17 @@ function MainScene:onCreate()
     self:addChild(menu)
 
     self:setupTestMenu()
+
+
+    local config = {ClientID="com.googleusercontent.apps.777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni"}
+    local s = json.encode(config)
+    print(s)
+
+    --cbm:addCallbackById(1, self:onAuthStart)
+    --CallbackManager:addCallbackById(2, self:onAuthFinished)
+
+    sdkbox.PluginSdkboxGooglePlay:CreateGameServices(s)
+
 end
 
 function MainScene:setupTestMenu()
@@ -24,14 +43,31 @@ function MainScene:setupTestMenu()
     -- init plugin
 
     local menu = cc.Menu:create(
-        cc.MenuItemFont:create("show sdkboxgoogleplay"):onClicked(function()
-print("sdkbox.sdkboxgoogleplay:stuff")
+        cc.MenuItemFont:create("Sign In"):onClicked(function()
+            if not self._signed_in then
+                self._signed_in = true
+                print("signing in")
+            end
+        end),
+        cc.MenuItemFont:create("Sign Out"):onClicked(function()
+            if self._signed_in then
+                self._signed_in = false
+                print("signing out")
+            end
         end)
     )
 
     menu:alignItemsVerticallyWithPadding(5)
     menu:setPosition(size.width/2, size.height/2)
     self:addChild(menu)
+end
+
+function MainScene:onAuthStart(obj)
+    print(obj)
+end
+
+function MainScene:onAuthFinished(obj)
+    print(obj)
 end
 
 return MainScene
