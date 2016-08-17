@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "7FFA4C9D6A5D7E1D85A2D9ACDBE9BFDD1D55EE4E" : 0,
+    "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3B8633CF-8A7B-4D30-B945-7F1F31999801",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "7FFA4C9D6A5D7E1D85A2D9ACDBE9BFDD1D55EE4E" : "..\/..\/..",
+    "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8" : "sdkbox-sample-sdkboxgoogleplay\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "sdkboxgoogleplay_lua",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "lua\/frameworks\/runtime-src\/proj.ios_mac\/sdkboxgoogleplay_lua.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:mannewalis\/sdkbox-core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7FFA4C9D6A5D7E1D85A2D9ACDBE9BFDD1D55EE4E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sdkbox\/sdkbox-sample-sdkboxgoogleplay.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8"
+    }
+  ]
+}
