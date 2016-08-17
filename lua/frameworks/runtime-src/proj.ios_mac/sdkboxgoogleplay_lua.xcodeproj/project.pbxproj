@@ -65,6 +65,7 @@
 		C03781BB18BF655400FE4F13 /* src in Resources */ = {isa = PBXBuildFile; fileRef = C03781B818BF655400FE4F13 /* src */; };
 		C05D1C121923449100B808A4 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = C05D1C111923449100B808A4 /* config.json */; };
 		CA5A4879BA0D82B9B6D398CD /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 972A47098BAD69ECC4A2C03E /* GooglePlus.bundle */; };
+		D0FBD4FF1D64F31B000079E1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FBD4FE1D64F31B000079E1 /* GoogleService-Info.plist */; };
 		D6B061351803AC000077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B061341803AC000077942B /* CoreMotion.framework */; };
 		DBD04575876BFD0A2C27216F /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F1346DC901005C6CF1332B2 /* GoogleSignIn.bundle */; };
 		DC754250BA068F40BB14EB94 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9784A999E831D813EE58B68 /* CoreLocation.framework */; };
@@ -163,6 +164,7 @@
 		C39F4EA6B9087FA84FAC007D /* libsimulator iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsimulator iOS.a"; path = "$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libsimulator iOS.a"; sourceTree = "<absolute>"; };
 		C6474EAFB6B6C2519C56E346 /* PluginSdkboxGooglePlayLua.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginSdkboxGooglePlayLua.cpp; path = ../Classes/PluginSdkboxGooglePlayLua.cpp; sourceTree = SOURCE_ROOT; };
 		CA2F456F8F3532FC418A64E4 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlus.framework; sourceTree = SOURCE_ROOT; };
+		D0FBD4FE1D64F31B000079E1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D38C44E086DC483714BDDE16 /* gpg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = gpg.framework; sourceTree = SOURCE_ROOT; };
 		D6B061341803AC000077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		DA9E7D871AB1ABCC004B27C8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -250,6 +252,7 @@
 				5023810B17EBBCAC00990C9B /* Default@2x.png */,
 				5091734A17ECE18300D62437 /* Icons */,
 				5023811317EBBCAC00990C9B /* Info.plist */,
+				D0FBD4FE1D64F31B000079E1 /* GoogleService-Info.plist */,
 				5023811417EBBCAC00990C9B /* main.m */,
 				5023811517EBBCAC00990C9B /* Prefix.pch */,
 				5023811617EBBCAC00990C9B /* RootViewController.h */,
@@ -495,6 +498,7 @@
 			files = (
 				15A8A4491834C64F00142BE0 /* Icon-114.png in Resources */,
 				5023811D17EBBCAC00990C9B /* Icon-120.png in Resources */,
+				D0FBD4FF1D64F31B000079E1 /* GoogleService-Info.plist in Resources */,
 				5091733B17ECE17A00D62437 /* Icon-100.png in Resources */,
 				5023811B17EBBCAC00990C9B /* Default@2x.png in Resources */,
 				5091733617ECE17A00D62437 /* Icon-29.png in Resources */,
@@ -615,7 +619,7 @@
 		F293B6C515EB7BEA00256477 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
@@ -633,7 +637,7 @@
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/tools/simulator/libsimulator/lib",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios",
 					"\"PluginSdkboxGooglePlay.framework\"",
@@ -673,7 +677,7 @@
 		F293B6C615EB7BEA00256477 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
@@ -690,7 +694,7 @@
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/tools/simulator/libsimulator/lib",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios",
 					"\"PluginSdkboxGooglePlay.framework\"",
