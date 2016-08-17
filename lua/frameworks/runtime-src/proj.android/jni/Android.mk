@@ -1,16 +1,33 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := libgpg
+LOCAL_SRC_FILES := /Users/justin/cocos/cocos-service-center/plugins/sdkboxgoogleplay/temp/sdkbox-sample-sdkboxgoogleplay/lua/frameworks/runtime-src/proj.android/gpg/lib/gnustl/$(TARGET_ARCH_ABI)/libgpg.a
+include $(PREBUILT_STATIC_LIBRARY)
 
 LOCAL_MODULE := cocos2dlua_shared
 
 LOCAL_MODULE_FILENAME := libcocos2dlua
 
-LOCAL_SRC_FILES := ../../Classes/AppDelegate.cpp ../../Classes/ide-support/SimpleConfigParser.cpp ../../Classes/ide-support/RuntimeLuaImpl.cpp ../../Classes/ide-support/lua_debugger.c hellolua/main.cpp
+LOCAL_SRC_FILES := ../../Classes/AppDelegate.cpp \
+../../Classes/ide-support/SimpleConfigParser.cpp \
+../../Classes/ide-support/RuntimeLuaImpl.cpp \
+../../Classes/ide-support/lua_debugger.c \
+hellolua/main.cpp \
+../../Classes/PluginSdkboxGooglePlayLua.cpp \
+../../Classes/PluginSdkboxGooglePlayLuaHelper.cpp \
+../../Classes/SnapshotMetadataLuaHelper.cpp \
+../../Classes/SDKBoxLuaHelper.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
-LOCAL_LDLIBS := -landroid -llog
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
+LOCAL_LDLIBS := -landroid \
+-llog
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
+/Users/justin/cocos/cocos-service-center/plugins/sdkboxgoogleplay/temp/sdkbox-sample-sdkboxgoogleplay/lua/frameworks/runtime-src/proj.android/gpg/include/ \
+$(LOCAL_PATH)/..
+LOCAL_WHOLE_STATIC_LIBRARIES := PluginSdkboxGooglePlay \
+sdkbox \
+gpg-1
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END
@@ -26,6 +43,9 @@ $(call import-add-path,$(LOCAL_PATH))
 
 $(call import-module,scripting/lua-bindings/proj.android/prebuilt-mk)
 $(call import-module,tools/simulator/libsimulator/proj.android/prebuilt-mk)
+$(call import-module, ./sdkbox)
+$(call import-module, ./PluginSdkboxGooglePlay)
+$(call import-module, ../gpg)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
 # _COCOS_LIB_IMPORT_ANDROID_END
