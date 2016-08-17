@@ -28,6 +28,9 @@ Under each sample project there are project files for different platform
 * proj.ios_mac: project file for ios/mac platform
 * proj.android: project file to android platform
 
+Compile with Cocos command line tool: 
+* cocos compile -p android 
+* cocos compile -p ios 
 
 You can also run the sample with commandline
 ~~~bash
