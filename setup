@@ -32,7 +32,6 @@ fi
 if [ -d $TMP_DIR ]; then
 	rm -fr $TMP_DIR
 fi
-
 mkdir $TMP_DIR
 cd $TMP_DIR
 unzip ../$ZIP_FILENAME
@@ -40,14 +39,28 @@ unzip ../$ZIP_FILENAME
 IOS_FRAMEWORK="gpg-cpp-sdk/ios/gpg.framework"
 ANDROID_MODULE="gpg-cpp-sdk/android"
 if [ -d ../cpp ]; then
-	cp -R $IOS_FRAMEWORK ../cpp/proj.ios_mac/
+	IOS_DEST="../cpp/proj.ios_mac/gpg.framework"
+	ANDROID_DEST="../cpp/proj.android/gpg"
+	rm -rfv $IOS_DEST
+	rm -rfv $ANDROID_DEST
+	cp -rfv $IOS_FRAMEWORK $IOS_DEST
+	cp -rfv $ANDROID_MODULE $ANDROID_DEST
 fi
 if [ -d ../lua ]; then
-	cp -R $IOS_FRAMEWORK ../lua/frameworks/runtime-src/proj.ios_mac/
+        IOS_DEST="../lua/frameworks/runtime-src/proj.ios_mac/gpg.framework"
+        ANDROID_DEST="../lua/frameworks/runtime-src/proj.android/gpg"
+        rm -rfv $IOS_DEST
+        rm -rfv $ANDROID_DEST
+        cp -rfv $IOS_FRAMEWORK $IOS_DEST
+        cp -rfv $ANDROID_MODULE $ANDROID_DEST
 fi
 if [ -d ../js ]; then
-	cp -R $IOS_FRAMEWORK ../js/frameworks/runtime-src/proj.ios_mac/
-	cp -R $ANDROID_MODULE ../js/frameworks/runtime-src/proj.android/gpg
+        IOS_DEST="../js/frameworks/runtime-src/proj.ios_mac/gpg.framework"
+        ANDROID_DEST="../js/frameworks/runtime-src/proj.android/gpg"
+        rm -rfv $IOS_DEST
+        rm -rfv $ANDROID_DEST
+        cp -rfv $IOS_FRAMEWORK $IOS_DEST
+        cp -rfv $ANDROID_MODULE $ANDROID_DEST
 fi
 
 cd ..
