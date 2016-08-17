@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		1AD7E0A818C9DB93004817A6 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A6BF21418C9DB5900FB0E1C /* main.js */; };
 		1AE159EC18C9DF3600FCA372 /* project.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A1A081B18C9DF05005C6854 /* project.json */; };
-		28614A5582EFCDE41E6DCD96 /* libjscocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 25314D7F96A5964397743D54 /* libjscocos2d iOS.a */; };
+		2A43F11B1D64041500FA7773 /* libsimulator iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A43F1191D64041500FA7773 /* libsimulator iOS.a */; };
+		2A43F11C1D64041500FA7773 /* libjscocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A43F11A1D64041500FA7773 /* libjscocos2d iOS.a */; };
+		2A43F11E1D6407A700FA7773 /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A43F11D1D6407A700FA7773 /* libcocos2d iOS.a */; };
 		2FF74D948D688800D2E74152 /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01242FB9CAA33A23DAC5911 /* GoogleSymbolUtilities.framework */; };
 		3BC6422781B39A44A3E1CED1 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D400430EB836F30E3817B714 /* EventKit.framework */; };
 		3FF74FF1BB1D0F851575CF20 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 452E4AED9724C39D426D1D27 /* StoreKit.framework */; };
@@ -39,7 +41,6 @@
 		5A53427CA5943D0EC800DF2A /* gpg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E78D468EAA196DAE099511D1 /* gpg.bundle */; };
 		5DF347428D7C7CE51FFC8644 /* sdkbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE1401FA928D99EDCB62F5B /* sdkbox.framework */; };
 		632B443892DA0BE6EEF11F10 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39314C348F9553C32C029256 /* MessageUI.framework */; };
-		6E144EF4830450EE49A515AF /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 526041819F61614826BB19BD /* libcocos2d iOS.a */; };
 		74AF4D00BFF6AA4EB49261FC /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F348AF94CD7BF36550A2FE /* libc++.dylib */; };
 		7AAF48B9BF84CA80E8FD2DD0 /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D5444BAB7EDD7A439418AD /* GoogleSignIn.framework */; };
 		7C184E0BB2873EB308839A28 /* PluginSdkboxGooglePlayJSHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA4382B6DBA1940A13E030 /* PluginSdkboxGooglePlayJSHelper.cpp */; };
@@ -72,7 +73,6 @@
 		A922754A1517C094001B78AA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275491517C094001B78AA /* AVFoundation.framework */; };
 		A922754E1517C094001B78AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A922754D1517C094001B78AA /* Foundation.framework */; };
 		A92275501517C094001B78AA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A922754F1517C094001B78AA /* CoreGraphics.framework */; };
-		ADA4461682F4B8DA681731C5 /* libsimulator iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4942DC89CF5E304809354C /* libsimulator iOS.a */; };
 		B0684650A972BB8FAC8A7E04 /* GoogleNetworkingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F79424BA7264731E524A735 /* GoogleNetworkingUtilities.framework */; };
 		B9A747CFB381504779D68185 /* SDKBoxJSHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EF9046F0B5B364DDC08F175A /* SDKBoxJSHelper.cpp */; };
 		BBB04A8FB32A1060C4A44825 /* GoogleAuthUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34344E80BC4361B3DCE68697 /* GoogleAuthUtilities.framework */; };
@@ -95,7 +95,9 @@
 		15BA42EB86A8421EA0B5236E /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppUtilities.framework; sourceTree = SOURCE_ROOT; };
 		1A1A081B18C9DF05005C6854 /* project.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = project.json; path = ../../../project.json; sourceTree = "<group>"; };
 		1A6BF21418C9DB5900FB0E1C /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = main.js; path = ../../../main.js; sourceTree = "<group>"; };
-		25314D7F96A5964397743D54 /* libjscocos2d iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libjscocos2d iOS.a"; path = "$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libjscocos2d iOS.a"; sourceTree = "<absolute>"; };
+		2A43F1191D64041500FA7773 /* libsimulator iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsimulator iOS.a"; path = "../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libsimulator iOS.a"; sourceTree = "<group>"; };
+		2A43F11A1D64041500FA7773 /* libjscocos2d iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libjscocos2d iOS.a"; path = "../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libjscocos2d iOS.a"; sourceTree = "<group>"; };
+		2A43F11D1D6407A700FA7773 /* libcocos2d iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcocos2d iOS.a"; path = "../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libcocos2d iOS.a"; sourceTree = "<group>"; };
 		2B9E4C4099120B91A71255C5 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlus.framework; sourceTree = SOURCE_ROOT; };
 		34344E80BC4361B3DCE68697 /* GoogleAuthUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAuthUtilities.framework; sourceTree = SOURCE_ROOT; };
 		39314C348F9553C32C029256 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
@@ -129,7 +131,6 @@
 		509D4AE617EBB81800697056 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		509D4AE817EBB82000697056 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		509D4AEA17EBB82600697056 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		526041819F61614826BB19BD /* libcocos2d iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcocos2d iOS.a"; path = "$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libcocos2d iOS.a"; sourceTree = "<absolute>"; };
 		671A491884E0C7533ED0085C /* script */ = {isa = PBXFileReference; lastKnownFileType = "?"; name = script; path = ../../../script; sourceTree = "<group>"; };
 		6B564679B658042AE38A8CF9 /* PluginSdkboxGooglePlay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PluginSdkboxGooglePlay.framework; sourceTree = SOURCE_ROOT; };
 		7701445D903D038C0DB44DFC /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = ./GoogleSignIn.bundle; sourceTree = SOURCE_ROOT; };
@@ -182,7 +183,6 @@
 		D4545215156E28EF00887EB5 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		D4545216156E28EF00887EB5 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D55C41EAB0C65BF776514166 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
-		DB4942DC89CF5E304809354C /* libsimulator iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsimulator iOS.a"; path = "$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libsimulator iOS.a"; sourceTree = "<absolute>"; };
 		E78D468EAA196DAE099511D1 /* gpg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = gpg.bundle; path = ./gpg.bundle; sourceTree = SOURCE_ROOT; };
 		EF9046F0B5B364DDC08F175A /* SDKBoxJSHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SDKBoxJSHelper.cpp; path = ../Classes/SDKBoxJSHelper.cpp; sourceTree = SOURCE_ROOT; };
 		F1C34FD48D4024F1E65C0557 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/EventKitUI.framework; sourceTree = DEVELOPER_DIR; };
@@ -202,6 +202,7 @@
 				9650526A1D58D25E005D6396 /* UIKit.framework in Frameworks */,
 				965052681D58D239005D6396 /* OpenGLES.framework in Frameworks */,
 				965052661D58D218005D6396 /* libz.tbd in Frameworks */,
+				2A43F11C1D64041500FA7773 /* libjscocos2d iOS.a in Frameworks */,
 				9650525C1D58D04E005D6396 /* Security.framework in Frameworks */,
 				9650525A1D58D047005D6396 /* QuartzCore.framework in Frameworks */,
 				965052581D58D02D005D6396 /* MediaPlayer.framework in Frameworks */,
@@ -220,15 +221,14 @@
 				A922754A1517C094001B78AA /* AVFoundation.framework in Frameworks */,
 				A922754E1517C094001B78AA /* Foundation.framework in Frameworks */,
 				A92275501517C094001B78AA /* CoreGraphics.framework in Frameworks */,
-				6E144EF4830450EE49A515AF /* libcocos2d iOS.a in Frameworks */,
-				28614A5582EFCDE41E6DCD96 /* libjscocos2d iOS.a in Frameworks */,
-				ADA4461682F4B8DA681731C5 /* libsimulator iOS.a in Frameworks */,
 				D65041E9AF633E7C41F7CBEF /* CoreMedia.framework in Frameworks */,
+				2A43F11E1D6407A700FA7773 /* libcocos2d iOS.a in Frameworks */,
 				DEA24161B0538E6D9B0B9197 /* CoreTelephony.framework in Frameworks */,
 				3BC6422781B39A44A3E1CED1 /* EventKit.framework in Frameworks */,
 				FEC54CCBBFA94A4E23FC357F /* EventKitUI.framework in Frameworks */,
 				632B443892DA0BE6EEF11F10 /* MessageUI.framework in Frameworks */,
 				3FF74FF1BB1D0F851575CF20 /* StoreKit.framework in Frameworks */,
+				2A43F11B1D64041500FA7773 /* libsimulator iOS.a in Frameworks */,
 				474740868D94BBF06E055E0E /* GameController.framework in Frameworks */,
 				CD9B46B0AD18529340213BD1 /* PluginSdkboxGooglePlay.framework in Frameworks */,
 				5DF347428D7C7CE51FFC8644 /* sdkbox.framework in Frameworks */,
@@ -375,9 +375,9 @@
 		B2C749EAA329864FCB8D27C7 /* ios-libs */ = {
 			isa = PBXGroup;
 			children = (
-				526041819F61614826BB19BD /* libcocos2d iOS.a */,
-				25314D7F96A5964397743D54 /* libjscocos2d iOS.a */,
-				DB4942DC89CF5E304809354C /* libsimulator iOS.a */,
+				2A43F11D1D6407A700FA7773 /* libcocos2d iOS.a */,
+				2A43F1191D64041500FA7773 /* libsimulator iOS.a */,
+				2A43F11A1D64041500FA7773 /* libjscocos2d iOS.a */,
 			);
 			name = "ios-libs";
 			sourceTree = "<group>";
@@ -436,7 +436,6 @@
 				A92275391517C094001B78AA /* Sources */,
 				A922753A1517C094001B78AA /* Frameworks */,
 				A922753B1517C094001B78AA /* Resources */,
-				3EC03834196541CD00D72B70 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -508,22 +507,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		3EC03834196541CD00D72B70 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "find ${SRCROOT}/../../../src/ -name \"*\" -exec touch -cm {} \\;\nfind ${SRCROOT}/../../../res/ -name \"*\" -exec touch -cm {} \\;\ncp /Users/ibon/punchbox/sdkbox-core/plugins/sdkboxgoogleplay/js/script/sdkboxgpg.js ${SRCROOT}/../../../res/";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A92275391517C094001B78AA /* Sources */ = {
@@ -608,6 +591,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = armv7;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
@@ -628,11 +612,9 @@
 					"$(SRCROOT)/../Classes",
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/tools/simulator/libsimulator/lib/",
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/tools/simulator/libsimulator/lib/protobuf-lite",
-					"/Users/ibon/punchbox/sdkbox-core/csc/protocols/proj.ios/src",
-					"/Users/ibon/punchbox/sdkbox-core/csc/protocols/share",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios",
 					"\"PluginSdkboxGooglePlay.framework\"",
@@ -661,6 +643,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = armv7;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
@@ -681,11 +664,9 @@
 					"$(SRCROOT)/../Classes",
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/tools/simulator/libsimulator/lib/",
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/tools/simulator/libsimulator/lib/protobuf-lite",
-					"/Users/ibon/punchbox/sdkbox-core/csc/protocols/proj.ios/src",
-					"/Users/ibon/punchbox/sdkbox-core/csc/protocols/share",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios",
 					"\"PluginSdkboxGooglePlay.framework\"",
