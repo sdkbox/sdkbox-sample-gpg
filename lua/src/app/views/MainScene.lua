@@ -24,11 +24,6 @@ function MainScene:onCreate()
 
     self:setupTestMenu()
 
-    local config = {ClientID="777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni.apps.googleusercontent.com"}
-    local s = json.encode(config)
-    print(s)
-    sdkbox.PluginSdkboxGooglePlay:CreateGameServices(s)
-
     gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.AUTH_ACTION_STARTED,  self.onAuthStart)
     gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.AUTH_ACTION_FINISHED, self.onAuthFinished)
 
@@ -45,6 +40,12 @@ function MainScene:setupTestMenu()
             if not self._signed_in then
                 self._signed_in = true
                 print("signing in")
+
+                local config = {ClientID="777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni.apps.googleusercontent.com"}
+                local s = json.encode(config)
+                print(s)
+                sdkbox.PluginSdkboxGooglePlay:CreateGameServices(s)
+
                 sdkbox.PluginSdkboxGooglePlay:StartAuthorizationUI()
             end
         end),
@@ -62,11 +63,11 @@ function MainScene:setupTestMenu()
 end
 
 function MainScene:onAuthStart(obj)
-    print(obj)
+    print("onAuthStart")
 end
 
 function MainScene:onAuthFinished(obj)
-    print(obj)
+    print("onAuthFinished")
 end
 
 return MainScene

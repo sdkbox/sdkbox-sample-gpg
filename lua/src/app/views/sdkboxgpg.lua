@@ -62,20 +62,11 @@ end
 
 function CallbackManager:nativeNotify(id, str_json)
 
+    --print("id   " .. id)
+    --print("json " .. str_json)
 
-end
-
-function cc.exports.__nativeNotify(id, str_json)
-
-    print("id   " .. id)
-    print("json " .. str_json)
-    print("what")
-    cb = CallbackManager._callbacks[id]
-    print("what2")
-    --print("cb " .. tostring(cb))
-    
     if (self._callbacks[id]) then
-        o = json.decode(str_json)
+        local o = json.decode(str_json)
         self._callbacks[id](o)
     end
 
@@ -83,6 +74,12 @@ function cc.exports.__nativeNotify(id, str_json)
     if (id >= 1000) then
         self._callbacks[id] = nil
     end
+end
+
+function cc.exports.__nativeNotify( id, str_json )
+    --print("id   " .. id)
+    --print("json " .. str_json)
+    CallbackManager:nativeNotify(id, str_json )
 end
 
 --[[
