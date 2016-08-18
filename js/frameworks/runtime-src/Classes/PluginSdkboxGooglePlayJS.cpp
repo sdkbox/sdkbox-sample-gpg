@@ -1,9 +1,15 @@
 #include "PluginSdkboxGooglePlayJS.hpp"
-#include "cocos2d_specifics.hpp"
 #include "PluginSdkboxGooglePlay/SdkboxGooglePlayWrappedObjects.h"
 #include "SDKBoxJSHelper.h"
-#include "sdkbox/sdkbox.h"
+#include "sdkbox/Sdkbox.h"
 
+#if defined(SDKBOX_COCOS_CREATOR)
+    #define SDKBOX_COCOS_JSB_VERSION 2
+#elif COCOS2D_VERSION >= 0x00031000
+    #define SDKBOX_COCOS_JSB_VERSION 2
+#else
+    #define SDKBOX_COCOS_JSB_VERSION 1
+#endif
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
@@ -22,7 +28,7 @@ static bool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
         typeClass = typeMapIter->second;
         CCASSERT(typeClass, "The value is null.");
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
         JS::RootedObject proto(cx, typeClass->proto.ref());
         JS::RootedObject parent(cx, typeClass->parentProto.ref());
 #else
@@ -30,7 +36,7 @@ static bool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
         JS::RootedObject parent(cx, typeClass->parentProto.get());
 #endif
         JS::RootedObject _tmp(cx, JS_NewObject(cx, typeClass->jsclass, proto, parent));
-        
+
         T* cobj = new T();
         js_proxy_t *pp = jsb_new_proxy(cobj, _tmp);
         AddObjectRoot(cx, &pp->obj);
@@ -49,7 +55,7 @@ static bool js_is_native_obj(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     args.rval().setBoolean(true);
-    return true;    
+    return true;
 }
 #else
 template<class T>
@@ -84,7 +90,7 @@ static bool empty_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
 static bool js_is_native_obj(JSContext *cx, JS::HandleObject obj, JS::HandleId id, JS::MutableHandleValue vp)
 {
     vp.set(BOOLEAN_TO_JSVAL(true));
-    return true;    
+    return true;
 }
 #endif
 #elif defined(JS_VERSION)
@@ -263,7 +269,7 @@ void js_PluginSdkboxGooglePlayJS_GPGWrapper_finalize(JSFreeOp *fop, JSObject *ob
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -277,7 +283,7 @@ void js_PluginSdkboxGooglePlayJS_GPGWrapper_finalize(JSFreeOp *fop, JSObject *ob
         sdkbox::GPGWrapper *nobj = static_cast<sdkbox::GPGWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -326,11 +332,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JS::HandleOb
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGWrapper_prototype);
     jsb_register_class<sdkbox::GPGWrapper>(cx, jsb_sdkbox_GPGWrapper_class, proto, JS::NullPtr());
 #else
@@ -390,7 +396,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JSObject *gl
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -576,7 +582,7 @@ bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime(JSContext
 JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime(JSContext *cx, uint32_t argc, jsval *vp)
 {
     if (argc == 0) {
-        int64_t ret = sdkbox::GPGLocalPlayerWrapper::LastLevelUpTime();
+        long long ret = sdkbox::GPGLocalPlayerWrapper::LastLevelUpTime();
         jsval jsret;
         jsret = long_long_to_jsval(cx, ret);
         JS_SET_RVAL(cx, vp, jsret);
@@ -632,7 +638,7 @@ bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP(JSContext *cx, 
 JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP(JSContext *cx, uint32_t argc, jsval *vp)
 {
     if (argc == 0) {
-        int64_t ret = sdkbox::GPGLocalPlayerWrapper::CurrentXP();
+        long long ret = sdkbox::GPGLocalPlayerWrapper::CurrentXP();
         jsval jsret;
         jsret = long_long_to_jsval(cx, ret);
         JS_SET_RVAL(cx, vp, jsret);
@@ -766,7 +772,7 @@ void js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize(JSFreeOp *fop, J
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -780,7 +786,7 @@ void js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize(JSFreeOp *fop, J
         sdkbox::GPGLocalPlayerWrapper *nobj = static_cast<sdkbox::GPGLocalPlayerWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -834,11 +840,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, J
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGLocalPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGLocalPlayerWrapper_prototype);
     jsb_register_class<sdkbox::GPGLocalPlayerWrapper>(cx, jsb_sdkbox_GPGLocalPlayerWrapper_class, proto, JS::NullPtr());
 #else
@@ -903,7 +909,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, J
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGLocalPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -1183,7 +1189,7 @@ void js_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper_finalize(JSFreeOp *fop, JSOb
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -1197,7 +1203,7 @@ void js_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper_finalize(JSFreeOp *fop, JSOb
         sdkbox::GPGSnapshotWrapper *nobj = static_cast<sdkbox::GPGSnapshotWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -1246,11 +1252,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(JSContext *cx, JS::
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGSnapshotWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGSnapshotWrapper_prototype);
     jsb_register_class<sdkbox::GPGSnapshotWrapper>(cx, jsb_sdkbox_GPGSnapshotWrapper_class, proto, JS::NullPtr());
 #else
@@ -1310,7 +1316,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(JSContext *cx, JSOb
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGSnapshotWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
