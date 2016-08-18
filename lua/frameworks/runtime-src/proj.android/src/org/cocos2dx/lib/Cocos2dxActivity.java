@@ -50,6 +50,8 @@ import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
 
+import com.sdkbox.plugin.SDKBox;
+
 class ResizeLayout extends FrameLayout{
     private  boolean mEnableForceDoLayout = false;
 
@@ -339,17 +341,21 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 
     @Override
     protected void onStart() {
-          super.onStart();
+        super.onStart();
+        SDKBox.onStart();
     }
+    
     @Override
     protected void onStop() {
-          super.onStop();
+        super.onStop();
+        SDKBox.onStop();
     }
 
     @Override
     protected void onResume() {
     	Log.d(TAG, "onResume()");
         super.onResume();
+        SDKBox.onResume();
        	resumeIfHasFocus();
     }
     
@@ -375,11 +381,14 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         super.onPause();
         Cocos2dxHelper.onPause();
         mGLSurfaceView.onPause();
+        SDKBox.onPause();
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if(!SDKBox.onBackPressed()) {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -403,8 +412,10 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        for (OnActivityResultListener listener : Cocos2dxHelper.getOnActivityResultListeners()) {
-            listener.onActivityResult(requestCode, resultCode, data);
+        if(!SDKBox.onActivityResult(requestCode, resultCode, data)) {
+            for (OnActivityResultListener listener : Cocos2dxHelper.getOnActivityResultListeners()) {
+                listener.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
