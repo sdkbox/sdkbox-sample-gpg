@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libgpg
-LOCAL_SRC_FILES := /Users/justin/cocos/cocos-service-center/plugins/sdkboxgoogleplay/temp/sdkbox-sample-sdkboxgoogleplay/lua/frameworks/runtime-src/proj.android/gpg/lib/gnustl/$(TARGET_ARCH_ABI)/libgpg.a
+LOCAL_SRC_FILES := ../gpg/lib/gnustl/$(TARGET_ARCH_ABI)/libgpg.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 LOCAL_MODULE := cocos2dlua_shared
@@ -20,12 +20,12 @@ hellolua/main.cpp \
 ../../Classes/SDKBoxLuaHelper.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
-LOCAL_LDLIBS := -landroid \
--llog
+LOCAL_LDLIBS := -landroid -llog
+
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
 ../gpg/include/ \
-$(LOCAL_PATH)/.. \
-/Users/justin/cocos/cocos-service-center/plugins/sdkboxgoogleplay/temp/sdkbox-sample-sdkboxgoogleplay/lua/frameworks/runtime-src/proj.android/gpg/include/
+$(LOCAL_PATH)/..
+
 LOCAL_WHOLE_STATIC_LIBRARIES := PluginSdkboxGooglePlay \
 sdkbox \
 gpg-1

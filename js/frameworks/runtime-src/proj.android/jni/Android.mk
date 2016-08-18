@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libgpg
-LOCAL_SRC_FILES := /Users/justin/cocos/cocos-service-center/plugins/sdkboxgoogleplay/temp/sdkbox-sample-sdkboxgoogleplay/js/frameworks/runtime-src/proj.android/gpg/lib/gnustl/$(TARGET_ARCH_ABI)/libgpg.a
+LOCAL_SRC_FILES := ../gpg/lib/gnustl/$(TARGET_ARCH_ABI)/libgpg.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 LOCAL_MODULE := cocos2djs_shared
@@ -25,8 +25,8 @@ LOCAL_LDLIBS := -landroid \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
 ../gpg/include/ \
-$(LOCAL_PATH)/.. \
-/Users/justin/cocos/cocos-service-center/plugins/sdkboxgoogleplay/temp/sdkbox-sample-sdkboxgoogleplay/js/frameworks/runtime-src/proj.android/gpg/include/
+$(LOCAL_PATH)/..
+
 LOCAL_WHOLE_STATIC_LIBRARIES := PluginSdkboxPlay \
 sdkbox \
 PluginSdkboxGooglePlay \
