@@ -303,6 +303,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         CocosPlayClient.init(this, false);
 
         onLoadNativeLibraries();
+        SDKBox.init(this);
 
         sContext = this;
         this.mHandler = new Cocos2dxHandler(this);

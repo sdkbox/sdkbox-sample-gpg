@@ -20,11 +20,13 @@ hellolua/main.cpp \
 ../../Classes/SDKBoxLuaHelper.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
-LOCAL_LDLIBS := -landroid -llog
+LOCAL_LDLIBS := -landroid \
+-llog
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
 ../gpg/include/ \
-$(LOCAL_PATH)/..
+$(LOCAL_PATH)/.. \
+../
 
 LOCAL_WHOLE_STATIC_LIBRARIES := PluginSdkboxGooglePlay \
 sdkbox \
