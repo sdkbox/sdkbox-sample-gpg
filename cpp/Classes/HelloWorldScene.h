@@ -36,7 +36,19 @@ public:
     void fetchAllSnapshotGames( cocos2d::CCObject* sender );
     void deleteSnapshotGame( cocos2d::CCObject* sender );
     
+    /// leaderboards
     
+    void ldbFetch(cocos2d::CCObject *sender);
+    void ldbFetchAll(cocos2d::CCObject *sender);
+    
+    void __ldbFetchScorePageImpl( const gpg::ScorePage::ScorePageToken& token, int max_items, gpg::DataSource data_source);
+    void ldbFetchScorePage(cocos2d::CCObject *sender);
+    void ldbFetchNextScorePage(cocos2d::CCObject *sender);
+    void ldbFetchScoreSummary(cocos2d::CCObject *sender);
+    void ldbFetchScoreAllSummaries(cocos2d::CCObject *sender);
+    void ldbSubmitScore(cocos2d::CCObject *sender);
+    void ldbShowUI(cocos2d::CCObject *sender);
+    void ldbShowAllUI(cocos2d::CCObject *sender);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

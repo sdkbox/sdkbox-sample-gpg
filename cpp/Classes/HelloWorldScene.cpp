@@ -2,6 +2,7 @@
 
 #include "HelloWorldScene.h"
 
+
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
 #include <unistd.h>
 #include <sys/types.h>
@@ -17,6 +18,7 @@ USING_NS_CC;
 static const int MAX_SNAPSHOTS = 8;
 static std::unique_ptr<gpg::GameServices> _game_services;
 static std::unique_ptr<gpg::Player> _local_player;
+static std::unique_ptr<gpg::ScorePage> _currentScorePage = nullptr;
 static bool _signed_in = false;
 
 static const std::string GAME_NAME = "native_game";
@@ -33,6 +35,15 @@ static std::string vec_to_string( const std::vector<uint8_t>& v ) {
 void sdkbox::GPGWrapper::NotifyToScripting( int id, const std::string& str_json ) {
 }
 
+static std::string __printf( const char* format, ... ) {
+    char b[256];
+    va_list args;
+    va_start (args, format);
+    vsnprintf (b,256,format, args);
+    va_end( args );
+    
+    return std::string(b);
+}
 
 
 
@@ -54,7 +65,6 @@ Scene* HelloWorld::createScene()
     return scene;
 }
 
-static int score;
 
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
@@ -77,6 +87,16 @@ bool HelloWorld::init()
                       MenuItemFont::create("Show SnapshotUI", CC_CALLBACK_1(HelloWorld::showSnapshotUI, this)),
                       MenuItemFont::create("Fetch all games", CC_CALLBACK_1(HelloWorld::fetchAllSnapshotGames, this)),
                       MenuItemFont::create( std::string("Delete ") + GAME_NAME, CC_CALLBACK_1(HelloWorld::deleteSnapshotGame, this)),
+                              
+                      MenuItemFont::create( "ldb: Get All", CC_CALLBACK_1(HelloWorld::ldbFetchAll, this)),
+                      MenuItemFont::create( "ldb: Get 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbFetch, this)),
+                      MenuItemFont::create( "ldb: Fetch score page 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbFetchScorePage, this)),
+                      MenuItemFont::create( "ldb: Fetch next score page", CC_CALLBACK_1(HelloWorld::ldbFetchNextScorePage, this)),
+                      MenuItemFont::create( "ldb: ShowUI 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbShowUI, this)),
+                      MenuItemFont::create( "ldb: ShowUI All", CC_CALLBACK_1(HelloWorld::ldbShowAllUI, this)),
+                      MenuItemFont::create( "ldb: Fetch summary 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbFetchScoreSummary, this)),
+                      MenuItemFont::create( "ldb: Fetch all summaries", CC_CALLBACK_1(HelloWorld::ldbFetchScoreAllSummaries, this)),
+                      MenuItemFont::create( "ldb: Submit score 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbSubmitScore, this)),
                       nullptr
     );
 
@@ -276,11 +296,9 @@ void HelloWorld::fetchAllSnapshotGames(cocos2d::CCObject *sender ) {
 
                         if ( IsSuccess(response.status) ) {
                             
-                            char buff[256];
-                            sprintf(buff, "Loaded %u snapshots metadata. See console for details.", response.data.size());
-                            _txtStat->setString( std::string(buff) );
+                            _txtStat->setString( __printf( "Loaded %;u snapshots metadata. See console for details.", response.data.size()) );
 
-                            CCLOG("Loaded %u snapshots metadata.", response.data.size());
+                            CCLOG("Loaded %lu snapshots metadata.", response.data.size());
                             for( auto snapshotmetadata : response.data ) {
                                 CCLOG("  %s: %s.", snapshotmetadata.FileName().c_str(), snapshotmetadata.Description().c_str() );
                             }
@@ -288,6 +306,179 @@ void HelloWorld::fetchAllSnapshotGames(cocos2d::CCObject *sender ) {
                             _txtStat->setString("Load snapshots error.");
                         }
                 });
+    }
+}
+
+
+void HelloWorld::ldbFetch(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Leaderboards().Fetch(
+                 gpg::DataSource::CACHE_OR_NETWORK,
+                 "CgkI6KjppNEWEAIQAg",  // Best gamers leaderboard
+                 [this]( const gpg::LeaderboardManager::FetchResponse& response ) {
+                     
+                     gpg::ResponseStatus res = response.status;
+                     if ( IsSuccess(res) ) {
+                         _txtStat->setString( __printf( "Leaderboard info ok. id=%s", response.data.Name().c_str() ) );
+                     } else {
+                         
+                         _txtStat->setString( __printf("Leaderboard info error %d.", (int)res) );
+                     }
+                 });
+    }
+    
+}
+
+void HelloWorld::ldbFetchAll(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Leaderboards().FetchAll(
+                gpg::DataSource::CACHE_OR_NETWORK,
+                [this]( const gpg::LeaderboardManager::FetchAllResponse& response ) {
+                    
+                    gpg::ResponseStatus res = response.status;
+                    if ( IsSuccess(res) ) {
+                        
+                        std::string str;
+                        for( gpg::Leaderboard l : response.data ) {
+                            CCLOG( "Leaderboard: id=%s name=%s", l.Id().c_str(), l.Name().c_str() );
+                            str += l.Name() + " - ";
+                        }
+                        
+                        _txtStat->setString( str );
+                        
+                    } else {
+                        _txtStat->setString( __printf("All Leaderboard info error %d.", (int)res) );
+                    }
+                    
+                });
+    }
+}
+
+void HelloWorld::__ldbFetchScorePageImpl(
+         const gpg::ScorePage::ScorePageToken& token,
+         int max_items,
+         gpg::DataSource data_source ) {
+    
+    _game_services->Leaderboards().FetchScorePage(data_source, token, max_items,
+                  [this](const gpg::LeaderboardManager::FetchScorePageResponse& res) {
+                      
+                      if ( IsSuccess( res.status ) ) {
+                          
+                          gpg::ScorePage page = res.data;
+                          
+                          std::string str("Player id in page: ");
+                          for( auto e : page.Entries() ) {
+                              str+= __printf( "[%s,%lu]", e.PlayerId().c_str(), e.Score().Value() );
+                          }
+                          _txtStat->setString( str );
+                          
+                          _currentScorePage = std::unique_ptr<gpg::ScorePage>( new gpg::ScorePage(page) );
+                          
+                      } else {
+                          _currentScorePage= nullptr;
+                          _txtStat->setString( __printf("Fetch score page error %d.", (int)res.status) );
+                      }
+                  });
+}
+
+
+void HelloWorld::ldbFetchScorePage(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        
+        gpg::ScorePage::ScorePageToken token = _game_services->Leaderboards().ScorePageToken(
+                 "CgkI6KjppNEWEAIQAg",
+                 gpg::LeaderboardStart::TOP_SCORES,
+                 gpg::LeaderboardTimeSpan::ALL_TIME,
+                 gpg::LeaderboardCollection::PUBLIC );
+        
+        __ldbFetchScorePageImpl( token, 10, gpg::DataSource::CACHE_OR_NETWORK );
+    }
+}
+
+void HelloWorld::ldbFetchNextScorePage(cocos2d::CCObject *sender) {
+    if ( _game_services && _currentScorePage ) {
+        if ( _currentScorePage->HasNextScorePage() ) {
+            __ldbFetchScorePageImpl( _currentScorePage->NextScorePageToken(), 10, gpg::DataSource::CACHE_OR_NETWORK );
+        } else {
+            _txtStat->setString("There's no next score page.");
+        }
+    }
+}
+
+void HelloWorld::ldbFetchScoreSummary(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Leaderboards().FetchScoreSummary(
+                 gpg::DataSource::CACHE_OR_NETWORK,
+                 "CgkI6KjppNEWEAIQAg",
+                 gpg::LeaderboardTimeSpan::ALL_TIME,
+                 gpg::LeaderboardCollection::PUBLIC,
+                 [this](const gpg::LeaderboardManager::FetchScoreSummaryResponse& response){
+                     
+                     if ( IsSuccess(response.status) ) {
+                         gpg::ScoreSummary summary = response.data;
+                         gpg::Score s = summary.CurrentPlayerScore();
+                         
+                         _txtStat->setString( __printf("Score summary: pos=%lu", s.Rank() ) );
+                         
+                     } else {
+                         _txtStat->setString( __printf("Fetch score summary error %d.", (int)response.status) );
+                     }
+                     
+                 });
+    }
+
+}
+
+void HelloWorld::ldbFetchScoreAllSummaries(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Leaderboards().FetchAllScoreSummaries(
+                  gpg::DataSource::CACHE_OR_NETWORK,
+                  "CgkI6KjppNEWEAIQAg",
+                  [this](const gpg::LeaderboardManager::FetchAllScoreSummariesResponse& response){
+                      
+                      if ( IsSuccess(response.status) ) {
+                          _txtStat->setString( __printf("Got %lu summaries info.", response.data.size()) );
+                      } else {
+                          _txtStat->setString( __printf("Fetch all score summaries error %d.", (int)response.status) );
+                      }
+                      
+                  });
+    }
+    
+}
+
+void HelloWorld::ldbSubmitScore(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        // submit score has no result callback.
+        _game_services->Leaderboards().SubmitScore("CgkI6KjppNEWEAIQAg", 15001);
+    }
+}
+
+void HelloWorld::ldbShowUI(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Leaderboards().ShowUI(
+                  "CgkI6KjppNEWEAIQAg",
+                  [this]( gpg::UIStatus status ) {
+                      if ( IsSuccess(status) ) {
+                          _txtStat->setString( "show ui success." );
+                      } else {
+                            _txtStat->setString( __printf("show ui error %d.", (int)status) );
+                      }
+                  });
+    }
+    
+}
+
+void HelloWorld::ldbShowAllUI(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Leaderboards().ShowAllUI(
+                 [this]( gpg::UIStatus status ) {
+                     if ( IsSuccess(status) ) {
+                         _txtStat->setString( "show ui success." );
+                     } else {
+                         _txtStat->setString( __printf("show ui error %d.", (int)status) );
+                     }
+                 });
     }
 }
 

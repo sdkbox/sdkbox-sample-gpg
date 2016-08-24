@@ -7,7 +7,6 @@
  * called from native.
  * @param id {number}
  * @param str_json {string}
- * @private
  */
 function __nativeNotify( id, str_json ) {
     __callbackManager.nativeNotify( id, str_json );
@@ -79,8 +78,6 @@ function __nativeNotify( id, str_json ) {
  * @param filename {string}
  */
 
-
-
 /**
  * @name ShowSelectUIOperation
  * @memberOf _gpg.GPGSnapshotWrapper
@@ -89,11 +86,146 @@ function __nativeNotify( id, str_json ) {
  * @param callback {SnapshotShowSelectUIOperationCallback}
  */
 
+/**
+ * @name FetchAll
+ * @memberOf _gpg.GPGSnapshotWrapper
+ * @type function
+ * @param params {tSnapshotFetchAllParams}
+ * @param callback {SnapshotFetchAllCallback}
+ */
+
+////////////// Leaderboards Wrapper definitions.
+
+/**
+ * @name GPGLeaderboardWrapper
+ * @type namespace
+ * @memberOf _gpg
+ */
+
+/**
+ * @name Fetch
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param leaderboardId {string}
+ * @param datasource {gpg.DataSource}
+ */
+
+/**
+ * @name FetchAll
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param datasource {gpg.DataSource}
+ */
+
+/**
+ * @name FetchScoreSummary
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param datasource {gpg.DataSource}
+ * @param leaderboardId {string}
+ * @param time_span {gpg.LeaderboardTimeSpan}
+ * @param collection {gpg.LeaderboardCollection}
+ */
+
+/**
+ * @name FetchAllScoreSummaries
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param datasource {gpg.DataSource}
+ * @param leaderboardId {string}
+ */
+
+/**
+ * @name SubmitScore
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param leaderboardId {string}
+ * @param score {number}
+ * @param metadata? : string
+ */
+
+/**
+ * @name ShowUI
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param leaderboardId {string}
+ */
+
+/**
+ * @name ShowAllUI
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ */
+
+/**
+ * @name FetchScorePage
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param leaderboardId {string}
+ * @param datasource {gpg.DataSource}
+ * @param start {gpg.LeaderboardStart}
+ * @param time_span {gpg.LeaderboardTimeSpan}
+ * @param collection {gpg.LeaderboardCollection}
+ * @param max_results {number}
+ */
+
+/**
+ * @name FetchNextScorePage
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param datasource {gpg.DataSource}
+ * @param max_results {number}
+ */
+
+/**
+ * @name FetchPreviousScorePage
+ * @memberOf _gpg.GPGLeaderboardWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param datasource {gpg.DataSource}
+ * @param max_results {number}
+ */
+
+////////////// Achievement Wrapper definitions.
+
+/**
+ * @name GPGAchievementWrapper
+ * @type namespace
+ * @memberOf _gpg
+ */
+
+/**
+ * @name Fetch
+ * @memberOf _gpg.GPGAchievementWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param achievementId {string}
+ * @param datasource {gpg.DataSource}
+ */
+
+/**
+ * @name FetchAll
+ * @memberOf _gpg.GPGAchievementWrapper
+ * @type function
+ * @param callback_id {number}
+ * @param datasource {gpg.DataSource}
+ */
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Utility method. Should be emptied on production.
  * @param e {object}
- * @private
  */
 function __log( e ) {
     if ( typeof cc!=='undefined' && typeof cc.log!=='undefined' ) {
@@ -137,6 +269,10 @@ var BaseStatus = {
     ERROR_LEFT_ROOM : -18
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////// Authentication callbacks and types
+
 /**
  * @typedef {{success:boolean}}
  */
@@ -162,10 +298,30 @@ var tAuthActionFinishedCallback;
  * @param {tAuthActionFinishedCallback} result;
  */
 
+
 /**
- * @typedef {{ allow_create:boolean, allow_delete:boolean, max_snapshots:number, title:string }}
+ * @callback LocalPlayerCallback
+ * @param {gpg.Player} local_player
+ */
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////// Snapshot callbacks and types
+
+/**
+ * Snapshot UI invocation parameters.
+ * <code>allow_create</code> and <code>allow_delete</code> default to false.
+ * <code>max_snapshots</code> defaults to 10.
+ * <code>title</code> defaults to 'title'.
+ *
+ * @typedef {{ allow_create?:boolean, allow_delete?:boolean, max_snapshots?:number, title:string }}
  */
 var tSnapshotShowSelectionUIOperationParams;
+
+/**
+ * @typedef {{ result:string, metadata?:gpg.SnapshotMetadata, error_code?:number }}
+ */
+var tSnapshotShowSelectionUIOperationCallbackResult;
 
 /**
  * @typedef {{ filename:string, conflict_policy?:gpg.SnapshotConflictPolicy, datasource?:gpg.DataSource }}
@@ -173,50 +329,167 @@ var tSnapshotShowSelectionUIOperationParams;
 var tSnapshotLoadParams;
 
 /**
- * @typedef {{ filename : string, conflict_policy : gpg.SnapshotConflictPolicy, description : string, data : string }}
+ * @typedef {{ result:gpg.ResponseStatus, metadata:gpg.SnapshotMetadata, data?:string }}
+ */
+var tSnapshotLoadCallbackResult;
+
+/**
+ * @typedef {{ filename : string, conflict_policy? : gpg.SnapshotConflictPolicy, description : string, data : string }}
  */
 var tSnapshotSaveParams;
 
 /**
- * @typedef {{ datasource : gpg.DataSource }}
+ * @typedef {{ datasource? : gpg.DataSource }}
  */
 var tSnapshotFetchAllParams;
 
 /**
- * @callback LocalPlayerCallback
- * @param {gpg.Player} local_player
- */
-
-/**
- * @memberOf gpg
- * {{ CoverImageURL:string, Description:string, Filename:string, Valid:boolean, LastModifiedTime:number, PlayedTime:number  }}
- */
-var SnapshotMetadata;
-
-/**
  * @callback SnapshotShowSelectUIOperationCallback
- * @param  {{ result:string, metadata?:SnapshotMetadata, error_code?:number }}
+ * @param result {tSnapshotShowSelectionUIOperationCallbackResult}
  */
 
 /**
  * @callback SnapshotLoadCallback
- * @param  {{ result:gpg.ResponseStatus, metadata:SnapshotMetadata, data?:string }}
+ * @param  {tSnapshotLoadCallbackResult}
  */
 
 /**
  * @callback SnapshotSaveCallback
- * @param  {{ result:gpg.ResponseStatus, metadata:SnapshotMetadata }}
+ * @param  {{ result:gpg.ResponseStatus, metadata:gpg.SnapshotMetadata }}
  */
 
 /**
  * @callback SnapshotFetchAllCallback
- * @param  {{ result:gpg.ResponseStatus, metadata_array:SnapshotMetadata[] }}
+ * @param  {{ result:gpg.ResponseStatus, metadata_array:gpg.SnapshotMetadata[] }}
  */
 
 /**
  * @callback SnapshotDeleteCallback
  * @param {{ result:'success'|'error', error_code?:number }}
  */
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////// Leaderboard callbacks and types
+
+/**
+ * @callback LeaderboardFetchCallback
+ * @param {LeaderboardFetchCallbackParams}
+ */
+
+/**
+ * @typedef {{ result : gpg.ResponseStatus, leaderboard: gpg.Leaderboard }}
+ */
+var LeaderboardFetchCallbackParams;
+
+/**
+ * @callback LeaderboardFetchAllCallback
+ * @param {LeaderboardFetchAllCallbackParams}
+ */
+
+/**
+ * @typedef {{ result : gpg.ResponseStatus, leaderboard_array: gpg.Leaderboard[] }}
+ */
+var LeaderboardFetchAllCallbackParams;
+
+/**
+ * @callback LeaderboardShowUICallback
+ * @param {LeaderboardShowUICallbackParams}
+ */
+
+/**
+ * @typedef {{ result : gpg.UIStatus }}
+ */
+var LeaderboardShowUICallbackParams;
+
+/**
+ * @callback LeaderboardShowAllUICallback
+ * @param {LeaderboardShowAllUICallbackParams}
+ */
+
+/**
+ * @typedef {{ result : gpg.UIStatus }}
+ */
+var LeaderboardShowAllUICallbackParams;
+
+/**
+ * @callback LeaderboardFetchScorePageCallback
+ * @param {LeaderboardFetchScorePageCallbackParams}
+ */
+
+/**
+ * @typedef {{ result : gpg.ResponseStatus, scorePage:gpg.ScorePage }}
+ */
+var LeaderboardFetchScorePageCallbackParams;
+
+/**
+ * @callback LeaderboardSubmitScoreCallback
+ * @param {{ result : gpg.ResponseStatus }}
+ */
+
+/**
+ * @callback LeaderboardFetchScoreSummaryCallback
+ * @param {LeaderboardFetchScoreSummaryCallbackParams}
+ */
+
+/**
+ * @typedef {{ result : gpg.ResponseStatus, score_summary : gpg.ScoreSummary }}
+ */
+var LeaderboardFetchScoreSummaryCallbackParams;
+
+/**
+ * @callback LeaderboardFetchAllScoreSummariesCallback
+ * @param {LeaderboardFetchAllScoreSummariesCallbackParams}
+ */
+
+/**
+ * @typedef {{ datasource? : gpg.DataSource, leaderboardId : string }}
+ */
+var LeaderboardFetchParams;
+
+/**
+ * @typedef {{ datasource? : gpg.DataSource, timeSpan? : gpg.LeaderboardTimeSpan, collection? : gpg.LeaderboardCollection, leaderboardId : string }}
+ */
+var LeaderboardFetchScoreSummaryParams;
+
+/**
+ * @typedef {{ datasource? : gpg.DataSource, leaderboardId : string }}
+ */
+var LeaderboardFetchAllScoreSummariesParams;
+
+/**
+ * @typedef {{ result : gpg.ResponseStatus, score_summary_array : gpg.ScoreSummary[] }}
+ */
+var LeaderboardFetchAllScoreSummariesCallbackParams;
+
+/**
+ * @typedef {{ leaderboardId : string, score:number, metadata?:string }}
+ */
+var LeaderboardSubmitScoreParams;
+
+/**
+ * @typedef {{ leaderboardId:string, data_source?:gpg.DataSource, start?:gpg.LeaderboardStart, time_span?:gpg.LeaderboardTimeSpan, collection?:gpg.LeaderboardCollection, max_items?:number }}
+ */
+var LeaderboardFetchScorePageParams;
+
+/**
+ * @typedef {{ data_source?:gpg.DataSource, max_items?:number }}
+ */
+var LeaderboardFetchOtherScorePageParams;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////// Achievement callbacks and types
+
+/**
+ * @callback AchievementFetchAllCallback
+ * @param AchievementFetchAllCallbackParams
+ */
+
+/**
+ * @typedef {{ result : gpg.ResponseStatus, achievement_array: gpg.Achievement[] }}
+ */
+var AchievementFetchAllCallbackParams;
 
 /**
  * Main callback management object.
@@ -252,11 +525,13 @@ CallbackManager.prototype = {
 
     addCallback: function (callback) {
 
-        var index = this.__nextIndex();
+        var index;
 
         if ( typeof callback!=='function' ) {
             __log('addCallback w/o function: ' + JSON.stringify(callback));
+            index = -1;
         } else {
+            index= this.__nextIndex();
             this.addCallbackById(index, callback);
         }
 
@@ -334,6 +609,22 @@ var gpg = {
     },
 
     /**
+     * The set of possible values representing the result of a UI attempt.
+     *
+     * @enum {number}
+     */
+    UIStatus : {
+        VALID : BaseStatus.VALID,
+        ERROR_INTERNAL : BaseStatus.ERROR_INTERNAL,
+        ERROR_NOT_AUTHORIZED : BaseStatus.ERROR_NOT_AUTHORIZED,
+        ERROR_VERSION_UPDATE_REQUIRED : BaseStatus.ERROR_VERSION_UPDATE_REQUIRED,
+        ERROR_TIMEOUT : BaseStatus.ERROR_TIMEOUT,
+        ERROR_CANCELED : BaseStatus.ERROR_CANCELED,
+        ERROR_UI_BUSY : BaseStatus.ERROR_UI_BUSY,
+        ERROR_LEFT_ROOM : BaseStatus.ERROR_LEFT_ROOM
+    },
+
+    /**
      * @enum {number}
      */
     LogLevel : {
@@ -386,6 +677,84 @@ var gpg = {
     },
 
     /**
+     * @enum {number}
+     */
+    LeaderboardOrder : {
+        LARGER_IS_BETTER: 1,
+        SMALLER_IS_BETTER: 2,
+        INVALID : -1
+    },
+
+    /**
+     * Values specifying whether rankings are displayed on a leaderboard in order
+     * of score or player.
+     *
+     * @enum {number}
+     */
+    LeaderboardStart : {
+        TOP_SCORES: 1,
+        PLAYER_CENTERED: 2,
+        INVALID : -1
+    },
+
+    /**
+     * Values that specify the period of time that a leaderboard covers.
+     *
+     * @enum {number}
+     */
+    LeaderboardTimeSpan : {
+        DAILY: 1,
+        WEEKLY: 2,
+        ALL_TIME: 3,
+        INVALID : -1
+    },
+
+    /**
+     * Values that specify whether a leaderboard can be viewed by anyone with a
+     * Google+ account (public), or only members of a player's Google+ circles
+     * (social).
+     *
+     * @enum {number}
+     *
+     */
+    LeaderboardCollection : {
+        PUBLIC: 1,
+        SOCIAL: 2,
+        INVALID : -1
+    },
+
+    /**
+     * Values used to specify achievement type.
+     * A player makes gradual progress (steps) toward an incremental achievement.
+     * He or she completes a standard achievement in a single step.
+     *
+     * @enum {number}
+     */
+    AchievementType : {
+        STANDARD : 1,
+        INCREMENTAL : 2,
+        INVALID : -1
+    },
+
+    /**
+     * Values used to specify achievement state.
+     * A hidden achievement is one whose existence a player has not yet discovered.
+     * make him or her aware of it.
+     * A revealed achievement is one that the player knows about, but has not yet
+     * earned.
+     * An unlocked achievement is one that the player has earned.
+     *
+     * @enum {number}
+     */
+    AchievementState : {
+      // These are ordered such that only increasing transitions are possible
+        HIDDEN : 1,
+        REVEALED : 2,
+        UNLOCKED : 3,
+        INVALID : -1
+    },
+
+    /**
      * @class PlatformConfiguration
      * @memberOf gpg
      * @returns {gpg.PlatformConfiguration}
@@ -409,6 +778,40 @@ var gpg = {
         };
 
         return this;
+    },
+
+    /**
+     * Leaderboard metadata class
+     *
+     * @class
+     * @constructor
+     */
+    Leaderboard : {
+
+        /**
+         * @type string
+         */
+        iconURL : '',
+
+        /**
+         * @type string
+         */
+        id      : '',
+
+        /**
+         * @type string
+         */
+        name    : '',
+
+        /**
+         * @type number
+         */
+        order   : 0,
+
+        /**
+         * @type boolean
+         */
+        valid   : false
     },
 
     GameServices : {
@@ -538,7 +941,23 @@ var gpg = {
             return this;
         },
 
+        /**
+         * @class
+         * @memberOf gpg
+         * @constructor
+         */
+        SnapshotMetadata : {
+
+            Filename : '',
+            CoverImageURL: '',
+            Description: '',
+            Valid: false,
+            LastModifiedTime: 0,
+            PlayedTime:0
+        },
+
         Snapshots: {
+
             /**
              *
              * @param params {tSnapshotShowSelectionUIOperationParams}
@@ -636,6 +1055,270 @@ var gpg = {
 
                 var index = __callbackManager.addCallback(callback);
                 _gpg.GPGSnapshotWrapper.Delete( index, filename );
+            }
+        },
+
+        Leaderboards : {
+            /**
+             * Asynchronously loads leaderboard data for the currently signed-in player.
+             * @param params {LeaderboardFetchParams}
+             * @param callback? {LeaderboardFetchCallback}
+             */
+            Fetch : function( params, callback ) {
+
+                if ( typeof params.leaderboardId==='undefined' ) {
+                    __log('Leaderboards Fetch needs a leaderboard id. Will not call.');
+                    return;
+                }
+
+                if ( typeof params.datasource==='undefined' ) {
+                    params.datasource = gpg.DataSource.CACHE_OR_NETWORK;
+                }
+
+                _gpg.GPGLeaderboardWrapper.Fetch(
+                    __callbackManager.addCallback(callback),
+                    params.leaderboardId,
+                    params.datasource );
+            },
+
+            /**
+             * Asynchronously loads data for all leaderboards for the currently
+             * signed-in player.
+             * @param datasource {gpg.DataSource}
+             * @param callback? {LeaderboardFetchAllCallback}
+             */
+            FetchAll : function( datasource, callback ) {
+                _gpg.GPGLeaderboardWrapper.FetchAll(
+                    __callbackManager.addCallback(callback),
+                    datasource );
+            },
+
+            /**
+             * Asynchronously fetches all data for a specific leaderboard score summary,
+             * which comprises a given leaderboard's collection and time span.
+             * Specify gpg.LeaderboardTimeSpan.DAILY, gpg.LeaderboardTimeSpan.WEEKLY, or
+             * gpg.LeaderboardTimeSpan.ALL_TIME for time span.
+             * Specify gpg.LeaderboardCollection.PUBLIC or gpg.LeaderboardCollection.SOCIAL
+             * for collection.
+             * Not specifying data_source makes this function call to use gpg.DataSource.CACHE_OR_NETWORK.
+             * Not specifying time_span, makes this function call to use gpg.LeaderboardTimeSpan.ALL_TIME.
+             * Not specifying collection makes this function call to use gpg.LeaderboardCollection.PUBLIC.
+             *
+             * @param params {LeaderboardFetchScoreSummaryParams}
+             * @param callback?  {LeaderboardFetchScoreSummaryCallback}
+             */
+            FetchScoreSummary : function( params, callback ) {
+
+                if ( typeof params.leaderboardId ==='undefined' ) {
+                    __log('Leaderboards Fetch score summary needs a leaderboard id. Will not call.');
+                }
+
+                if ( typeof params.collection==='undefined' ) {
+                    params.collection = gpg.LeaderboardCollection.PUBLIC;
+                }
+
+                if ( typeof params.datasource==='undefined' ) {
+                    params.datasource = gpg.DataSource.CACHE_OR_NETWORK;
+                }
+
+                if ( typeof params.timeSpan==='undefined' ) {
+                    params.timeSpan = gpg.LeaderboardTimeSpan.ALL_TIME;
+                }
+
+                _gpg.GPGLeaderboardWrapper.FetchScoreSummary(
+                    __callbackManager.addCallback(callback),
+                    params.datasource,
+                    params.leaderboardId,
+                    params.timeSpan,
+                    params.collection
+                );
+            },
+
+            /**
+             * Asynchronously fetches all score summaries for a specific leaderboard.
+             * Not specifying data_source makes this function call to use gpg.DataSource.CACHE_OR_NETWORK.
+             *
+             * @param params {LeaderboardFetchAllScoreSummariesParams}
+             * @param callback? {LeaderboardFetchAllScoreSummariesCallback}
+             */
+            FetchAllScoreSummaries : function( params, callback ) {
+                if ( typeof params.leaderboardId ==='undefined' ) {
+                    __log('Leaderboards Fetch all score summaries needs a leaderboard id. Will not call.');
+                }
+
+                if ( typeof params.datasource==='undefined' ) {
+                    params.datasource = gpg.DataSource.CACHE_OR_NETWORK;
+                }
+
+                _gpg.GPGLeaderboardWrapper.FetchAllScoreSummaries(
+                    __callbackManager.addCallback(callback),
+                    params.datasource,
+                    params.leaderboardId
+                );
+            },
+
+            /**
+             * Submit, for the currently signed-in player, a score to the leaderboard
+             * optionally associated with a specific id and metadata (such as something the player
+             * did to earn the score). The score is ignored if it is worse (as defined in
+             * the leaderboard configuration) than a previously submitted score for the
+             * same player.
+             *
+             * @param params {LeaderboardSubmitScoreParams}
+             * @param callback? {LeaderboardSubmitScoreCallback}
+             */
+            SubmitScore : function( params, callback ) {
+
+                if ( typeof params.leaderboardId ==='undefined' || typeof params.score==='undefined' ) {
+                    __log('Leaderboards submit score needs a leaderboard id and a score. Will not call.');
+                }
+
+                if ( typeof params.metadata==='undefined' ) {
+                    params.metadata = '';
+                }
+
+                _gpg.GPGLeaderboardWrapper.SubmitScore(
+                    __callbackManager.addCallback(callback),
+                    params.leaderboardId,
+                    params.score,
+                    params.metadata
+                );
+            },
+
+            /**
+             * Presents to the user a UI that displays information about a specific
+             * leaderboard.  It asynchronously calls <code>callback</code>.
+             *
+             * @param leaderboard_id {string}
+             * @param callback? {LeaderboardShowUICallback}
+             */
+            ShowUI : function( leaderboard_id, callback ) {
+                _gpg.GPGLeaderboardWrapper.ShowUI(
+                    __callbackManager.addCallback(callback),
+                    leaderboard_id
+                );
+            },
+
+            /**
+             * Presents to the user a UI that displays information about all leaderboards.
+             * It asynchronously calls <code>callback</code>.
+             *
+             * @param callback? {LeaderboardShowAllUICallback}
+             */
+            ShowAllUI : function( callback ) {
+                _gpg.GPGLeaderboardWrapper.ShowAllUI( __callbackManager.addCallback(callback) );
+            },
+
+            /**
+             * Asynchronously returns data for a score page identified by score-page
+             * token. max_results specifies the maximum number of scores to include
+             * on the resulting score page, which may be no larger than 25.
+             *
+             * if no collection is set, it will default to gpg.LeaderboardCollection.PUBLIC.
+             * if no data source is set, it will default to gpg.DataSource.CACHE_OR_NETWORK.
+             * if no max items is set, it will default to 10.
+             * if no start is defined, it will default to gpg.LeaderboardStart.PLAYER_CENTERED.
+             * if no time span is set, it will default to gpg.LeaderboardTimeSpan.ALL_TIME.
+             *
+             * @param params {LeaderboardFetchScorePageParams}
+             * @param callback? {LeaderboardFetchScorePageCallback}
+             * @constructor
+             */
+            FetchScorePage : function( params, callback ) {
+                if ( typeof params.leaderboardId==='undefined' ) {
+                    __log('Leaderboards Fetch Score page needs a leaderboard id and a score. Will not call.');
+                    return;
+                }
+
+                if ( typeof params.collection==='undefined' ) {
+                    params.collection = gpg.LeaderboardCollection.PUBLIC;
+                }
+
+                if ( typeof params.data_source==='undefined' ) {
+                    params.data_source = gpg.DataSource.CACHE_OR_NETWORK;
+                }
+
+                if ( typeof params.max_items==='undefined' ) {
+                    params.max_items = 10;
+                }
+
+                if ( typeof params.start==='undefined' ) {
+                    params.start = gpg.LeaderboardStart.PLAYER_CENTERED;
+                }
+
+                if ( typeof params.time_span==='undefined' ) {
+                    params.time_span = gpg.LeaderboardTimeSpan.ALL_TIME;
+                }
+
+                _gpg.GPGLeaderboardWrapper.FetchScorePage(
+                    __callbackManager.addCallback(callback),
+                    params.leaderboardId,
+                    params.data_source,
+                    params.start,
+                    params.time_span,
+                    params.collection,
+                    params.max_items
+                );
+            },
+
+            /**
+             *
+             * @param params {LeaderboardFetchOtherScorePageParams}
+             * @param callback? {LeaderboardFetchScorePageCallback}
+             * @constructor
+             */
+            FetchNextScorePage : function( params, callback ) {
+
+                if ( typeof params.data_source==='undefined' ) {
+                    params.data_source = gpg.DataSource.CACHE_OR_NETWORK;
+                }
+
+                if ( typeof params.max_items==='undefined' ) {
+                    params.max_items = 10;
+                }
+
+                _gpg.GPGLeaderboardWrapper.FetchNextScorePage(
+                    __callbackManager.addCallback(callback),
+                    params.data_source,
+                    params.max_items
+                );
+            },
+
+            /**
+             *
+             * @param params {LeaderboardFetchOtherScorePageParams}
+             * @param callback? {LeaderboardFetchScorePageCallback}
+             * @constructor
+             */
+            FetchPreviousScorePage : function( params, callback ) {
+
+                if ( typeof params.data_source==='undefined' ) {
+                    params.data_source = gpg.DataSource.CACHE_OR_NETWORK;
+                }
+
+                if ( typeof params.max_items==='undefined' ) {
+                    params.max_items = 10;
+                }
+
+                _gpg.GPGLeaderboardWrapper.FetchPreviousScorePage(
+                    __callbackManager.addCallback(callback),
+                    params.data_source,
+                    params.max_items
+                );
+            }
+        },
+
+        Achievements : {
+            /**
+             * Asynchronously loads data for all leaderboards for the currently
+             * signed-in player.
+             * @param datasource {gpg.DataSource}
+             * @param callback? {AchievementFetchAllCallback}
+             */
+            FetchAll : function( datasource, callback ) {
+                _gpg.GPGAchievementWrapper.FetchAll(
+                    __callbackManager.addCallback(callback),
+                    datasource);
             }
         }
     }
@@ -788,6 +1471,270 @@ gpg.Player.prototype = {
         __log( 'CurrentLevel='+ this.CurrentLevel().LevelNumber );
         __log( 'NextLevel='+ this.NextLevel().LevelNumber );
     }
+};
+
+
+/**
+ * Achievement metadata class
+ *
+ * @class
+ * @memberOf gpg
+ * @constructor
+ */
+gpg.Achievement = function() {
+    return this;
+};
+
+/**
+ *
+ * @lends gpg.Achievement.prototype
+ */
+gpg.Achievement.prototype = {
+
+    /**
+     * @type number
+     */
+    currentSteps : -1,
+
+    /**
+     * @type string
+     */
+    description : '',
+
+    /**
+     * @type string
+     */
+    id : '',
+
+    /**
+     * millis.
+     * @type number
+     */
+    lastModifiedTime : -1,
+
+    /**
+     * @type string
+     */
+    name : '',
+
+    /**
+     * @type string
+     */
+    revealedIconUrl : '',
+
+    /**
+     * @type gpg.AchievementState
+     */
+    state : gpg.AchievementState.INVALID,
+
+    /**
+     * @type number
+     */
+    totalSteps : -1,
+
+    /**
+     * @type gpg.AchievementType
+     */
+    type : gpg.AchievementType.INVALID,
+
+    /**
+     * @type string
+     */
+    unlockedIconUrl : '',
+
+    /**
+     * @type boolean
+     */
+    valid : false,
+
+    /**
+     * @type number
+     */
+    xp : -1
+};
+
+
+/**
+ * Single data structure which allows you to access data about a player's
+ * score.
+ *
+ * @class
+ * @memberOf gpg;
+ * @constructor
+ */
+gpg.Score = function() {
+    return this;
+};
+
+/**
+ * @lends gpg.Score.prototype
+ */
+gpg.Score.prototype = {
+    /**
+     * @type boolean
+     */
+    valid : false,
+
+    /**
+     * @type number
+     */
+    rank : 0,
+
+    /**
+     * @type number
+     */
+    value : 0,
+
+    /**
+     * @type string
+     */
+    metadata : ''
+};
+
+/**
+ * A single data structure which allows you to access a summary of score
+ * information.
+ *
+ * @class
+ * @memberOf gpg
+ * @constructor
+ */
+gpg.ScoreSummary= function() {
+    return this;
+};
+
+/**
+ * @lends gpg.ScoreSummary.prototype
+ */
+gpg.ScoreSummary.prototype = {
+
+    /**
+     * @type boolean
+     */
+    valid : false,
+
+    /**
+     * @type string
+     */
+    leaderboardId : '',
+
+    /**
+     * @type gpg.LeaderboardTimeSpan
+     */
+    timeSpan : gpg.LeaderboardTimeSpan.INVALID,
+
+    /**
+     * @type gpg.LeaderboardCollection
+     */
+    collection : gpg.LeaderboardCollection.INVALID,
+
+    /**
+     * @type number
+     */
+    approximateNumberOfScores : 0,
+
+    /**
+     * @type gpg.Score
+     */
+    currentPlayerScore : null
+};
+
+/**
+ * A single data structure which allows you to access score data.
+ * Data include Leaderboard id, start, timespan, collection, previous
+ * score-page token, next score-page token, and the vector of all
+ * score entries.
+ *
+ * @class
+ * @memberOf gpg
+ * @constructor
+ */
+gpg.ScorePage = function() {
+    return this;
+};
+
+/**
+ * A class that creates an entry on a score page.
+ *
+ * @name Entry
+ * @memberOf gpg.ScorePage
+ * @constructor
+ */
+gpg.ScorePage.Entry = function() {
+    return this;
+};
+
+/**
+ * @lends gpg.ScorePage.Entry.prototype
+ */
+gpg.ScorePage.Entry.prototype = {
+
+    /**
+     * @type string
+     */
+    playerId : '',
+
+    /**
+     * time in millis
+     * @type number
+     */
+    lastModifiedTime : 0,
+
+    /**
+     * @type boolean
+     */
+    valid : false,
+
+    /**
+     * @type gpg.Score
+     */
+    score : null
+};
+
+/**
+ * @lends gpg.ScorePage.prototype
+ */
+gpg.ScorePage.prototype = {
+
+    /**
+     * @type string
+     */
+    leaderboardId : '',
+
+    /**
+     * @type gpg.LeaderboardStart
+     */
+    start : gpg.LeaderboardStart.INVALID,
+
+    /**
+     * @type gpg.LeaderboardTimeSpan
+     */
+    timeSpan : gpg.LeaderboardTimeSpan.INVALID,
+
+    /**
+     * @type boolean
+     */
+    valid : false,
+
+    /**
+     * @type gpg.LeaderboardCollection
+     */
+    collection : gpg.LeaderboardCollection.INVALID,
+
+    /**
+     * @type gpg.ScorePage.Entry
+     */
+    entries : null,
+
+    /**
+     * @type boolean
+     */
+    hasNextScorePage : false,
+
+    /**
+     * @type boolean
+     */
+    hasPreviousScorePage : false
 };
 
 var _game_services = null;

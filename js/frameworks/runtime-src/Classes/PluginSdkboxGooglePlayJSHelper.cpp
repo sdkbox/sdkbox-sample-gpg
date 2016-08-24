@@ -86,7 +86,11 @@ void NativeJSNotifierScheduler::notityJs(float dt) {
 
 
 void sdkbox::GPGWrapper::NotifyToScripting( int id, const std::string& str_json ) {
-    NativeJSNotifierScheduler* ns = new NativeJSNotifierScheduler(id, str_json);
-    ns->schedule();
+    if ( id>=0 ) {
+        NativeJSNotifierScheduler* ns = new NativeJSNotifierScheduler(id, str_json);
+        ns->schedule();
+    } else {
+        CCLOG("Notifying on wrong callback id: %d", id );
+    }
 }
 
