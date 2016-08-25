@@ -3,6 +3,7 @@
 var HelloWorldLayer = cc.Layer.extend({
     sprite          : null,
     info            : null,
+    _text           : null,
 
     _signed_in      : false,
     _login_menu_item: null,
@@ -37,6 +38,11 @@ var HelloWorldLayer = cc.Layer.extend({
         this.info.x = cc.Director.getInstance().getWinSize().width / 2;
         this.info.y = 90;
         this.addChild(this.info);
+
+        this._text = new cc.LabelTTF("", "sans", 24);
+        this._text.x = cc.Director.getInstance().getWinSize().width / 2;
+        this._text.y = 120;
+        this.addChild(this._text);
 
         this.__initGPG();
 
@@ -120,7 +126,7 @@ var HelloWorldLayer = cc.Layer.extend({
                         },
                         /**
                          *
-                         * @param result {tShowSelectionUIOperationParams}
+                         * @param result {tSnapshotShowSelectionUIOperationCallbackResult}
                          */
                         function( result ) {
                             if ( result.result==='load' ) {
@@ -129,15 +135,19 @@ var HelloWorldLayer = cc.Layer.extend({
 
                                 _game_services.Snapshots.Load(
                                     {
-                                        conflict_policy : gpg.SnapshotDefaultConflictPolicy,
+                                        conflict_policy : gpg.SnapshotConflictPolicy.DefaultConflictPolicy,
                                         filename :        metadata.Filename
                                     },
+                                    /**
+                                     *
+                                     * @param result {tSnapshotLoadCallbackResult}
+                                     */
                                     function( result ) {
                                         __log(' load game. metadata: ' + JSON.stringify(result.metadata));
                                         if ( result.result===gpg.ResponseStatus.VALID || result.result===gpg.ResponseStatus.VALID_BUT_STALE) {
                                             __log( 'result: '+result.data );
                                         } else {
-                                            _log(' result not valid, so no contents.');
+                                            __log(' result not valid, so no contents.');
                                         }
                                     }
                                 );
@@ -157,7 +167,7 @@ var HelloWorldLayer = cc.Layer.extend({
                                         if ( result.result===gpg.ResponseStatus.VALID || result.result===gpg.ResponseStatus.VALID_BUT_STALE) {
                                             __log( 'saved ok' );
                                         } else {
-                                            _log('  saved with error. code: ' + result.result);
+                                            __log('  saved with error. code: ' + result.result);
                                         }
                                     }
                                 );
@@ -174,7 +184,7 @@ var HelloWorldLayer = cc.Layer.extend({
             new cc.MenuItemFont("Fetch all games", function () {
                 _game_services.Snapshots.FetchAll(
                     {
-                        datasource : gpg.SnapshotConflictPolicy.DefaultConflictPolicy
+                        datasource : gpg.DataSource.CACHE_OR_NETWORK
                     },
                     function( result ) {
                         if ( gpg.IsSuccess(result.result) ) {
@@ -199,7 +209,7 @@ var HelloWorldLayer = cc.Layer.extend({
             
             new cc.MenuItemFont("Delete ibon_testing game", function () {
 
-                var filename = 'ibon_testing'
+                var filename = 'ibon_testing';
 
                 _game_services.Snapshots.Delete(filename, function(result) {
                     if ( result.result==='success' ) {
@@ -208,21 +218,181 @@ var HelloWorldLayer = cc.Layer.extend({
                         __log('game '+filename+' did not delete. Reason:' + result.error_code + '.' );
                     }
                 });
+            }),
+            new cc.MenuItemFont("Show UI [Best gamers]", function () {
+
+                _game_services.Leaderboards.ShowUI("CgkI6KjppNEWEAIQAg");
+
+            }),
+            new cc.MenuItemFont("Show All UI", function () {
+                _game_services.Leaderboards.ShowAllUI( );
+
+            }),
+            new cc.MenuItemFont("Submit random score to [Fastest lap]", function () {
+                _game_services.Leaderboards.SubmitScore(
+                    {
+
+                        leaderboardId : 'CgkI6KjppNEWEAIQAw',
+
+                        // currently there's a bug that won't submit the score if metadata is set.
+                        metadata : 'sent from cocos js',
+
+                        // this leaderboard has a max value of 300, and min of 0
+                        score : (10 + Math.random()*290)|0
+                    },
+                    function( res ) {
+                        __log('result submit score: '+res.result);
+                    });
+
+            }),
+            new cc.MenuItemFont("fetch all score summaries [best gamers]", function () {
+
+                _game_services.Leaderboards.FetchAllScoreSummaries(
+                    {
+                        leaderboardId : 'CgkI6KjppNEWEAIQAg'
+                    },
+                    /**
+                     * @param result {LeaderboardFetchAllScoreSummariesCallbackParams}
+                     */
+                    function( result ) {
+                        if ( gpg.IsSuccess( result.result ) ) {
+
+                            me._text.setString(
+                                result.score_summary_array.reduce(
+                                    /**
+                                     * @param prev_str {string}
+                                     * @param ss {gpg.ScoreSummary}
+                                     * @return {string}
+                                     */
+                                    function( prev_str, ss ) {
+                                        return prev_str +
+                                            ' ts:' + ss.timeSpan +
+                                            ' col:' + ss.collection +
+                                            ' sc:' + ss.currentPlayerScore.value +
+                                            ' @@';
+                                    },
+                                    '')
+                            );
+
+                        } else {
+                            me._text.setString("Fetch all score summaries res:"+result.result);
+                        }
+                    }
+                )
+            }),
+            new cc.MenuItemFont("fetch all", function () {
+                _game_services.Leaderboards.FetchAll(
+                    gpg.DataSource.CACHE_OR_NETWORK,
+                    /**
+                     *
+                     * @param result {LeaderboardFetchAllCallbackParams}
+                     */
+                    function( result ) {
+                        if ( gpg.IsSuccess(result.result ) ) {
+                            me._text.setString(
+                                result.leaderboard_array.reduce(
+                                    /**
+                                     *
+                                     * @param prev_str {string}
+                                     * @param ldb {gpg.Leaderboard}
+                                     * @returns {string}
+                                     */
+                                    function( prev_str, ldb ) {
+                                        return prev_str + 'name: ' + ldb.name + ' ## ';
+                                    },
+                                    '')
+                            );
+                        } else {
+                            me._text.setString("Fetch all res:"+result.result);
+                        }
+                    }
+                )
+            }),
+            new cc.MenuItemFont("Fetch score page", function () {
+
+                _game_services.Leaderboards.FetchScorePage(
+                    {
+                        leaderboardId : 'CgkI6KjppNEWEAIQAg'
+                    },
+                    /**
+                     *
+                     * @param result {LeaderboardFetchScorePageCallbackParams}
+                     */
+                    function( result ) {
+
+                        if ( gpg.IsSuccess(result.result ) ) {
+                            me._text.setString("Get score page ok.");
+                            result.scorePage.entries.forEach(
+                                /**
+                                 *
+                                 * @param entry {gpg.ScorePage.Entry}
+                                 */
+                                function( entry ) {
+                                    __log( entry.playerId + " pos: " + entry.score.rank + " score: " + entry.score.value );
+                                }
+                            )
+                        } else {
+                            me._text.setString("Get score page error: "+ result.result);
+                        }
+                    }
+                );
+            }),
+            new cc.MenuItemFont("Fetch next score page", function () {
+
+                _game_services.Leaderboards.FetchNextScorePage(
+                    {},
+                    /**
+                     *
+                     * @param result {LeaderboardFetchScorePageCallbackParams}
+                     */
+                    function( result ) {
+
+                        if ( gpg.IsSuccess(result.result ) ) {
+                            me._text.setString("Get next score page ok.");
+                            result.scorePage.entries.forEach(
+                                /**
+                                 *
+                                 * @param entry {gpg.ScorePage.Entry}
+                                 */
+                                function( entry ) {
+                                    __log( entry.playerId + " pos: " + entry.score.rank + " score: " + entry.score.value );
+                                }
+                            )
+                        } else{
+                            me._text.setString("Get score page error: "+ result.result);
+                        }
+                    }
+                );
+            }),
+
+            new cc.MenuItemFont("Fetch all achievements", function () {
+                _game_services.Achievements.FetchAll(
+                    gpg.DataSource.CACHE_OR_NETWORK,
+                    /**
+                     *
+                     * @param result {AchievementFetchAllCallbackParams}
+                     */
+                    function( result ) {
+                        if ( gpg.IsSuccess( result.result ) ) {
+                            result.achievement_array.forEach(
+                                /**
+                                 *
+                                 * @param a {gpg.Achievement}
+                                 */
+                                function( a ) {
+                                    __log(
+                                        a.name +
+                                        ' type:' + (a.type===gpg.AchievementType.INCREMENTAL ? 'incremental' : 'standard') +
+                                        ' state:' + a.state);
+                                });
+
+                        } else {
+                            me._text.setString("Achievements fetch all error: "+ result.result);
+                        }
+                    }
+                );
             })
-            /*,
-            new cc.MenuItemFont("Unlock Hunter", function () {
 
-            }),
-            new cc.MenuItemFont("Unlock Ten Games", function () {
-
-            }),
-            new cc.MenuItemFont("Unlock incremental", function () {
-
-            }),
-            new cc.MenuItemFont("Submit Score 1000", function () {
-
-            })
-            */
         );
 
         menu.alignItemsVerticallyWithPadding(5);

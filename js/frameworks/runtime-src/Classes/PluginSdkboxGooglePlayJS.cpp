@@ -1,15 +1,9 @@
 #include "PluginSdkboxGooglePlayJS.hpp"
+#include "cocos2d_specifics.hpp"
 #include "PluginSdkboxGooglePlay/SdkboxGooglePlayWrappedObjects.h"
 #include "SDKBoxJSHelper.h"
-#include "sdkbox/Sdkbox.h"
+#include "sdkbox/sdkbox.h"
 
-#if defined(SDKBOX_COCOS_CREATOR)
-    #define SDKBOX_COCOS_JSB_VERSION 2
-#elif COCOS2D_VERSION >= 0x00031000
-    #define SDKBOX_COCOS_JSB_VERSION 2
-#else
-    #define SDKBOX_COCOS_JSB_VERSION 1
-#endif
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
@@ -28,7 +22,7 @@ static bool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
         typeClass = typeMapIter->second;
         CCASSERT(typeClass, "The value is null.");
 
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
+#if (COCOS2D_VERSION >= 0x00031000)
         JS::RootedObject proto(cx, typeClass->proto.ref());
         JS::RootedObject parent(cx, typeClass->parentProto.ref());
 #else
@@ -36,7 +30,7 @@ static bool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
         JS::RootedObject parent(cx, typeClass->parentProto.get());
 #endif
         JS::RootedObject _tmp(cx, JS_NewObject(cx, typeClass->jsclass, proto, parent));
-
+        
         T* cobj = new T();
         js_proxy_t *pp = jsb_new_proxy(cobj, _tmp);
         AddObjectRoot(cx, &pp->obj);
@@ -55,7 +49,7 @@ static bool js_is_native_obj(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     args.rval().setBoolean(true);
-    return true;
+    return true;    
 }
 #else
 template<class T>
@@ -90,7 +84,7 @@ static bool empty_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
 static bool js_is_native_obj(JSContext *cx, JS::HandleObject obj, JS::HandleId id, JS::MutableHandleValue vp)
 {
     vp.set(BOOLEAN_TO_JSVAL(true));
-    return true;
+    return true;    
 }
 #endif
 #elif defined(JS_VERSION)
@@ -269,7 +263,7 @@ void js_PluginSdkboxGooglePlayJS_GPGWrapper_finalize(JSFreeOp *fop, JSObject *ob
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
+#if (COCOS2D_VERSION >= 0x00031000)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -283,7 +277,7 @@ void js_PluginSdkboxGooglePlayJS_GPGWrapper_finalize(JSFreeOp *fop, JSObject *ob
         sdkbox::GPGWrapper *nobj = static_cast<sdkbox::GPGWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-
+        
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -332,11 +326,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JS::HandleOb
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27
+//FIXME: Removed in Firefox v27 
 //  JS_SetPropertyAttributes(cx, global, "GPGWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
+#if (COCOS2D_VERSION >= 0x00031000)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGWrapper_prototype);
     jsb_register_class<sdkbox::GPGWrapper>(cx, jsb_sdkbox_GPGWrapper_class, proto, JS::NullPtr());
 #else
@@ -396,7 +390,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JSObject *gl
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27
+//FIXME: Removed in Firefox v27 
 //  JS_SetPropertyAttributes(cx, global, "GPGWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -582,7 +576,7 @@ bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime(JSContext
 JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime(JSContext *cx, uint32_t argc, jsval *vp)
 {
     if (argc == 0) {
-        long long ret = sdkbox::GPGLocalPlayerWrapper::LastLevelUpTime();
+        int64_t ret = sdkbox::GPGLocalPlayerWrapper::LastLevelUpTime();
         jsval jsret;
         jsret = long_long_to_jsval(cx, ret);
         JS_SET_RVAL(cx, vp, jsret);
@@ -638,7 +632,7 @@ bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP(JSContext *cx, 
 JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP(JSContext *cx, uint32_t argc, jsval *vp)
 {
     if (argc == 0) {
-        long long ret = sdkbox::GPGLocalPlayerWrapper::CurrentXP();
+        int64_t ret = sdkbox::GPGLocalPlayerWrapper::CurrentXP();
         jsval jsret;
         jsret = long_long_to_jsval(cx, ret);
         JS_SET_RVAL(cx, vp, jsret);
@@ -772,7 +766,7 @@ void js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize(JSFreeOp *fop, J
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
+#if (COCOS2D_VERSION >= 0x00031000)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -786,7 +780,7 @@ void js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize(JSFreeOp *fop, J
         sdkbox::GPGLocalPlayerWrapper *nobj = static_cast<sdkbox::GPGLocalPlayerWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-
+        
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -840,11 +834,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, J
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27
+//FIXME: Removed in Firefox v27 
 //  JS_SetPropertyAttributes(cx, global, "GPGLocalPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
+#if (COCOS2D_VERSION >= 0x00031000)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGLocalPlayerWrapper_prototype);
     jsb_register_class<sdkbox::GPGLocalPlayerWrapper>(cx, jsb_sdkbox_GPGLocalPlayerWrapper_class, proto, JS::NullPtr());
 #else
@@ -909,7 +903,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, J
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27
+//FIXME: Removed in Firefox v27 
 //  JS_SetPropertyAttributes(cx, global, "GPGLocalPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -1189,7 +1183,7 @@ void js_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper_finalize(JSFreeOp *fop, JSOb
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
+#if (COCOS2D_VERSION >= 0x00031000)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -1203,7 +1197,7 @@ void js_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper_finalize(JSFreeOp *fop, JSOb
         sdkbox::GPGSnapshotWrapper *nobj = static_cast<sdkbox::GPGSnapshotWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-
+        
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -1252,11 +1246,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(JSContext *cx, JS::
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27
+//FIXME: Removed in Firefox v27 
 //  JS_SetPropertyAttributes(cx, global, "GPGSnapshotWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
+#if (COCOS2D_VERSION >= 0x00031000)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGSnapshotWrapper_prototype);
     jsb_register_class<sdkbox::GPGSnapshotWrapper>(cx, jsb_sdkbox_GPGSnapshotWrapper_class, proto, JS::NullPtr());
 #else
@@ -1316,7 +1310,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(JSContext *cx, JSOb
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27
+//FIXME: Removed in Firefox v27 
 //  JS_SetPropertyAttributes(cx, global, "GPGSnapshotWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -1388,6 +1382,1154 @@ void js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(JSContext *cx, JSOb
     }
 }
 #endif
+JSClass  *jsb_sdkbox_GPGLeaderboardWrapper_class;
+JSObject *jsb_sdkbox_GPGLeaderboardWrapper_prototype;
+
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAll : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchAll(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAll : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchAll(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScoreSummary(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 5) {
+        int arg0;
+        int arg1;
+        std::string arg2;
+        int arg3;
+        int arg4;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        ok &= jsval_to_std_string(cx, args.get(2), &arg2);
+        ok &= jsval_to_int32(cx, args.get(3), (int32_t *)&arg3);
+        ok &= jsval_to_int32(cx, args.get(4), (int32_t *)&arg4);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScoreSummary : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchScoreSummary(arg0, arg1, arg2, arg3, arg4);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScoreSummary : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScoreSummary(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 5) {
+        int arg0;
+        int arg1;
+        std::string arg2;
+        int arg3;
+        int arg4;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        ok &= jsval_to_std_string(cx, argv[2], &arg2);
+        ok &= jsval_to_int32(cx, argv[3], (int32_t *)&arg3);
+        ok &= jsval_to_int32(cx, argv[4], (int32_t *)&arg4);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchScoreSummary(arg0, arg1, arg2, arg3, arg4);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchPreviousScorePage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        int arg0;
+        int arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchPreviousScorePage : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchPreviousScorePage(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchPreviousScorePage : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchPreviousScorePage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        int arg0;
+        int arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchPreviousScorePage(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowAllUI : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::ShowAllUI(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowAllUI : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::ShowAllUI(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchNextScorePage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        int arg0;
+        int arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchNextScorePage : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchNextScorePage(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchNextScorePage : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchNextScorePage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        int arg0;
+        int arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchNextScorePage(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_SubmitScore(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        long arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_long(cx, args.get(2), &arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_SubmitScore : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::SubmitScore(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    if (argc == 4) {
+        int arg0;
+        std::string arg1;
+        long arg2;
+        std::string arg3;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_long(cx, args.get(2), &arg2);
+        ok &= jsval_to_std_string(cx, args.get(3), &arg3);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_SubmitScore : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::SubmitScore(arg0, arg1, arg2, arg3);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_SubmitScore : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_SubmitScore(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        long arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_long(cx, argv[2], &arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::SubmitScore(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    if (argc == 4) {
+        int arg0;
+        std::string arg1;
+        long arg2;
+        std::string arg3;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_long(cx, argv[2], &arg2);
+        ok &= jsval_to_std_string(cx, argv[3], &arg3);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::SubmitScore(arg0, arg1, arg2, arg3);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAllScoreSummaries(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        int arg0;
+        int arg1;
+        std::string arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        ok &= jsval_to_std_string(cx, args.get(2), &arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAllScoreSummaries : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchAllScoreSummaries(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAllScoreSummaries : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAllScoreSummaries(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        int arg0;
+        int arg1;
+        std::string arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        ok &= jsval_to_std_string(cx, argv[2], &arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchAllScoreSummaries(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowUI : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::ShowUI(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowUI : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::ShowUI(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_Fetch : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::Fetch(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_Fetch : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::Fetch(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScorePage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 7) {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        int arg3;
+        int arg4;
+        int arg5;
+        int arg6;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        ok &= jsval_to_int32(cx, args.get(3), (int32_t *)&arg3);
+        ok &= jsval_to_int32(cx, args.get(4), (int32_t *)&arg4);
+        ok &= jsval_to_int32(cx, args.get(5), (int32_t *)&arg5);
+        ok &= jsval_to_int32(cx, args.get(6), (int32_t *)&arg6);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScorePage : Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchScorePage(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScorePage : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScorePage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 7) {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        int arg3;
+        int arg4;
+        int arg5;
+        int arg6;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
+        ok &= jsval_to_int32(cx, argv[3], (int32_t *)&arg3);
+        ok &= jsval_to_int32(cx, argv[4], (int32_t *)&arg4);
+        ok &= jsval_to_int32(cx, argv[5], (int32_t *)&arg5);
+        ok &= jsval_to_int32(cx, argv[6], (int32_t *)&arg6);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGLeaderboardWrapper::FetchScorePage(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+
+
+void js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (GPGLeaderboardWrapper)", obj);
+    js_proxy_t* nproxy;
+    js_proxy_t* jsproxy;
+
+#if (COCOS2D_VERSION >= 0x00031000)
+    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
+    JS::RootedObject jsobj(cx, obj);
+    jsproxy = jsb_get_js_proxy(jsobj);
+#else
+    jsproxy = jsb_get_js_proxy(obj);
+#endif
+
+    if (jsproxy) {
+        nproxy = jsb_get_native_proxy(jsproxy->ptr);
+
+        sdkbox::GPGLeaderboardWrapper *nobj = static_cast<sdkbox::GPGLeaderboardWrapper *>(nproxy->ptr);
+        if (nobj)
+            delete nobj;
+        
+        jsb_remove_proxy(nproxy, jsproxy);
+    }
+}
+
+#if defined(MOZJS_MAJOR_VERSION)
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(JSContext *cx, JS::HandleObject global) {
+    jsb_sdkbox_GPGLeaderboardWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGLeaderboardWrapper_class->name = "GPGLeaderboardWrapper";
+    jsb_sdkbox_GPGLeaderboardWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_finalize;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAll, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchScoreSummary", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScoreSummary, 5, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchPreviousScorePage", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchPreviousScorePage, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchNextScorePage", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchNextScorePage, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SubmitScore", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_SubmitScore, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchAllScoreSummaries", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAllScoreSummaries, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowUI", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowUI, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_Fetch, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchScorePage", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScorePage, 7, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGLeaderboardWrapper_prototype = JS_InitClass(
+        cx, global,
+        JS::NullPtr(), // parent proto
+        jsb_sdkbox_GPGLeaderboardWrapper_class,
+        dummy_constructor<sdkbox::GPGLeaderboardWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGLeaderboardWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+#if (COCOS2D_VERSION >= 0x00031000)
+    JS::RootedObject proto(cx, jsb_sdkbox_GPGLeaderboardWrapper_prototype);
+    jsb_register_class<sdkbox::GPGLeaderboardWrapper>(cx, jsb_sdkbox_GPGLeaderboardWrapper_class, proto, JS::NullPtr());
+#else
+    TypeTest<sdkbox::GPGLeaderboardWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGLeaderboardWrapper_class;
+        p->proto = jsb_sdkbox_GPGLeaderboardWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+#endif
+}
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGLeaderboardWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGLeaderboardWrapper_class->name = "GPGLeaderboardWrapper";
+    jsb_sdkbox_GPGLeaderboardWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_finalize;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        {"__nativeObj", 0, JSPROP_ENUMERATE | JSPROP_PERMANENT, JSOP_WRAPPER(js_is_native_obj), JSOP_NULLWRAPPER},
+        {0, 0, 0, JSOP_NULLWRAPPER, JSOP_NULLWRAPPER}
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAll, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchScoreSummary", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScoreSummary, 5, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchPreviousScorePage", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchPreviousScorePage, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchNextScorePage", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchNextScorePage, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SubmitScore", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_SubmitScore, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchAllScoreSummaries", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAllScoreSummaries, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowUI", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowUI, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_Fetch, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchScorePage", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScorePage, 7, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGLeaderboardWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGLeaderboardWrapper_class,
+        dummy_constructor<sdkbox::GPGLeaderboardWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGLeaderboardWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGLeaderboardWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGLeaderboardWrapper_class;
+        p->proto = jsb_sdkbox_GPGLeaderboardWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+#endif
+#elif defined(JS_VERSION)
+void js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGLeaderboardWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGLeaderboardWrapper_class->name = "GPGLeaderboardWrapper";
+    jsb_sdkbox_GPGLeaderboardWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->delProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_finalize;
+    jsb_sdkbox_GPGLeaderboardWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    JSPropertySpec *properties = NULL;
+
+    JSFunctionSpec *funcs = NULL;
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAll, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchScoreSummary", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScoreSummary, 5, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchPreviousScorePage", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchPreviousScorePage, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchNextScorePage", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchNextScorePage, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SubmitScore", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_SubmitScore, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchAllScoreSummaries", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchAllScoreSummaries, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowUI", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_ShowUI, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_Fetch, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchScorePage", js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_FetchScorePage, 7, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGLeaderboardWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGLeaderboardWrapper_class,
+        dummy_constructor<sdkbox::GPGLeaderboardWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+    JSBool found;
+    JS_SetPropertyAttributes(cx, global, "GPGLeaderboardWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGLeaderboardWrapper> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = jsb_sdkbox_GPGLeaderboardWrapper_class;
+        p->proto = jsb_sdkbox_GPGLeaderboardWrapper_prototype;
+        p->parentProto = NULL;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
+}
+#endif
+JSClass  *jsb_sdkbox_GPGAchievementWrapper_class;
+JSObject *jsb_sdkbox_GPGAchievementWrapper_prototype;
+
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll : Error processing arguments");
+        sdkbox::GPGAchievementWrapper::FetchAll(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGAchievementWrapper::FetchAll(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal : Error processing arguments");
+        sdkbox::GPGAchievementWrapper::Reveal(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGAchievementWrapper::Reveal(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock : Error processing arguments");
+        sdkbox::GPGAchievementWrapper::Unlock(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGAchievementWrapper::Unlock(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI : Error processing arguments");
+        sdkbox::GPGAchievementWrapper::ShowAllUI(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGAchievementWrapper::ShowAllUI(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        unsigned int arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_uint32(cx, args.get(2), &arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast : Error processing arguments");
+        sdkbox::GPGAchievementWrapper::SetStepsAtLeast(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        unsigned int arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_uint32(cx, argv[2], &arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGAchievementWrapper::SetStepsAtLeast(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        unsigned int arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_uint32(cx, args.get(2), &arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment : Error processing arguments");
+        sdkbox::GPGAchievementWrapper::Increment(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        unsigned int arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_uint32(cx, argv[2], &arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGAchievementWrapper::Increment(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch : Error processing arguments");
+        sdkbox::GPGAchievementWrapper::Fetch(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGAchievementWrapper::Fetch(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+
+
+void js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (GPGAchievementWrapper)", obj);
+    js_proxy_t* nproxy;
+    js_proxy_t* jsproxy;
+
+#if (COCOS2D_VERSION >= 0x00031000)
+    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
+    JS::RootedObject jsobj(cx, obj);
+    jsproxy = jsb_get_js_proxy(jsobj);
+#else
+    jsproxy = jsb_get_js_proxy(obj);
+#endif
+
+    if (jsproxy) {
+        nproxy = jsb_get_native_proxy(jsproxy->ptr);
+
+        sdkbox::GPGAchievementWrapper *nobj = static_cast<sdkbox::GPGAchievementWrapper *>(nproxy->ptr);
+        if (nobj)
+            delete nobj;
+        
+        jsb_remove_proxy(nproxy, jsproxy);
+    }
+}
+
+#if defined(MOZJS_MAJOR_VERSION)
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(JSContext *cx, JS::HandleObject global) {
+    jsb_sdkbox_GPGAchievementWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGAchievementWrapper_class->name = "GPGAchievementWrapper";
+    jsb_sdkbox_GPGAchievementWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_finalize;
+    jsb_sdkbox_GPGAchievementWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Reveal", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Unlock", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SetStepsAtLeast", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGAchievementWrapper_prototype = JS_InitClass(
+        cx, global,
+        JS::NullPtr(), // parent proto
+        jsb_sdkbox_GPGAchievementWrapper_class,
+        dummy_constructor<sdkbox::GPGAchievementWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGAchievementWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+#if (COCOS2D_VERSION >= 0x00031000)
+    JS::RootedObject proto(cx, jsb_sdkbox_GPGAchievementWrapper_prototype);
+    jsb_register_class<sdkbox::GPGAchievementWrapper>(cx, jsb_sdkbox_GPGAchievementWrapper_class, proto, JS::NullPtr());
+#else
+    TypeTest<sdkbox::GPGAchievementWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGAchievementWrapper_class;
+        p->proto = jsb_sdkbox_GPGAchievementWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+#endif
+}
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGAchievementWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGAchievementWrapper_class->name = "GPGAchievementWrapper";
+    jsb_sdkbox_GPGAchievementWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_finalize;
+    jsb_sdkbox_GPGAchievementWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        {"__nativeObj", 0, JSPROP_ENUMERATE | JSPROP_PERMANENT, JSOP_WRAPPER(js_is_native_obj), JSOP_NULLWRAPPER},
+        {0, 0, 0, JSOP_NULLWRAPPER, JSOP_NULLWRAPPER}
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Reveal", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Unlock", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SetStepsAtLeast", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGAchievementWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGAchievementWrapper_class,
+        dummy_constructor<sdkbox::GPGAchievementWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGAchievementWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGAchievementWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGAchievementWrapper_class;
+        p->proto = jsb_sdkbox_GPGAchievementWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+#endif
+#elif defined(JS_VERSION)
+void js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGAchievementWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGAchievementWrapper_class->name = "GPGAchievementWrapper";
+    jsb_sdkbox_GPGAchievementWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->delProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGAchievementWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_finalize;
+    jsb_sdkbox_GPGAchievementWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    JSPropertySpec *properties = NULL;
+
+    JSFunctionSpec *funcs = NULL;
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Reveal", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Unlock", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SetStepsAtLeast", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGAchievementWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGAchievementWrapper_class,
+        dummy_constructor<sdkbox::GPGAchievementWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+    JSBool found;
+    JS_SetPropertyAttributes(cx, global, "GPGAchievementWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGAchievementWrapper> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = jsb_sdkbox_GPGAchievementWrapper_class;
+        p->proto = jsb_sdkbox_GPGAchievementWrapper_prototype;
+        p->parentProto = NULL;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
+}
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj) {
@@ -1397,6 +2539,8 @@ void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj) 
 
     js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(cx, ns);
     js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(cx, ns);
     js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(cx, ns);
 
     sdkbox::setProjectType("js");
@@ -1418,6 +2562,8 @@ void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj) {
 
     js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(cx, obj);
 
     sdkbox::setProjectType("js");
@@ -1440,6 +2586,8 @@ void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj) {
 
     js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(cx, obj);
 
     sdkbox::setProjectType("js");

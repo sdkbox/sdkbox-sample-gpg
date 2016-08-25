@@ -51,6 +51,10 @@ function MainScene:setupTestMenu()
                 self._signed_in = false
                 print("signing out")
             end
+        end),
+        cc.MenuItemFont:create("GoToSceneB"):onClicked(function()
+            print('GoToSceneB clicked')
+            app:enterScene('SceneB')
         end)
     )
 
