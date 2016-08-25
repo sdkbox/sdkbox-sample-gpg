@@ -1,11 +1,8 @@
 
---module("sdkboxgpg")
-
 if not json then
     require "cocos.cocos2d.json"
 end
-
-print("Evaluating Sdkbox GPG lua layer")
+require "cocos.cocos2d.functions"
 
 local DefaultCallbacks = {
     DEFAULT_CALLBACKS_BEGIN = 1,
@@ -66,8 +63,19 @@ function CallbackManager:nativeNotify(id, str_json)
     --print("json " .. str_json)
 
     if (self._callbacks[id]) then
+
         local o = json.decode(str_json)
-        self._callbacks[id](o)
+        dump(o)
+
+        cb = self._callbacks[id]
+        if type(cb) == 'function' then
+            cb(o)
+        else
+            this = cb[1]
+            func = cb[2]
+            func(this, o)
+        end
+
     end
 
     -- callbacks that are temporary one shot calls have to be removed.
@@ -144,11 +152,32 @@ end
 
 local gpg = {}
 
-function gpg:ShowAuthorizationUI()
-    print("ShowAuthorizationUI")
+function gpg:CreateGameServices(config)
+    sdkbox.GPGWrapper:CreateGameServices(json.encode(config))
+end
+
+function gpg:StartAuthorizationUI()
+    sdkbox.GPGWrapper:StartAuthorizationUI()
+end
+
+function gpg:SignOut()
+    sdkbox.GPGWrapper:SignOut()
 end
 
 gpg['CallbackManager']  = CallbackManager
 gpg['DefaultCallbacks'] = DefaultCallbacks
+gpg['Quests'] = {}
+
+function gpg.Quests:Fetch(quest_id, callback)
+    sdkbox.GPGQuestsWrapper:Fetch(CallbackManager:addCallback(callback), quest_id)
+end
+
+function gpg.Quests:ShowAllUI(callback)
+    sdkbox.GPGQuestsWrapper:ShowAllUI(CallbackManager:addCallback(callback))
+end
+
+function gpg.Quests:ShowUI(quest_id, callback)
+    sdkbox.GPGQuestsWrapper:ShowUI(CallbackManager:addCallback(callback), quest_id)
+end
 
 return gpg

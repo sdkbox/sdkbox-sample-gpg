@@ -31,7 +31,7 @@ static int lua_module_register(lua_State* L)
     register_audioengine_module(L);
 #ifdef SDKBOX_ENABLED
     register_all_PluginSdkboxGooglePlayLua(L);
-    register_all_PluginSdkboxGooglePlayLua_helper(L);
+    //register_all_PluginSdkboxGooglePlayLua_helper(L);
 #endif
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
     register_physics3d_module(L);

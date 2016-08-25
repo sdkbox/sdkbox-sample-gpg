@@ -70,6 +70,18 @@ namespace sdkbox {
         static void FetchAll( int callback_id, const std::string& str_json );
         static void Delete( int callback_id, const std::string& filename );
     };
+
+    class GPGQuestsWrapper
+    {
+    public:
+
+        static void Fetch          (int callback_id, const std::string& quest_id, int datasource = 1);
+        static void FetchList      (int callback_id, int datasource = 1);
+        static void Accept         (int callback_id, const std::string& quest_id);
+        static void ClaimMilestone (int callback_id, const std::string& milestone_id);
+        static void ShowAllUI      (int callback_id);
+		static void ShowUI         (int callback_id, const std::string& quest_id);
+    };
 }
 
 #endif
