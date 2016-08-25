@@ -65,7 +65,7 @@ function CallbackManager:nativeNotify(id, str_json)
     if (self._callbacks[id]) then
 
         local o = json.decode(str_json)
-        dump(o)
+        --dump(o)
 
         cb = self._callbacks[id]
         if type(cb) == 'function' then
@@ -81,6 +81,7 @@ function CallbackManager:nativeNotify(id, str_json)
     -- callbacks that are temporary one shot calls have to be removed.
     if (id >= 1000) then
         self._callbacks[id] = nil
+        print("Removed " .. id)
     end
 end
 
@@ -178,6 +179,18 @@ end
 
 function gpg.Quests:ShowUI(quest_id, callback)
     sdkbox.GPGQuestsWrapper:ShowUI(CallbackManager:addCallback(callback), quest_id)
+end
+
+function gpg.Quests:FetchList(callback)
+    sdkbox.GPGQuestsWrapper:FetchList(CallbackManager:addCallback(callback))
+end
+
+function gpg.Quests:Fetch(quest_id, callback)
+    sdkbox.GPGQuestsWrapper:Fetch(CallbackManager:addCallback(callback), quest_id)
+end
+
+function gpg.Quests:ClaimMilestone(milestone_id, callback)
+    sdkbox.GPGQuestsWrapper:ClaimMilestone(CallbackManager:addCallback(callback), milestone_id)
 end
 
 return gpg
