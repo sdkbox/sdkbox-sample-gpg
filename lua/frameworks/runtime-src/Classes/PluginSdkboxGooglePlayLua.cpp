@@ -1076,6 +1076,185 @@ int lua_register_PluginSdkboxGooglePlayLua_GPGQuestsWrapper(lua_State* tolua_S)
     g_typeCast["GPGQuestsWrapper"] = "sdkbox.GPGQuestsWrapper";
     return 1;
 }
+
+int lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_FetchAll(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGEventsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        int arg0;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGEventsWrapper:FetchAll");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_FetchAll'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGEventsWrapper::FetchAll(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    if (argc == 2)
+    {
+        int arg0;
+        int arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGEventsWrapper:FetchAll");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGEventsWrapper:FetchAll");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_FetchAll'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGEventsWrapper::FetchAll(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGEventsWrapper:FetchAll",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_FetchAll'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Fetch(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGEventsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGEventsWrapper:Fetch");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGEventsWrapper:Fetch");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Fetch'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGEventsWrapper::Fetch(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    if (argc == 3)
+    {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGEventsWrapper:Fetch");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGEventsWrapper:Fetch");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGEventsWrapper:Fetch");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Fetch'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGEventsWrapper::Fetch(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGEventsWrapper:Fetch",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Fetch'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Increment(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGEventsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGEventsWrapper:Increment");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Increment'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGEventsWrapper::Increment(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    if (argc == 2)
+    {
+        std::string arg0;
+        unsigned int arg1;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGEventsWrapper:Increment");
+        ok &= luaval_to_uint32(tolua_S, 3,&arg1, "sdkbox.GPGEventsWrapper:Increment");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Increment'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGEventsWrapper::Increment(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGEventsWrapper:Increment",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Increment'.",&tolua_err);
+#endif
+    return 0;
+}
+static int lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (GPGEventsWrapper)");
+    return 0;
+}
+
+int lua_register_PluginSdkboxGooglePlayLua_GPGEventsWrapper(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"sdkbox.GPGEventsWrapper");
+    tolua_cclass(tolua_S,"GPGEventsWrapper","sdkbox.GPGEventsWrapper","",nullptr);
+
+    tolua_beginmodule(tolua_S,"GPGEventsWrapper");
+        tolua_function(tolua_S,"FetchAll", lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_FetchAll);
+        tolua_function(tolua_S,"Fetch", lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Fetch);
+        tolua_function(tolua_S,"Increment", lua_PluginSdkboxGooglePlayLua_GPGEventsWrapper_Increment);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(sdkbox::GPGEventsWrapper).name();
+    g_luaType[typeName] = "sdkbox.GPGEventsWrapper";
+    g_typeCast["GPGEventsWrapper"] = "sdkbox.GPGEventsWrapper";
+    return 1;
+}
 TOLUA_API int register_all_PluginSdkboxGooglePlayLua(lua_State* tolua_S)
 {
 	tolua_open(tolua_S);
@@ -1083,6 +1262,7 @@ TOLUA_API int register_all_PluginSdkboxGooglePlayLua(lua_State* tolua_S)
 	tolua_module(tolua_S,"sdkbox",0);
 	tolua_beginmodule(tolua_S,"sdkbox");
 
+	lua_register_PluginSdkboxGooglePlayLua_GPGEventsWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGQuestsWrapper(tolua_S);

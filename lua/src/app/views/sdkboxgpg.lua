@@ -168,6 +168,7 @@ end
 gpg['CallbackManager']  = CallbackManager
 gpg['DefaultCallbacks'] = DefaultCallbacks
 gpg['Quests'] = {}
+gpg['Events'] = {}
 
 function gpg.Quests:Fetch(quest_id, callback)
     sdkbox.GPGQuestsWrapper:Fetch(CallbackManager:addCallback(callback), quest_id)
@@ -191,6 +192,18 @@ end
 
 function gpg.Quests:ClaimMilestone(milestone_id, callback)
     sdkbox.GPGQuestsWrapper:ClaimMilestone(CallbackManager:addCallback(callback), milestone_id)
+end
+
+function gpg.Events:Fetch(event_id, callback)
+    sdkbox.GPGEventsWrapper:Fetch(CallbackManager:addCallback(callback), event_id)
+end
+
+function gpg.Events:FetchAll(callback)
+    sdkbox.GPGEventsWrapper:Fetch(CallbackManager:addCallback(callback))
+end
+
+function gpg.Events:Increment(event_id)
+    sdkbox.GPGEventsWrapper:Increment(event_id)
 end
 
 return gpg

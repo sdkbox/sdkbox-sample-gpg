@@ -71,6 +71,10 @@ function QuestScene:setupTestMenu()
         end)
     end)
 
+    self._increment_button = cc.MenuItemFont:create("Increment"):onClicked(function()
+        gpg.Events:Increment("CgkI6KjppNEWEAIQDA")
+    end)
+
     self._milestone_id = nil
     self._claim_milestone_button = cc.MenuItemFont:create("Claim Milestone"):onClicked(function()
         gpg.Quests:ClaimMilestone(self._milestone_id, function(o)
@@ -83,6 +87,7 @@ function QuestScene:setupTestMenu()
         self._show_all_ui_button,
         self._fetch_list_button,
         self._fetch_button,
+        self._increment_button,
         self._claim_milestone_button
     )
 
@@ -107,12 +112,14 @@ function QuestScene:updateSignIn(show)
         self._show_all_ui_button:setVisible(true)
         self._fetch_list_button:setVisible(true)
         self._fetch_button:setVisible(true)
+        self._increment_button:setVisible(true)
         self._claim_milestone_button:setVisible(true)
     else
         self._sign_in_button:setString("Sign In")
         self._show_all_ui_button:setVisible(false)
         self._fetch_list_button:setVisible(false)
         self._fetch_button:setVisible(false)
+        self._increment_button:setVisible(false)
         self._claim_milestone_button:setVisible(false)
     end
 end
