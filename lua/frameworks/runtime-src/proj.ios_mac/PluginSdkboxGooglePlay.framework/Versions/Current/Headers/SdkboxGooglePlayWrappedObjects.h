@@ -82,6 +82,15 @@ namespace sdkbox {
         static void ShowAllUI      (int callback_id);
 		static void ShowUI         (int callback_id, const std::string& quest_id);
     };
+
+    class GPGEventsWrapper
+    {
+    public:
+
+        static void Fetch     (int callback_id, const std::string& event_id, int datasource = 1);
+        static void FetchAll  (int callback_id, int datasource = 1);
+        static void Increment (const std::string& event_id, uint32_t steps = 1);
+    };
 }
 
 #endif
