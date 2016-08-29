@@ -97,11 +97,19 @@ bool HelloWorld::init()
                       MenuItemFont::create( "ldb: Fetch summary 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbFetchScoreSummary, this)),
                       MenuItemFont::create( "ldb: Fetch all summaries", CC_CALLBACK_1(HelloWorld::ldbFetchScoreAllSummaries, this)),
                       MenuItemFont::create( "ldb: Submit score 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbSubmitScore, this)),
+                              
+                      MenuItemFont::create( "ach: ShowUI All", CC_CALLBACK_1(HelloWorld::achShowAllUI, this)),
+                      MenuItemFont::create( "ach: Fetch all achievements", CC_CALLBACK_1(HelloWorld::achFetchAll, this)),
+                      MenuItemFont::create( "ach: Fetch achievement", CC_CALLBACK_1(HelloWorld::achFetch, this)),
+                      MenuItemFont::create( "ach: Increment", CC_CALLBACK_1(HelloWorld::achIncrement, this)),
+                      MenuItemFont::create( "ach: Reveal", CC_CALLBACK_1(HelloWorld::achReveal, this)),
+                      MenuItemFont::create( "ach: Set at least steps", CC_CALLBACK_1(HelloWorld::achSetAtLeastSteps, this)),
+                      MenuItemFont::create( "ach: Unlock", CC_CALLBACK_1(HelloWorld::achUnlock, this)),
                       nullptr
     );
 
     menu->alignItemsVerticallyWithPadding(5);
-    menu->setPosition(size.width/2, size.height/2);
+    menu->setPosition(size.width/2, size.height/2 + 40);
     addChild(menu);
         
     _txtStat = Label::create("No action yet.", "fonts/Marker Felt.ttf",32);
@@ -480,6 +488,82 @@ void HelloWorld::ldbShowAllUI(cocos2d::CCObject *sender) {
                      }
                  });
     }
+}
+
+
+
+void HelloWorld::achShowAllUI(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().ShowAllUI(
+                 [this]( gpg::UIStatus status ) {
+                     if ( IsSuccess(status) ) {
+                         _txtStat->setString( "achievements show ui success." );
+                     } else {
+                         _txtStat->setString( __printf("achievements show ui error %d.", (int)status) );
+                     }
+                 });
+    }
+}
+
+void HelloWorld::achFetchAll(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().FetchAll( gpg::DataSource::CACHE_OR_NETWORK, [this](const gpg::AchievementManager::FetchAllResponse& res) {
+            
+            if ( IsSuccess( res.status ) ) {
+                
+                _txtStat->setString( __printf("ach ftch all. got info for %lu achievements.", res.data.size() ));
+                for( auto achievement : res.data ) {
+                    CCLOG("%s type:%d state:%d", achievement.Name().c_str(), (int)achievement.Type(), (int)achievement.State() );
+                }
+            } else {
+                _txtStat->setString( __printf("achievements fetch all error %d.", (int)res.status) );
+            }
+            
+        });
+    }
+    
+}
+
+void HelloWorld::achFetch(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().Fetch( gpg::DataSource::CACHE_OR_NETWORK, "CgkI6KjppNEWEAIQBQ", [this](const gpg::AchievementManager::FetchResponse& res) {
+            
+            if ( IsSuccess( res.status ) ) {
+                gpg::Achievement achievement = res.data;
+                _txtStat->setString( __printf("%s type:%d state:%d", achievement.Name().c_str(), (int)achievement.Type(), (int)achievement.State() ) );
+                
+            } else {
+                _txtStat->setString( __printf("achievement all error %d.", (int)res.status) );
+            }
+
+            
+        });
+    }
+}
+
+void HelloWorld::achReveal(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().Increment( "CgkI6KjppNEWEAIQDg" );
+    }
+}
+
+void HelloWorld::achUnlock(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().Unlock( "CgkI6KjppNEWEAIQDg" );
+    }
+}
+
+void HelloWorld::achIncrement(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().Increment( "CgkI6KjppNEWEAIQDg", 2 );
+    }
+}
+
+void HelloWorld::achSetAtLeastSteps(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().SetStepsAtLeast( "CgkI6KjppNEWEAIQDg", 20 );
+    }
+    
 }
 
 

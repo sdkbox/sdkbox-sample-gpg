@@ -1,3 +1,35 @@
+/**
+ * @namespace
+ * @name cc
+ */
+
+/**
+ * @name MenuItemFont
+ * @constructor
+ * @memberOf cc
+ */
+
+/**
+ * @name setString
+ * @type function
+ * @param string
+ * @memberOf MenuItemFont
+ */
+
+/**
+ * @name Menu
+ * @constructor
+ * @memberOf cc
+ */
+
+
+/**
+ *
+ * @type {gpg.GameServices}
+ * @name _game_services
+ */
+var _game_services = null;
+
 
 
 var HelloWorldLayer = cc.Layer.extend({
@@ -115,7 +147,7 @@ var HelloWorldLayer = cc.Layer.extend({
 
             this._login_menu_item,
 
-            new cc.MenuItemFont("Show SnapshotUI", function () {
+            new cc.MenuItemFont("Snp: Show SnapshotUI", function () {
                 if ( me._signed_in ) {
                     _game_services.Snapshots.ShowSelectUIOperation(
                         {
@@ -181,10 +213,10 @@ var HelloWorldLayer = cc.Layer.extend({
                     );
                 }
             }),
-            new cc.MenuItemFont("Fetch all games", function () {
+            new cc.MenuItemFont("Snp: Fetch all games", function () {
                 _game_services.Snapshots.FetchAll(
                     {
-                        datasource : gpg.DataSource.CACHE_OR_NETWORK
+                        data_source : gpg.DataSource.CACHE_OR_NETWORK
                     },
                     function( result ) {
                         if ( gpg.IsSuccess(result.result) ) {
@@ -207,7 +239,7 @@ var HelloWorldLayer = cc.Layer.extend({
                 )
             }),
             
-            new cc.MenuItemFont("Delete ibon_testing game", function () {
+            new cc.MenuItemFont("Snp: Delete ibon_testing game", function () {
 
                 var filename = 'ibon_testing';
 
@@ -219,20 +251,20 @@ var HelloWorldLayer = cc.Layer.extend({
                     }
                 });
             }),
-            new cc.MenuItemFont("Show UI [Best gamers]", function () {
+            new cc.MenuItemFont("Ldb: Show UI [Best gamers]", function () {
 
                 _game_services.Leaderboards.ShowUI("CgkI6KjppNEWEAIQAg");
 
             }),
-            new cc.MenuItemFont("Show All UI", function () {
+            new cc.MenuItemFont("Ldb: Show All UI", function () {
                 _game_services.Leaderboards.ShowAllUI( );
 
             }),
-            new cc.MenuItemFont("Submit random score to [Fastest lap]", function () {
+            new cc.MenuItemFont("Ldb: Submit random score to [Fastest lap]", function () {
                 _game_services.Leaderboards.SubmitScore(
                     {
 
-                        leaderboardId : 'CgkI6KjppNEWEAIQAw',
+                        leaderboard_id : 'CgkI6KjppNEWEAIQAw',
 
                         // currently there's a bug that won't submit the score if metadata is set.
                         metadata : 'sent from cocos js',
@@ -245,11 +277,11 @@ var HelloWorldLayer = cc.Layer.extend({
                     });
 
             }),
-            new cc.MenuItemFont("fetch all score summaries [best gamers]", function () {
+            new cc.MenuItemFont("Ldb: fetch all score summaries [best gamers]", function () {
 
                 _game_services.Leaderboards.FetchAllScoreSummaries(
                     {
-                        leaderboardId : 'CgkI6KjppNEWEAIQAg'
+                        leaderboard_id : 'CgkI6KjppNEWEAIQAg'
                     },
                     /**
                      * @param result {LeaderboardFetchAllScoreSummariesCallbackParams}
@@ -280,7 +312,7 @@ var HelloWorldLayer = cc.Layer.extend({
                     }
                 )
             }),
-            new cc.MenuItemFont("fetch all", function () {
+            new cc.MenuItemFont("Ldb: fetch all", function () {
                 _game_services.Leaderboards.FetchAll(
                     gpg.DataSource.CACHE_OR_NETWORK,
                     /**
@@ -308,11 +340,11 @@ var HelloWorldLayer = cc.Layer.extend({
                     }
                 )
             }),
-            new cc.MenuItemFont("Fetch score page", function () {
+            new cc.MenuItemFont("Ldb: Fetch score page", function () {
 
                 _game_services.Leaderboards.FetchScorePage(
                     {
-                        leaderboardId : 'CgkI6KjppNEWEAIQAg'
+                        leaderboard_id : 'CgkI6KjppNEWEAIQAg'
                     },
                     /**
                      *
@@ -337,7 +369,7 @@ var HelloWorldLayer = cc.Layer.extend({
                     }
                 );
             }),
-            new cc.MenuItemFont("Fetch next score page", function () {
+            new cc.MenuItemFont("Ldb: Fetch next score page", function () {
 
                 _game_services.Leaderboards.FetchNextScorePage(
                     {},
@@ -365,7 +397,19 @@ var HelloWorldLayer = cc.Layer.extend({
                 );
             }),
 
-            new cc.MenuItemFont("Fetch all achievements", function () {
+            new cc.MenuItemFont("Ach: Show UI", function() {
+                // this method has no callback.
+                _game_services.Achievements.ShowAllUI(
+                    /**
+                     *
+                     * @param result {AchievementShowAllUICallbackParams}
+                     */
+                    function( result ) {
+
+                    });
+            }),
+
+            new cc.MenuItemFont("Ach: Fetch all achievements", function () {
                 _game_services.Achievements.FetchAll(
                     gpg.DataSource.CACHE_OR_NETWORK,
                     /**
@@ -391,13 +435,68 @@ var HelloWorldLayer = cc.Layer.extend({
                         }
                     }
                 );
+            }),
+
+            new cc.MenuItemFont("Ach: Fetch achievement 'Incremental'", function() {
+                _game_services.Achievements.Fetch(
+                    {
+                        achievement_id : 'CgkI6KjppNEWEAIQBQ',
+                        data_source : gpg.DataSource.CACHE_OR_NETWORK
+                    },
+                    /**
+                     *
+                     * @param result {AchievementFetchCallbackParams}
+                     */
+                    function( result ) {
+                        if ( gpg.IsSuccess( result.result ) ) {
+                            var a = result.achievement;
+                            me._text.setString(
+                                a.name +
+                                ' type:' + (a.type===gpg.AchievementType.INCREMENTAL ? 'incremental' : 'standard') +
+                                ' state:' + a.state);
+
+                        } else {
+                            me._text.setString("Achievements fetch error: "+ result.result);
+                        }
+                    }
+                );
+            }),
+
+            new cc.MenuItemFont("Ach: Increment achievement", function() {
+                // this method has no callback.
+                _game_services.Achievements.Increment(
+                    {
+                        achievement_id: 'CgkI6KjppNEWEAIQDg',
+                        increment : 1
+                    });
+            }),
+
+            new cc.MenuItemFont("Ach: Set Steps at least achievement", function() {
+                // this method has no callback.
+                _game_services.Achievements.SetStepsAtLeast(
+                    {
+                        achievement_id: 'CgkI6KjppNEWEAIQDg',
+                        increment : 20
+                    });
+            }),
+
+            new cc.MenuItemFont("Ach: Unlock achievement", function() {
+                // this method has no callback.
+                _game_services.Achievements.Unlock('CgkI6KjppNEWEAIQDg');
+            }),
+
+            new cc.MenuItemFont("Ach: Reveal achievement", function() {
+                // this method has no callback.
+                _game_services.Achievements.Reveal('CgkI6KjppNEWEAIQDg');
             })
+
+
 
         );
 
-        menu.alignItemsVerticallyWithPadding(5);
+        menu.alignItemsVerticallyWithPadding(3);
         menu.x = size.width / 2;
-        menu.y = size.height / 2;
+        menu.y = size.height / 2 + 40;
         this.addChild(menu);
 
     }

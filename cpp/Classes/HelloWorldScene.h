@@ -49,6 +49,14 @@ public:
     void ldbSubmitScore(cocos2d::CCObject *sender);
     void ldbShowUI(cocos2d::CCObject *sender);
     void ldbShowAllUI(cocos2d::CCObject *sender);
+    
+    void achShowAllUI(cocos2d::CCObject *sender);
+    void achFetchAll(cocos2d::CCObject *sender);
+    void achFetch(cocos2d::CCObject *sender);
+    void achUnlock(cocos2d::CCObject *sender);
+    void achIncrement(cocos2d::CCObject *sender);
+    void achReveal(cocos2d::CCObject *sender);
+    void achSetAtLeastSteps(cocos2d::CCObject *sender);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

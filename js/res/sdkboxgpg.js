@@ -3,6 +3,112 @@
  */
 
 
+var P_DATA_SOURCE = 'data_source';
+
+var P_SNP_CONFLICT_POLICY = 'conflict_policy';
+var P_SNP_TITLE = 'title';
+var P_SNP_FILE_NAME = 'file_name';
+var P_SNP_DESCRIPTION = 'description';
+var P_SNP_PAGE_SIZE = 10;
+
+var P_LDB_ORDER= 'order';
+var P_LDB_COLLECTION= 'collection';
+var P_LDB_START= 'start';
+var P_LDB_TIME_SPAN= 'time_span';
+var P_LDB_METADATA= 'metadata';
+var P_LDB_SCORE_PAGE_SIZE= 'max_items';
+
+/**
+ * Default parameter field value.
+ * Sets common fields default values if not present on params object.
+ * @param params {object}
+ * @param fields string[]
+ * @private
+ */
+function __dp( params, fields ) {
+
+    if ( typeof params==='undefined' ) {
+        throw new Error('setting def params in undefined object.');
+    }
+
+    if ( arguments.length!==2 ) {
+        throw new Error('__dp called with '+arguments.length+' params.');
+    }
+
+    if ( Object.prototype.toString.call(fields)==='[object Array]') {
+        fields.forEach(function (f) {
+            __dp1(params, f);
+        });
+    } else {
+        __dp1( params, fields );
+    }
+}
+
+function __dp1( params, f ) {
+    switch (f) {
+        case P_DATA_SOURCE:
+            if (typeof params[P_DATA_SOURCE] === 'undefined') {
+                params[P_DATA_SOURCE] = gpg.DataSource.CACHE_OR_NETWORK;
+            }
+            break;
+
+        // Snapshot checks
+        case P_SNP_CONFLICT_POLICY:
+            if ( typeof params[P_SNP_CONFLICT_POLICY]==='undefined' ) {
+               params[P_SNP_CONFLICT_POLICY] = gpg.SnapshotConflictPolicy.DefaultConflictPolicy;
+            }
+            break;
+        case P_SNP_TITLE:
+            if ( typeof params[P_SNP_TITLE]==='undefined' ) {
+               params[P_SNP_TITLE] = 'title';
+            }
+            break;
+        case P_SNP_DESCRIPTION:
+            if ( typeof params[P_SNP_DESCRIPTION]==='undefined' ) {
+               params[P_SNP_DESCRIPTION] = 'Default game description';
+            }
+            break;
+        case P_SNP_PAGE_SIZE:
+            if ( typeof params[P_SNP_PAGE_SIZE]==='undefined' ) {
+               params[P_SNP_PAGE_SIZE] = 10;
+            }
+            break;
+
+        // Leaderboard checks
+        case P_LDB_COLLECTION:
+            if (typeof params[P_LDB_COLLECTION] === 'undefined') {
+                params[P_LDB_COLLECTION] = gpg.LeaderboardCollection.PUBLIC;
+            }
+            break;
+        case P_LDB_ORDER:
+            if (typeof params[P_LDB_ORDER] === 'undefined') {
+                params[P_LDB_ORDER] = gpg.LeaderboardOrder.LARGER_IS_BETTER;
+            }
+            break;
+        case P_LDB_START:
+            if (typeof params[P_LDB_START] === 'undefined') {
+                params[P_LDB_START] = gpg.LeaderboardStart.TOP_SCORES;
+            }
+            break;
+        case P_LDB_TIME_SPAN:
+            if (typeof params[P_LDB_TIME_SPAN] === 'undefined') {
+                params[P_LDB_TIME_SPAN] = gpg.LeaderboardTimeSpan.ALL_TIME;
+            }
+            break;
+        case P_LDB_METADATA:
+            if (typeof params[P_LDB_METADATA] === 'undefined') {
+                params[P_LDB_METADATA] = '';
+            }
+            break;
+        case P_LDB_SCORE_PAGE_SIZE:
+            if (typeof params[P_LDB_SCORE_PAGE_SIZE] === 'undefined') {
+                params[P_LDB_SCORE_PAGE_SIZE] = 10;
+            }
+            break;
+    }
+
+}
+
 /**
  * called from native.
  * @param id {number}
@@ -57,9 +163,9 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGSnapshotWrapper
  * @type function
  * @param index {number}
- * @param filename {string}
+ * @param file_name {string}
  * @param conflict_policy {gpg.SnapshotConflictPolicy}
- * @param datasource {gpg.DataSource}
+ * @param data_source {gpg.DataSource}
  */
 
 /**
@@ -107,8 +213,8 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGLeaderboardWrapper
  * @type function
  * @param callback_id {number}
- * @param leaderboardId {string}
- * @param datasource {gpg.DataSource}
+ * @param leaderboard_id {string}
+ * @param data_source {gpg.DataSource}
  */
 
 /**
@@ -116,7 +222,7 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGLeaderboardWrapper
  * @type function
  * @param callback_id {number}
- * @param datasource {gpg.DataSource}
+ * @param data_source {gpg.DataSource}
  */
 
 /**
@@ -124,8 +230,8 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGLeaderboardWrapper
  * @type function
  * @param callback_id {number}
- * @param datasource {gpg.DataSource}
- * @param leaderboardId {string}
+ * @param data_source {gpg.DataSource}
+ * @param leaderboard_id {string}
  * @param time_span {gpg.LeaderboardTimeSpan}
  * @param collection {gpg.LeaderboardCollection}
  */
@@ -135,8 +241,8 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGLeaderboardWrapper
  * @type function
  * @param callback_id {number}
- * @param datasource {gpg.DataSource}
- * @param leaderboardId {string}
+ * @param data_source {gpg.DataSource}
+ * @param leaderboard_id {string}
  */
 
 /**
@@ -144,7 +250,7 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGLeaderboardWrapper
  * @type function
  * @param callback_id {number}
- * @param leaderboardId {string}
+ * @param leaderboard_id {string}
  * @param score {number}
  * @param metadata? : string
  */
@@ -154,7 +260,7 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGLeaderboardWrapper
  * @type function
  * @param callback_id {number}
- * @param leaderboardId {string}
+ * @param leaderboard_id {string}
  */
 
 /**
@@ -169,8 +275,8 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGLeaderboardWrapper
  * @type function
  * @param callback_id {number}
- * @param leaderboardId {string}
- * @param datasource {gpg.DataSource}
+ * @param leaderboard_id {string}
+ * @param data_source {gpg.DataSource}
  * @param start {gpg.LeaderboardStart}
  * @param time_span {gpg.LeaderboardTimeSpan}
  * @param collection {gpg.LeaderboardCollection}
@@ -182,7 +288,7 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGLeaderboardWrapper
  * @type function
  * @param callback_id {number}
- * @param datasource {gpg.DataSource}
+ * @param data_source {gpg.DataSource}
  * @param max_results {number}
  */
 
@@ -191,7 +297,7 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGLeaderboardWrapper
  * @type function
  * @param callback_id {number}
- * @param datasource {gpg.DataSource}
+ * @param data_source {gpg.DataSource}
  * @param max_results {number}
  */
 
@@ -208,8 +314,8 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGAchievementWrapper
  * @type function
  * @param callback_id {number}
- * @param achievementId {string}
- * @param datasource {gpg.DataSource}
+ * @param achievement_id {string}
+ * @param data_source {gpg.DataSource}
  */
 
 /**
@@ -217,7 +323,44 @@ function __nativeNotify( id, str_json ) {
  * @memberOf _gpg.GPGAchievementWrapper
  * @type function
  * @param callback_id {number}
- * @param datasource {gpg.DataSource}
+ * @param data_source {gpg.DataSource}
+ */
+
+/**
+ * @name ShowAllUI
+ * @memberOf _gpg.GPGAchievementWrapper
+ * @type function
+ * @param callback_id
+ */
+
+/**
+ * @name Increment
+ * @memberOf _gpg.SetStepsAtLeast
+ * @type function
+ * @param achievement_id {string}
+ * @param increment {number}
+ */
+
+/**
+ * @name SetStepsAtLeast
+ * @memberOf _gpg.SetStepsAtLeast
+ * @type function
+ * @param achievement_id {string}
+ * @param increment {number}
+ */
+
+/**
+ * @name Reveal
+ * @memberOf _gpg.SetStepsAtLeast
+ * @type function
+ * @param achievement_id {string}
+ */
+
+/**
+ * @name Unlock
+ * @memberOf _gpg.SetStepsAtLeast
+ * @type function
+ * @param achievement_id {string}
  */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -443,17 +586,17 @@ var LeaderboardFetchScoreSummaryCallbackParams;
  */
 
 /**
- * @typedef {{ datasource? : gpg.DataSource, leaderboardId : string }}
+ * @typedef {{ data_source? : gpg.DataSource, leaderboard_id : string }}
  */
 var LeaderboardFetchParams;
 
 /**
- * @typedef {{ datasource? : gpg.DataSource, timeSpan? : gpg.LeaderboardTimeSpan, collection? : gpg.LeaderboardCollection, leaderboardId : string }}
+ * @typedef {{ data_source? : gpg.DataSource, timeSpan? : gpg.LeaderboardTimeSpan, collection? : gpg.LeaderboardCollection, leaderboard_id : string }}
  */
 var LeaderboardFetchScoreSummaryParams;
 
 /**
- * @typedef {{ datasource? : gpg.DataSource, leaderboardId : string }}
+ * @typedef {{ data_source? : gpg.DataSource, leaderboard_id : string }}
  */
 var LeaderboardFetchAllScoreSummariesParams;
 
@@ -463,12 +606,12 @@ var LeaderboardFetchAllScoreSummariesParams;
 var LeaderboardFetchAllScoreSummariesCallbackParams;
 
 /**
- * @typedef {{ leaderboardId : string, score:number, metadata?:string }}
+ * @typedef {{ leaderboard_id : string, score:number, metadata?:string }}
  */
 var LeaderboardSubmitScoreParams;
 
 /**
- * @typedef {{ leaderboardId:string, data_source?:gpg.DataSource, start?:gpg.LeaderboardStart, time_span?:gpg.LeaderboardTimeSpan, collection?:gpg.LeaderboardCollection, max_items?:number }}
+ * @typedef {{ leaderboard_id:string, data_source?:gpg.DataSource, start?:gpg.LeaderboardStart, time_span?:gpg.LeaderboardTimeSpan, collection?:gpg.LeaderboardCollection, max_items?:number }}
  */
 var LeaderboardFetchScorePageParams;
 
@@ -490,6 +633,56 @@ var LeaderboardFetchOtherScorePageParams;
  * @typedef {{ result : gpg.ResponseStatus, achievement_array: gpg.Achievement[] }}
  */
 var AchievementFetchAllCallbackParams;
+
+/**
+ * @callback AchievementFetchCallback
+ * @param AchievementFetchCallbackParams
+ */
+
+/**
+ * @typedef {{ result : gpg.ResponseStatus, achievement: gpg.Achievement }}
+ */
+var AchievementFetchCallbackParams;
+
+/**
+ * @typedef {{ achievement_id : string, data_source: gpg.DataSource  }}
+ */
+var AchievementFetchParams;
+
+/**
+ * @callback AchievementShowAllUICallback
+ * @param AchievementShowAllUICallbackParams
+ */
+
+/**
+ * @typedef {{ result : gpg.ResponseStatus }}
+ */
+var AchievementShowAllUICallbackParams;
+
+
+/**
+ * @typedef {{ achievement_id : string, increment?: number }}
+ */
+var AchievementIncrementParams;
+
+/**
+ * @typedef {{ achievement_id : string, increment?: number }}
+ */
+var AchievementSetStepsAtLeastParams;
+
+/**
+ * @typedef {{ result : gpg.ResponseStatus }}
+ */
+var AchievementIncrementCallbackParams;
+
+/**
+ * @callback AchievementIncrementCallback
+ * @param AchievementIncrementCallbackParams
+ */
+
+
+
+
 
 /**
  * Main callback management object.
@@ -970,12 +1163,8 @@ var gpg = {
                 if (typeof params.allow_delete === 'undefined') {
                     params.allow_delete = false;
                 }
-                if (typeof params.max_snapshots === 'undefined') {
-                    params.max_snapshots = 10;
-                }
-                if (typeof params.title === 'undefined') {
-                    params.title = 'title';
-                }
+
+                __dp( params, [P_SNP_TITLE, P_SNP_PAGE_SIZE] );
 
                 var index = __callbackManager.addCallback(callback);
                 _gpg.GPGSnapshotWrapper.ShowSelectUIOperation( index, JSON.stringify(params) );
@@ -990,16 +1179,12 @@ var gpg = {
              */
             Load : function( params, callback ) {
 
-                if ( typeof params.filename==='undefined' || !params.filename ) {
+                if ( typeof params[P_SNP_FILE_NAME]==='undefined' || !params[P_SNP_FILE_NAME] ) {
                     __log('Snapshot load has no filename. Will not call');
                     return;
                 }
-                if ( typeof params.conflict_policy==='undefined' ) {
-                    params.conflict_policy = gpg.SnapshotConflictPolicy.DefaultConflictPolicy;
-                }
-                if ( typeof params.datasource==='undefined' ) {
-                    params.datasource = gpg.DataSource.CACHE_OR_NETWORK;
-                }
+
+                __dp( params, [P_SNP_CONFLICT_POLICY, P_DATA_SOURCE]);
 
                 var index = __callbackManager.addCallback(callback);
                 _gpg.GPGSnapshotWrapper.Load( index, params.filename, params.conflict_policy, params.datasource );
@@ -1012,16 +1197,12 @@ var gpg = {
              */
             Save : function( params, callback ) {
 
-                if ( typeof params.filename==='undefined' || typeof params.data==='undefined' ) {
+                if ( typeof params[P_SNP_FILE_NAME]==='undefined' || typeof params.data==='undefined' ) {
                     __log('Snapshot save has no filename or no contents to save. Will not call.');
                     return;
                 }
-                if ( typeof params.conflict_policy==='undefined' ) {
-                    params.conflict_policy = gpg.SnapshotConflictPolicy.DefaultConflictPolicy;
-                }
-                if ( typeof params.description==='undefined' ) {
-                    params.description = 'Default game description.';
-                }
+
+                __dp( params, [P_SNP_CONFLICT_POLICY, P_SNP_DESCRIPTION] );
 
                 var index = __callbackManager.addCallback(callback);
                 _gpg.GPGSnapshotWrapper.Save( index, JSON.stringify(params) );
@@ -1034,9 +1215,7 @@ var gpg = {
              * @constructor
              */
             FetchAll : function( params, callback ) {
-                if ( typeof params.datasource==='undefined' ) {
-                    params.datasource = gpg.DataSource.CACHE_OR_NETWORK;
-                }
+                __dp( params, P_DATA_SOURCE );
 
                 var index = __callbackManager.addCallback(callback);
                 _gpg.GPGSnapshotWrapper.FetchAll( index, JSON.stringify(params) );
@@ -1066,19 +1245,18 @@ var gpg = {
              */
             Fetch : function( params, callback ) {
 
-                if ( typeof params.leaderboardId==='undefined' ) {
+                if ( typeof params.leaderboard_id==='undefined' ) {
                     __log('Leaderboards Fetch needs a leaderboard id. Will not call.');
+                    __log('received params: '+JSON.stringify(params));
                     return;
                 }
 
-                if ( typeof params.datasource==='undefined' ) {
-                    params.datasource = gpg.DataSource.CACHE_OR_NETWORK;
-                }
+                __dp( params, [P_DATA_SOURCE] );
 
                 _gpg.GPGLeaderboardWrapper.Fetch(
                     __callbackManager.addCallback(callback),
-                    params.leaderboardId,
-                    params.datasource );
+                    params.leaderboard_id,
+                    params.data_source );
             },
 
             /**
@@ -1109,26 +1287,18 @@ var gpg = {
              */
             FetchScoreSummary : function( params, callback ) {
 
-                if ( typeof params.leaderboardId ==='undefined' ) {
+                if ( typeof params.leaderboard_id ==='undefined' ) {
                     __log('Leaderboards Fetch score summary needs a leaderboard id. Will not call.');
+                    __log('received params: '+JSON.stringify(params));
+                    return;
                 }
 
-                if ( typeof params.collection==='undefined' ) {
-                    params.collection = gpg.LeaderboardCollection.PUBLIC;
-                }
-
-                if ( typeof params.datasource==='undefined' ) {
-                    params.datasource = gpg.DataSource.CACHE_OR_NETWORK;
-                }
-
-                if ( typeof params.timeSpan==='undefined' ) {
-                    params.timeSpan = gpg.LeaderboardTimeSpan.ALL_TIME;
-                }
+                __dp( params, [P_DATA_SOURCE, P_LDB_COLLECTION, P_LDB_TIME_SPAN]);
 
                 _gpg.GPGLeaderboardWrapper.FetchScoreSummary(
                     __callbackManager.addCallback(callback),
-                    params.datasource,
-                    params.leaderboardId,
+                    params.data_source,
+                    params.leaderboard_id,
                     params.timeSpan,
                     params.collection
                 );
@@ -1142,18 +1312,18 @@ var gpg = {
              * @param callback? {LeaderboardFetchAllScoreSummariesCallback}
              */
             FetchAllScoreSummaries : function( params, callback ) {
-                if ( typeof params.leaderboardId ==='undefined' ) {
+                if ( typeof params.leaderboard_id ==='undefined' ) {
                     __log('Leaderboards Fetch all score summaries needs a leaderboard id. Will not call.');
+                    __log('received params: '+JSON.stringify(params));
+                    return;
                 }
 
-                if ( typeof params.datasource==='undefined' ) {
-                    params.datasource = gpg.DataSource.CACHE_OR_NETWORK;
-                }
+                __dp( params, P_DATA_SOURCE );
 
                 _gpg.GPGLeaderboardWrapper.FetchAllScoreSummaries(
                     __callbackManager.addCallback(callback),
-                    params.datasource,
-                    params.leaderboardId
+                    params.data_source,
+                    params.leaderboard_id
                 );
             },
 
@@ -1169,17 +1339,17 @@ var gpg = {
              */
             SubmitScore : function( params, callback ) {
 
-                if ( typeof params.leaderboardId ==='undefined' || typeof params.score==='undefined' ) {
+                if ( typeof params.leaderboard_id ==='undefined' || typeof params.score==='undefined' ) {
                     __log('Leaderboards submit score needs a leaderboard id and a score. Will not call.');
+                    __log('received params: '+JSON.stringify(params));
+                    return;
                 }
 
-                if ( typeof params.metadata==='undefined' ) {
-                    params.metadata = '';
-                }
+                __dp( params, P_LDB_METADATA );
 
                 _gpg.GPGLeaderboardWrapper.SubmitScore(
                     __callbackManager.addCallback(callback),
-                    params.leaderboardId,
+                    params.leaderboard_id,
                     params.score,
                     params.metadata
                 );
@@ -1225,34 +1395,25 @@ var gpg = {
              * @constructor
              */
             FetchScorePage : function( params, callback ) {
-                if ( typeof params.leaderboardId==='undefined' ) {
+                if ( typeof params.leaderboard_id==='undefined' ) {
                     __log('Leaderboards Fetch Score page needs a leaderboard id and a score. Will not call.');
+                    __log('received params: '+JSON.stringify(params));
                     return;
                 }
 
-                if ( typeof params.collection==='undefined' ) {
-                    params.collection = gpg.LeaderboardCollection.PUBLIC;
-                }
-
-                if ( typeof params.data_source==='undefined' ) {
-                    params.data_source = gpg.DataSource.CACHE_OR_NETWORK;
-                }
-
-                if ( typeof params.max_items==='undefined' ) {
-                    params.max_items = 10;
-                }
-
-                if ( typeof params.start==='undefined' ) {
-                    params.start = gpg.LeaderboardStart.PLAYER_CENTERED;
-                }
-
-                if ( typeof params.time_span==='undefined' ) {
-                    params.time_span = gpg.LeaderboardTimeSpan.ALL_TIME;
-                }
+                __dp(
+                    params,
+                    [
+                        P_DATA_SOURCE,
+                        P_LDB_START,
+                        P_LDB_TIME_SPAN,
+                        P_LDB_COLLECTION,
+                        P_LDB_SCORE_PAGE_SIZE
+                    ] );
 
                 _gpg.GPGLeaderboardWrapper.FetchScorePage(
                     __callbackManager.addCallback(callback),
-                    params.leaderboardId,
+                    params.leaderboard_id,
                     params.data_source,
                     params.start,
                     params.time_span,
@@ -1269,13 +1430,7 @@ var gpg = {
              */
             FetchNextScorePage : function( params, callback ) {
 
-                if ( typeof params.data_source==='undefined' ) {
-                    params.data_source = gpg.DataSource.CACHE_OR_NETWORK;
-                }
-
-                if ( typeof params.max_items==='undefined' ) {
-                    params.max_items = 10;
-                }
+                __dp( params, [ P_DATA_SOURCE, P_LDB_SCORE_PAGE_SIZE ]);
 
                 _gpg.GPGLeaderboardWrapper.FetchNextScorePage(
                     __callbackManager.addCallback(callback),
@@ -1292,13 +1447,7 @@ var gpg = {
              */
             FetchPreviousScorePage : function( params, callback ) {
 
-                if ( typeof params.data_source==='undefined' ) {
-                    params.data_source = gpg.DataSource.CACHE_OR_NETWORK;
-                }
-
-                if ( typeof params.max_items==='undefined' ) {
-                    params.max_items = 10;
-                }
+                __dp( params, [ P_DATA_SOURCE, P_LDB_SCORE_PAGE_SIZE ]);
 
                 _gpg.GPGLeaderboardWrapper.FetchPreviousScorePage(
                     __callbackManager.addCallback(callback),
@@ -1319,6 +1468,98 @@ var gpg = {
                 _gpg.GPGAchievementWrapper.FetchAll(
                     __callbackManager.addCallback(callback),
                     datasource);
+            },
+
+            /**
+             * Asynchronously loads data for a specific achievement for the currently
+             * signed-in player. Calls the provided <code>FetchCallback</code> on
+             * operation completion.
+             *
+             * if params.data_source is not set, it will default to <code>CACHE_OR_NETWORK</code>.
+             *
+             * @param params {AchievementFetchParams}
+             * @param callback {AchievementFetchCallback}
+             */
+            Fetch : function( params, callback ) {
+
+                __dp( params, P_DATA_SOURCE );
+
+                _gpg.GPGAchievementWrapper.Fetch(
+                    __callbackManager.addCallback(callback),
+                    params.achievement_id,
+                    params.data_source);
+            },
+
+            /**
+             * Presents to the user a UI that displays information about all achievements.
+             * It asynchronously calls <code>ShowAllUICallback</code>.
+             * @param callback {AchievementShowAllUICallbackParams}
+             * @constructor
+             */
+            ShowAllUI : function( callback ) {
+                _gpg.GPGAchievementWrapper.ShowAllUI(__callbackManager.addCallback(callback));
+            },
+
+            /**
+             * Increments an achievement by the given number of steps. Leaving the
+             * increment undefined causes its value to default to 1. The achievement
+             * must be an incremental achievement. Once an achievement reaches the
+             * maximum number of steps, it is unlocked automatically. Any further
+             * increments are ignored.
+             *
+             * This method has no callback.
+             *
+             * @param params {AchievementIncrementParams}
+             * @constructor
+             */
+            Increment : function( params ) {
+                if ( typeof params.increment==='undefined' ) {
+                    params.increment = 1;
+                }
+
+                _gpg.GPGAchievementWrapper.Increment(
+                    params.achievement_id,
+                    params.increment );
+            },
+
+            /**
+             * Set an achievement to have at least the given number of steps completed.
+             * Calling this method while the achievement already has more steps than the
+             * provided value is a no-op. Once the achievement reaches the maximum number
+             * of steps, the achievement is automatically unlocked, and any further
+             * mutation operations are ignored.
+             *
+             * @param params {AchievementSetStepsAtLeastParams}
+             */
+            SetStepsAtLeast : function( params ) {
+                if ( typeof params.increment==='undefined' ) {
+                    params.increment = 1;
+                }
+
+                _gpg.GPGAchievementWrapper.SetStepsAtLeast(
+                    params.achievement_id,
+                    params.increment
+                );
+            },
+
+            /**
+             * Reveal a hidden achievement to the currently signed-in player. If the
+             * achievement has already been unlocked, this will have no effect.
+             *
+             * @param achievement_id {string}
+             */
+            Reveal : function( achievement_id ) {
+                _gpg.GPGAchievementWrapper.Reveal( achievement_id );
+            },
+
+            /**
+             * Unlocks an achievement for the currently signed in player. If the
+             * achievement is hidden, the SDK reveals it, as well.
+             *
+             * @param achievement_id {string}
+             */
+            Unlock : function( achievement_id ) {
+                _gpg.GPGAchievementWrapper.Unlock( achievement_id );
             }
         }
     }
@@ -1722,7 +1963,7 @@ gpg.ScorePage.prototype = {
     collection : gpg.LeaderboardCollection.INVALID,
 
     /**
-     * @type gpg.ScorePage.Entry
+     * @type gpg.ScorePage.Entry[]
      */
     entries : null,
 
@@ -1736,5 +1977,3 @@ gpg.ScorePage.prototype = {
      */
     hasPreviousScorePage : false
 };
-
-var _game_services = null;

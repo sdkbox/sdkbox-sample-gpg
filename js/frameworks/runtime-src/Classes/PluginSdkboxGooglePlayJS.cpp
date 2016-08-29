@@ -2097,13 +2097,11 @@ bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal(JSContext *cx, uin
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    if (argc == 2) {
-        int arg0;
-        std::string arg1;
-        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
-        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
         JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal : Error processing arguments");
-        sdkbox::GPGAchievementWrapper::Reveal(arg0, arg1);
+        sdkbox::GPGAchievementWrapper::Reveal(arg0);
         args.rval().setUndefined();
         return true;
     }
@@ -2115,13 +2113,11 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal(JSContext *cx, u
 {
     jsval *argv = JS_ARGV(cx, vp);
     JSBool ok = JS_TRUE;
-    if (argc == 2) {
-        int arg0;
-        std::string arg1;
-        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
-        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
-        sdkbox::GPGAchievementWrapper::Reveal(arg0, arg1);
+        sdkbox::GPGAchievementWrapper::Reveal(arg0);
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
@@ -2134,13 +2130,11 @@ bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock(JSContext *cx, uin
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    if (argc == 2) {
-        int arg0;
-        std::string arg1;
-        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
-        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
         JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock : Error processing arguments");
-        sdkbox::GPGAchievementWrapper::Unlock(arg0, arg1);
+        sdkbox::GPGAchievementWrapper::Unlock(arg0);
         args.rval().setUndefined();
         return true;
     }
@@ -2152,13 +2146,11 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock(JSContext *cx, u
 {
     jsval *argv = JS_ARGV(cx, vp);
     JSBool ok = JS_TRUE;
-    if (argc == 2) {
-        int arg0;
-        std::string arg1;
-        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
-        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
-        sdkbox::GPGAchievementWrapper::Unlock(arg0, arg1);
+        sdkbox::GPGAchievementWrapper::Unlock(arg0);
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
@@ -2204,15 +2196,13 @@ bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast(JSContext
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    if (argc == 3) {
-        int arg0;
-        std::string arg1;
-        unsigned int arg2;
-        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
-        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
-        ok &= jsval_to_uint32(cx, args.get(2), &arg2);
+    if (argc == 2) {
+        std::string arg0;
+        unsigned int arg1;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_uint32(cx, args.get(1), &arg1);
         JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast : Error processing arguments");
-        sdkbox::GPGAchievementWrapper::SetStepsAtLeast(arg0, arg1, arg2);
+        sdkbox::GPGAchievementWrapper::SetStepsAtLeast(arg0, arg1);
         args.rval().setUndefined();
         return true;
     }
@@ -2224,15 +2214,13 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast(JSConte
 {
     jsval *argv = JS_ARGV(cx, vp);
     JSBool ok = JS_TRUE;
-    if (argc == 3) {
-        int arg0;
-        std::string arg1;
-        unsigned int arg2;
-        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
-        ok &= jsval_to_std_string(cx, argv[1], &arg1);
-        ok &= jsval_to_uint32(cx, argv[2], &arg2);
+    if (argc == 2) {
+        std::string arg0;
+        unsigned int arg1;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        ok &= jsval_to_uint32(cx, argv[1], &arg1);
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
-        sdkbox::GPGAchievementWrapper::SetStepsAtLeast(arg0, arg1, arg2);
+        sdkbox::GPGAchievementWrapper::SetStepsAtLeast(arg0, arg1);
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
@@ -2245,15 +2233,13 @@ bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment(JSContext *cx, 
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    if (argc == 3) {
-        int arg0;
-        std::string arg1;
-        unsigned int arg2;
-        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
-        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
-        ok &= jsval_to_uint32(cx, args.get(2), &arg2);
+    if (argc == 2) {
+        std::string arg0;
+        unsigned int arg1;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_uint32(cx, args.get(1), &arg1);
         JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment : Error processing arguments");
-        sdkbox::GPGAchievementWrapper::Increment(arg0, arg1, arg2);
+        sdkbox::GPGAchievementWrapper::Increment(arg0, arg1);
         args.rval().setUndefined();
         return true;
     }
@@ -2265,15 +2251,13 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment(JSContext *cx
 {
     jsval *argv = JS_ARGV(cx, vp);
     JSBool ok = JS_TRUE;
-    if (argc == 3) {
-        int arg0;
-        std::string arg1;
-        unsigned int arg2;
-        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
-        ok &= jsval_to_std_string(cx, argv[1], &arg1);
-        ok &= jsval_to_uint32(cx, argv[2], &arg2);
+    if (argc == 2) {
+        std::string arg0;
+        unsigned int arg1;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        ok &= jsval_to_uint32(cx, argv[1], &arg1);
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
-        sdkbox::GPGAchievementWrapper::Increment(arg0, arg1, arg2);
+        sdkbox::GPGAchievementWrapper::Increment(arg0, arg1);
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
@@ -2286,13 +2270,15 @@ bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch(JSContext *cx, uint
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    if (argc == 2) {
+    if (argc == 3) {
         int arg0;
         std::string arg1;
+        int arg2;
         ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
         ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
         JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch : Error processing arguments");
-        sdkbox::GPGAchievementWrapper::Fetch(arg0, arg1);
+        sdkbox::GPGAchievementWrapper::Fetch(arg0, arg1, arg2);
         args.rval().setUndefined();
         return true;
     }
@@ -2304,13 +2290,15 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch(JSContext *cx, ui
 {
     jsval *argv = JS_ARGV(cx, vp);
     JSBool ok = JS_TRUE;
-    if (argc == 2) {
+    if (argc == 3) {
         int arg0;
         std::string arg1;
+        int arg2;
         ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
         ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
-        sdkbox::GPGAchievementWrapper::Fetch(arg0, arg1);
+        sdkbox::GPGAchievementWrapper::Fetch(arg0, arg1, arg2);
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
@@ -2370,12 +2358,12 @@ void js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(JSContext *cx, J
 
     static JSFunctionSpec st_funcs[] = {
         JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Reveal", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Unlock", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Reveal", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Unlock", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("SetStepsAtLeast", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SetStepsAtLeast", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
@@ -2436,12 +2424,12 @@ void js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(JSContext *cx, J
 
     static JSFunctionSpec st_funcs[] = {
         JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Reveal", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Unlock", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Reveal", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Unlock", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("SetStepsAtLeast", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SetStepsAtLeast", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
@@ -2493,12 +2481,12 @@ void js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(JSContext *cx, J
 
     static JSFunctionSpec st_funcs[] = {
         JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_FetchAll, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Reveal", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Unlock", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Reveal", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Reveal, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Unlock", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Unlock, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("SetStepsAtLeast", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SetStepsAtLeast", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_SetStepsAtLeast, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
