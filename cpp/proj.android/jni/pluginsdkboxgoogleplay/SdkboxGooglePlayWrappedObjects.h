@@ -89,13 +89,17 @@ namespace sdkbox {
     class GPGAchievementWrapper {
     public:
         
-        static void Fetch( int callback_id, const std::string& achievement_id );
+        static void Fetch( int callback_id, const std::string& achievement_id, int datasource );
         static void FetchAll( int callback_id, int datasource );
-        static void Increment( int callback_id, const std::string& achievement_id, uint32_t steps );
-        static void Reveal( int callback_id, const std::string& achievement_id );
-        static void SetStepsAtLeast(int callback_id, std::string const &achievement_id, uint32_t steps);
-        static void Unlock(int callback_id, std::string const &achievement_id );
         static void ShowAllUI(int callback_id );
+
+        // these methods have no native callback.
+        
+        static void Increment( const std::string& achievement_id, uint32_t steps );
+        static void Reveal( const std::string& achievement_id );
+        static void SetStepsAtLeast(std::string const &achievement_id, uint32_t steps);
+        static void Unlock(std::string const &achievement_id );
+        
     };
 }
 
