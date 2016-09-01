@@ -662,7 +662,7 @@ var HelloWorldLayer = cc.Layer.extend({
                                         " visibility: " + e.visibility);
                                 }
                             );
-                            me._text.setString("Events fetch all got: "+ result.data.length + "elements.");
+                            me._text.setString("Events fetch all got: "+ Object.keys(result.data).length + "elements.");
                         } else {
                             me._text.setString("Events fetch all error: "+ result.result);
                         }
