@@ -107,6 +107,240 @@ static JSBool empty_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
     return JS_FALSE;
 }
 #endif
+JSClass  *jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class;
+JSObject *jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype;
+
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::CreateRealTimeRoom(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::CreateRealTimeRoom(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+
+
+void js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (GPGRealTimeMultiplayerWrapper)", obj);
+    js_proxy_t* nproxy;
+    js_proxy_t* jsproxy;
+
+#if (COCOS2D_VERSION >= 0x00031000)
+    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
+    JS::RootedObject jsobj(cx, obj);
+    jsproxy = jsb_get_js_proxy(jsobj);
+#else
+    jsproxy = jsb_get_js_proxy(obj);
+#endif
+
+    if (jsproxy) {
+        nproxy = jsb_get_native_proxy(jsproxy->ptr);
+
+        sdkbox::GPGRealTimeMultiplayerWrapper *nobj = static_cast<sdkbox::GPGRealTimeMultiplayerWrapper *>(nproxy->ptr);
+        if (nobj)
+            delete nobj;
+        
+        jsb_remove_proxy(nproxy, jsproxy);
+    }
+}
+
+#if defined(MOZJS_MAJOR_VERSION)
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JS::HandleObject global) {
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->name = "GPGRealTimeMultiplayerWrapper";
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_finalize;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("CreateRealTimeRoom", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype = JS_InitClass(
+        cx, global,
+        JS::NullPtr(), // parent proto
+        jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class,
+        dummy_constructor<sdkbox::GPGRealTimeMultiplayerWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGRealTimeMultiplayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+#if (COCOS2D_VERSION >= 0x00031000)
+    JS::RootedObject proto(cx, jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype);
+    jsb_register_class<sdkbox::GPGRealTimeMultiplayerWrapper>(cx, jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class, proto, JS::NullPtr());
+#else
+    TypeTest<sdkbox::GPGRealTimeMultiplayerWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class;
+        p->proto = jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+#endif
+}
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->name = "GPGRealTimeMultiplayerWrapper";
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_finalize;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        {"__nativeObj", 0, JSPROP_ENUMERATE | JSPROP_PERMANENT, JSOP_WRAPPER(js_is_native_obj), JSOP_NULLWRAPPER},
+        {0, 0, 0, JSOP_NULLWRAPPER, JSOP_NULLWRAPPER}
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("CreateRealTimeRoom", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class,
+        dummy_constructor<sdkbox::GPGRealTimeMultiplayerWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGRealTimeMultiplayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGRealTimeMultiplayerWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class;
+        p->proto = jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+#endif
+#elif defined(JS_VERSION)
+void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->name = "GPGRealTimeMultiplayerWrapper";
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->delProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_finalize;
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    JSPropertySpec *properties = NULL;
+
+    JSFunctionSpec *funcs = NULL;
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("CreateRealTimeRoom", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class,
+        dummy_constructor<sdkbox::GPGRealTimeMultiplayerWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+    JSBool found;
+    JS_SetPropertyAttributes(cx, global, "GPGRealTimeMultiplayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGRealTimeMultiplayerWrapper> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class;
+        p->proto = jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype;
+        p->parentProto = NULL;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
+}
+#endif
 JSClass  *jsb_sdkbox_GPGWrapper_class;
 JSObject *jsb_sdkbox_GPGWrapper_prototype;
 
@@ -462,212 +696,39 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JSObject *gl
     }
 }
 #endif
-JSClass  *jsb_sdkbox_GPGLocalPlayerWrapper_class;
-JSObject *jsb_sdkbox_GPGLocalPlayerWrapper_prototype;
+JSClass  *jsb_sdkbox_GPGPlayerWrapper_class;
+JSObject *jsb_sdkbox_GPGPlayerWrapper_prototype;
 
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentLevel(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::CurrentLevel();
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentLevel : wrong number of arguments");
-    return false;
-}
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentLevel(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::CurrentLevel();
-        jsval jsret;
-        jsret = std_string_to_jsval(cx, ret);
-        JS_SET_RVAL(cx, vp, jsret);
-        return JS_TRUE;
-    }
-    JS_ReportError(cx, "wrong number of arguments");
-    return JS_FALSE;
-}
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Name(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::Name();
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Name : wrong number of arguments");
-    return false;
-}
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Name(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::Name();
-        jsval jsret;
-        jsret = std_string_to_jsval(cx, ret);
-        JS_SET_RVAL(cx, vp, jsret);
-        return JS_TRUE;
-    }
-    JS_ReportError(cx, "wrong number of arguments");
-    return JS_FALSE;
-}
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_AvatarUrl(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyConnected(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    if (argc == 1) {
+    if (argc == 2) {
         int arg0;
+        int arg1;
         ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
-        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_AvatarUrl : Error processing arguments");
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::AvatarUrl(arg0);
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_AvatarUrl : wrong number of arguments");
-    return false;
-}
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_AvatarUrl(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    jsval *argv = JS_ARGV(cx, vp);
-    JSBool ok = JS_TRUE;
-    if (argc == 1) {
-        int arg0;
-        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
-        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::AvatarUrl(arg0);
-        jsval jsret;
-        jsret = std_string_to_jsval(cx, ret);
-        JS_SET_RVAL(cx, vp, jsret);
-        return JS_TRUE;
-    }
-    JS_ReportError(cx, "wrong number of arguments");
-    return JS_FALSE;
-}
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        long long ret = sdkbox::GPGLocalPlayerWrapper::LastLevelUpTime();
-        jsval jsret = JSVAL_NULL;
-        jsret = long_long_to_jsval(cx, ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime : wrong number of arguments");
-    return false;
-}
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    if (argc == 0) {
-        int64_t ret = sdkbox::GPGLocalPlayerWrapper::LastLevelUpTime();
-        jsval jsret;
-        jsret = long_long_to_jsval(cx, ret);
-        JS_SET_RVAL(cx, vp, jsret);
-        return JS_TRUE;
-    }
-    JS_ReportError(cx, "wrong number of arguments");
-    return JS_FALSE;
-}
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Title(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::Title();
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Title : wrong number of arguments");
-    return false;
-}
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Title(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::Title();
-        jsval jsret;
-        jsret = std_string_to_jsval(cx, ret);
-        JS_SET_RVAL(cx, vp, jsret);
-        return JS_TRUE;
-    }
-    JS_ReportError(cx, "wrong number of arguments");
-    return JS_FALSE;
-}
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        long long ret = sdkbox::GPGLocalPlayerWrapper::CurrentXP();
-        jsval jsret = JSVAL_NULL;
-        jsret = long_long_to_jsval(cx, ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP : wrong number of arguments");
-    return false;
-}
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    if (argc == 0) {
-        int64_t ret = sdkbox::GPGLocalPlayerWrapper::CurrentXP();
-        jsval jsret;
-        jsret = long_long_to_jsval(cx, ret);
-        JS_SET_RVAL(cx, vp, jsret);
-        return JS_TRUE;
-    }
-    JS_ReportError(cx, "wrong number of arguments");
-    return JS_FALSE;
-}
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    bool ok = true;
-    if (argc == 1) {
-        int arg0;
-        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
-        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch : Error processing arguments");
-        sdkbox::GPGLocalPlayerWrapper::Fetch(arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyConnected : Error processing arguments");
+        sdkbox::GPGPlayerWrapper::FetchRecentlyConnected(arg0, arg1);
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch : wrong number of arguments");
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyConnected : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyConnected(JSContext *cx, uint32_t argc, jsval *vp)
 {
     jsval *argv = JS_ARGV(cx, vp);
     JSBool ok = JS_TRUE;
-    if (argc == 1) {
+    if (argc == 2) {
         int arg0;
+        int arg1;
         ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
-        sdkbox::GPGLocalPlayerWrapper::Fetch(arg0);
+        sdkbox::GPGPlayerWrapper::FetchRecentlyConnected(arg0, arg1);
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
@@ -676,27 +737,36 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch(JSContext *cx, ui
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_HasLevelInfo(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyInvitable(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        bool ret = sdkbox::GPGLocalPlayerWrapper::HasLevelInfo();
-        jsval jsret = JSVAL_NULL;
-        jsret = BOOLEAN_TO_JSVAL(ret);
-        args.rval().set(jsret);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyInvitable : Error processing arguments");
+        sdkbox::GPGPlayerWrapper::FetchRecentlyInvitable(arg0, arg1);
+        args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_HasLevelInfo : wrong number of arguments");
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyInvitable : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_HasLevelInfo(JSContext *cx, uint32_t argc, jsval *vp)
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyInvitable(JSContext *cx, uint32_t argc, jsval *vp)
 {
-    if (argc == 0) {
-        bool ret = sdkbox::GPGLocalPlayerWrapper::HasLevelInfo();
-        jsval jsret;
-        jsret = BOOLEAN_TO_JSVAL(ret);
-        JS_SET_RVAL(cx, vp, jsret);
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGPlayerWrapper::FetchRecentlyInvitable(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
     JS_ReportError(cx, "wrong number of arguments");
@@ -704,27 +774,40 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_HasLevelInfo(JSContext 
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_NextLevel(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::NextLevel();
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
-        args.rval().set(jsret);
+    bool ok = true;
+    if (argc == 3) {
+        int arg0;
+        int arg1;
+        std::string arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        ok &= jsval_to_std_string(cx, args.get(2), &arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_Fetch : Error processing arguments");
+        sdkbox::GPGPlayerWrapper::Fetch(arg0, arg1, arg2);
+        args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_NextLevel : wrong number of arguments");
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_Fetch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_NextLevel(JSContext *cx, uint32_t argc, jsval *vp)
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
 {
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::NextLevel();
-        jsval jsret;
-        jsret = std_string_to_jsval(cx, ret);
-        JS_SET_RVAL(cx, vp, jsret);
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        int arg0;
+        int arg1;
+        std::string arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        ok &= jsval_to_std_string(cx, argv[2], &arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGPlayerWrapper::Fetch(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
     JS_ReportError(cx, "wrong number of arguments");
@@ -732,27 +815,73 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_NextLevel(JSContext *cx
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Id(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyPlayed(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::Id();
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
-        args.rval().set(jsret);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyPlayed : Error processing arguments");
+        sdkbox::GPGPlayerWrapper::FetchRecentlyPlayed(arg0, arg1);
+        args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Id : wrong number of arguments");
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyPlayed : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Id(JSContext *cx, uint32_t argc, jsval *vp)
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyPlayed(JSContext *cx, uint32_t argc, jsval *vp)
 {
-    if (argc == 0) {
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::Id();
-        jsval jsret;
-        jsret = std_string_to_jsval(cx, ret);
-        JS_SET_RVAL(cx, vp, jsret);
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGPlayerWrapper::FetchRecentlyPlayed(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchSelf(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchSelf : Error processing arguments");
+        sdkbox::GPGPlayerWrapper::FetchSelf(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchSelf : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchSelf(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGPlayerWrapper::FetchSelf(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
     JS_ReportError(cx, "wrong number of arguments");
@@ -761,8 +890,8 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Id(JSContext *cx, uint3
 #endif
 
 
-void js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
-    CCLOGINFO("jsbindings: finalizing JS object %p (GPGLocalPlayerWrapper)", obj);
+void js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (GPGPlayerWrapper)", obj);
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
@@ -777,7 +906,7 @@ void js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize(JSFreeOp *fop, J
     if (jsproxy) {
         nproxy = jsb_get_native_proxy(jsproxy->ptr);
 
-        sdkbox::GPGLocalPlayerWrapper *nobj = static_cast<sdkbox::GPGLocalPlayerWrapper *>(nproxy->ptr);
+        sdkbox::GPGPlayerWrapper *nobj = static_cast<sdkbox::GPGPlayerWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
         
@@ -787,18 +916,18 @@ void js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize(JSFreeOp *fop, J
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
-void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGLocalPlayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->name = "GPGLocalPlayerWrapper";
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->addProperty = JS_PropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->delProperty = JS_DeletePropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->getProperty = JS_PropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->setProperty = JS_StrictPropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->enumerate = JS_EnumerateStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->resolve = JS_ResolveStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->convert = JS_ConvertStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+void js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(JSContext *cx, JS::HandleObject global) {
+    jsb_sdkbox_GPGPlayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGPlayerWrapper_class->name = "GPGPlayerWrapper";
+    jsb_sdkbox_GPGPlayerWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_finalize;
+    jsb_sdkbox_GPGPlayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
 
     static JSPropertySpec properties[] = {
         JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
@@ -810,24 +939,19 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, J
     };
 
     static JSFunctionSpec st_funcs[] = {
-        JS_FN("CurrentLevel", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentLevel, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Name", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Name, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("AvatarUrl", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_AvatarUrl, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("LastLevelUpTime", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Title", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Title, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("CurrentXP", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("HasLevelInfo", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_HasLevelInfo, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("NextLevel", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_NextLevel, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Id", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Id, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchRecentlyConnected", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyConnected, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchRecentlyInvitable", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyInvitable, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_Fetch, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchRecentlyPlayed", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyPlayed, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchSelf", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchSelf, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGLocalPlayerWrapper_prototype = JS_InitClass(
+    jsb_sdkbox_GPGPlayerWrapper_prototype = JS_InitClass(
         cx, global,
         JS::NullPtr(), // parent proto
-        jsb_sdkbox_GPGLocalPlayerWrapper_class,
-        dummy_constructor<sdkbox::GPGLocalPlayerWrapper>, 0, // no constructor
+        jsb_sdkbox_GPGPlayerWrapper_class,
+        dummy_constructor<sdkbox::GPGPlayerWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
@@ -835,39 +959,39 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, J
     // make the class enumerable in the registered namespace
 //  bool found;
 //FIXME: Removed in Firefox v27 
-//  JS_SetPropertyAttributes(cx, global, "GPGLocalPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+//  JS_SetPropertyAttributes(cx, global, "GPGPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
 #if (COCOS2D_VERSION >= 0x00031000)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGLocalPlayerWrapper_prototype);
-    jsb_register_class<sdkbox::GPGLocalPlayerWrapper>(cx, jsb_sdkbox_GPGLocalPlayerWrapper_class, proto, JS::NullPtr());
+    JS::RootedObject proto(cx, jsb_sdkbox_GPGPlayerWrapper_prototype);
+    jsb_register_class<sdkbox::GPGPlayerWrapper>(cx, jsb_sdkbox_GPGPlayerWrapper_class, proto, JS::NullPtr());
 #else
-    TypeTest<sdkbox::GPGLocalPlayerWrapper> t;
+    TypeTest<sdkbox::GPGPlayerWrapper> t;
     js_type_class_t *p;
     std::string typeName = t.s_name();
     if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
-        p->jsclass = jsb_sdkbox_GPGLocalPlayerWrapper_class;
-        p->proto = jsb_sdkbox_GPGLocalPlayerWrapper_prototype;
+        p->jsclass = jsb_sdkbox_GPGPlayerWrapper_class;
+        p->proto = jsb_sdkbox_GPGPlayerWrapper_prototype;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
 }
 #else
-void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, JSObject *global) {
-    jsb_sdkbox_GPGLocalPlayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->name = "GPGLocalPlayerWrapper";
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->addProperty = JS_PropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->delProperty = JS_DeletePropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->getProperty = JS_PropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->setProperty = JS_StrictPropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->enumerate = JS_EnumerateStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->resolve = JS_ResolveStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->convert = JS_ConvertStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+void js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGPlayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGPlayerWrapper_class->name = "GPGPlayerWrapper";
+    jsb_sdkbox_GPGPlayerWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_finalize;
+    jsb_sdkbox_GPGPlayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
 
     static JSPropertySpec properties[] = {
         {"__nativeObj", 0, JSPROP_ENUMERATE | JSPROP_PERMANENT, JSOP_WRAPPER(js_is_native_obj), JSOP_NULLWRAPPER},
@@ -879,24 +1003,19 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, J
     };
 
     static JSFunctionSpec st_funcs[] = {
-        JS_FN("CurrentLevel", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentLevel, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Name", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Name, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("AvatarUrl", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_AvatarUrl, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("LastLevelUpTime", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Title", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Title, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("CurrentXP", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("HasLevelInfo", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_HasLevelInfo, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("NextLevel", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_NextLevel, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Id", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Id, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchRecentlyConnected", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyConnected, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchRecentlyInvitable", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyInvitable, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_Fetch, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchRecentlyPlayed", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyPlayed, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchSelf", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchSelf, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGLocalPlayerWrapper_prototype = JS_InitClass(
+    jsb_sdkbox_GPGPlayerWrapper_prototype = JS_InitClass(
         cx, global,
         NULL, // parent proto
-        jsb_sdkbox_GPGLocalPlayerWrapper_class,
-        dummy_constructor<sdkbox::GPGLocalPlayerWrapper>, 0, // no constructor
+        jsb_sdkbox_GPGPlayerWrapper_class,
+        dummy_constructor<sdkbox::GPGPlayerWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
@@ -904,77 +1023,72 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, J
     // make the class enumerable in the registered namespace
 //  bool found;
 //FIXME: Removed in Firefox v27 
-//  JS_SetPropertyAttributes(cx, global, "GPGLocalPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+//  JS_SetPropertyAttributes(cx, global, "GPGPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-    TypeTest<sdkbox::GPGLocalPlayerWrapper> t;
+    TypeTest<sdkbox::GPGPlayerWrapper> t;
     js_type_class_t *p;
     std::string typeName = t.s_name();
     if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
-        p->jsclass = jsb_sdkbox_GPGLocalPlayerWrapper_class;
-        p->proto = jsb_sdkbox_GPGLocalPlayerWrapper_prototype;
+        p->jsclass = jsb_sdkbox_GPGPlayerWrapper_class;
+        p->proto = jsb_sdkbox_GPGPlayerWrapper_prototype;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 }
 #endif
 #elif defined(JS_VERSION)
-void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, JSObject *global) {
-    jsb_sdkbox_GPGLocalPlayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->name = "GPGLocalPlayerWrapper";
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->addProperty = JS_PropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->delProperty = JS_PropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->getProperty = JS_PropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->setProperty = JS_StrictPropertyStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->enumerate = JS_EnumerateStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->resolve = JS_ResolveStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->convert = JS_ConvertStub;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize;
-    jsb_sdkbox_GPGLocalPlayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+void js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGPlayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGPlayerWrapper_class->name = "GPGPlayerWrapper";
+    jsb_sdkbox_GPGPlayerWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->delProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGPlayerWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_finalize;
+    jsb_sdkbox_GPGPlayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
 
     JSPropertySpec *properties = NULL;
 
     JSFunctionSpec *funcs = NULL;
 
     static JSFunctionSpec st_funcs[] = {
-        JS_FN("CurrentLevel", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentLevel, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Name", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Name, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("AvatarUrl", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_AvatarUrl, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("LastLevelUpTime", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Title", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Title, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("CurrentXP", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("HasLevelInfo", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_HasLevelInfo, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("NextLevel", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_NextLevel, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Id", js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Id, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchRecentlyConnected", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyConnected, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchRecentlyInvitable", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyInvitable, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_Fetch, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchRecentlyPlayed", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyPlayed, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchSelf", js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchSelf, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGLocalPlayerWrapper_prototype = JS_InitClass(
+    jsb_sdkbox_GPGPlayerWrapper_prototype = JS_InitClass(
         cx, global,
         NULL, // parent proto
-        jsb_sdkbox_GPGLocalPlayerWrapper_class,
-        dummy_constructor<sdkbox::GPGLocalPlayerWrapper>, 0, // no constructor
+        jsb_sdkbox_GPGPlayerWrapper_class,
+        dummy_constructor<sdkbox::GPGPlayerWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
     // make the class enumerable in the registered namespace
     JSBool found;
-    JS_SetPropertyAttributes(cx, global, "GPGLocalPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+    JS_SetPropertyAttributes(cx, global, "GPGPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-    TypeTest<sdkbox::GPGLocalPlayerWrapper> t;
+    TypeTest<sdkbox::GPGPlayerWrapper> t;
     js_type_class_t *p;
     uint32_t typeId = t.s_id();
     HASH_FIND_INT(_js_global_type_ht, &typeId, p);
     if (!p) {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->type = typeId;
-        p->jsclass = jsb_sdkbox_GPGLocalPlayerWrapper_class;
-        p->proto = jsb_sdkbox_GPGLocalPlayerWrapper_prototype;
+        p->jsclass = jsb_sdkbox_GPGPlayerWrapper_class;
+        p->proto = jsb_sdkbox_GPGPlayerWrapper_prototype;
         p->parentProto = NULL;
         HASH_ADD_INT(_js_global_type_ht, type, p);
     }
@@ -2518,6 +2632,1080 @@ void js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(JSContext *cx, J
     }
 }
 #endif
+JSClass  *jsb_sdkbox_GPGQuestsWrapper_class;
+JSObject *jsb_sdkbox_GPGQuestsWrapper_prototype;
+
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList : Error processing arguments");
+        sdkbox::GPGQuestsWrapper::FetchList(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList : Error processing arguments");
+        sdkbox::GPGQuestsWrapper::FetchList(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGQuestsWrapper::FetchList(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGQuestsWrapper::FetchList(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Accept(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Accept : Error processing arguments");
+        sdkbox::GPGQuestsWrapper::Accept(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Accept : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Accept(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGQuestsWrapper::Accept(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowAllUI : Error processing arguments");
+        sdkbox::GPGQuestsWrapper::ShowAllUI(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowAllUI : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGQuestsWrapper::ShowAllUI(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowUI : Error processing arguments");
+        sdkbox::GPGQuestsWrapper::ShowUI(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowUI : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGQuestsWrapper::ShowUI(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ClaimMilestone(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ClaimMilestone : Error processing arguments");
+        sdkbox::GPGQuestsWrapper::ClaimMilestone(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ClaimMilestone : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ClaimMilestone(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGQuestsWrapper::ClaimMilestone(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch : Error processing arguments");
+        sdkbox::GPGQuestsWrapper::Fetch(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch : Error processing arguments");
+        sdkbox::GPGQuestsWrapper::Fetch(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGQuestsWrapper::Fetch(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGQuestsWrapper::Fetch(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+
+
+void js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (GPGQuestsWrapper)", obj);
+    js_proxy_t* nproxy;
+    js_proxy_t* jsproxy;
+
+#if (COCOS2D_VERSION >= 0x00031000)
+    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
+    JS::RootedObject jsobj(cx, obj);
+    jsproxy = jsb_get_js_proxy(jsobj);
+#else
+    jsproxy = jsb_get_js_proxy(obj);
+#endif
+
+    if (jsproxy) {
+        nproxy = jsb_get_native_proxy(jsproxy->ptr);
+
+        sdkbox::GPGQuestsWrapper *nobj = static_cast<sdkbox::GPGQuestsWrapper *>(nproxy->ptr);
+        if (nobj)
+            delete nobj;
+        
+        jsb_remove_proxy(nproxy, jsproxy);
+    }
+}
+
+#if defined(MOZJS_MAJOR_VERSION)
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(JSContext *cx, JS::HandleObject global) {
+    jsb_sdkbox_GPGQuestsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGQuestsWrapper_class->name = "GPGQuestsWrapper";
+    jsb_sdkbox_GPGQuestsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_finalize;
+    jsb_sdkbox_GPGQuestsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchList", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Accept", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Accept, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowUI", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowUI, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ClaimMilestone", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ClaimMilestone, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGQuestsWrapper_prototype = JS_InitClass(
+        cx, global,
+        JS::NullPtr(), // parent proto
+        jsb_sdkbox_GPGQuestsWrapper_class,
+        dummy_constructor<sdkbox::GPGQuestsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGQuestsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+#if (COCOS2D_VERSION >= 0x00031000)
+    JS::RootedObject proto(cx, jsb_sdkbox_GPGQuestsWrapper_prototype);
+    jsb_register_class<sdkbox::GPGQuestsWrapper>(cx, jsb_sdkbox_GPGQuestsWrapper_class, proto, JS::NullPtr());
+#else
+    TypeTest<sdkbox::GPGQuestsWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGQuestsWrapper_class;
+        p->proto = jsb_sdkbox_GPGQuestsWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+#endif
+}
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGQuestsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGQuestsWrapper_class->name = "GPGQuestsWrapper";
+    jsb_sdkbox_GPGQuestsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_finalize;
+    jsb_sdkbox_GPGQuestsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        {"__nativeObj", 0, JSPROP_ENUMERATE | JSPROP_PERMANENT, JSOP_WRAPPER(js_is_native_obj), JSOP_NULLWRAPPER},
+        {0, 0, 0, JSOP_NULLWRAPPER, JSOP_NULLWRAPPER}
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchList", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Accept", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Accept, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowUI", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowUI, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ClaimMilestone", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ClaimMilestone, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGQuestsWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGQuestsWrapper_class,
+        dummy_constructor<sdkbox::GPGQuestsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGQuestsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGQuestsWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGQuestsWrapper_class;
+        p->proto = jsb_sdkbox_GPGQuestsWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+#endif
+#elif defined(JS_VERSION)
+void js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGQuestsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGQuestsWrapper_class->name = "GPGQuestsWrapper";
+    jsb_sdkbox_GPGQuestsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->delProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGQuestsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_finalize;
+    jsb_sdkbox_GPGQuestsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    JSPropertySpec *properties = NULL;
+
+    JSFunctionSpec *funcs = NULL;
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchList", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Accept", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Accept, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowAllUI", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowAllUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowUI", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowUI, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ClaimMilestone", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ClaimMilestone, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGQuestsWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGQuestsWrapper_class,
+        dummy_constructor<sdkbox::GPGQuestsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+    JSBool found;
+    JS_SetPropertyAttributes(cx, global, "GPGQuestsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGQuestsWrapper> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = jsb_sdkbox_GPGQuestsWrapper_class;
+        p->proto = jsb_sdkbox_GPGQuestsWrapper_prototype;
+        p->parentProto = NULL;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
+}
+#endif
+JSClass  *jsb_sdkbox_GPGEventsWrapper_class;
+JSObject *jsb_sdkbox_GPGEventsWrapper_prototype;
+
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll : Error processing arguments");
+        sdkbox::GPGEventsWrapper::FetchAll(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll : Error processing arguments");
+        sdkbox::GPGEventsWrapper::FetchAll(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGEventsWrapper::FetchAll(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGEventsWrapper::FetchAll(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch : Error processing arguments");
+        sdkbox::GPGEventsWrapper::Fetch(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch : Error processing arguments");
+        sdkbox::GPGEventsWrapper::Fetch(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGEventsWrapper::Fetch(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    if (argc == 3) {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGEventsWrapper::Fetch(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment : Error processing arguments");
+        sdkbox::GPGEventsWrapper::Increment(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    if (argc == 2) {
+        std::string arg0;
+        unsigned int arg1;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_uint32(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment : Error processing arguments");
+        sdkbox::GPGEventsWrapper::Increment(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGEventsWrapper::Increment(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    if (argc == 2) {
+        std::string arg0;
+        unsigned int arg1;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        ok &= jsval_to_uint32(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGEventsWrapper::Increment(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+
+
+void js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (GPGEventsWrapper)", obj);
+    js_proxy_t* nproxy;
+    js_proxy_t* jsproxy;
+
+#if (COCOS2D_VERSION >= 0x00031000)
+    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
+    JS::RootedObject jsobj(cx, obj);
+    jsproxy = jsb_get_js_proxy(jsobj);
+#else
+    jsproxy = jsb_get_js_proxy(obj);
+#endif
+
+    if (jsproxy) {
+        nproxy = jsb_get_native_proxy(jsproxy->ptr);
+
+        sdkbox::GPGEventsWrapper *nobj = static_cast<sdkbox::GPGEventsWrapper *>(nproxy->ptr);
+        if (nobj)
+            delete nobj;
+        
+        jsb_remove_proxy(nproxy, jsproxy);
+    }
+}
+
+#if defined(MOZJS_MAJOR_VERSION)
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(JSContext *cx, JS::HandleObject global) {
+    jsb_sdkbox_GPGEventsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGEventsWrapper_class->name = "GPGEventsWrapper";
+    jsb_sdkbox_GPGEventsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGEventsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGEventsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGEventsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_finalize;
+    jsb_sdkbox_GPGEventsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGEventsWrapper_prototype = JS_InitClass(
+        cx, global,
+        JS::NullPtr(), // parent proto
+        jsb_sdkbox_GPGEventsWrapper_class,
+        dummy_constructor<sdkbox::GPGEventsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGEventsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+#if (COCOS2D_VERSION >= 0x00031000)
+    JS::RootedObject proto(cx, jsb_sdkbox_GPGEventsWrapper_prototype);
+    jsb_register_class<sdkbox::GPGEventsWrapper>(cx, jsb_sdkbox_GPGEventsWrapper_class, proto, JS::NullPtr());
+#else
+    TypeTest<sdkbox::GPGEventsWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGEventsWrapper_class;
+        p->proto = jsb_sdkbox_GPGEventsWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+#endif
+}
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGEventsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGEventsWrapper_class->name = "GPGEventsWrapper";
+    jsb_sdkbox_GPGEventsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGEventsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGEventsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGEventsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_finalize;
+    jsb_sdkbox_GPGEventsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        {"__nativeObj", 0, JSPROP_ENUMERATE | JSPROP_PERMANENT, JSOP_WRAPPER(js_is_native_obj), JSOP_NULLWRAPPER},
+        {0, 0, 0, JSOP_NULLWRAPPER, JSOP_NULLWRAPPER}
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGEventsWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGEventsWrapper_class,
+        dummy_constructor<sdkbox::GPGEventsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGEventsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGEventsWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGEventsWrapper_class;
+        p->proto = jsb_sdkbox_GPGEventsWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+#endif
+#elif defined(JS_VERSION)
+void js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGEventsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGEventsWrapper_class->name = "GPGEventsWrapper";
+    jsb_sdkbox_GPGEventsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->delProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGEventsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGEventsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGEventsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGEventsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_finalize;
+    jsb_sdkbox_GPGEventsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    JSPropertySpec *properties = NULL;
+
+    JSFunctionSpec *funcs = NULL;
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchAll", js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Fetch", js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Increment", js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGEventsWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGEventsWrapper_class,
+        dummy_constructor<sdkbox::GPGEventsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+    JSBool found;
+    JS_SetPropertyAttributes(cx, global, "GPGEventsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGEventsWrapper> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = jsb_sdkbox_GPGEventsWrapper_class;
+        p->proto = jsb_sdkbox_GPGEventsWrapper_prototype;
+        p->parentProto = NULL;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
+}
+#endif
+JSClass  *jsb_sdkbox_GPGStatsWrapper_class;
+JSObject *jsb_sdkbox_GPGStatsWrapper_prototype;
+
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer : Error processing arguments");
+        sdkbox::GPGStatsWrapper::FetchForPlayer(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        int arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGStatsWrapper::FetchForPlayer(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+
+
+void js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (GPGStatsWrapper)", obj);
+    js_proxy_t* nproxy;
+    js_proxy_t* jsproxy;
+
+#if (COCOS2D_VERSION >= 0x00031000)
+    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
+    JS::RootedObject jsobj(cx, obj);
+    jsproxy = jsb_get_js_proxy(jsobj);
+#else
+    jsproxy = jsb_get_js_proxy(obj);
+#endif
+
+    if (jsproxy) {
+        nproxy = jsb_get_native_proxy(jsproxy->ptr);
+
+        sdkbox::GPGStatsWrapper *nobj = static_cast<sdkbox::GPGStatsWrapper *>(nproxy->ptr);
+        if (nobj)
+            delete nobj;
+        
+        jsb_remove_proxy(nproxy, jsproxy);
+    }
+}
+
+#if defined(MOZJS_MAJOR_VERSION)
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(JSContext *cx, JS::HandleObject global) {
+    jsb_sdkbox_GPGStatsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGStatsWrapper_class->name = "GPGStatsWrapper";
+    jsb_sdkbox_GPGStatsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGStatsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGStatsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGStatsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_finalize;
+    jsb_sdkbox_GPGStatsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchForPlayer", js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGStatsWrapper_prototype = JS_InitClass(
+        cx, global,
+        JS::NullPtr(), // parent proto
+        jsb_sdkbox_GPGStatsWrapper_class,
+        dummy_constructor<sdkbox::GPGStatsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGStatsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+#if (COCOS2D_VERSION >= 0x00031000)
+    JS::RootedObject proto(cx, jsb_sdkbox_GPGStatsWrapper_prototype);
+    jsb_register_class<sdkbox::GPGStatsWrapper>(cx, jsb_sdkbox_GPGStatsWrapper_class, proto, JS::NullPtr());
+#else
+    TypeTest<sdkbox::GPGStatsWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGStatsWrapper_class;
+        p->proto = jsb_sdkbox_GPGStatsWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+#endif
+}
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGStatsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGStatsWrapper_class->name = "GPGStatsWrapper";
+    jsb_sdkbox_GPGStatsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGStatsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGStatsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGStatsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_finalize;
+    jsb_sdkbox_GPGStatsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        {"__nativeObj", 0, JSPROP_ENUMERATE | JSPROP_PERMANENT, JSOP_WRAPPER(js_is_native_obj), JSOP_NULLWRAPPER},
+        {0, 0, 0, JSOP_NULLWRAPPER, JSOP_NULLWRAPPER}
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchForPlayer", js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGStatsWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGStatsWrapper_class,
+        dummy_constructor<sdkbox::GPGStatsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27 
+//  JS_SetPropertyAttributes(cx, global, "GPGStatsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGStatsWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGStatsWrapper_class;
+        p->proto = jsb_sdkbox_GPGStatsWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+#endif
+#elif defined(JS_VERSION)
+void js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGStatsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGStatsWrapper_class->name = "GPGStatsWrapper";
+    jsb_sdkbox_GPGStatsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->delProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGStatsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGStatsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGStatsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGStatsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_finalize;
+    jsb_sdkbox_GPGStatsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    JSPropertySpec *properties = NULL;
+
+    JSFunctionSpec *funcs = NULL;
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("FetchForPlayer", js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGStatsWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGStatsWrapper_class,
+        dummy_constructor<sdkbox::GPGStatsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+    JSBool found;
+    JS_SetPropertyAttributes(cx, global, "GPGStatsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGStatsWrapper> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = jsb_sdkbox_GPGStatsWrapper_class;
+        p->proto = jsb_sdkbox_GPGStatsWrapper_prototype;
+        p->parentProto = NULL;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
+}
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj) {
@@ -2525,11 +3713,15 @@ void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj) 
     JS::RootedObject ns(cx);
     get_or_create_js_obj(cx, obj, "_gpg", &ns);
 
-    js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(cx, ns);
-    js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, ns);
-    js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(cx, ns);
-    js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(cx, ns);
     js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(cx, ns);
 
     sdkbox::setProjectType("js");
 }
@@ -2548,11 +3740,15 @@ void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj) {
     }
     obj = ns;
 
-    js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(cx, obj);
-    js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, obj);
-    js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(cx, obj);
-    js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(cx, obj);
 
     sdkbox::setProjectType("js");
 }
@@ -2572,11 +3768,15 @@ void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj) {
     }
     obj = ns;
 
-    js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(cx, obj);
-    js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, obj);
-    js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(cx, obj);
-    js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(cx, obj);
 
     sdkbox::setProjectType("js");
 }

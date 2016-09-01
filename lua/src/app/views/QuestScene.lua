@@ -53,7 +53,7 @@ function QuestScene:setupTestMenu()
 
     self._fetch_list_button = cc.MenuItemFont:create("Fetch List"):onClicked(function()
         gpg.Quests:FetchList(function(o)
-            if o.status == 1 then
+            if o.result == 1 then
                 q = o.data[1]
                 self._quest_id = q.Id
                 print("Setting quest id to " .. q.Id)

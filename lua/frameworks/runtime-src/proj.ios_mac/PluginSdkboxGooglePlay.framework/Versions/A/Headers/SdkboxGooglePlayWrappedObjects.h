@@ -10,6 +10,7 @@
 
 #include <string>
 #include "GPGConstants.h"
+#include "GPGRealtimeMultiplayerWrapper.h"
 
 /**
  * (ibon) TODO:
@@ -38,19 +39,13 @@ namespace sdkbox {
         static void NotifyToScripting( int id, const std::string& str_json );
     };
 
-    class GPGLocalPlayerWrapper {
+    class GPGPlayerWrapper {
     public:
-        
-        static void Fetch( int id );
-        static std::string AvatarUrl( int image_resolution );
-        static std::string Name();
-        static std::string Id();
-        static bool HasLevelInfo();
-        static int64_t CurrentXP();
-        static int64_t LastLevelUpTime();
-        static std::string Title();
-        static std::string CurrentLevel();
-        static std::string NextLevel();
+        static void FetchSelf( int callback_id, int datasource );
+        static void Fetch( int callback_id, int datasource, const std::string& player_id );
+        static void FetchRecentlyPlayed( int callback_id, int datasource );
+        static void FetchRecentlyConnected( int callback_id, int datasource );
+        static void FetchRecentlyInvitable( int callback_id, int datasource );
     };
     
     class GPGSnapshotWrapper {
@@ -65,6 +60,10 @@ namespace sdkbox {
          * }
          */
         static void ShowSelectUIOperation( int callback_id, const std::string& str_json );
+        
+        /**
+         *
+         */
         static void Load( int callback_id, const std::string& filename, int snapshot_conflict_policy, int datasource );
         static void Save( int callback_id, const std::string& str_json );
         static void FetchAll( int callback_id, const std::string& str_json );
