@@ -41,6 +41,7 @@ function MainScene:setupTestMenu()
     menu:alignItemsVerticallyWithPadding(5)
     menu:setPosition(size.width/2, size.height/2)
     self:addChild(menu)
+
 end
 
 return MainScene

@@ -70,6 +70,36 @@ namespace sdkbox {
         static void FetchAll( int callback_id, const std::string& str_json );
         static void Delete( int callback_id, const std::string& filename );
     };
+    
+    class GPGLeaderboardWrapper {
+    public:
+        
+        static void Fetch( int callback_id, const std::string& leaderboard_id, int datasource );
+        static void FetchAll( int callback_id, int datasource );
+        static void FetchScoreSummary( int callback_id, int datasource, std::string const &leaderboard_id, int time_span, int collection );
+        static void FetchAllScoreSummaries( int callback_id, int datasource, const std::string& leaderboard_id );
+        static void SubmitScore( int callback_id, const std::string& leaderboard_id, long score, const std::string& metadata = "" );
+        static void ShowAllUI( int callback_id );
+        static void ShowUI( int callback_id, const std::string& leaderboard_id );
+        static void FetchScorePage( int callback_id, const std::string& leaderboard_id, int data_source, int start, int time_span, int collection, int max_items );
+        static void FetchNextScorePage( int callback_id, int data_source, int max_items );
+        static void FetchPreviousScorePage( int callback_id, int data_source, int max_items );
+    };
+    
+    class GPGAchievementWrapper {
+    public:
+        
+        static void Fetch( int callback_id, const std::string& achievement_id, int datasource );
+        static void FetchAll( int callback_id, int datasource );
+        static void ShowAllUI(int callback_id );
+
+        // these methods have no native callback.
+        
+        static void Increment( const std::string& achievement_id, uint32_t steps );
+        static void Reveal( const std::string& achievement_id );
+        static void SetStepsAtLeast(std::string const &achievement_id, uint32_t steps);
+        static void Unlock(std::string const &achievement_id );
+    };
 
     class GPGQuestsWrapper
     {
@@ -91,6 +121,13 @@ namespace sdkbox {
         static void FetchAll  (int callback_id, int datasource = 1);
         static void Increment (const std::string& event_id, uint32_t steps = 1);
     };
+
+    class GPGStatsWrapper
+	{
+	public:
+
+		static void FetchForPlayer(int callback_id, int datasource);
+	};
 }
 
 #endif
