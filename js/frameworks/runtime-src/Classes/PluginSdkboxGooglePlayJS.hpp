@@ -5,6 +5,25 @@
 #include "jsfriendapi.h"
 
 
+extern JSClass  *jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class;
+extern JSObject *jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype;
+
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JS::HandleObject global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj);
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JSObject* global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj);
+#endif
+
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_finalize(JSContext *cx, JSObject *obj);
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+
 extern JSClass  *jsb_sdkbox_GPGWrapper_class;
 extern JSObject *jsb_sdkbox_GPGWrapper_prototype;
 
@@ -44,68 +63,43 @@ bool js_PluginSdkboxGooglePlayJS_GPGWrapper_SignOut(JSContext *cx, uint32_t argc
 JSBool js_PluginSdkboxGooglePlayJS_GPGWrapper_SignOut(JSContext *cx, uint32_t argc, jsval *vp);
 #endif
 
-extern JSClass  *jsb_sdkbox_GPGLocalPlayerWrapper_class;
-extern JSObject *jsb_sdkbox_GPGLocalPlayerWrapper_prototype;
+extern JSClass  *jsb_sdkbox_GPGPlayerWrapper_class;
+extern JSObject *jsb_sdkbox_GPGPlayerWrapper_prototype;
 
 #if MOZJS_MAJOR_VERSION >= 33
-void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, JS::HandleObject global);
+void js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(JSContext *cx, JS::HandleObject global);
 void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj);
 #else
-void js_register_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper(JSContext *cx, JSObject* global);
+void js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(JSContext *cx, JSObject* global);
 void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj);
 #endif
 
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_constructor(JSContext *cx, uint32_t argc, jsval *vp);
-void js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_finalize(JSContext *cx, JSObject *obj);
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_finalize(JSContext *cx, JSObject *obj);
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentLevel(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyConnected(JSContext *cx, uint32_t argc, jsval *vp);
 #elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentLevel(JSContext *cx, uint32_t argc, jsval *vp);
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyConnected(JSContext *cx, uint32_t argc, jsval *vp);
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Name(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyInvitable(JSContext *cx, uint32_t argc, jsval *vp);
 #elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Name(JSContext *cx, uint32_t argc, jsval *vp);
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyInvitable(JSContext *cx, uint32_t argc, jsval *vp);
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_AvatarUrl(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
 #elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_AvatarUrl(JSContext *cx, uint32_t argc, jsval *vp);
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyPlayed(JSContext *cx, uint32_t argc, jsval *vp);
 #elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_LastLevelUpTime(JSContext *cx, uint32_t argc, jsval *vp);
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchRecentlyPlayed(JSContext *cx, uint32_t argc, jsval *vp);
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Title(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchSelf(JSContext *cx, uint32_t argc, jsval *vp);
 #elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Title(JSContext *cx, uint32_t argc, jsval *vp);
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP(JSContext *cx, uint32_t argc, jsval *vp);
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_CurrentXP(JSContext *cx, uint32_t argc, jsval *vp);
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_HasLevelInfo(JSContext *cx, uint32_t argc, jsval *vp);
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_HasLevelInfo(JSContext *cx, uint32_t argc, jsval *vp);
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_NextLevel(JSContext *cx, uint32_t argc, jsval *vp);
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_NextLevel(JSContext *cx, uint32_t argc, jsval *vp);
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Id(JSContext *cx, uint32_t argc, jsval *vp);
-#elif defined(JS_VERSION)
-JSBool js_PluginSdkboxGooglePlayJS_GPGLocalPlayerWrapper_Id(JSContext *cx, uint32_t argc, jsval *vp);
+JSBool js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_FetchSelf(JSContext *cx, uint32_t argc, jsval *vp);
 #endif
 
 extern JSClass  *jsb_sdkbox_GPGSnapshotWrapper_class;
@@ -258,6 +252,98 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Increment(JSContext *cx
 bool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
 #elif defined(JS_VERSION)
 JSBool js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+
+extern JSClass  *jsb_sdkbox_GPGQuestsWrapper_class;
+extern JSObject *jsb_sdkbox_GPGQuestsWrapper_prototype;
+
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(JSContext *cx, JS::HandleObject global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj);
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(JSContext *cx, JSObject* global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj);
+#endif
+
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_finalize(JSContext *cx, JSObject *obj);
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_FetchList(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Accept(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Accept(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowUI(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ShowUI(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ClaimMilestone(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_ClaimMilestone(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+
+extern JSClass  *jsb_sdkbox_GPGEventsWrapper_class;
+extern JSObject *jsb_sdkbox_GPGEventsWrapper_prototype;
+
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(JSContext *cx, JS::HandleObject global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj);
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(JSContext *cx, JSObject* global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj);
+#endif
+
+bool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_finalize(JSContext *cx, JSObject *obj);
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_Increment(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+
+extern JSClass  *jsb_sdkbox_GPGStatsWrapper_class;
+extern JSObject *jsb_sdkbox_GPGStatsWrapper_prototype;
+
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(JSContext *cx, JS::HandleObject global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj);
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(JSContext *cx, JSObject* global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj);
+#endif
+
+bool js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_finalize(JSContext *cx, JSObject *obj);
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, uint32_t argc, jsval *vp);
 #endif
 #endif
 
