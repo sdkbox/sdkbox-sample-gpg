@@ -5,6 +5,64 @@
 
 
 
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:CreateRealTimeRoom");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGRealTimeMultiplayerWrapper:CreateRealTimeRoom");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::CreateRealTimeRoom(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:CreateRealTimeRoom",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom'.",&tolua_err);
+#endif
+    return 0;
+}
+static int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (GPGRealTimeMultiplayerWrapper)");
+    return 0;
+}
+
+int lua_register_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"sdkbox.GPGRealTimeMultiplayerWrapper");
+    tolua_cclass(tolua_S,"GPGRealTimeMultiplayerWrapper","sdkbox.GPGRealTimeMultiplayerWrapper","",nullptr);
+
+    tolua_beginmodule(tolua_S,"GPGRealTimeMultiplayerWrapper");
+        tolua_function(tolua_S,"CreateRealTimeRoom", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(sdkbox::GPGRealTimeMultiplayerWrapper).name();
+    g_luaType[typeName] = "sdkbox.GPGRealTimeMultiplayerWrapper";
+    g_typeCast["GPGRealTimeMultiplayerWrapper"] = "sdkbox.GPGRealTimeMultiplayerWrapper";
+    return 1;
+}
+
 int lua_PluginSdkboxGooglePlayLua_GPGWrapper_NotifyToScripting(lua_State* tolua_S)
 {
     int argc = 0;
@@ -205,7 +263,7 @@ int lua_register_PluginSdkboxGooglePlayLua_GPGWrapper(lua_State* tolua_S)
     return 1;
 }
 
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_CurrentLevel(lua_State* tolua_S)
+int lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyConnected(lua_State* tolua_S)
 {
     int argc = 0;
     bool ok  = true;
@@ -215,239 +273,35 @@ int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_CurrentLevel(lua_State* 
 #endif
 
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
 #endif
 
     argc = lua_gettop(tolua_S) - 1;
 
-    if (argc == 0)
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_CurrentLevel'", nullptr);
-            return 0;
-        }
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::CurrentLevel();
-        tolua_pushcppstring(tolua_S,ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:CurrentLevel",argc, 0);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_CurrentLevel'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Name(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 0)
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Name'", nullptr);
-            return 0;
-        }
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::Name();
-        tolua_pushcppstring(tolua_S,ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:Name",argc, 0);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Name'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_AvatarUrl(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
+    if (argc == 2)
     {
         int arg0;
-        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLocalPlayerWrapper:AvatarUrl");
+        int arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGPlayerWrapper:FetchRecentlyConnected");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGPlayerWrapper:FetchRecentlyConnected");
         if(!ok)
         {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_AvatarUrl'", nullptr);
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyConnected'", nullptr);
             return 0;
         }
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::AvatarUrl(arg0);
-        tolua_pushcppstring(tolua_S,ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:AvatarUrl",argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_AvatarUrl'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_LastLevelUpTime(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 0)
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_LastLevelUpTime'", nullptr);
-            return 0;
-        }
-        long long ret = sdkbox::GPGLocalPlayerWrapper::LastLevelUpTime();
-        tolua_pushnumber(tolua_S,(lua_Number)ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:LastLevelUpTime",argc, 0);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_LastLevelUpTime'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Title(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 0)
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Title'", nullptr);
-            return 0;
-        }
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::Title();
-        tolua_pushcppstring(tolua_S,ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:Title",argc, 0);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Title'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_CurrentXP(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 0)
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_CurrentXP'", nullptr);
-            return 0;
-        }
-        long long ret = sdkbox::GPGLocalPlayerWrapper::CurrentXP();
-        tolua_pushnumber(tolua_S,(lua_Number)ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:CurrentXP",argc, 0);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_CurrentXP'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Fetch(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
-    {
-        int arg0;
-        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLocalPlayerWrapper:Fetch");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Fetch'", nullptr);
-            return 0;
-        }
-        sdkbox::GPGLocalPlayerWrapper::Fetch(arg0);
+        sdkbox::GPGPlayerWrapper::FetchRecentlyConnected(arg0, arg1);
         lua_settop(tolua_S, 1);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:Fetch",argc, 1);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGPlayerWrapper:FetchRecentlyConnected",argc, 2);
     return 0;
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Fetch'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyConnected'.",&tolua_err);
 #endif
     return 0;
 }
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_HasLevelInfo(lua_State* tolua_S)
+int lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyInvitable(lua_State* tolua_S)
 {
     int argc = 0;
     bool ok  = true;
@@ -457,31 +311,35 @@ int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_HasLevelInfo(lua_State* 
 #endif
 
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
 #endif
 
     argc = lua_gettop(tolua_S) - 1;
 
-    if (argc == 0)
+    if (argc == 2)
     {
+        int arg0;
+        int arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGPlayerWrapper:FetchRecentlyInvitable");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGPlayerWrapper:FetchRecentlyInvitable");
         if(!ok)
         {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_HasLevelInfo'", nullptr);
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyInvitable'", nullptr);
             return 0;
         }
-        bool ret = sdkbox::GPGLocalPlayerWrapper::HasLevelInfo();
-        tolua_pushboolean(tolua_S,(bool)ret);
+        sdkbox::GPGPlayerWrapper::FetchRecentlyInvitable(arg0, arg1);
+        lua_settop(tolua_S, 1);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:HasLevelInfo",argc, 0);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGPlayerWrapper:FetchRecentlyInvitable",argc, 2);
     return 0;
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_HasLevelInfo'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyInvitable'.",&tolua_err);
 #endif
     return 0;
 }
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_NextLevel(lua_State* tolua_S)
+int lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_Fetch(lua_State* tolua_S)
 {
     int argc = 0;
     bool ok  = true;
@@ -491,31 +349,37 @@ int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_NextLevel(lua_State* tol
 #endif
 
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
 #endif
 
     argc = lua_gettop(tolua_S) - 1;
 
-    if (argc == 0)
+    if (argc == 3)
     {
+        int arg0;
+        int arg1;
+        std::string arg2;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGPlayerWrapper:Fetch");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGPlayerWrapper:Fetch");
+        ok &= luaval_to_std_string(tolua_S, 4,&arg2, "sdkbox.GPGPlayerWrapper:Fetch");
         if(!ok)
         {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_NextLevel'", nullptr);
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_Fetch'", nullptr);
             return 0;
         }
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::NextLevel();
-        tolua_pushcppstring(tolua_S,ret);
+        sdkbox::GPGPlayerWrapper::Fetch(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:NextLevel",argc, 0);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGPlayerWrapper:Fetch",argc, 3);
     return 0;
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_NextLevel'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_Fetch'.",&tolua_err);
 #endif
     return 0;
 }
-int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Id(lua_State* tolua_S)
+int lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyPlayed(lua_State* tolua_S)
 {
     int argc = 0;
     bool ok  = true;
@@ -525,56 +389,93 @@ int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Id(lua_State* tolua_S)
 #endif
 
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLocalPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
 #endif
 
     argc = lua_gettop(tolua_S) - 1;
 
-    if (argc == 0)
+    if (argc == 2)
     {
+        int arg0;
+        int arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGPlayerWrapper:FetchRecentlyPlayed");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGPlayerWrapper:FetchRecentlyPlayed");
         if(!ok)
         {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Id'", nullptr);
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyPlayed'", nullptr);
             return 0;
         }
-        std::string ret = sdkbox::GPGLocalPlayerWrapper::Id();
-        tolua_pushcppstring(tolua_S,ret);
+        sdkbox::GPGPlayerWrapper::FetchRecentlyPlayed(arg0, arg1);
+        lua_settop(tolua_S, 1);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLocalPlayerWrapper:Id",argc, 0);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGPlayerWrapper:FetchRecentlyPlayed",argc, 2);
     return 0;
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Id'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyPlayed'.",&tolua_err);
 #endif
     return 0;
 }
-static int lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_finalize(lua_State* tolua_S)
+int lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchSelf(lua_State* tolua_S)
 {
-    printf("luabindings: finalizing LUA object (GPGLocalPlayerWrapper)");
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGPlayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        int arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGPlayerWrapper:FetchSelf");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGPlayerWrapper:FetchSelf");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchSelf'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGPlayerWrapper::FetchSelf(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGPlayerWrapper:FetchSelf",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchSelf'.",&tolua_err);
+#endif
+    return 0;
+}
+static int lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (GPGPlayerWrapper)");
     return 0;
 }
 
-int lua_register_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper(lua_State* tolua_S)
+int lua_register_PluginSdkboxGooglePlayLua_GPGPlayerWrapper(lua_State* tolua_S)
 {
-    tolua_usertype(tolua_S,"sdkbox.GPGLocalPlayerWrapper");
-    tolua_cclass(tolua_S,"GPGLocalPlayerWrapper","sdkbox.GPGLocalPlayerWrapper","",nullptr);
+    tolua_usertype(tolua_S,"sdkbox.GPGPlayerWrapper");
+    tolua_cclass(tolua_S,"GPGPlayerWrapper","sdkbox.GPGPlayerWrapper","",nullptr);
 
-    tolua_beginmodule(tolua_S,"GPGLocalPlayerWrapper");
-        tolua_function(tolua_S,"CurrentLevel", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_CurrentLevel);
-        tolua_function(tolua_S,"Name", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Name);
-        tolua_function(tolua_S,"AvatarUrl", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_AvatarUrl);
-        tolua_function(tolua_S,"LastLevelUpTime", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_LastLevelUpTime);
-        tolua_function(tolua_S,"Title", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Title);
-        tolua_function(tolua_S,"CurrentXP", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_CurrentXP);
-        tolua_function(tolua_S,"Fetch", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Fetch);
-        tolua_function(tolua_S,"HasLevelInfo", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_HasLevelInfo);
-        tolua_function(tolua_S,"NextLevel", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_NextLevel);
-        tolua_function(tolua_S,"Id", lua_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper_Id);
+    tolua_beginmodule(tolua_S,"GPGPlayerWrapper");
+        tolua_function(tolua_S,"FetchRecentlyConnected", lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyConnected);
+        tolua_function(tolua_S,"FetchRecentlyInvitable", lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyInvitable);
+        tolua_function(tolua_S,"Fetch", lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_Fetch);
+        tolua_function(tolua_S,"FetchRecentlyPlayed", lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchRecentlyPlayed);
+        tolua_function(tolua_S,"FetchSelf", lua_PluginSdkboxGooglePlayLua_GPGPlayerWrapper_FetchSelf);
     tolua_endmodule(tolua_S);
-    std::string typeName = typeid(sdkbox::GPGLocalPlayerWrapper).name();
-    g_luaType[typeName] = "sdkbox.GPGLocalPlayerWrapper";
-    g_typeCast["GPGLocalPlayerWrapper"] = "sdkbox.GPGLocalPlayerWrapper";
+    std::string typeName = typeid(sdkbox::GPGPlayerWrapper).name();
+    g_luaType[typeName] = "sdkbox.GPGPlayerWrapper";
+    g_typeCast["GPGPlayerWrapper"] = "sdkbox.GPGPlayerWrapper";
     return 1;
 }
 
@@ -793,6 +694,746 @@ int lua_register_PluginSdkboxGooglePlayLua_GPGSnapshotWrapper(lua_State* tolua_S
     std::string typeName = typeid(sdkbox::GPGSnapshotWrapper).name();
     g_luaType[typeName] = "sdkbox.GPGSnapshotWrapper";
     g_typeCast["GPGSnapshotWrapper"] = "sdkbox.GPGSnapshotWrapper";
+    return 1;
+}
+
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchAll(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        int arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:FetchAll");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGLeaderboardWrapper:FetchAll");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchAll'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::FetchAll(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:FetchAll",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchAll'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchScoreSummary(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 5)
+    {
+        int arg0;
+        int arg1;
+        std::string arg2;
+        int arg3;
+        int arg4;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:FetchScoreSummary");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGLeaderboardWrapper:FetchScoreSummary");
+        ok &= luaval_to_std_string(tolua_S, 4,&arg2, "sdkbox.GPGLeaderboardWrapper:FetchScoreSummary");
+        ok &= luaval_to_int32(tolua_S, 5,(int *)&arg3, "sdkbox.GPGLeaderboardWrapper:FetchScoreSummary");
+        ok &= luaval_to_int32(tolua_S, 6,(int *)&arg4, "sdkbox.GPGLeaderboardWrapper:FetchScoreSummary");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchScoreSummary'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::FetchScoreSummary(arg0, arg1, arg2, arg3, arg4);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:FetchScoreSummary",argc, 5);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchScoreSummary'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchPreviousScorePage(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        int arg0;
+        int arg1;
+        int arg2;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:FetchPreviousScorePage");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGLeaderboardWrapper:FetchPreviousScorePage");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGLeaderboardWrapper:FetchPreviousScorePage");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchPreviousScorePage'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::FetchPreviousScorePage(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:FetchPreviousScorePage",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchPreviousScorePage'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_ShowAllUI(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        int arg0;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:ShowAllUI");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_ShowAllUI'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::ShowAllUI(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:ShowAllUI",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_ShowAllUI'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchNextScorePage(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        int arg0;
+        int arg1;
+        int arg2;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:FetchNextScorePage");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGLeaderboardWrapper:FetchNextScorePage");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGLeaderboardWrapper:FetchNextScorePage");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchNextScorePage'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::FetchNextScorePage(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:FetchNextScorePage",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchNextScorePage'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_SubmitScore(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        int arg0;
+        std::string arg1;
+        long arg2;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:SubmitScore");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGLeaderboardWrapper:SubmitScore");
+        ok &= luaval_to_long(tolua_S, 4, &arg2, "sdkbox.GPGLeaderboardWrapper:SubmitScore");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_SubmitScore'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::SubmitScore(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    if (argc == 4)
+    {
+        int arg0;
+        std::string arg1;
+        long arg2;
+        std::string arg3;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:SubmitScore");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGLeaderboardWrapper:SubmitScore");
+        ok &= luaval_to_long(tolua_S, 4, &arg2, "sdkbox.GPGLeaderboardWrapper:SubmitScore");
+        ok &= luaval_to_std_string(tolua_S, 5,&arg3, "sdkbox.GPGLeaderboardWrapper:SubmitScore");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_SubmitScore'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::SubmitScore(arg0, arg1, arg2, arg3);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:SubmitScore",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_SubmitScore'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchAllScoreSummaries(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        int arg0;
+        int arg1;
+        std::string arg2;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:FetchAllScoreSummaries");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGLeaderboardWrapper:FetchAllScoreSummaries");
+        ok &= luaval_to_std_string(tolua_S, 4,&arg2, "sdkbox.GPGLeaderboardWrapper:FetchAllScoreSummaries");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchAllScoreSummaries'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::FetchAllScoreSummaries(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:FetchAllScoreSummaries",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchAllScoreSummaries'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_ShowUI(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:ShowUI");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGLeaderboardWrapper:ShowUI");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_ShowUI'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::ShowUI(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:ShowUI",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_ShowUI'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_Fetch(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:Fetch");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGLeaderboardWrapper:Fetch");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGLeaderboardWrapper:Fetch");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_Fetch'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::Fetch(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:Fetch",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_Fetch'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchScorePage(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGLeaderboardWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 7)
+    {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        int arg3;
+        int arg4;
+        int arg5;
+        int arg6;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGLeaderboardWrapper:FetchScorePage");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGLeaderboardWrapper:FetchScorePage");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGLeaderboardWrapper:FetchScorePage");
+        ok &= luaval_to_int32(tolua_S, 5,(int *)&arg3, "sdkbox.GPGLeaderboardWrapper:FetchScorePage");
+        ok &= luaval_to_int32(tolua_S, 6,(int *)&arg4, "sdkbox.GPGLeaderboardWrapper:FetchScorePage");
+        ok &= luaval_to_int32(tolua_S, 7,(int *)&arg5, "sdkbox.GPGLeaderboardWrapper:FetchScorePage");
+        ok &= luaval_to_int32(tolua_S, 8,(int *)&arg6, "sdkbox.GPGLeaderboardWrapper:FetchScorePage");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchScorePage'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGLeaderboardWrapper::FetchScorePage(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGLeaderboardWrapper:FetchScorePage",argc, 7);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchScorePage'.",&tolua_err);
+#endif
+    return 0;
+}
+static int lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (GPGLeaderboardWrapper)");
+    return 0;
+}
+
+int lua_register_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"sdkbox.GPGLeaderboardWrapper");
+    tolua_cclass(tolua_S,"GPGLeaderboardWrapper","sdkbox.GPGLeaderboardWrapper","",nullptr);
+
+    tolua_beginmodule(tolua_S,"GPGLeaderboardWrapper");
+        tolua_function(tolua_S,"FetchAll", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchAll);
+        tolua_function(tolua_S,"FetchScoreSummary", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchScoreSummary);
+        tolua_function(tolua_S,"FetchPreviousScorePage", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchPreviousScorePage);
+        tolua_function(tolua_S,"ShowAllUI", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_ShowAllUI);
+        tolua_function(tolua_S,"FetchNextScorePage", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchNextScorePage);
+        tolua_function(tolua_S,"SubmitScore", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_SubmitScore);
+        tolua_function(tolua_S,"FetchAllScoreSummaries", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchAllScoreSummaries);
+        tolua_function(tolua_S,"ShowUI", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_ShowUI);
+        tolua_function(tolua_S,"Fetch", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_Fetch);
+        tolua_function(tolua_S,"FetchScorePage", lua_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper_FetchScorePage);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(sdkbox::GPGLeaderboardWrapper).name();
+    g_luaType[typeName] = "sdkbox.GPGLeaderboardWrapper";
+    g_typeCast["GPGLeaderboardWrapper"] = "sdkbox.GPGLeaderboardWrapper";
+    return 1;
+}
+
+int lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_FetchAll(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGAchievementWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        int arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGAchievementWrapper:FetchAll");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGAchievementWrapper:FetchAll");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_FetchAll'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGAchievementWrapper::FetchAll(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGAchievementWrapper:FetchAll",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_FetchAll'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Reveal(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGAchievementWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGAchievementWrapper:Reveal");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Reveal'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGAchievementWrapper::Reveal(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGAchievementWrapper:Reveal",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Reveal'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Unlock(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGAchievementWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGAchievementWrapper:Unlock");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Unlock'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGAchievementWrapper::Unlock(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGAchievementWrapper:Unlock",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Unlock'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_ShowAllUI(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGAchievementWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        int arg0;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGAchievementWrapper:ShowAllUI");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_ShowAllUI'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGAchievementWrapper::ShowAllUI(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGAchievementWrapper:ShowAllUI",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_ShowAllUI'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_SetStepsAtLeast(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGAchievementWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        std::string arg0;
+        unsigned int arg1;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGAchievementWrapper:SetStepsAtLeast");
+        ok &= luaval_to_uint32(tolua_S, 3,&arg1, "sdkbox.GPGAchievementWrapper:SetStepsAtLeast");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_SetStepsAtLeast'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGAchievementWrapper::SetStepsAtLeast(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGAchievementWrapper:SetStepsAtLeast",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_SetStepsAtLeast'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Increment(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGAchievementWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        std::string arg0;
+        unsigned int arg1;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGAchievementWrapper:Increment");
+        ok &= luaval_to_uint32(tolua_S, 3,&arg1, "sdkbox.GPGAchievementWrapper:Increment");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Increment'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGAchievementWrapper::Increment(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGAchievementWrapper:Increment",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Increment'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Fetch(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGAchievementWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        int arg0;
+        std::string arg1;
+        int arg2;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGAchievementWrapper:Fetch");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGAchievementWrapper:Fetch");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGAchievementWrapper:Fetch");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Fetch'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGAchievementWrapper::Fetch(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGAchievementWrapper:Fetch",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Fetch'.",&tolua_err);
+#endif
+    return 0;
+}
+static int lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (GPGAchievementWrapper)");
+    return 0;
+}
+
+int lua_register_PluginSdkboxGooglePlayLua_GPGAchievementWrapper(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"sdkbox.GPGAchievementWrapper");
+    tolua_cclass(tolua_S,"GPGAchievementWrapper","sdkbox.GPGAchievementWrapper","",nullptr);
+
+    tolua_beginmodule(tolua_S,"GPGAchievementWrapper");
+        tolua_function(tolua_S,"FetchAll", lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_FetchAll);
+        tolua_function(tolua_S,"Reveal", lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Reveal);
+        tolua_function(tolua_S,"Unlock", lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Unlock);
+        tolua_function(tolua_S,"ShowAllUI", lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_ShowAllUI);
+        tolua_function(tolua_S,"SetStepsAtLeast", lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_SetStepsAtLeast);
+        tolua_function(tolua_S,"Increment", lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Increment);
+        tolua_function(tolua_S,"Fetch", lua_PluginSdkboxGooglePlayLua_GPGAchievementWrapper_Fetch);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(sdkbox::GPGAchievementWrapper).name();
+    g_luaType[typeName] = "sdkbox.GPGAchievementWrapper";
+    g_typeCast["GPGAchievementWrapper"] = "sdkbox.GPGAchievementWrapper";
     return 1;
 }
 
@@ -1255,6 +1896,64 @@ int lua_register_PluginSdkboxGooglePlayLua_GPGEventsWrapper(lua_State* tolua_S)
     g_typeCast["GPGEventsWrapper"] = "sdkbox.GPGEventsWrapper";
     return 1;
 }
+
+int lua_PluginSdkboxGooglePlayLua_GPGStatsWrapper_FetchForPlayer(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGStatsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        int arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGStatsWrapper:FetchForPlayer");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGStatsWrapper:FetchForPlayer");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGStatsWrapper_FetchForPlayer'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGStatsWrapper::FetchForPlayer(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGStatsWrapper:FetchForPlayer",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGStatsWrapper_FetchForPlayer'.",&tolua_err);
+#endif
+    return 0;
+}
+static int lua_PluginSdkboxGooglePlayLua_GPGStatsWrapper_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (GPGStatsWrapper)");
+    return 0;
+}
+
+int lua_register_PluginSdkboxGooglePlayLua_GPGStatsWrapper(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"sdkbox.GPGStatsWrapper");
+    tolua_cclass(tolua_S,"GPGStatsWrapper","sdkbox.GPGStatsWrapper","",nullptr);
+
+    tolua_beginmodule(tolua_S,"GPGStatsWrapper");
+        tolua_function(tolua_S,"FetchForPlayer", lua_PluginSdkboxGooglePlayLua_GPGStatsWrapper_FetchForPlayer);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(sdkbox::GPGStatsWrapper).name();
+    g_luaType[typeName] = "sdkbox.GPGStatsWrapper";
+    g_typeCast["GPGStatsWrapper"] = "sdkbox.GPGStatsWrapper";
+    return 1;
+}
 TOLUA_API int register_all_PluginSdkboxGooglePlayLua(lua_State* tolua_S)
 {
 	tolua_open(tolua_S);
@@ -1263,10 +1962,14 @@ TOLUA_API int register_all_PluginSdkboxGooglePlayLua(lua_State* tolua_S)
 	tolua_beginmodule(tolua_S,"sdkbox");
 
 	lua_register_PluginSdkboxGooglePlayLua_GPGEventsWrapper(tolua_S);
-	lua_register_PluginSdkboxGooglePlayLua_GPGLocalPlayerWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGPlayerWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGSnapshotWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGQuestsWrapper(tolua_S);
-	lua_register_PluginSdkboxGooglePlayLua_GPGSnapshotWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGAchievementWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGStatsWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper(tolua_S);
 
 	tolua_endmodule(tolua_S);
 

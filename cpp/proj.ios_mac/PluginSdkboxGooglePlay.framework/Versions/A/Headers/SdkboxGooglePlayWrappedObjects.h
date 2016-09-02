@@ -98,6 +98,7 @@ namespace sdkbox {
         static void Reveal( const std::string& achievement_id );
         static void SetStepsAtLeast(std::string const &achievement_id, uint32_t steps);
         static void Unlock(std::string const &achievement_id );
+        
     };
 
     class GPGQuestsWrapper

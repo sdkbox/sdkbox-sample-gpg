@@ -82,13 +82,20 @@ function QuestScene:setupTestMenu()
         end)
     end)
 
+    self._fetch_player_stats_button = cc.MenuItemFont:create("Fetch Player Stats"):onClicked(function()
+        gpg.Stats:FetchForPlayer(function(o)
+            dump(o)
+        end)
+    end)
+
     local menu = cc.Menu:create(
         self._sign_in_button,
         self._show_all_ui_button,
         self._fetch_list_button,
         self._fetch_button,
         self._increment_button,
-        self._claim_milestone_button
+        self._claim_milestone_button,
+        self._fetch_player_stats_button
     )
 
     menu:alignItemsVerticallyWithPadding(5)
@@ -114,6 +121,7 @@ function QuestScene:updateSignIn(show)
         self._fetch_button:setVisible(true)
         self._increment_button:setVisible(true)
         self._claim_milestone_button:setVisible(true)
+        self._fetch_player_stats_button:setVisible(true)
     else
         self._sign_in_button:setString("Sign In")
         self._show_all_ui_button:setVisible(false)
@@ -121,6 +129,7 @@ function QuestScene:updateSignIn(show)
         self._fetch_button:setVisible(false)
         self._increment_button:setVisible(false)
         self._claim_milestone_button:setVisible(false)
+        self._fetch_player_stats_button:setVisible(false)
     end
 end
 
