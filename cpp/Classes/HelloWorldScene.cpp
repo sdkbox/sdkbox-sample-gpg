@@ -83,6 +83,9 @@ bool HelloWorld::init()
           MenuItemFont::create( "Snapshots", CC_CALLBACK_1(HelloWorld::__sceneSnapshots, this)),
           MenuItemFont::create( "Leaderboards", CC_CALLBACK_1(HelloWorld::__sceneLeaderboards, this)),
           MenuItemFont::create( "Achievements", CC_CALLBACK_1(HelloWorld::__sceneAchievements, this)),
+          MenuItemFont::create( "Quests", CC_CALLBACK_1(HelloWorld::__sceneQuests, this)),
+          MenuItemFont::create( "Events", CC_CALLBACK_1(HelloWorld::__sceneEvents, this)),
+          MenuItemFont::create( "Player Stats", CC_CALLBACK_1(HelloWorld::__scenePlayerStats, this)),
           nullptr
     );
 
@@ -156,6 +159,17 @@ void HelloWorld::__sceneAchievements(cocos2d::CCObject *sender) {
     Director::getInstance()->pushScene( Achievement::createScene() );
 }
 
+void HelloWorld::__sceneQuests(cocos2d::CCObject *sender) {
+    Director::getInstance()->pushScene( Quest::createScene() );
+}
+
+void HelloWorld::__sceneEvents(cocos2d::CCObject *sender) {
+    Director::getInstance()->pushScene( Events::createScene() );
+}
+
+void HelloWorld::__scenePlayerStats(cocos2d::CCObject *sender) {
+    Director::getInstance()->pushScene( PlayerStats::createScene() );
+}
 
 void HelloWorld::connect(cocos2d::CCObject *sender) {
     if ( _game_services->IsAuthorized() ) {
@@ -738,4 +752,323 @@ void Snapshot::fetchAllSnapshotGames(cocos2d::CCObject *sender ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////  QUESTS SCENE
+
+Scene* Quest::createScene()
+{
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = Quest::create();
+    
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
+    // return the scene
+    return scene;
+}
+
+bool Quest::init()
+{
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() ) {
+        return false;
+    }
+    
+    Size size = Director::getInstance()->getWinSize();
+    std::string defaultFont("arial.ttf");
+    
+    Menu* menu = Menu::create(
+                              MenuItemFont::create("Fetch", CC_CALLBACK_1(Quest::Fetch, this)),
+                              MenuItemFont::create("Fetch List", CC_CALLBACK_1(Quest::FetchList, this)),
+                              MenuItemFont::create("Show UI", CC_CALLBACK_1(Quest::ShowUI, this)),
+                              MenuItemFont::create("Show All UI", CC_CALLBACK_1(Quest::ShowAllUI, this)),
+                              MenuItemFont::create("Accept", CC_CALLBACK_1(Quest::Accept, this)),
+                              MenuItemFont::create("Claim Milestone", CC_CALLBACK_1(Quest::ClaimMilestone, this)),
+                              
+                              MenuItemFont::create("Main Menu", CC_CALLBACK_1(Quest::__mainMenu, this)),
+                              nullptr
+                              );
+    
+    menu->alignItemsVerticallyWithPadding(5);
+    menu->setPosition(size.width/2, size.height/2 + 40);
+    addChild(menu);
+    
+    _txtStat = Label::create("No action yet.", "fonts/Marker Felt.ttf",32);
+    _txtStat->setAnchorPoint(cocos2d::Point(0, 0));
+    _txtStat->setPosition(cocos2d::Point(10, 10));
+    addChild(_txtStat);
+    
+    return true;
+}
+
+void Quest::__mainMenu( cocos2d::CCObject* sender ) {
+    Director::getInstance()->popScene();
+}
+
+void Quest::Fetch(cocos2d::CCObject *sender) {
+    _game_services->Quests().Fetch(
+               gpg::DataSource::CACHE_OR_NETWORK,
+               "<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ",
+               [this](const gpg::QuestManager::FetchResponse& response)
+               {
+                   if ( gpg::IsSuccess( response.status ) ) {
+                       this->_txtStat->setString( __printf("Fetch Quest success. Name: %s", response.data.Name().c_str()) );
+                   } else {
+                       this->_txtStat->setString( __printf("Fetch Quest error code %d.", (int)response.status) );
+                   }
+               });
+
+}
+
+void Quest::FetchList(cocos2d::CCObject *sender) {
+    _game_services->Quests().FetchList(
+           gpg::DataSource::CACHE_OR_NETWORK,
+           [this](const gpg::QuestManager::FetchListResponse& response) {
+               if (IsSuccess(response.status)) {
+                   this->_txtStat->setString( __printf("Fetch Quest list got %lu quests.", response.data.size() ) );
+               } else {
+                   this->_txtStat->setString( __printf("Fetch Quest list error. code %d.", (int)response.status) );
+               }
+           });
+}
+
+void Quest::Accept(cocos2d::CCObject *sender) {
+    
+    _game_services->Quests().Fetch(
+           gpg::DataSource::CACHE_OR_NETWORK,
+           "<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ",
+           [this](const gpg::QuestManager::FetchResponse& response) {
+    
+               if ( gpg::IsSuccess( response.status ) ) {
+                _game_services->Quests().Accept(
+                        response.data,
+                        [this](const gpg::QuestManager::AcceptResponse& response) {
+
+                            if (IsSuccess(response.status)) {
+                                this->_txtStat->setString( __printf("Quest Accept ok") );
+                            } else {
+                                this->_txtStat->setString( __printf("Quest Accept error. code %d.", (int)response.status) );
+                            }
+                        });
+               } else {
+                   this->_txtStat->setString( __printf("Quest Accept error. At Fetch by id. code %d.", (int)response.status) );
+               }
+           });
+}
+
+void Quest::ClaimMilestone(cocos2d::CCObject *sender) {
+    
+    _game_services->Quests().Fetch(
+           gpg::DataSource::CACHE_OR_NETWORK,
+           "<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ",
+           [this](const gpg::QuestManager::FetchResponse& response) {
+               
+               if ( IsSuccess(response.status) ) {
+                   
+                   if ( response.data.CurrentMilestone().Valid() ) {
+                        _game_services->Quests().ClaimMilestone(
+                                response.data.CurrentMilestone(),
+                                [this](const gpg::QuestManager::ClaimMilestoneResponse& response) {
+
+                                    if (gpg::IsSuccess(response.status))  {
+                                        this->_txtStat->setString( "ClaimMilestone success." );
+                                    } else {
+                                        this->_txtStat->setString( __printf("ClaimMilestone error. code %d.", (int)response.status) );
+                                    }
+                                });
+                   } else {
+                       this->_txtStat->setString( "ClaimMilestone error. Milestone not valid." );
+                   }
+               
+               } else {
+                   this->_txtStat->setString( __printf("ClaimMilestone error. At Fetch by id. code %d.", (int)response.status) );
+               }
+           });
+}
+
+void Quest::ShowAllUI(cocos2d::CCObject *sender) {
+    _game_services->Quests().ShowAllUI(
+           [this](const gpg::QuestManager::QuestUIResponse& response)  {
+       });
+}
+
+void Quest::ShowUI(cocos2d::CCObject *sender) {
+    _game_services->Quests().Fetch(
+           gpg::DataSource::CACHE_OR_NETWORK,
+           "<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ",
+           [this](const gpg::QuestManager::FetchResponse& response) {
+
+               if ( IsSuccess(response.status) ) {
+                    _game_services->Quests().ShowUI(
+                            response.data,
+                            [this](const gpg::QuestManager::QuestUIResponse& response)  {
+                    });
+               }
+           });
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////  Events SCENE
+
+Scene* Events::createScene()
+{
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = Events::create();
+    
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
+    // return the scene
+    return scene;
+}
+
+bool Events::init()
+{
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() ) {
+        return false;
+    }
+    
+    Size size = Director::getInstance()->getWinSize();
+    std::string defaultFont("arial.ttf");
+    
+    Menu* menu = Menu::create(
+                              MenuItemFont::create("Fetch", CC_CALLBACK_1(Events::Fetch, this)),
+                              MenuItemFont::create("Fetch All", CC_CALLBACK_1(Events::FetchAll, this)),
+                              MenuItemFont::create("Increment event by 2", CC_CALLBACK_1(Events::Increment, this)),
+                              
+                              MenuItemFont::create("Main Menu", CC_CALLBACK_1(Events::__mainMenu, this)),
+                              nullptr
+                              );
+    
+    menu->alignItemsVerticallyWithPadding(5);
+    menu->setPosition(size.width/2, size.height/2 + 40);
+    addChild(menu);
+    
+    _txtStat = Label::create("", "fonts/Marker Felt.ttf",32);
+    _txtStat->setAnchorPoint(cocos2d::Point(0, 0));
+    _txtStat->setPosition(cocos2d::Point(10, 10));
+    addChild(_txtStat);
+    
+    return true;
+}
+
+void Events::__mainMenu( cocos2d::CCObject* sender ) {
+    Director::getInstance()->popScene();
+}
+
+void Events::Fetch(cocos2d::CCObject *sender) {
+    _game_services->Events().Fetch(
+           gpg::DataSource::CACHE_OR_NETWORK,
+           "CgkI6KjppNEWEAIQDA",
+           [this](const gpg::EventManager::FetchResponse& response) {
+
+               if (IsSuccess(response.status)) {
+                   this->_txtStat->setString( __printf("Fetch success. name:%s, count:%d", response.data.Name().c_str(), response.data.Count() ) );
+               } else {
+                   this->_txtStat->setString( __printf("Fetch error. code %d.", (int)response.status) );
+               }
+           });
+}
+
+void Events::FetchAll(cocos2d::CCObject *sender) {
+    _game_services->Events().FetchAll(
+          gpg::DataSource::CACHE_OR_NETWORK,
+          [this](const gpg::EventManager::FetchAllResponse& response) {
+
+              if (IsSuccess(response.status)) {
+                  this->_txtStat->setString( __printf("Fetch all got %lu events.", response.data.size() ) );
+              } else {
+                  this->_txtStat->setString( __printf("Fetch all error. code %d.", (int)response.status) );
+              }
+          });
+}
+
+void Events::Increment(cocos2d::CCObject *sender) {
+    if (_game_services) {
+        _game_services->Events().Increment("CgkI6KjppNEWEAIQDA", 2);
+        this->_txtStat->setString( "Call w/o callback. Check by Fetch." );
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////  PLAYER STATS SCENE
+
+Scene* PlayerStats::createScene()
+{
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = PlayerStats::create();
+    
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
+    // return the scene
+    return scene;
+}
+
+bool PlayerStats::init()
+{
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() ) {
+        return false;
+    }
+    
+    Size size = Director::getInstance()->getWinSize();
+    std::string defaultFont("arial.ttf");
+    
+    Menu* menu = Menu::create(
+                              MenuItemFont::create("Fetch For Player", CC_CALLBACK_1(PlayerStats::FetchForPlayer, this)),
+                              
+                              MenuItemFont::create("Main Menu", CC_CALLBACK_1(PlayerStats::__mainMenu, this)),
+                              nullptr
+                              );
+    
+    menu->alignItemsVerticallyWithPadding(5);
+    menu->setPosition(size.width/2, size.height/2 + 40);
+    addChild(menu);
+    
+    _txtStat = Label::create("", "fonts/Marker Felt.ttf",32);
+    _txtStat->setAnchorPoint(cocos2d::Point(0, 0));
+    _txtStat->setPosition(cocos2d::Point(10, 10));
+    addChild(_txtStat);
+    
+    return true;
+}
+
+void PlayerStats::__mainMenu( cocos2d::CCObject* sender ) {
+    Director::getInstance()->popScene();
+}
+
+void PlayerStats::FetchForPlayer(cocos2d::CCObject *sender) {
+    _game_services->Stats().FetchForPlayer(
+           gpg::DataSource::CACHE_OR_NETWORK,
+           [this](const gpg::StatsManager::FetchForPlayerResponse& response) {
+               if (IsSuccess(response.status)) {
+                    this->_txtStat->setString( __printf("Days since last played: %ld.", (long)response.data.DaysSinceLastPlayed() ) );
+               } else {
+                   this->_txtStat->setString( __printf("Fetch for player error. code %d.", (int)response.status) );
+               }
+               
+           });
+}
 

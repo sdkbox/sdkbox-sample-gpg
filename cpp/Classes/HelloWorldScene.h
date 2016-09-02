@@ -31,6 +31,9 @@ public:
     void __sceneSnapshots(cocos2d::CCObject *sender);
     void __sceneLeaderboards(cocos2d::CCObject *sender);
     void __sceneAchievements(cocos2d::CCObject *sender);
+    void __sceneQuests(cocos2d::CCObject *sender);
+    void __sceneEvents(cocos2d::CCObject *sender);
+    void __scenePlayerStats(cocos2d::CCObject *sender);
 };
 
 
@@ -123,5 +126,74 @@ public:
 };
 
 
+class Quest : public cocos2d::Layer
+{
+protected:
+    cocos2d::Label * _txtStat;
+    
+    void __mainMenu( cocos2d::CCObject* sender );
+    
+public:
+    // there's no 'id' in cpp, so we recommend returning the class instance pointer
+    static cocos2d::Scene* createScene();
+    
+    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+    virtual bool init();
+    
+    // implement the "static create()" method manually
+    CREATE_FUNC(Quest);
+    
+    
+    void Fetch(cocos2d::CCObject *sender);
+    void FetchList(cocos2d::CCObject *sender);
+    void Accept(cocos2d::CCObject *sender);
+    void ClaimMilestone(cocos2d::CCObject *sender);
+    void ShowAllUI(cocos2d::CCObject *sender);
+    void ShowUI(cocos2d::CCObject *sender);
+};
+
+
+class Events : public cocos2d::Layer
+{
+protected:
+    cocos2d::Label * _txtStat;
+    
+    void __mainMenu( cocos2d::CCObject* sender );
+    
+public:
+    // there's no 'id' in cpp, so we recommend returning the class instance pointer
+    static cocos2d::Scene* createScene();
+    
+    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+    virtual bool init();
+    
+    // implement the "static create()" method manually
+    CREATE_FUNC(Events);
+    
+    void Fetch(cocos2d::CCObject *sender);
+    void FetchAll(cocos2d::CCObject *sender);
+    void Increment(cocos2d::CCObject *sender);
+};
+
+
+class PlayerStats : public cocos2d::Layer
+{
+protected:
+    cocos2d::Label * _txtStat;
+    
+    void __mainMenu( cocos2d::CCObject* sender );
+    
+public:
+    // there's no 'id' in cpp, so we recommend returning the class instance pointer
+    static cocos2d::Scene* createScene();
+    
+    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+    virtual bool init();
+    
+    // implement the "static create()" method manually
+    CREATE_FUNC(PlayerStats);
+    
+    void FetchForPlayer(cocos2d::CCObject *sender);
+};
 
 #endif // __HELLOWORLD_SCENE_H__
