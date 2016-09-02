@@ -45,9 +45,6 @@ static std::string __printf( const char* format, ... ) {
     return std::string(b);
 }
 
-
-
-
 using namespace sdkbox;
 
 Scene* HelloWorld::createScene()
@@ -71,8 +68,7 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
-    {
+    if ( !Layer::init() ) {
         return false;
     }
 
@@ -83,36 +79,18 @@ bool HelloWorld::init()
     _menu_item_connect = MenuItemFont::create("Sign In/Out",    CC_CALLBACK_1(HelloWorld::connect, this));
     
     Menu* menu = Menu::create(
-                      _menu_item_connect,
-                      MenuItemFont::create("Show SnapshotUI", CC_CALLBACK_1(HelloWorld::showSnapshotUI, this)),
-                      MenuItemFont::create("Fetch all games", CC_CALLBACK_1(HelloWorld::fetchAllSnapshotGames, this)),
-                      MenuItemFont::create( std::string("Delete ") + GAME_NAME, CC_CALLBACK_1(HelloWorld::deleteSnapshotGame, this)),
-                              
-                      MenuItemFont::create( "ldb: Get All", CC_CALLBACK_1(HelloWorld::ldbFetchAll, this)),
-                      MenuItemFont::create( "ldb: Get 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbFetch, this)),
-                      MenuItemFont::create( "ldb: Fetch score page 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbFetchScorePage, this)),
-                      MenuItemFont::create( "ldb: Fetch next score page", CC_CALLBACK_1(HelloWorld::ldbFetchNextScorePage, this)),
-                      MenuItemFont::create( "ldb: ShowUI 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbShowUI, this)),
-                      MenuItemFont::create( "ldb: ShowUI All", CC_CALLBACK_1(HelloWorld::ldbShowAllUI, this)),
-                      MenuItemFont::create( "ldb: Fetch summary 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbFetchScoreSummary, this)),
-                      MenuItemFont::create( "ldb: Fetch all summaries", CC_CALLBACK_1(HelloWorld::ldbFetchScoreAllSummaries, this)),
-                      MenuItemFont::create( "ldb: Submit score 'Best Gamers'", CC_CALLBACK_1(HelloWorld::ldbSubmitScore, this)),
-                              
-                      MenuItemFont::create( "ach: ShowUI All", CC_CALLBACK_1(HelloWorld::achShowAllUI, this)),
-                      MenuItemFont::create( "ach: Fetch all achievements", CC_CALLBACK_1(HelloWorld::achFetchAll, this)),
-                      MenuItemFont::create( "ach: Fetch achievement", CC_CALLBACK_1(HelloWorld::achFetch, this)),
-                      MenuItemFont::create( "ach: Increment", CC_CALLBACK_1(HelloWorld::achIncrement, this)),
-                      MenuItemFont::create( "ach: Reveal", CC_CALLBACK_1(HelloWorld::achReveal, this)),
-                      MenuItemFont::create( "ach: Set at least steps", CC_CALLBACK_1(HelloWorld::achSetAtLeastSteps, this)),
-                      MenuItemFont::create( "ach: Unlock", CC_CALLBACK_1(HelloWorld::achUnlock, this)),
-                      nullptr
+          _menu_item_connect,
+          MenuItemFont::create( "Snapshots", CC_CALLBACK_1(HelloWorld::__sceneSnapshots, this)),
+          MenuItemFont::create( "Leaderboards", CC_CALLBACK_1(HelloWorld::__sceneLeaderboards, this)),
+          MenuItemFont::create( "Achievements", CC_CALLBACK_1(HelloWorld::__sceneAchievements, this)),
+          nullptr
     );
 
     menu->alignItemsVerticallyWithPadding(5);
     menu->setPosition(size.width/2, size.height/2 + 40);
     addChild(menu);
         
-    _txtStat = Label::create("No action yet.", "fonts/Marker Felt.ttf",32);
+    _txtStat = Label::create("", "fonts/Marker Felt.ttf",32);
     _txtStat->setAnchorPoint(cocos2d::Point(0, 0));
     _txtStat->setPosition(cocos2d::Point(10, 10));
     addChild(_txtStat);
@@ -126,7 +104,7 @@ bool HelloWorld::init()
     sdkbox::PluginSdkboxGooglePlay::init();
     
     __initGPG();
-
+    
     return true;
 }
 
@@ -166,6 +144,19 @@ void HelloWorld::__initGPG() {
     }
 }
 
+void HelloWorld::__sceneSnapshots(cocos2d::CCObject *sender) {
+    Director::getInstance()->pushScene( Snapshot::createScene() );
+}
+
+void HelloWorld::__sceneLeaderboards(cocos2d::CCObject *sender) {
+    Director::getInstance()->pushScene( Leaderboard::createScene() );
+}
+
+void HelloWorld::__sceneAchievements(cocos2d::CCObject *sender) {
+    Director::getInstance()->pushScene( Achievement::createScene() );
+}
+
+
 void HelloWorld::connect(cocos2d::CCObject *sender) {
     if ( _game_services->IsAuthorized() ) {
         _game_services->SignOut();
@@ -174,151 +165,207 @@ void HelloWorld::connect(cocos2d::CCObject *sender) {
     }
 }
 
-void HelloWorld::showSnapshotUI(cocos2d::CCObject *sender) {
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////  Achievement SCENE
+
+Scene* Achievement::createScene()
+{
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
     
-    if ( _game_services ) {
-        _game_services->Snapshots().ShowSelectUIOperation( true, true, MAX_SNAPSHOTS, "Snapshots title",
-              [this](gpg::SnapshotManager::SnapshotSelectUIResponse const & response) {
-                  
-                    if (IsSuccess(response.status)) {
-                        if (response.data.Valid()) {
-                            // load a game.
-                            // SnapshotMetadata
-                            gpg::SnapshotMetadata snapshot = response.data;
-                            std::string filename = snapshot.FileName();
-                            CCLOGINFO("Load game: %s with description: %s", filename.c_str(), snapshot.Description().c_str());
-                            __loadGameContents( filename );
-                          
-                      } else {
-                          // create game
-                          std::string game_contents = "{\"a\":\"abcd\",\"b\":false,\"c\":{\"d\":[9,6,\"a\"],\"e\":{},\"f\":5432,\"g\":1}}";
-                          __createGame( GAME_NAME, GAME_DESCRIPTION, str_to_vector(game_contents), gpg::SnapshotConflictPolicy::MOST_RECENTLY_MODIFIED );
-                      }
-                    } else {
-                      // error receiving info
-                      CCLOGINFO("Error in snapshot select ui: %d", (int)response.status);
-                  }
-              });
-        
-    }
+    // 'layer' is an autorelease object
+    auto layer = Achievement::create();
     
+    // add layer as a child to scene
+    scene->addChild(layer);
     
+    // return the scene
+    return scene;
 }
 
-/**
- * Load a game contents and print it as string on the console.
- * Scripting js/lua, expect to save games as strings (preferably serialized json objects), but native can do any binary payload.
- */
-void HelloWorld::__loadGameContents(const std::string &filename) {
+bool Achievement::init()
+{
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() ) {
+        return false;
+    }
+    
+    Size size = Director::getInstance()->getWinSize();
+    std::string defaultFont("arial.ttf");
+    
+    Menu* menu = Menu::create(
+              MenuItemFont::create( "ShowUI All", CC_CALLBACK_1(Achievement::achShowAllUI, this)),
+              MenuItemFont::create( "Fetch all achievements", CC_CALLBACK_1(Achievement::achFetchAll, this)),
+              MenuItemFont::create( "Fetch achievement", CC_CALLBACK_1(Achievement::achFetch, this)),
+              MenuItemFont::create( "Increment", CC_CALLBACK_1(Achievement::achIncrement, this)),
+              MenuItemFont::create( "Reveal", CC_CALLBACK_1(Achievement::achReveal, this)),
+              MenuItemFont::create( "Set at least steps", CC_CALLBACK_1(Achievement::achSetAtLeastSteps, this)),
+              MenuItemFont::create( "Unlock", CC_CALLBACK_1(Achievement::achUnlock, this)),
+                              
+              MenuItemFont::create("Main Menu", CC_CALLBACK_1(Achievement::__mainMenu, this)),
+              nullptr);
+    
+    menu->alignItemsVerticallyWithPadding(5);
+    menu->setPosition(size.width/2, size.height/2 + 40);
+    addChild(menu);
+    
+    _txtStat = Label::create("", "fonts/Marker Felt.ttf",32);
+    _txtStat->setAnchorPoint(cocos2d::Point(0, 0));
+    _txtStat->setPosition(cocos2d::Point(10, 10));
+    addChild(_txtStat);
+    
+    return true;
+}
+
+void Achievement::__mainMenu( cocos2d::CCObject* sender ) {
+    Director::getInstance()->popScene();
+}
+
+void Achievement::achShowAllUI(cocos2d::CCObject *sender) {
     if ( _game_services ) {
-        _game_services->Snapshots().Open(
-                 gpg::DataSource::CACHE_OR_NETWORK,
-                 filename,
-                 gpg::SnapshotConflictPolicy::MOST_RECENTLY_MODIFIED,
-                 [this](gpg::SnapshotManager::OpenResponse const & response) {
-                     gpg::SnapshotManager::ReadResponse responseRead = _game_services->Snapshots().ReadBlocking(response.data);
-                     
-                     if ( responseRead.status == gpg::ResponseStatus::VALID ) {
-                         std::string gamecontents = vec_to_string(responseRead.data);
-                         _txtStat->setString( "Loaded game contents success. see console" );
-                         CCLOG( "Loaded game contents: ");
-                         CCLOG( "%s", gamecontents.c_str() );
+        _game_services->Achievements().ShowAllUI(
+                 [this]( gpg::UIStatus status ) {
+                     if ( IsSuccess(status) ) {
+                         _txtStat->setString( "achievements show ui success." );
                      } else {
-                         _txtStat->setString("Error loading game contents.");
+                         _txtStat->setString( __printf("achievements show ui error %d.", (int)status) );
                      }
-                     
                  });
     }
-    
 }
 
-void HelloWorld::__createGame(
-          const std::string& filename,
-          const std::string& description,
-          std::vector<uint8_t> data,
-          gpg::SnapshotConflictPolicy conflict_policy ) {
-    
+void Achievement::achFetchAll(cocos2d::CCObject *sender) {
     if ( _game_services ) {
-        
-        _game_services->Snapshots().Open(
-                filename,
-                conflict_policy,
-                [this, filename, description, data](gpg::SnapshotManager::OpenResponse const &response) {
-
-                    if (IsSuccess(response.status)) {
-
-                        gpg::SnapshotMetadata metadata = response.data;
-
-                        gpg::SnapshotMetadataChange::Builder builder;
-                        gpg::SnapshotMetadataChange metadata_change = builder
-                                .SetDescription( description )
-                                // .SetCoverImageFromPngData(pngData)
-                                .Create();
-
-                        _game_services->Snapshots().Commit( metadata, metadata_change, data,
-                                   [this, filename]( const gpg::SnapshotManager::CommitResponse &commit_response ) {
-                                       _txtStat->setString( std::string("Create game ") + filename + " success." );
-                                   });
-                        
-                    } else {
-                        // Handle snapshot open error here
-                        char buff[256];
-                        sprintf( buff, "Crete game error: %d.", (int)response.status );
-                        _txtStat->setString( std::string(buff) );
-                    }
-                });
-        
-    }
-}
-
-void HelloWorld::deleteSnapshotGame(cocos2d::CCObject *sender) {
-    
-    if ( _game_services ) {
-        
-        gpg::SnapshotConflictPolicy conflict_policy = gpg::SnapshotConflictPolicy::HIGHEST_PROGRESS;
-        
-        _game_services->Snapshots().Open(
-                GAME_NAME,
-                conflict_policy,
-                [this](gpg::SnapshotManager::OpenResponse const &response) {
-
-                        if (IsSuccess(response.status)) {
-                            _game_services->Snapshots().Delete( response.data );
-                            _txtStat->setString( std::string(GAME_NAME) + " delete success.");
-                        } else {
-                            _txtStat->setString( std::string(GAME_NAME) + " delete error.");
-                            CCLOG("Delete error, code: %d", (int)response.status);
-                        }
-                });
+        _game_services->Achievements().FetchAll( gpg::DataSource::CACHE_OR_NETWORK, [this](const gpg::AchievementManager::FetchAllResponse& res) {
+            
+            if ( IsSuccess( res.status ) ) {
+                
+                _txtStat->setString( __printf("ach ftch all. got info for %lu achievements.", res.data.size() ));
+                for( auto achievement : res.data ) {
+                    CCLOG("%s type:%d state:%d", achievement.Name().c_str(), (int)achievement.Type(), (int)achievement.State() );
+                }
+            } else {
+                _txtStat->setString( __printf("achievements fetch all error %d.", (int)res.status) );
+            }
+            
+        });
     }
     
 }
 
-void HelloWorld::fetchAllSnapshotGames(cocos2d::CCObject *sender ) {
-
+void Achievement::achFetch(cocos2d::CCObject *sender) {
     if ( _game_services ) {
-        
-        _game_services->Snapshots().FetchAll(
-                gpg::DataSource::CACHE_OR_NETWORK,
-                [this]( const gpg::SnapshotManager::FetchAllResponse& response ) {
+        _game_services->Achievements().Fetch( gpg::DataSource::CACHE_OR_NETWORK, "CgkI6KjppNEWEAIQBQ", [this](const gpg::AchievementManager::FetchResponse& res) {
+            
+            if ( IsSuccess( res.status ) ) {
+                gpg::Achievement achievement = res.data;
+                _txtStat->setString( __printf("%s type:%d state:%d", achievement.Name().c_str(), (int)achievement.Type(), (int)achievement.State() ) );
+                
+            } else {
+                _txtStat->setString( __printf("achievement all error %d.", (int)res.status) );
+            }
 
-                        if ( IsSuccess(response.status) ) {
-                            
-                            _txtStat->setString( __printf( "Loaded %;u snapshots metadata. See console for details.", response.data.size()) );
-
-                            CCLOG("Loaded %lu snapshots metadata.", response.data.size());
-                            for( auto snapshotmetadata : response.data ) {
-                                CCLOG("  %s: %s.", snapshotmetadata.FileName().c_str(), snapshotmetadata.Description().c_str() );
-                            }
-                        } else {
-                            _txtStat->setString("Load snapshots error.");
-                        }
-                });
+            
+        });
     }
 }
 
+void Achievement::achReveal(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().Increment( "CgkI6KjppNEWEAIQDg" );
+        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
+    }
+}
 
-void HelloWorld::ldbFetch(cocos2d::CCObject *sender) {
+void Achievement::achUnlock(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().Unlock( "CgkI6KjppNEWEAIQDg" );
+        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
+    }
+}
+
+void Achievement::achIncrement(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().Increment( "CgkI6KjppNEWEAIQDg", 2 );
+        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
+    }
+}
+
+void Achievement::achSetAtLeastSteps(cocos2d::CCObject *sender) {
+    if ( _game_services ) {
+        _game_services->Achievements().SetStepsAtLeast( "CgkI6KjppNEWEAIQDg", 20 );
+        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////  LEADERBOARD SCENE
+
+Scene* Leaderboard::createScene()
+{
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = Leaderboard::create();
+    
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
+    // return the scene
+    return scene;
+}
+
+bool Leaderboard::init()
+{
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() ) {
+        return false;
+    }
+    
+    Size size = Director::getInstance()->getWinSize();
+    std::string defaultFont("arial.ttf");
+    
+    Menu* menu = Menu::create(
+                              MenuItemFont::create( "Get All", CC_CALLBACK_1(Leaderboard::ldbFetchAll, this)),
+                              MenuItemFont::create( "Get 'Best Gamers'", CC_CALLBACK_1(Leaderboard::ldbFetch, this)),
+                              MenuItemFont::create( "Fetch score page 'Best Gamers'", CC_CALLBACK_1(Leaderboard::ldbFetchScorePage, this)),
+                              MenuItemFont::create( "Fetch next score page", CC_CALLBACK_1(Leaderboard::ldbFetchNextScorePage, this)),
+                              MenuItemFont::create( "ShowUI 'Best Gamers'", CC_CALLBACK_1(Leaderboard::ldbShowUI, this)),
+                              MenuItemFont::create( "ShowUI All", CC_CALLBACK_1(Leaderboard::ldbShowAllUI, this)),
+                              MenuItemFont::create( "Fetch summary 'Best Gamers'", CC_CALLBACK_1(Leaderboard::ldbFetchScoreSummary, this)),
+                              MenuItemFont::create( "Fetch all summaries", CC_CALLBACK_1(Leaderboard::ldbFetchScoreAllSummaries, this)),
+                              MenuItemFont::create( "Submit score 'Best Gamers'", CC_CALLBACK_1(Leaderboard::ldbSubmitScore, this)),
+                              
+                              MenuItemFont::create("Main Menu", CC_CALLBACK_1(Leaderboard::__mainMenu, this)),
+                              nullptr
+                              );
+    
+    menu->alignItemsVerticallyWithPadding(5);
+    menu->setPosition(size.width/2, size.height/2 + 40);
+    addChild(menu);
+    
+    _txtStat = Label::create("", "fonts/Marker Felt.ttf",32);
+    _txtStat->setAnchorPoint(cocos2d::Point(0, 0));
+    _txtStat->setPosition(cocos2d::Point(10, 10));
+    addChild(_txtStat);
+    
+    return true;
+}
+
+void Leaderboard::__mainMenu( cocos2d::CCObject* sender ) {
+    Director::getInstance()->popScene();
+}
+
+
+void Leaderboard::ldbFetch(cocos2d::CCObject *sender) {
     if ( _game_services ) {
         _game_services->Leaderboards().Fetch(
                  gpg::DataSource::CACHE_OR_NETWORK,
@@ -337,7 +384,7 @@ void HelloWorld::ldbFetch(cocos2d::CCObject *sender) {
     
 }
 
-void HelloWorld::ldbFetchAll(cocos2d::CCObject *sender) {
+void Leaderboard::ldbFetchAll(cocos2d::CCObject *sender) {
     if ( _game_services ) {
         _game_services->Leaderboards().FetchAll(
                 gpg::DataSource::CACHE_OR_NETWORK,
@@ -362,35 +409,35 @@ void HelloWorld::ldbFetchAll(cocos2d::CCObject *sender) {
     }
 }
 
-void HelloWorld::__ldbFetchScorePageImpl(
-         const gpg::ScorePage::ScorePageToken& token,
-         int max_items,
-         gpg::DataSource data_source ) {
+void Leaderboard::__ldbFetchScorePageImpl(
+                                         const gpg::ScorePage::ScorePageToken& token,
+                                         int max_items,
+                                         gpg::DataSource data_source ) {
     
     _game_services->Leaderboards().FetchScorePage(data_source, token, max_items,
-                  [this](const gpg::LeaderboardManager::FetchScorePageResponse& res) {
+              [this](const gpg::LeaderboardManager::FetchScorePageResponse& res) {
+                  
+                  if ( IsSuccess( res.status ) ) {
                       
-                      if ( IsSuccess( res.status ) ) {
-                          
-                          gpg::ScorePage page = res.data;
-                          
-                          std::string str("Player id in page: ");
-                          for( auto e : page.Entries() ) {
-                              str+= __printf( "[%s,%lu]", e.PlayerId().c_str(), e.Score().Value() );
-                          }
-                          _txtStat->setString( str );
-                          
-                          _currentScorePage = std::unique_ptr<gpg::ScorePage>( new gpg::ScorePage(page) );
-                          
-                      } else {
-                          _currentScorePage= nullptr;
-                          _txtStat->setString( __printf("Fetch score page error %d.", (int)res.status) );
+                      gpg::ScorePage page = res.data;
+                      
+                      std::string str("Player id in page: ");
+                      for( auto e : page.Entries() ) {
+                          str+= __printf( "[%s,%lu]", e.PlayerId().c_str(), e.Score().Value() );
                       }
-                  });
+                      _txtStat->setString( str );
+                      
+                      _currentScorePage = std::unique_ptr<gpg::ScorePage>( new gpg::ScorePage(page) );
+                      
+                  } else {
+                      _currentScorePage= nullptr;
+                      _txtStat->setString( __printf("Fetch score page error %d.", (int)res.status) );
+                  }
+              });
 }
 
 
-void HelloWorld::ldbFetchScorePage(cocos2d::CCObject *sender) {
+void Leaderboard::ldbFetchScorePage(cocos2d::CCObject *sender) {
     if ( _game_services ) {
         
         gpg::ScorePage::ScorePageToken token = _game_services->Leaderboards().ScorePageToken(
@@ -403,7 +450,7 @@ void HelloWorld::ldbFetchScorePage(cocos2d::CCObject *sender) {
     }
 }
 
-void HelloWorld::ldbFetchNextScorePage(cocos2d::CCObject *sender) {
+void Leaderboard::ldbFetchNextScorePage(cocos2d::CCObject *sender) {
     if ( _game_services && _currentScorePage ) {
         if ( _currentScorePage->HasNextScorePage() ) {
             __ldbFetchScorePageImpl( _currentScorePage->NextScorePageToken(), 10, gpg::DataSource::CACHE_OR_NETWORK );
@@ -413,7 +460,7 @@ void HelloWorld::ldbFetchNextScorePage(cocos2d::CCObject *sender) {
     }
 }
 
-void HelloWorld::ldbFetchScoreSummary(cocos2d::CCObject *sender) {
+void Leaderboard::ldbFetchScoreSummary(cocos2d::CCObject *sender) {
     if ( _game_services ) {
         _game_services->Leaderboards().FetchScoreSummary(
                  gpg::DataSource::CACHE_OR_NETWORK,
@@ -434,10 +481,10 @@ void HelloWorld::ldbFetchScoreSummary(cocos2d::CCObject *sender) {
                      
                  });
     }
-
+    
 }
 
-void HelloWorld::ldbFetchScoreAllSummaries(cocos2d::CCObject *sender) {
+void Leaderboard::ldbFetchScoreAllSummaries(cocos2d::CCObject *sender) {
     if ( _game_services ) {
         _game_services->Leaderboards().FetchAllScoreSummaries(
                   gpg::DataSource::CACHE_OR_NETWORK,
@@ -455,14 +502,15 @@ void HelloWorld::ldbFetchScoreAllSummaries(cocos2d::CCObject *sender) {
     
 }
 
-void HelloWorld::ldbSubmitScore(cocos2d::CCObject *sender) {
+void Leaderboard::ldbSubmitScore(cocos2d::CCObject *sender) {
     if ( _game_services ) {
         // submit score has no result callback.
         _game_services->Leaderboards().SubmitScore("CgkI6KjppNEWEAIQAg", 15001);
+        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
     }
 }
 
-void HelloWorld::ldbShowUI(cocos2d::CCObject *sender) {
+void Leaderboard::ldbShowUI(cocos2d::CCObject *sender) {
     if ( _game_services ) {
         _game_services->Leaderboards().ShowUI(
                   "CgkI6KjppNEWEAIQAg",
@@ -470,14 +518,14 @@ void HelloWorld::ldbShowUI(cocos2d::CCObject *sender) {
                       if ( IsSuccess(status) ) {
                           _txtStat->setString( "show ui success." );
                       } else {
-                            _txtStat->setString( __printf("show ui error %d.", (int)status) );
+                          _txtStat->setString( __printf("show ui error %d.", (int)status) );
                       }
                   });
     }
     
 }
 
-void HelloWorld::ldbShowAllUI(cocos2d::CCObject *sender) {
+void Leaderboard::ldbShowAllUI(cocos2d::CCObject *sender) {
     if ( _game_services ) {
         _game_services->Leaderboards().ShowAllUI(
                  [this]( gpg::UIStatus status ) {
@@ -491,79 +539,203 @@ void HelloWorld::ldbShowAllUI(cocos2d::CCObject *sender) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////  SNAPSHOT SCENE
 
-void HelloWorld::achShowAllUI(cocos2d::CCObject *sender) {
+Scene* Snapshot::createScene()
+{
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = Snapshot::create();
+    
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
+    // return the scene
+    return scene;
+}
+
+bool Snapshot::init()
+{
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() ) {
+        return false;
+    }
+    
+    Size size = Director::getInstance()->getWinSize();
+    std::string defaultFont("arial.ttf");
+    
+    Menu* menu = Menu::create(
+            MenuItemFont::create("Show SnapshotUI", CC_CALLBACK_1(Snapshot::showSnapshotUI, this)),
+            MenuItemFont::create("Fetch all games", CC_CALLBACK_1(Snapshot::fetchAllSnapshotGames, this)),
+            MenuItemFont::create( std::string("Delete ") + GAME_NAME, CC_CALLBACK_1(Snapshot::deleteSnapshotGame, this)),
+            MenuItemFont::create("Main Menu", CC_CALLBACK_1(Snapshot::__mainMenu, this)),
+            nullptr
+        );
+    
+    menu->alignItemsVerticallyWithPadding(5);
+    menu->setPosition(size.width/2, size.height/2 + 40);
+    addChild(menu);
+    
+    _txtStat = Label::create("No action yet.", "fonts/Marker Felt.ttf",32);
+    _txtStat->setAnchorPoint(cocos2d::Point(0, 0));
+    _txtStat->setPosition(cocos2d::Point(10, 10));
+    addChild(_txtStat);
+    
+    return true;
+}
+
+void Snapshot::__mainMenu( cocos2d::CCObject* sender ) {
+    Director::getInstance()->popScene();
+}
+
+/**
+ * Load a game contents and print it as string on the console.
+ * Scripting js/lua, expect to save games as strings (preferably serialized json objects), but native can do any binary payload.
+ */
+void Snapshot::__loadGameContents(const std::string &filename) {
     if ( _game_services ) {
-        _game_services->Achievements().ShowAllUI(
-                 [this]( gpg::UIStatus status ) {
-                     if ( IsSuccess(status) ) {
-                         _txtStat->setString( "achievements show ui success." );
-                     } else {
-                         _txtStat->setString( __printf("achievements show ui error %d.", (int)status) );
+        _game_services->Snapshots().Open(
+             gpg::DataSource::CACHE_OR_NETWORK,
+             filename,
+             gpg::SnapshotConflictPolicy::MOST_RECENTLY_MODIFIED,
+             [this](gpg::SnapshotManager::OpenResponse const & response) {
+                 gpg::SnapshotManager::ReadResponse responseRead = _game_services->Snapshots().ReadBlocking(response.data);
+                 
+                 if ( responseRead.status == gpg::ResponseStatus::VALID ) {
+                     std::string gamecontents = vec_to_string(responseRead.data);
+                     _txtStat->setString( "Loaded game contents success. see console" );
+                     CCLOG( "Loaded game contents: ");
+                     CCLOG( "%s", gamecontents.c_str() );
+                 } else {
+                     _txtStat->setString("Error loading game contents.");
+                 }
+                 
+             });
+    }
+    
+}
+
+void Snapshot::__createGame(
+          const std::string& filename,
+          const std::string& description,
+          std::vector<uint8_t> data,
+          gpg::SnapshotConflictPolicy conflict_policy ) {
+    
+    if ( _game_services ) {
+        
+        _game_services->Snapshots().Open(
+             filename,
+             conflict_policy,
+             [this, filename, description, data](gpg::SnapshotManager::OpenResponse const &response) {
+                 
+                 if (IsSuccess(response.status)) {
+                     
+                     gpg::SnapshotMetadata metadata = response.data;
+                     
+                     gpg::SnapshotMetadataChange::Builder builder;
+                     gpg::SnapshotMetadataChange metadata_change = builder
+                     .SetDescription( description )
+                     // .SetCoverImageFromPngData(pngData)
+                     .Create();
+                     
+                     _game_services->Snapshots().Commit( metadata, metadata_change, data,
+                                                        [this, filename]( const gpg::SnapshotManager::CommitResponse &commit_response ) {
+                                                            _txtStat->setString( std::string("Create game ") + filename + " success." );
+                                                        });
+                     
+                 } else {
+                     // Handle snapshot open error here
+                     char buff[256];
+                     sprintf( buff, "Crete game error: %d.", (int)response.status );
+                     _txtStat->setString( std::string(buff) );
+                 }
+             });
+        
+    }
+}
+
+
+void Snapshot::showSnapshotUI(cocos2d::CCObject *sender) {
+    
+    if ( _game_services ) {
+        _game_services->Snapshots().ShowSelectUIOperation( true, true, MAX_SNAPSHOTS, "Snapshots title",
+              [this](gpg::SnapshotManager::SnapshotSelectUIResponse const & response) {
+                  
+                  if (IsSuccess(response.status)) {
+                      if (response.data.Valid()) {
+                          // load a game.
+                          // SnapshotMetadata
+                          gpg::SnapshotMetadata snapshot = response.data;
+                          std::string filename = snapshot.FileName();
+                          CCLOGINFO("Load game: %s with description: %s", filename.c_str(), snapshot.Description().c_str());
+                          __loadGameContents( filename );
+                          
+                      } else {
+                          // create game
+                          std::string game_contents = "{\"a\":\"abcd\",\"b\":false,\"c\":{\"d\":[9,6,\"a\"],\"e\":{},\"f\":5432,\"g\":1}}";
+                          __createGame( GAME_NAME, GAME_DESCRIPTION, str_to_vector(game_contents), gpg::SnapshotConflictPolicy::MOST_RECENTLY_MODIFIED );
+                      }
+                  } else {
+                      // error receiving info
+                      CCLOGINFO("Error in snapshot select ui: %d", (int)response.status);
+                  }
+              });
+        
+    }
+    
+    
+}
+void Snapshot::deleteSnapshotGame(cocos2d::CCObject *sender) {
+    
+    if ( _game_services ) {
+        
+        gpg::SnapshotConflictPolicy conflict_policy = gpg::SnapshotConflictPolicy::HIGHEST_PROGRESS;
+        
+        _game_services->Snapshots().Open(
+             GAME_NAME,
+             conflict_policy,
+             [this](gpg::SnapshotManager::OpenResponse const &response) {
+                 
+                 if (IsSuccess(response.status)) {
+                     _game_services->Snapshots().Delete( response.data );
+                     _txtStat->setString( std::string(GAME_NAME) + " delete success.");
+                 } else {
+                     _txtStat->setString( std::string(GAME_NAME) + " delete error.");
+                     CCLOG("Delete error, code: %d", (int)response.status);
+                 }
+             });
+    }
+    
+}
+
+void Snapshot::fetchAllSnapshotGames(cocos2d::CCObject *sender ) {
+    
+    if ( _game_services ) {
+        
+        _game_services->Snapshots().FetchAll(
+             gpg::DataSource::CACHE_OR_NETWORK,
+             [this]( const gpg::SnapshotManager::FetchAllResponse& response ) {
+                 
+                 if ( IsSuccess(response.status) ) {
+                     
+                     _txtStat->setString( __printf( "Loaded %;u snapshots metadata. See console for details.", response.data.size()) );
+                     
+                     CCLOG("Loaded %lu snapshots metadata.", response.data.size());
+                     for( auto snapshotmetadata : response.data ) {
+                         CCLOG("  %s: %s.", snapshotmetadata.FileName().c_str(), snapshotmetadata.Description().c_str() );
                      }
-                 });
+                 } else {
+                     _txtStat->setString("Load snapshots error.");
+                 }
+             });
     }
 }
 
-void HelloWorld::achFetchAll(cocos2d::CCObject *sender) {
-    if ( _game_services ) {
-        _game_services->Achievements().FetchAll( gpg::DataSource::CACHE_OR_NETWORK, [this](const gpg::AchievementManager::FetchAllResponse& res) {
-            
-            if ( IsSuccess( res.status ) ) {
-                
-                _txtStat->setString( __printf("ach ftch all. got info for %lu achievements.", res.data.size() ));
-                for( auto achievement : res.data ) {
-                    CCLOG("%s type:%d state:%d", achievement.Name().c_str(), (int)achievement.Type(), (int)achievement.State() );
-                }
-            } else {
-                _txtStat->setString( __printf("achievements fetch all error %d.", (int)res.status) );
-            }
-            
-        });
-    }
-    
-}
-
-void HelloWorld::achFetch(cocos2d::CCObject *sender) {
-    if ( _game_services ) {
-        _game_services->Achievements().Fetch( gpg::DataSource::CACHE_OR_NETWORK, "CgkI6KjppNEWEAIQBQ", [this](const gpg::AchievementManager::FetchResponse& res) {
-            
-            if ( IsSuccess( res.status ) ) {
-                gpg::Achievement achievement = res.data;
-                _txtStat->setString( __printf("%s type:%d state:%d", achievement.Name().c_str(), (int)achievement.Type(), (int)achievement.State() ) );
-                
-            } else {
-                _txtStat->setString( __printf("achievement all error %d.", (int)res.status) );
-            }
-
-            
-        });
-    }
-}
-
-void HelloWorld::achReveal(cocos2d::CCObject *sender) {
-    if ( _game_services ) {
-        _game_services->Achievements().Increment( "CgkI6KjppNEWEAIQDg" );
-    }
-}
-
-void HelloWorld::achUnlock(cocos2d::CCObject *sender) {
-    if ( _game_services ) {
-        _game_services->Achievements().Unlock( "CgkI6KjppNEWEAIQDg" );
-    }
-}
-
-void HelloWorld::achIncrement(cocos2d::CCObject *sender) {
-    if ( _game_services ) {
-        _game_services->Achievements().Increment( "CgkI6KjppNEWEAIQDg", 2 );
-    }
-}
-
-void HelloWorld::achSetAtLeastSteps(cocos2d::CCObject *sender) {
-    if ( _game_services ) {
-        _game_services->Achievements().SetStepsAtLeast( "CgkI6KjppNEWEAIQDg", 20 );
-    }
-    
-}
 
 
