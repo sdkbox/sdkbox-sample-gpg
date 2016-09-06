@@ -25,7 +25,7 @@ end
 function log:to_str(value, desciption, nesting)
 
     if type(nesting) ~= "number" then
-        nesting = 7
+        nesting = 20
     end
 
     local lookupTable = {}
