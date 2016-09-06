@@ -257,7 +257,13 @@ gpg.SnapshotConflictPolicy = {
     DefaultConflictPolicy = 4
 }
 
-function gpg:CreateGameServices(config)
+function gpg:CreateGameServices(config, start_callback, finished_callback)
+    if start_callback ~= nil then
+        gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.AUTH_ACTION_STARTED,  start_callback)
+    end
+    if finished_callback ~= nil then
+        gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.AUTH_ACTION_FINISHED, finished_callback)
+    end
     sdkbox.GPGWrapper:CreateGameServices(json.encode(config))
 end
 

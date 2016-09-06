@@ -3,9 +3,13 @@ if not json then
     require "cocos.cocos2d.json"
 end
 local log = require "app.views.log"
+local gpg = require "app.views.sdkboxgpg"
+
 local MainScene = class("MainScene", cc.load("mvc").ViewBase)
 
 function MainScene:onCreate()
+
+    self._signed_in = false
 
     local label = cc.Label:createWithSystemFont("QUIT", "sans", 32)
     local quit = cc.MenuItemLabel:create(label)
@@ -21,14 +25,29 @@ function MainScene:onCreate()
     self:setupTestMenu()
 
     log:setup(self, 300, 18)
-    
+
+    local config = {ClientID="777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni.apps.googleusercontent.com"}
+    gpg:CreateGameServices(config, nil, {self, MainScene.onAuthFinished})
+
 end
 
 function MainScene:setupTestMenu()
 
+    self._signed_in = false
+
     cc.MenuItemFont:setFontName("sans")
     local size = cc.Director:getInstance():getWinSize()
 
+    self._sign_in_button = cc.MenuItemFont:create("Sign In"):onClicked(function()
+        if not self._signed_in then
+            gpg:StartAuthorizationUI()
+        else
+            gpg:SignOut()
+            self._signed_in = false
+        end
+        self:updateSignIn(self._signed_in)
+    end)
+    
     self._snapshots = cc.MenuItemFont:create("Snapshots"):onClicked(function()
             app:enterScene('SnapshotScene')
         end)
@@ -50,6 +69,7 @@ function MainScene:setupTestMenu()
         end)
 
     local menu = cc.Menu:create(
+        self._sign_in_button,
         self._snapshots,
         self._quests,
         self._achievements,
@@ -61,6 +81,26 @@ function MainScene:setupTestMenu()
     menu:setPosition(size.width/2, size.height/2)
     self:addChild(menu)
 
+end
+
+function MainScene:onAuthFinished(obj)
+    if obj.AuthStatus == 1 then
+        self._signed_in = true
+    end
+    self:updateSignIn(self._signed_in)
+end
+
+function MainScene:updateSignIn(show)
+    if show then
+        self._sign_in_button:setString("Sign Out")
+    else
+        self._sign_in_button:setString("Sign In")
+    end
+    self._snapshots:setVisible(show)
+    self._quests:setVisible(show)
+    self._achievements:setVisible(show)
+    self._leaderboards:setVisible(show)
+    self._playerstats:setVisible(show)
 end
 
 return MainScene
