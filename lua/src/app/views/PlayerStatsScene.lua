@@ -1,4 +1,5 @@
-require "app.views.log"
+
+local log = require "app.views.log"
 
 local PlayerStatsScene = class("PlayerStatsScene", cc.load("mvc").ViewBase)
 

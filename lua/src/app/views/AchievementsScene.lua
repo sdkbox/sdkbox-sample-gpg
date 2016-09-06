@@ -1,4 +1,5 @@
-require "app.views.log"
+
+local log = require "app.views.log"
 
 local AchievementsScene = class("AchievementsScene", cc.load("mvc").ViewBase)
 

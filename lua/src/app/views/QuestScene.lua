@@ -1,6 +1,5 @@
 
 local log = require "app.views.log"
-local gpg = require "app.views.sdkboxgpg"
 
 local QuestScene = class("QuestScene", cc.load("mvc").ViewBase)
 

@@ -19,6 +19,7 @@ function log:d(text)
     self.log_y = self.log_y - self.log_spacing
     lbl:setAnchorPoint(0, 0)
     self.log_parent:addChild(lbl)
+    print(text)
 end
 
 function log:to_str(value, desciption, nesting)

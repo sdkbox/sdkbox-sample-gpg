@@ -1,4 +1,5 @@
-require "app.views.log"
+
+local log = require "app.views.log"
 
 local LeaderboardScene = class("LeaderboardScene", cc.load("mvc").ViewBase)
 

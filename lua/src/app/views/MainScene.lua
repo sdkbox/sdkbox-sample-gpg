@@ -2,8 +2,10 @@
 if not json then
     require "cocos.cocos2d.json"
 end
+if not gpg then
+    gpg = require "app.views.sdkboxgpg"
+end
 local log = require "app.views.log"
-local gpg = require "app.views.sdkboxgpg"
 
 local MainScene = class("MainScene", cc.load("mvc").ViewBase)
 

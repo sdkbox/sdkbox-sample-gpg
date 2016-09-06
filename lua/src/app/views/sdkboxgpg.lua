@@ -403,7 +403,7 @@ function gpg.Snapshots:ShowSelectUIOperation(allow_create, allow_delete, max_sna
         title = title
     }
     __dp(params, {P_SNP_TITLE, P_SNP_PAGE_SIZE})
-    sdkbox.GPGSnapshotsWrapper:ShowSelectUIOperation(gpg.CallbackManager:addCallback(callback), json.encode(params))
+    sdkbox.GPGSnapshotWrapper:ShowSelectUIOperation(gpg.CallbackManager:addCallback(callback), json.encode(params))
 end
 
 function gpg.Snapshots:Load(filename, conflict_policy, data_source, callback)
@@ -413,7 +413,7 @@ function gpg.Snapshots:Load(filename, conflict_policy, data_source, callback)
     end
     conflict_policy = conflict_policy or gpg.SnapshotConflictPolicy.DefaultConflictPolicy
     data_source = data_source or gpg.DataSource.CACHE_OR_NETWORK
-    sdkbox.GPGSnapshotsWrapper:Load(gpg.CallbackManager:addCallback(callback), filename, conflict_policy, data_source)
+    sdkbox.GPGSnapshotWrapper:Load(gpg.CallbackManager:addCallback(callback), filename, conflict_policy, data_source)
 end
 
 function gpg.Snapshots:Save(filename, conflict_policy, description, data, callback)
@@ -434,13 +434,13 @@ function gpg.Snapshots:Save(filename, conflict_policy, description, data, callba
         data = data
     }
     __dp(params, {P_SNP_CONFLICT_POLICY, P_SNP_DESCRIPTION})
-    sdkbox.GPGSnapshotsWrapper:Save(gpg.CallbackManager:addCallback(callback), params)
+    sdkbox.GPGSnapshotWrapper:Save(gpg.CallbackManager:addCallback(callback), json.encode(params))
 end
 
 function gpg.Snapshots:FetchAll(data_source, callback)
     local params = {data_source}
     __dp(params, {P_DATA_SOURCE})
-    sdkbox.GPGSnapshotsWrapper:FetchAll(gpg.CallbackManager:addCallback(callback), params)
+    sdkbox.GPGSnapshotWrapper:FetchAll(gpg.CallbackManager:addCallback(callback), json.encode(params))
 end
 
 function gpg.Snapshots:Delete(filename, callback)
@@ -448,7 +448,7 @@ function gpg.Snapshots:Delete(filename, callback)
         __log("error Delete : filename not specified")
         return
     end
-    sdkbox.GPGSnapshotsWrapper:Delete(gpg.CallbackManager:addCallback(callback), filename)
+    sdkbox.GPGSnapshotWrapper:Delete(gpg.CallbackManager:addCallback(callback), filename)
 end
 
 --
