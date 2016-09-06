@@ -1,4 +1,4 @@
-
+local log = require "app.views.log"
 local gpg = require "app.views.sdkboxgpg"
 
 local QuestScene = class("QuestScene", cc.load("mvc").ViewBase)
@@ -18,6 +18,8 @@ function QuestScene:onCreate()
     menu:setPosition(display.right - size.width / 2 - 16, display.bottom + size.height / 2 + 16)
     self:addChild(menu)
 
+    log:setup(self, 300, 20)
+    
     self:setupTestMenu()
 
     gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.AUTH_ACTION_STARTED,  {self, QuestScene.onAuthStart})
@@ -47,7 +49,7 @@ function QuestScene:setupTestMenu()
 
     self._show_all_ui_button = cc.MenuItemFont:create("Show All UI"):onClicked(function()
         gpg.Quests:ShowAllUI(function(o)
-            --dump(o)
+            log:d(log:to_str(o))
         end)
     end)
 
@@ -58,33 +60,34 @@ function QuestScene:setupTestMenu()
                 self._quest_id = q.Id
                 print("Setting quest id to " .. q.Id)
                 self._milestone_id = q.CurrentMilestone.Id
-                print("Setting milestone id to " .. self._milestone_id)
+                log:d("Setting milestone id to " .. self._milestone_id)
             end
-            --dump(o)
+            log:d(log:to_str(o))
         end)
     end)
 
     self._quest_id = nil
     self._fetch_button = cc.MenuItemFont:create("Fetch"):onClicked(function()
         gpg.Quests:Fetch(self._quest_id, function(o)
-            dump(o)
+            log:d(log:to_str(o))
         end)
     end)
 
     self._increment_button = cc.MenuItemFont:create("Increment"):onClicked(function()
         gpg.Events:Increment("CgkI6KjppNEWEAIQDA")
+        log:d("Increment event CgkI6KjppNEWEAIQDA")
     end)
 
     self._milestone_id = nil
     self._claim_milestone_button = cc.MenuItemFont:create("Claim Milestone"):onClicked(function()
         gpg.Quests:ClaimMilestone(self._milestone_id, function(o)
-            dump(o)
+            log:d(log:to_str(o))
         end)
     end)
 
     self._fetch_player_stats_button = cc.MenuItemFont:create("Fetch Player Stats"):onClicked(function()
         gpg.Stats:FetchForPlayer(function(o)
-            dump(o)
+            log:d(log:to_str(o))
         end)
     end)
 
