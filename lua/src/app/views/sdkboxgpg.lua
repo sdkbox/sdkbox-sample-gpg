@@ -31,12 +31,8 @@ function __dp(params, fields)
     if params == nil then
         error('setting def params in undefined object.');
     end
-    if type(fields) == 'array' then
-        for i, f in ipairs(fields) do
-            __dp1(params, f);
-        end
-    else
-        __dp1(params, fields);
+    for i, f in ipairs(fields) do
+        __dp1(params, f);
     end
 end
 
