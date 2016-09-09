@@ -12,7 +12,7 @@
 #include <string>
 #include "GPGConstants.h"
 #include "SdkboxGooglePlayWrappedObjects.h"
-#include "gpg/gpg.h"
+#include <gpg/gpg.h>
 #endif
 
 std::unique_ptr<gpg::PlatformConfiguration> CreatePlatformConfiguration( const std::string& client_id );
