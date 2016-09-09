@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * @namespace
  * @name cc
@@ -23,19 +25,243 @@
  */
 
 /**
- * @typedef {{ title : string, scene : cc.Scene }}
+ * @name Layer
+ * @constructor
+ * @memberOf cc
  */
-var SceneInfo;
-
 
 /**
- *
- * @type {gpg.GameServices}
- * @name _game_services
+ * @name Scene
+ * @constructor
+ * @memberOf cc
  */
-var _game_services = null;
-var _signed_in = false;
-var _initialized = false;
+
+/**
+ * @name director
+ * @namespace
+ * @memberOf cc
+ */
+
+/**
+ * @name Director
+ * @namespace
+ * @memberOf cc
+ */
+
+/**
+ * @typedef {{ start : boolean, operation:gpg.AuthOperation, status?:gpg.AuthStatus }}
+ */
+var GPGContextAuthenticationListenerParam;
+
+/**
+ * @callback GPGContextAuthenticationListener
+ * @param GPGContextAuthenticationListenerParam
+ */
+
+/**
+ * @typedef {{ onGameServicesCreated? : BuilderCreateCallback, onMultiplayerInvitation? : MultiplayerInvitationCallback }}
+ */
+var GPGContextInitializationCallbacks;
+
+/**
+ * @class
+ * @name GPGContext
+ * @constructor
+ *
+ * @param gpgcallbacks {GPGContextInitializationCallbacks}
+ */
+function GPGContext( gpgcallbacks ) {
+
+    /**
+     * @name _game_services
+     * @memberOf GPGContext
+     * @type {gpg.GameServices}
+     */
+    this._game_services = null;
+
+    this._signed_in = false;
+    this._initialized = false;
+
+    /**
+     *
+     * @type {gpg.Player}
+     */
+    this._localPlayer = null;
+
+    /**
+     * @name _listeners
+     * @memberOf GPGContext
+     * @type {GPGContextAuthenticationListener[]}
+     */
+    this._listeners = [];
+
+    this.__initGPG( gpgcallbacks );
+
+    return this;
+}
+
+GPGContext.prototype = {
+
+    gameServices : function() {
+        return this._game_services;
+    },
+
+    /**
+     * @param params {GPGContextInitializationCallbacks}
+     * @private
+     */
+    __initGPG : function( params ) {
+
+        var me = this;
+
+        me._initialized = true;
+
+        var config = new gpg.PlatformConfiguration();
+        config.SetClientID('777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni.apps.googleusercontent.com');
+
+        new gpg.GameServices.Builder()
+            .SetOnAuthActionStarted(
+                /**
+                 *
+                 * @param result {AuthActionStartedCallbackParams}
+                 */
+                function( result ) {
+                    __log('on auth action started: ' + result.AuthOperation);
+                    me.__notifyListeners({
+                        start : true,
+                        operation : result.AuthOperation,
+                        result : gpg.AuthStatus.VALID
+                    });
+                })
+            .SetOnAuthActionFinished(
+                /**
+                 *
+                 * @param result {AuthActionFinishedCallbackParams}
+                 */
+                function( result ) {
+                    __log('on auth action finished: ' + result.AuthOperation + ' ' + result.AuthStatus);
+
+                    me._signed_in = gpg.IsSuccess(result.AuthStatus);
+
+                    me.__notifyListeners({
+                        start : false,
+                        operation : result.AuthOperation,
+                        result : result.AuthStatus
+                    });
+                })
+            .SetOnMultiplayerInvitationEvent(
+                /**
+                 *
+                 * @param result {MultiplayerInvitationCallback}
+                 */
+                function( result ) {
+                    params.onMultiplayerInvitation && params.onMultiplayerInvitation( result );
+                })
+            .SetLogging( gpg.LogLevel.INFO )
+            .EnableSnapshots()
+            .Create(
+                config,
+                
+                /**
+                 *
+                 * @param gs {gpg.GameServices}
+                 */
+                function( gs ) {
+
+                    __log('on auth created');
+
+                    me._game_services = gs;
+                    if (null === gs) {
+                        __log("No GameServices object created. Internal library error.");
+                    }
+
+                    params.onGameServicesCreated && params.onGameServicesCreated(gs);
+                });
+    },
+
+    isSignedIn : function() {
+        return this._signed_in;
+    },
+
+    isInitialized : function() {
+        return this._game_services!==null;
+    },
+
+    /**
+     *
+     * @returns {gpg.Player}
+     */
+    localPlayer : function( ) {
+        return this._localPlayer;
+    },
+
+    /**
+     * @param l {GPGContextAuthenticationListener}
+     */
+    removeListener: function (l) {
+        var pos = this._listeners.indexOf( l );
+        if ( pos!==-1 ) {
+            this._listeners.splice( pos, 1 );
+        }
+    },
+
+    /**
+     * @param l {GPGContextAuthenticationListener}
+     */
+    addListener: function (l) {
+        this._listeners.push(l);
+    },
+
+    removeAllListeners : function() {
+        this._listeners = [];
+    },
+
+    /**
+     *
+     * @param p {GPGContextAuthenticationListenerParam}
+     */
+    __notifyListeners : function( p ) {
+        this._listeners.forEach( function(l) {
+            l(p)
+        });
+    },
+
+    /**
+     *
+     * @param callback {function( p : gpg.Player )}
+     */
+    setLocalPlayer : function( callback ) {
+
+        var me = this;
+
+        this.gameServices().Players.FetchSelf(
+            gpg.DataSource.CACHE_OR_NETWORK,
+            /**
+             *
+             * @param res {PlayersFetchSelfCallbackParams}
+             */
+            function (res) {
+
+                if (gpg.IsSuccess(res.result)) {
+                    me._localPlayer= res.player;
+                } else {
+                    me._localPlayer= null;
+                }
+
+                callback( me._localPlayer );
+            });
+    }
+};
+
+/**
+ * @type GPGContext|null
+ */
+var _context= null;
+
+/**
+ * bug bug. need a global label to notify on multiplayer or main scene.
+ */
+var _global_label= null;
 
 var HelloWorldLayer = cc.Layer.extend({
     sprite          : null,
@@ -55,15 +281,19 @@ var HelloWorldLayer = cc.Layer.extend({
         this._login_menu_item = new cc.MenuItemFont(
             "--",
             function () {
-                if ( _signed_in ) {
-                    _game_services.SignOut();
+                if ( _context.isInitialized() ) {
+                    if (_context.isSignedIn()) {
+                        _context.gameServices().SignOut();
+                    } else {
+                        _context.gameServices().StartAuthorizationUI();
+                    }
                 } else {
-                    _gpg.GPGWrapper.StartAuthorizationUI();
+                    __log('Fatal, no _game_services object present.');
                 }
             });
 
-        if ( _initialized ) {
-            if ( _signed_in ) {
+        if ( _context && _context.isInitialized() ) {
+            if ( _context.isSignedIn() ) {
                 this.__disableLoginButton();
             } else {
                 this.__enableLoginButton();
@@ -107,6 +337,7 @@ var HelloWorldLayer = cc.Layer.extend({
         this._super();
 
         var winsize = cc.winSize;
+        var me = this;
 
         var logo = new cc.Sprite("res/Logo.png");
         var logoSize = logo.getContentSize();
@@ -114,7 +345,7 @@ var HelloWorldLayer = cc.Layer.extend({
         logo.y = winsize.height - logoSize.height / 2;
         this.addChild(logo);
 
-        this.info = new cc.LabelTTF("unknown status", "sans", 24);
+        this.info = new cc.LabelTTF("", "sans", 24);
         this.info.x = cc.Director.getInstance().getWinSize().width / 2;
         this.info.y = 90;
         this.addChild(this.info);
@@ -124,60 +355,88 @@ var HelloWorldLayer = cc.Layer.extend({
         this._text.y = 120;
         this.addChild(this._text);
 
-        this.createMenu();
+        _global_label = this._text;
 
-        if ( !_initialized ) {
-            this.__initGPG();
+        function setContextListeners() {
+            _context.removeAllListeners();
+            _context.addListener(
+                /**
+                 *
+                 * @param p {GPGContextAuthenticationListenerParam}
+                 */
+                function (p) {
+                    if (p.start === false) {                            // EndAuthenticationProcess
+
+                        if (p.operation === gpg.AuthOperation.SIGN_IN) {    // Sign in ?
+
+                            if (gpg.IsSuccess(p.result)) {                      // succesful ?
+
+                                me.__disableLoginButton();
+
+                                _context.setLocalPlayer( function(p) {          // this is a good spot to get and cache
+                                                                                // local player's info.
+                                    if ( p ) {
+                                        // dump to console object contents.
+                                        gpg.Player.__Dump(p);
+                                        me.info.setString(p.name);
+                                    } else {
+                                        me.info.setString("can't get my player info.");
+                                    }
+                                });
+
+                            } else {
+                                me.__enableLoginButton();                       // no sucessful, set menu item to sign in
+                            }
+                        } else {                                            // sign out ?
+                            me.__enableLoginButton();                           // set menu item to sign in.
+                        }
+                    }
+                });
+        }
+
+        if ( _context===null ) {
+            _context = new GPGContext(
+                {
+                    /**
+                     *
+                     * @param _game_services {BuilderCreateCallback}
+                     */
+                    onGameServicesCreated: function (_game_services) {
+
+                        if (_game_services) {
+                            me.createMenu();
+                        } else {
+                            me.info.setString("Could not create game services native object.");
+                        }
+
+                        setContextListeners();
+
+
+                    },
+
+                    /**
+                     *
+                     * @param params {MultiplayerInvitationCallbackParams}
+                     */
+                    onMultiplayerInvitation: function ( params ) {
+                        _global_label && _global_label.setString("you received an invitation: "+params.match.id.substring(0,10) + "...");
+                    }
+                });
+        } else {
+            me.createMenu();
+
+            if ( _context && _context.localPlayer() ) {
+                me.info.setString( _context.localPlayer().name );
+            } else {
+
+__log("checking for ctx " + (_context!==null));
+__log("checking for ctx.p " + (_context.localPlayer()!==null));
+            }
+
+            setContextListeners();
         }
 
         return true;
-    },
-
-    __initGPG : function() {
-        var me = this;
-
-        _initialized = true;
-
-        var config = new gpg.PlatformConfiguration();
-        config.SetClientID('777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni.apps.googleusercontent.com');
-
-        _game_services = new gpg.GameServices.Builder()
-            .SetOnAuthActionStarted( function( result ) {
-                __log('on auth action started: '+result.AuthOperation);
-            })
-            .SetOnAuthActionFinished( function( result ) {
-                __log('on auth action finished: '+result.AuthOperation+' '+result.AuthStatus);
-
-                if( result.AuthStatus === gpg.AuthStatus.VALID ) {
-                    _signed_in = true;
-                    me.__disableLoginButton();
-
-                    _game_services.Players.FetchSelf(
-                        gpg.DataSource.CACHE_OR_NETWORK,
-                        /**
-                         *
-                         * @param res {PlayersFetchSelfCallbackParams}
-                         */
-                        function( res ) {
-
-                            if (gpg.IsSuccess(res.result) ) {
-                                // dump to console object contents.
-                                gpg.Player.__Dump( res.player );
-                                me.info.setString(res.player.name);
-                            } else {
-                                me.info.setString("can't get my player info.");
-                            }
-                        } );
-
-                }
-                else {
-                    _signed_in = false;
-                    me.__enableLoginButton();
-                }
-            })
-            .SetLogging( gpg.LogLevel.VERBOSE )
-            .EnableSnapshots()
-            .Create( config );
     },
 
     __enableLoginButton : function() {
@@ -225,8 +484,8 @@ var LayerSnapShot = cc.Layer.extend({
 
         var menu = new cc.Menu(
             new cc.MenuItemFont("Show SnapshotUI", function () {
-                if ( _signed_in ) {
-                    _game_services.Snapshots.ShowSelectUIOperation(
+                if ( _context.isSignedIn() ) {
+                    _context.gameServices().Snapshots.ShowSelectUIOperation(
                         {
                             allow_create : true,
                             allow_delete : true,
@@ -243,7 +502,7 @@ var LayerSnapShot = cc.Layer.extend({
                                 __log('snapshot load game');
                                 var metadata = result.metadata;
 
-                                _game_services.Snapshots.Load(
+                                _context.gameServices().Snapshots.Load(
                                     {
                                         conflict_policy : gpg.SnapshotConflictPolicy.DefaultConflictPolicy,
                                         filename :        metadata.filename
@@ -267,7 +526,7 @@ var LayerSnapShot = cc.Layer.extend({
 
                                 __log('snapshot create game');
 
-                                _game_services.Snapshots.Save(
+                                _context.gameServices().Snapshots.Save(
                                     {
                                         filename : 'gpg_testing',
                                         description : 'a valued saved game',
@@ -294,7 +553,7 @@ var LayerSnapShot = cc.Layer.extend({
             }),
             new cc.MenuItemFont("Fetch all games", function () {
 
-                _game_services.Snapshots.FetchAll(
+                _context.gameServices().Snapshots.FetchAll(
                     {
                         data_source : gpg.DataSource.CACHE_OR_NETWORK
                     },
@@ -321,7 +580,7 @@ var LayerSnapShot = cc.Layer.extend({
 
                 var filename = 'gpg_testing';
 
-                _game_services.Snapshots.Delete(filename, function(result) {
+                _context.gameServices().Snapshots.Delete(filename, function(result) {
                     if ( result.result==='success' ) {
                         me._text.setString('game '+filename+' deleted.');
                     } else {
@@ -377,15 +636,15 @@ var LayerLeaderboard = cc.Layer.extend({
         var menu = new cc.Menu(
             new cc.MenuItemFont("Show UI [Best gamers]", function () {
 
-                _game_services.Leaderboards.ShowUI("CgkI6KjppNEWEAIQAg");
+                _context.gameServices().Leaderboards.ShowUI("CgkI6KjppNEWEAIQAg");
 
             }),
             new cc.MenuItemFont("Show All UI", function () {
-                _game_services.Leaderboards.ShowAllUI( );
+                _context.gameServices().Leaderboards.ShowAllUI( );
 
             }),
             new cc.MenuItemFont("Submit random score to [Fastest lap]", function () {
-                _game_services.Leaderboards.SubmitScore(
+                _context.gameServices().Leaderboards.SubmitScore(
                     {
 
                         leaderboard_id : 'CgkI6KjppNEWEAIQAw',
@@ -403,7 +662,7 @@ var LayerLeaderboard = cc.Layer.extend({
             }),
             new cc.MenuItemFont("Fetch all score summaries [best gamers]", function () {
 
-                _game_services.Leaderboards.FetchAllScoreSummaries(
+                _context.gameServices().Leaderboards.FetchAllScoreSummaries(
                     {
                         leaderboard_id : 'CgkI6KjppNEWEAIQAg'
                     },
@@ -437,7 +696,7 @@ var LayerLeaderboard = cc.Layer.extend({
                 )
             }),
             new cc.MenuItemFont("Fetch all", function () {
-                _game_services.Leaderboards.FetchAll(
+                _context.gameServices().Leaderboards.FetchAll(
                     gpg.DataSource.CACHE_OR_NETWORK,
                     /**
                      *
@@ -466,7 +725,7 @@ var LayerLeaderboard = cc.Layer.extend({
             }),
             new cc.MenuItemFont("Fetch score page", function () {
 
-                _game_services.Leaderboards.FetchScorePage(
+                _context.gameServices().Leaderboards.FetchScorePage(
                     {
                         leaderboard_id : 'CgkI6KjppNEWEAIQAg'
                     },
@@ -484,7 +743,7 @@ var LayerLeaderboard = cc.Layer.extend({
                                  * @param entry {gpg.ScorePage.Entry}
                                  */
                                 function( entry ) {
-                                    _game_services.Players.Fetch(
+                                    _context.gameServices().Players.Fetch(
                                         {
                                             player_id : entry.playerId
                                         },
@@ -507,7 +766,7 @@ var LayerLeaderboard = cc.Layer.extend({
             }),
             new cc.MenuItemFont("Fetch next score page", function () {
 
-                _game_services.Leaderboards.FetchNextScorePage(
+                _context.gameServices().Leaderboards.FetchNextScorePage(
                     {},
                     /**
                      *
@@ -579,7 +838,7 @@ var LayerAchievement = cc.Layer.extend({
         var menu = new cc.Menu(
             new cc.MenuItemFont("Show UI", function() {
                 // this method has no callback.
-                _game_services.Achievements.ShowAllUI(
+                _context.gameServices().Achievements.ShowAllUI(
                     /**
                      *
                      * @param result {AchievementShowAllUICallbackParams}
@@ -589,7 +848,7 @@ var LayerAchievement = cc.Layer.extend({
                     });
             }),
             new cc.MenuItemFont("Fetch all achievements", function () {
-                _game_services.Achievements.FetchAll(
+                _context.gameServices().Achievements.FetchAll(
                     gpg.DataSource.CACHE_OR_NETWORK,
                     /**
                      *
@@ -618,7 +877,7 @@ var LayerAchievement = cc.Layer.extend({
                 );
             }),
             new cc.MenuItemFont("Fetch achievement 'Incremental'", function() {
-                _game_services.Achievements.Fetch(
+                _context.gameServices().Achievements.Fetch(
                     {
                         achievement_id : 'CgkI6KjppNEWEAIQBQ',
                         data_source : gpg.DataSource.CACHE_OR_NETWORK
@@ -643,7 +902,7 @@ var LayerAchievement = cc.Layer.extend({
             }),
             new cc.MenuItemFont("Increment achievement", function() {
                 // this method has no callback.
-                _game_services.Achievements.Increment(
+                _context.gameServices().Achievements.Increment(
                     {
                         achievement_id: 'CgkI6KjppNEWEAIQDg',
                         increment : 1
@@ -653,7 +912,7 @@ var LayerAchievement = cc.Layer.extend({
             }),
             new cc.MenuItemFont("Set Steps at least achievement", function() {
                 // this method has no callback.
-                _game_services.Achievements.SetStepsAtLeast(
+                _context.gameServices().Achievements.SetStepsAtLeast(
                     {
                         achievement_id: 'CgkI6KjppNEWEAIQDg',
                         increment : 20
@@ -663,12 +922,12 @@ var LayerAchievement = cc.Layer.extend({
             }),
             new cc.MenuItemFont("Unlock achievement", function() {
                 // this method has no callback.
-                _game_services.Achievements.Unlock('CgkI6KjppNEWEAIQDg');
+                _context.gameServices().Achievements.Unlock('CgkI6KjppNEWEAIQDg');
                 me._text.setString("Method w/o callback. Check by fetching or UI.");
             }),
             new cc.MenuItemFont("Reveal achievement", function() {
                 // this method has no callback.
-                _game_services.Achievements.Reveal('CgkI6KjppNEWEAIQDg');
+                _context.gameServices().Achievements.Reveal('CgkI6KjppNEWEAIQDg');
                 me._text.setString("Method w/o callback. Check by fetching or UI.");
             }),
 
@@ -717,7 +976,7 @@ var LayerQuest = cc.Layer.extend({
 
         var menu = new cc.Menu(
             new cc.MenuItemFont("Fetch quest list", function () {
-                _game_services.Quests.FetchList(
+                _context.gameServices().Quests.FetchList(
                     gpg.DataSource.CACHE_OR_NETWORK,
                     /**
                      *
@@ -748,7 +1007,7 @@ var LayerQuest = cc.Layer.extend({
             }),
 
             new cc.MenuItemFont("Fetch quest", function () {
-                _game_services.Quests.Fetch(
+                _context.gameServices().Quests.Fetch(
                     {
 
                         data_source : gpg.DataSource.CACHE_OR_NETWORK,
@@ -777,7 +1036,7 @@ var LayerQuest = cc.Layer.extend({
             }),
 
             new cc.MenuItemFont("Show All UI", function () {
-                _game_services.Quests.ShowAllUI(
+                _context.gameServices().Quests.ShowAllUI(
                     /**
                      *
                      * @param result {QuestsShowAllUICallbackParams}
@@ -794,7 +1053,7 @@ var LayerQuest = cc.Layer.extend({
             }),
 
             new cc.MenuItemFont("Show UI quest", function () {
-                _game_services.Quests.ShowUI(
+                _context.gameServices().Quests.ShowUI(
                     '<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ',
                     /**
                      *
@@ -812,7 +1071,7 @@ var LayerQuest = cc.Layer.extend({
             }),
 
             new cc.MenuItemFont("Accept quest", function () {
-                _game_services.Quests.Accept(
+                _context.gameServices().Quests.Accept(
                     '<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ',
                     /**
                      *
@@ -830,7 +1089,7 @@ var LayerQuest = cc.Layer.extend({
             }),
 
             new cc.MenuItemFont("Claim milestone", function () {
-                _game_services.Quests.ClaimMilestone(
+                _context.gameServices().Quests.ClaimMilestone(
                     '<ChwKCQjg9PmjmwMQARINCgkI6KjppNEWEAIQDRgBEgIIAQ',
                     /**
                      *
@@ -898,7 +1157,7 @@ var LayerEvents = cc.Layer.extend({
 
             new cc.MenuItemFont("FetchAll", function () {
 
-                _game_services.Events.FetchAll(
+                _context.gameServices().Events.FetchAll(
                     /**
                      *
                      * @param result {EventsFetchAllCallbackParams}
@@ -928,7 +1187,7 @@ var LayerEvents = cc.Layer.extend({
 
             new cc.MenuItemFont("Fetch", function () {
 
-                _game_services.Events.Fetch(
+                _context.gameServices().Events.Fetch(
                     {
                         event_id : 'CgkI6KjppNEWEAIQDA'
                     },
@@ -952,7 +1211,7 @@ var LayerEvents = cc.Layer.extend({
             new cc.MenuItemFont("Increment", function () {
 
                 // there's no callback for this method.
-                _game_services.Events.Increment(
+                _context.gameServices().Events.Increment(
                     {
                         event_id : 'CgkI6KjppNEWEAIQDA',
                         increment : 2
@@ -1007,7 +1266,7 @@ var LayerPlayerStats = cc.Layer.extend({
             new cc.MenuItemFont("FetchForPlayer", function () {
 
                 // there's no callback for this method.
-                _game_services.Stats.FetchForPlayer(
+                _context.gameServices().Stats.FetchForPlayer(
                     /**
                      *
                      * @param result {StatsFetchForPlayerCallbackParams}
@@ -1046,9 +1305,34 @@ var S_PlayerStats = cc.Scene.extend({
     }
 });
 
+
 var LayerRealtimeMultiplayer = cc.Layer.extend({
 
     _text : null,
+    _text_listener : null,
+    _text_listener_data : null,
+
+    /**
+     * @type  {gpg.RealTimeRoom}
+     */
+    _room : null,
+
+    /**
+     * @type {gpg.MultiplayerInvitation}
+     */
+    _invitation : null,
+
+    _mi_accept_invitation : null,
+    _mi_dismiss_invitation : null,
+    _mi_decline_invitation : null,
+
+    _mi_message_reliable : null,
+    _mi_message_unreliable : null,
+    _mi_message_unreliable_to_others : null,
+
+    _mi_leaveroom : null,
+
+    _message_index : 0,
 
     ctor: function () {
         //////////////////////////////
@@ -1061,6 +1345,18 @@ var LayerRealtimeMultiplayer = cc.Layer.extend({
         this._text.x = cc.Director.getInstance().getWinSize().width / 2;
         this._text.y = 120;
         this.addChild(this._text);
+
+        this._text_listener = new cc.LabelTTF("", "sans", 24);
+        this._text_listener.x = cc.Director.getInstance().getWinSize().width / 2;
+        this._text_listener.y = 95;
+        this.addChild(this._text_listener);
+
+        this._text_listener_data = new cc.LabelTTF("", "sans", 18);
+        this._text_listener_data.x = cc.Director.getInstance().getWinSize().width / 2;
+        this._text_listener_data.y = 75;
+        this.addChild(this._text_listener_data);
+
+        _global_label = this._text_listener;
     },
 
     __createMenu : function() {
@@ -1070,10 +1366,162 @@ var LayerRealtimeMultiplayer = cc.Layer.extend({
         cc.MenuItemFont.setFontName("sans");
         var size = cc.Director.getInstance().getWinSize();
 
+        /**
+         *
+         * @type {gpg.RealTimeEventListener}
+         */
+        var listener = {
+
+            onRoomStatusChanged: function (room) {
+                me._text_listener.setString("room status changed. "+room.status);
+            },
+
+            onConnectedSetChanged: function (room) {
+                me._text_listener.setString("room connected set changed.");
+            },
+
+            onP2PConnected: function (room, participant) {
+                me._text_listener.setString("room p2p connected: " + participant.displayName);
+            },
+
+            onP2PDisconnected: function (room, participant) {
+                me._text_listener.setString("room p2p disconnected: " + participant.displayName);
+            },
+
+            onParticipantStatusChanged: function (room, participant) {
+                me._text_listener.setString("room participant status changed: "+ participant.displayName + " st:" + participant.status);
+            },
+
+            onDataReceived: function (room, from_participant, data, is_reliable) {
+                me._text_listener.setString("data from:" + from_participant.displayName + " reliable:" + is_reliable + " len:"+data.length);
+                me._text_listener_data.setString("'" + data + "'");
+            }
+
+        };
+
+        this._mi_message_reliable = new cc.MenuItemFont("message reliable", function() {
+            _context.gameServices().RealTimeMultiplayer.SendReliableMessage(
+                {
+                    data : "message " + me._message_index++,
+                    room_id : me._room.id,
+                    to_participant_id : me._room.participants.filter( function( p ) {
+                        return p.id!==me._room.creatingParticipant.id;
+                    })[0].id
+                },
+                /**
+                 *
+                 * @param result {gpg.MultiplayerStatus}
+                 */
+                function( result ) {
+                    me._text.setString("send reliable message success: " + gpg.IsSuccess(result) ? "true" : "no. code:"+result);
+                }
+            );
+        });
+
+        this._mi_message_unreliable = new cc.MenuItemFont("message unreliable", function() {
+            _context.gameServices().RealTimeMultiplayer.SendUnreliableMessage(
+                {
+                    data :              "message " + me._message_index++,
+                    room_id :           me._room.id,
+                    participant_ids :   me._room.participants.filter( function( p ) {
+                                            return p.id!==me._room.creatingParticipant.id;
+                                        }).map( function( p ) {
+                                            return p.id;
+                                        })
+                }
+            );
+        });
+
+        this._mi_message_unreliable_to_others = new cc.MenuItemFont("message unreliable to others", function() {
+            _context.gameServices().RealTimeMultiplayer.SendUnreliableMessageToOthers(
+                {
+                    data :              "message " + me._message_index++,
+                    room_id :           me._room.id
+                }
+            );
+        });
+
+
+        this._mi_leaveroom = new cc.MenuItemFont("Leave room", function() {
+
+            _context.gameServices().RealTimeMultiplayer.LeaveRoom(
+                /**
+                 *
+                 * @param res {gpg.ResponseStatus}
+                 */
+                function (res) {
+                    if (gpg.IsSuccess(res)) {
+                        me._text.setString("Room left.");
+                        me._text_listener.setString("");
+                        me._room = null;
+                        me._mi_leaveroom.setVisible(false);
+                        me._mi_message_reliable.setVisible(false);
+                        me._mi_message_unreliable.setVisible(false);
+                        me._mi_message_unreliable_to_others.setVisible(false);
+                    } else {
+                        me._text.setString("Room left error: " + res);
+                    }
+                }
+            );
+        });
+
+        this._mi_accept_invitation = new cc.MenuItemFont("Accept invitation", function() {
+
+            if ( me._invitation ) {
+                _context.gameServices().RealTimeMultiplayer.AcceptInvitation(
+                    {
+                        invitation_id :  me._invitation.id,
+                        listener : listener
+                    },
+                    /**
+                     *
+                     * @param res {RTAcceptInvitationCallbackParams}
+                     */
+                    function (res) {
+                        if (gpg.IsSuccess(res.result)) {
+                            me._text.setString("accepted invitation. Start game, room: " + res.room.id.substring(0, 10) + "...");
+                            me._mi_leaveroom.setVisible(true);
+                            me._mi_message_reliable.setVisible(true);
+                            me._mi_message_unreliable.setVisible(true);
+                            me._mi_message_unreliable_to_others.setVisible(true);
+
+
+                            me._mi_accept_invitation.setVisible( false );
+                            me._mi_dismiss_invitation.setVisible( false );
+                            me._mi_decline_invitation.setVisible( false );
+
+                            me._room = res.room;
+                        } else {
+                            me._text.setString("Accept invitation error: " + res.result);
+                        }
+                    }
+                );
+            } else {
+                __log("can't find a local invitation.");
+            }
+        });
+
+        this._mi_decline_invitation = new cc.MenuItemFont("Decline invitation", function() {
+            _context.gameServices().RealTimeMultiplayer.DeclineInvitation(me._invitation.id);
+        });
+
+        this._mi_dismiss_invitation = new cc.MenuItemFont("Dismiss invitation", function() {
+            _context.gameServices().RealTimeMultiplayer.DismissInvitation(me._invitation.id);
+        });
+
+        this._mi_leaveroom.setVisible( false );
+        this._mi_accept_invitation.setVisible( false );
+        this._mi_dismiss_invitation.setVisible( false );
+        this._mi_decline_invitation.setVisible( false );
+
+        this._mi_message_reliable.setVisible( false );
+        this._mi_message_unreliable.setVisible( false );
+        this._mi_message_unreliable_to_others.setVisible( false );
+
         var menu = new cc.Menu(
 
             new cc.MenuItemFont("CreateRoom automatch", function() {
-                _game_services.RealTimeMultiplayer.CreateRealTimeRoom(
+                _context.gameServices().RealTimeMultiplayer.CreateRealTimeRoom(
                     {
                         type : "quick_match",
                         quick_match_params : {
@@ -1081,6 +1529,7 @@ var LayerRealtimeMultiplayer = cc.Layer.extend({
                             minimumAutomatchingPlayers : 1
                         }
                     },
+                    listener,
                     /**
                      *
                      * @param res {RTCreateRoomCallbackParams}
@@ -1089,6 +1538,12 @@ var LayerRealtimeMultiplayer = cc.Layer.extend({
 
                         if ( gpg.IsSuccess(res.result) ) {
                             me._text.setString("Room created: id="+res.room.id+" participants="+res.room.participants.length);
+                            me._room= res.room;
+                            me._mi_leaveroom.setVisible(true);
+                            me._mi_message_reliable.setVisible(true);
+                            me._mi_message_unreliable.setVisible(true);
+                            me._mi_message_unreliable_to_others.setVisible(true);
+
                         } else {
                             me._text.setString("RT create room automatch error: "+ res.result);
                         }
@@ -1099,7 +1554,7 @@ var LayerRealtimeMultiplayer = cc.Layer.extend({
 
             new cc.MenuItemFont("CreateRoom select", function() {
 
-                _game_services.RealTimeMultiplayer.CreateRealTimeRoom(
+                _context.gameServices().RealTimeMultiplayer.CreateRealTimeRoom(
                     {
                         type : "ui",
                         ui_params : {
@@ -1107,13 +1562,20 @@ var LayerRealtimeMultiplayer = cc.Layer.extend({
                             minimumPlayers : 1
                         }
                     },
+                    listener,
                     /**
                      *
                      * @param res {RTCreateRoomCallbackParams}
                      */
                     function( res ) {
                         if ( gpg.IsSuccess(res.result) ) {
-                            me._text.setString("Room created: id="+res.room.id+" participants="+res.room.participants.length);
+                            me._text.setString("Room created: id="+res.room.id.substring(0,10)+"... participants="+res.room.participants.length);
+                            me._room= res.room;
+                            me._mi_leaveroom.setVisible(true);
+                            me._mi_message_reliable.setVisible(true);
+                            me._mi_message_unreliable.setVisible(true);
+                            me._mi_message_unreliable_to_others.setVisible(true);
+
                         } else {
                             me._text.setString("RT create room ui error: "+ res.result);
                         }
@@ -1122,6 +1584,64 @@ var LayerRealtimeMultiplayer = cc.Layer.extend({
                 );
 
             }),
+
+            new cc.MenuItemFont("Invitations UI", function() {
+
+                _context.gameServices().RealTimeMultiplayer.ShowRoomInboxUI(
+                    /**
+                     *
+                     * @param res {RTShowRoomInboxUICallbackParams}
+                     */
+                    function( res ) {
+                        if ( gpg.IsSuccess(res.result) ) {
+                            me._text.setString("got invitation: "+ (res.invitation.id.substr(0,10)) +"..." );
+                            me._invitation = res.invitation;
+
+                            // normally, you'd accept here the invitation.
+                            // we're enabling accept/dismiss/decline ui just for sample purposes.
+                            me._mi_accept_invitation.setVisible(true);
+                            me._mi_dismiss_invitation.setVisible(true);
+                            me._mi_decline_invitation.setVisible(true);
+                        } else {
+                            me._text.setString("RT invitation ui error: "+ res.result);
+
+                            me._mi_accept_invitation.setVisible(false);
+                            me._mi_dismiss_invitation.setVisible(false);
+                            me._mi_decline_invitation.setVisible(false);
+                        }
+                    }
+                );
+            }),
+
+            new cc.MenuItemFont("Fetch invitations", function() {
+                _context.gameServices().RealTimeMultiplayer.FetchInvitations(
+                    /**
+                     *
+                     * @param res {RTFetchInvitationsCallbackParams}
+                     */
+                    function( res ) {
+                        if ( gpg.IsSuccess(res.result) ) {
+                            me._text.setString("fetched " + res.invitations.length + " invitations.");
+                        } else {
+                            me._text.setString("fetch invitations error: "+ res.result);
+                        }
+                    }
+                );
+            }),
+
+            me._mi_leaveroom,
+
+            me._mi_accept_invitation,
+
+            me._mi_dismiss_invitation,
+
+            me._mi_decline_invitation,
+
+            me._mi_message_reliable,
+
+            me._mi_message_unreliable,
+
+            me._mi_message_unreliable_to_others,
 
             new cc.MenuItemFont("Main menu", function () {
                 cc.director.runScene( new HelloWorldScene() );

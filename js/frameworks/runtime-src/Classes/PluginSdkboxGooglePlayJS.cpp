@@ -147,6 +147,327 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeR
     return JS_FALSE;
 }
 #endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_LeaveRoom(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_LeaveRoom : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::LeaveRoom(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_LeaveRoom : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_LeaveRoom(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::LeaveRoom(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::SendUnreliableMessage(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::SendUnreliableMessage(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DismissInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DismissInvitation : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::DismissInvitation(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DismissInvitation : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DismissInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::DismissInvitation(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::DeclineInvitation(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::DeclineInvitation(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 4) {
+        int arg0;
+        std::string arg1;
+        std::string arg2;
+        std::string arg3;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_std_string(cx, args.get(2), &arg2);
+        ok &= jsval_to_std_string(cx, args.get(3), &arg3);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::SendReliableMessage(arg0, arg1, arg2, arg3);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 4) {
+        int arg0;
+        std::string arg1;
+        std::string arg2;
+        std::string arg3;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_std_string(cx, argv[2], &arg2);
+        ok &= jsval_to_std_string(cx, argv[3], &arg3);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::SendReliableMessage(arg0, arg1, arg2, arg3);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::AcceptInvitation(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::AcceptInvitation(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_FetchInvitations(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_FetchInvitations : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::FetchInvitations(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_FetchInvitations : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_FetchInvitations(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::FetchInvitations(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        std::string arg0;
+        std::string arg1;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::SendUnreliableMessageToOthers(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        std::string arg0;
+        std::string arg1;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::SendUnreliableMessageToOthers(arg0, arg1);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI : Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::ShowRoomInboxUI(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        int arg0;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGRealTimeMultiplayerWrapper::ShowRoomInboxUI(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
 
 
 void js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
@@ -199,6 +520,15 @@ void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContex
 
     static JSFunctionSpec st_funcs[] = {
         JS_FN("CreateRealTimeRoom", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("LeaveRoom", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_LeaveRoom, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendUnreliableMessage", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("DismissInvitation", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DismissInvitation, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("DeclineInvitation", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendReliableMessage", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage, 4, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("AcceptInvitation", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchInvitations", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_FetchInvitations, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendUnreliableMessageToOthers", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowRoomInboxUI", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
@@ -259,6 +589,15 @@ void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContex
 
     static JSFunctionSpec st_funcs[] = {
         JS_FN("CreateRealTimeRoom", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("LeaveRoom", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_LeaveRoom, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendUnreliableMessage", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("DismissInvitation", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DismissInvitation, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("DeclineInvitation", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendReliableMessage", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage, 4, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("AcceptInvitation", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchInvitations", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_FetchInvitations, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendUnreliableMessageToOthers", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowRoomInboxUI", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
@@ -310,6 +649,15 @@ void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContex
 
     static JSFunctionSpec st_funcs[] = {
         JS_FN("CreateRealTimeRoom", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("LeaveRoom", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_LeaveRoom, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendUnreliableMessage", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("DismissInvitation", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DismissInvitation, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("DeclineInvitation", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendReliableMessage", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage, 4, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("AcceptInvitation", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("FetchInvitations", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_FetchInvitations, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendUnreliableMessageToOthers", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("ShowRoomInboxUI", js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
@@ -414,11 +762,13 @@ bool js_PluginSdkboxGooglePlayJS_GPGWrapper_CreateGameServices(JSContext *cx, ui
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    if (argc == 1) {
-        std::string arg0;
-        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
         JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGWrapper_CreateGameServices : Error processing arguments");
-        sdkbox::GPGWrapper::CreateGameServices(arg0);
+        sdkbox::GPGWrapper::CreateGameServices(arg0, arg1);
         args.rval().setUndefined();
         return true;
     }
@@ -430,11 +780,13 @@ JSBool js_PluginSdkboxGooglePlayJS_GPGWrapper_CreateGameServices(JSContext *cx, 
 {
     jsval *argv = JS_ARGV(cx, vp);
     JSBool ok = JS_TRUE;
-    if (argc == 1) {
-        std::string arg0;
-        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+    if (argc == 2) {
+        int arg0;
+        std::string arg1;
+        ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
-        sdkbox::GPGWrapper::CreateGameServices(arg0);
+        sdkbox::GPGWrapper::CreateGameServices(arg0, arg1);
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
         return JS_TRUE;
     }
@@ -543,7 +895,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JS::HandleOb
     static JSFunctionSpec st_funcs[] = {
         JS_FN("NotifyToScripting", js_PluginSdkboxGooglePlayJS_GPGWrapper_NotifyToScripting, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("IsAuthorized", js_PluginSdkboxGooglePlayJS_GPGWrapper_IsAuthorized, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("CreateGameServices", js_PluginSdkboxGooglePlayJS_GPGWrapper_CreateGameServices, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("CreateGameServices", js_PluginSdkboxGooglePlayJS_GPGWrapper_CreateGameServices, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("StartAuthorizationUI", js_PluginSdkboxGooglePlayJS_GPGWrapper_StartAuthorizationUI, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("SignOut", js_PluginSdkboxGooglePlayJS_GPGWrapper_SignOut, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
@@ -607,7 +959,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JSObject *gl
     static JSFunctionSpec st_funcs[] = {
         JS_FN("NotifyToScripting", js_PluginSdkboxGooglePlayJS_GPGWrapper_NotifyToScripting, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("IsAuthorized", js_PluginSdkboxGooglePlayJS_GPGWrapper_IsAuthorized, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("CreateGameServices", js_PluginSdkboxGooglePlayJS_GPGWrapper_CreateGameServices, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("CreateGameServices", js_PluginSdkboxGooglePlayJS_GPGWrapper_CreateGameServices, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("StartAuthorizationUI", js_PluginSdkboxGooglePlayJS_GPGWrapper_StartAuthorizationUI, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("SignOut", js_PluginSdkboxGooglePlayJS_GPGWrapper_SignOut, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
@@ -662,7 +1014,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JSObject *gl
     static JSFunctionSpec st_funcs[] = {
         JS_FN("NotifyToScripting", js_PluginSdkboxGooglePlayJS_GPGWrapper_NotifyToScripting, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("IsAuthorized", js_PluginSdkboxGooglePlayJS_GPGWrapper_IsAuthorized, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("CreateGameServices", js_PluginSdkboxGooglePlayJS_GPGWrapper_CreateGameServices, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("CreateGameServices", js_PluginSdkboxGooglePlayJS_GPGWrapper_CreateGameServices, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("StartAuthorizationUI", js_PluginSdkboxGooglePlayJS_GPGWrapper_StartAuthorizationUI, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("SignOut", js_PluginSdkboxGooglePlayJS_GPGWrapper_SignOut, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
