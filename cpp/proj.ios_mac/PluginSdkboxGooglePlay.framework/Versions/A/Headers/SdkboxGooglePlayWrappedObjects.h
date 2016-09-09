@@ -27,7 +27,7 @@ namespace sdkbox {
         /**
          * options : json representation of the builder object options.
          */
-        static void CreateGameServices( const std::string& json );
+        static void CreateGameServices( int callback_id, const std::string& json );
         static bool IsAuthorized();
         static void StartAuthorizationUI();
         static void SignOut();
@@ -98,7 +98,6 @@ namespace sdkbox {
         static void Reveal( const std::string& achievement_id );
         static void SetStepsAtLeast(std::string const &achievement_id, uint32_t steps);
         static void Unlock(std::string const &achievement_id );
-        
     };
 
     class GPGQuestsWrapper

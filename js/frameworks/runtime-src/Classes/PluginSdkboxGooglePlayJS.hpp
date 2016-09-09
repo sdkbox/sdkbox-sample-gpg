@@ -23,6 +23,51 @@ bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoo
 #elif defined(JS_VERSION)
 JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(JSContext *cx, uint32_t argc, jsval *vp);
 #endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_LeaveRoom(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_LeaveRoom(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DismissInvitation(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DismissInvitation(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_FetchInvitations(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_FetchInvitations(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
 
 extern JSClass  *jsb_sdkbox_GPGWrapper_class;
 extern JSObject *jsb_sdkbox_GPGWrapper_prototype;

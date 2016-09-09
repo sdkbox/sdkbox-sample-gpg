@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "GPGConstants.h"
 
 namespace sdkbox {
@@ -32,7 +33,17 @@ namespace sdkbox {
          * }
          */
         static void CreateRealTimeRoom( int callback_id, const std::string& str_json_params );
+        static void LeaveRoom( int callback_id, const std::string& room_id );
+        static void ShowRoomInboxUI( int callback_id );
+        static void FetchInvitations( int callback_id );
+        static void AcceptInvitation( int callback_id, const std::string& invitation_id );
+        static void DeclineInvitation( const std::string& invitation_id );
+        static void DismissInvitation( const std::string& invitation_id );
         
+        static void SendReliableMessage( int callback_id, const std::string& room_id, const std::string& participant_id, const std::string& data );
+        static void SendUnreliableMessageToOthers( const std::string& room_id, const std::string& data );
+        static void SendUnreliableMessage(const std::string& str_json);
     };
 
 }
+
