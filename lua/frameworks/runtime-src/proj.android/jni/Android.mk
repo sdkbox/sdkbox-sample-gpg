@@ -49,6 +49,7 @@ $(call import-module,tools/simulator/libsimulator/proj.android/prebuilt-mk)
 $(call import-module, ./sdkbox)
 $(call import-module, ./PluginSdkboxGooglePlay)
 $(call import-module, ../gpg)
+$(call import-module, ./gpg)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
 # _COCOS_LIB_IMPORT_ANDROID_END
