@@ -10,7 +10,8 @@
 
 #include <string>
 #include "GPGConstants.h"
-#include "GPGRealtimeMultiplayerWrapper.h"
+#include "PluginSdkboxGooglePlay/GPGRealtimeMultiplayerWrapper.h"
+#include "PluginSdkboxGooglePlay/GPGTurnBasedMultiplayerWrapper.h"
 
 /**
  * (ibon) TODO:

@@ -45,15 +45,15 @@ function log:to_str(value, desciption, nesting)
             spc = string.rep(" ", keylen - string.len(dump_value_(desciption)))
         end
         if type(value) ~= "table" then
-            result[#result +1 ] = string.format("%s%s%s = %s", indent, dump_value_(desciption), spc, dump_value_(value))
+            result[#result +1 ] = string.format("%s%s%s : %s", indent, dump_value_(desciption), spc, dump_value_(value))
         elseif lookupTable[tostring(value)] then
-            result[#result +1 ] = string.format("%s%s%s = *REF*", indent, dump_value_(desciption), spc)
+            result[#result +1 ] = string.format("%s%s%s : *REF*", indent, dump_value_(desciption), spc)
         else
             lookupTable[tostring(value)] = true
             if nest > nesting then
-                result[#result +1 ] = string.format("%s%s = *MAX NESTING*", indent, dump_value_(desciption))
+                result[#result +1 ] = string.format("%s%s : *MAX NESTING*", indent, dump_value_(desciption))
             else
-                result[#result +1 ] = string.format("%s%s = {", indent, dump_value_(desciption))
+                result[#result +1 ] = string.format("%s%s : {", indent, dump_value_(desciption))
                 local indent2 = indent -- .."    "
                 local keys = {}
                 local keylen = 0
@@ -72,7 +72,10 @@ function log:to_str(value, desciption, nesting)
                         return tostring(a) < tostring(b)
                     end
                 end)
+                local first = true
                 for i, k in ipairs(keys) do
+                    if not first then result[#result +1 ] = "," end
+                    first = false
                     dump_(values[k], k, indent2, nest + 1, keylen)
                 end
                 result[#result +1] = string.format("%s}", indent)

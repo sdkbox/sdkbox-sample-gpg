@@ -70,13 +70,27 @@ function MainScene:setupTestMenu()
             app:enterScene('PlayerStatsScene')
         end)
 
+    self._realtimemultiplayer = cc.MenuItemFont:create("RealTimeMultiplayer"):onClicked(function()
+            app:enterScene('RealTimeMultiplayerScene')
+        end)
+
+    self._turnbasedmultiplayer = cc.MenuItemFont:create("TurnBasedMultiplayer"):onClicked(function()
+        app:enterScene('TurnBasedMultiplayerScene')
+    end)
+
+    self._playerstats = cc.MenuItemFont:create("Player Stats"):onClicked(function()
+            app:enterScene('PlayerStatsScene')
+        end)
+
     local menu = cc.Menu:create(
         self._sign_in_button,
         self._snapshots,
         self._quests,
         self._achievements,
         self._leaderboards,
-        self._playerstats
+        self._playerstats,
+        self._realtimemultiplayer,
+        self._turnbasedmultiplayer
     )
 
     menu:alignItemsVerticallyWithPadding(5)
@@ -103,6 +117,8 @@ function MainScene:updateSignIn(show)
     self._achievements:setVisible(show)
     self._leaderboards:setVisible(show)
     self._playerstats:setVisible(show)
+    self._realtimemultiplayer:setVisible(show)
+    self._turnbasedmultiplayer:setVisible(show)
 end
 
 return MainScene
