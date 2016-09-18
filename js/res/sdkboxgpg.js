@@ -636,24 +636,25 @@ var BaseStatus = {
 //////////////// Authentication callbacks and types
 
 /**
- * @typedef {{AuthOperation:gpg.AuthOperation}}
+ * @typedef {Object} AuthActionStartedCallbackParams
+ * @property AuthOperation {gpg.AuthOperation}
  */
-var AuthActionStartedCallbackParams;
 
 /**
  * @callback AuthActionStartedCallback
- * @param {AuthActionStartedCallbackParams} result;
+ * @param {AuthActionStartedCallbackParams} result
  */
 
 
 /**
- * @typedef {{AuthOperation:gpg.AuthOperation, AuthStatus:gpg.AuthStatus}}
+ * @typedef {Object} AuthActionFinishedCallbackParams
+ * @property AuthOperation {gpg.AuthOperation}
+ * @property AuthStatus {gpg.AuthStatus}
  */
-var AuthActionFinishedCallbackParams;
 
 /**
  * @callback AuthActionFinishedCallback
- * @param {AuthActionFinishedCallbackParams} result;
+ * @param {AuthActionFinishedCallbackParams} result
  */
 
 /**
@@ -666,28 +667,31 @@ var AuthActionFinishedCallbackParams;
 //////////// Players callbacks and types
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, player? : gpg.Player }}
+ * @typedef {Object} PlayersFetchSelfCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property player {gpg.Player=}
  */
-var PlayersFetchSelfCallbackParams;
 
 /**
  * @callback PlayersFetchSelfCallback
- * @param PlayersFetchSelfCallbackParams
+ * @param params {PlayersFetchSelfCallbackParams}
  */
 
 /**
- * @typedef {{ data_source? : gpg.DataSource, player_id : string }}
+ * @typedef {Object} PlayersFetchParams
+ * @property data_source {gpg.DataSource=} Defaults to <code>gpg.DataSoure.CACHE_OR_NETWORK</code>.
+ * @property player_id {string}
  */
-var PlayersFetchParams;
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, player? : gpg.Player }}
+ * @typedef {Object} PlayersFetchCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property player {gpg.Player=}
  */
-var PlayersFetchCallbackParams;
 
 /**
  * @callback PlayerFetchCallback
- * @param PlayerFetchCallbackParams
+ * @param params {PlayersFetchCallbackParams}
  */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -696,38 +700,48 @@ var PlayersFetchCallbackParams;
 
 /**
  * Snapshot UI invocation parameters.
- * <code>allow_create</code> and <code>allow_delete</code> default to false.
- * <code>max_snapshots</code> defaults to 10.
- * <code>title</code> defaults to 'title'.
  *
- * @typedef {{ allow_create?:boolean, allow_delete?:boolean, max_snapshots?:number, title:string }}
+ * @typedef {Object} tSnapshotShowSelectionUIOperationParams
+ * @property allow_create {boolean=} Show a create button on the UI. Defaults to true.
+ * @property allow_delete {boolean=} Show a delete game button on the UI. Defaults to true.
+ * @property max_snapshots {number=} Max number of games on the UI. Defaults to 10.
+ * @property title {string}
+ *
  */
-var tSnapshotShowSelectionUIOperationParams;
 
 /**
- * @typedef {{ result:string, metadata?:gpg.SnapshotMetadata, error_code?:number }}
+ * @typedef {Object} tSnapshotShowSelectionUIOperationCallbackResult
+ * @property result {string}
+ * @property metadata {gpg.SnapshotMetadata=}
+ * @property error_code {number}
  */
-var tSnapshotShowSelectionUIOperationCallbackResult;
 
 /**
- * @typedef {{ filename:string, conflict_policy?:gpg.SnapshotConflictPolicy, data_source?:gpg.DataSource }}
+ * @typedef {Object} tSnapshotLoadParams
+ * @property filename {string}
+ * @property conflict_policy {gpg.SnapshotConflictPolicy=} Defaults to gpg.SnapshotConflictPolicy.MOST_RECENTLY_MODIFIED.
+ * @property data_source {gpg.DataSource=} Defaults to <code>gpg.DataSource.CACHE_OR_NETWORK</code> .
  */
-var tSnapshotLoadParams;
 
 /**
- * @typedef {{ result:gpg.ResponseStatus, metadata:gpg.SnapshotMetadata, data?:string }}
+ * @typedef {Object} tSnapshotLoadCallbackResult
+ * @property result {gpg.ResponseStatus}
+ * @property metadata {gpg.SnapshotMetadata}
+ * @property data {string=} Game contents. Not present if <code>gpg.IsSuccess(result)</code> is false.
  */
-var tSnapshotLoadCallbackResult;
 
 /**
- * @typedef {{ filename : string, conflict_policy? : gpg.SnapshotConflictPolicy, description : string, data : string }}
+ * @typedef {Object} tSnapshotSaveParams
+ * @property filename {string}
+ * @property conflict_policy {gpg.SnapshotConflictPolicy=} Defaults to gpg.SnapshotConflictPolicy.MOST_RECENTLY_MODIFIED.
+ * @property description {string}
+ * @property data {string}
  */
-var tSnapshotSaveParams;
 
 /**
- * @typedef {{ data_source? : gpg.DataSource }}
+ * @typedef {Object} tSnapshotFetchAllParams
+ * @property data_source {gpg.DataSource=} Defaults to <code>gpg.DataSoure.CACHE_OR_NETWORK</code>.
  */
-var tSnapshotFetchAllParams;
 
 /**
  * @callback SnapshotShowSelectUIOperationCallback
@@ -740,18 +754,36 @@ var tSnapshotFetchAllParams;
  */
 
 /**
+ * @typedef {Object} SnapshotSaveCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property metadata {gpg.SnapshotMetadata}
+ */
+
+/**
  * @callback SnapshotSaveCallback
- * @param  {{ result:gpg.ResponseStatus, metadata:gpg.SnapshotMetadata }}
+ * @param  {SnapshotSaveCallbackParams}
+ */
+
+/**
+ * @typedef {Object} SnapshotFetchAllCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property metadata_array {gpg.SnapshotMetadata[]}
  */
 
 /**
  * @callback SnapshotFetchAllCallback
- * @param  {{ result:gpg.ResponseStatus, metadata_array:gpg.SnapshotMetadata[] }}
+ * @param  {SnapshotFetchAllCallbackParams}
+ */
+
+/**
+ * @typedef {Object} SnapshotDeleteCallbackParams
+ * @property result {'success' | 'error'}
+ * @property error_core {number=}
  */
 
 /**
  * @callback SnapshotDeleteCallback
- * @param {{ result:'success'|'error', error_code?:number }}
+ * @param {SnapshotDeleteCallbackParams}
  */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -764,9 +796,10 @@ var tSnapshotFetchAllParams;
  */
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, leaderboard: gpg.Leaderboard }}
+ * @typedef {Object} LeaderboardFetchCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property leaderboard {gpg.Leaderboard}
  */
-var LeaderboardFetchCallbackParams;
 
 /**
  * @callback LeaderboardFetchAllCallback
@@ -774,9 +807,11 @@ var LeaderboardFetchCallbackParams;
  */
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, leaderboard_array: gpg.Leaderboard[] }}
+ * @typedef {Object} LeaderboardFetchAllCallbackParams
+ *
+ * @property result {gpg.ResponseStatus}
+ * @property leaderboard {gpg.Leaderboard[]}
  */
-var LeaderboardFetchAllCallbackParams;
 
 /**
  * @callback LeaderboardShowUICallback
@@ -784,9 +819,9 @@ var LeaderboardFetchAllCallbackParams;
  */
 
 /**
- * @typedef {{ result : gpg.UIStatus }}
+ * @typedef {Object} LeaderboardShowUICallbackParams
+ * @property result {gpg.UIStatus}
  */
-var LeaderboardShowUICallbackParams;
 
 /**
  * @callback LeaderboardShowAllUICallback
@@ -794,9 +829,9 @@ var LeaderboardShowUICallbackParams;
  */
 
 /**
- * @typedef {{ result : gpg.UIStatus }}
+ * @typedef {Object} LeaderboardShowAllUICallbackParams
+ * @property result {gpg.UIStatus}
  */
-var LeaderboardShowAllUICallbackParams;
 
 /**
  * @callback LeaderboardFetchScorePageCallback
@@ -804,9 +839,10 @@ var LeaderboardShowAllUICallbackParams;
  */
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, scorePage:gpg.ScorePage }}
+ * @typedef {Object} LeaderboardFetchScorePageCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property scorePage {gpg.ScorePage}
  */
-var LeaderboardFetchScorePageCallbackParams;
 
 /**
  * @callback LeaderboardSubmitScoreCallback
@@ -819,9 +855,10 @@ var LeaderboardFetchScorePageCallbackParams;
  */
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, score_summary : gpg.ScoreSummary }}
+ * @typedef {Object} LeaderboardFetchScoreSummaryCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property score_summary {gpg.ScoreSummary=} Not set if gpg.IsSuccess(result) is false.
  */
-var LeaderboardFetchScoreSummaryCallbackParams;
 
 /**
  * @callback LeaderboardFetchAllScoreSummariesCallback
@@ -829,39 +866,53 @@ var LeaderboardFetchScoreSummaryCallbackParams;
  */
 
 /**
- * @typedef {{ data_source? : gpg.DataSource, leaderboard_id : string }}
+ * @typedef {Object} LeaderboardFetchParams
+ * @property data_source {gpg.DataSource=} If not set defaults to CACHE_OR_NETWORK
+ * @property leaderboard_id {string}
  */
-var LeaderboardFetchParams;
 
 /**
- * @typedef {{ data_source? : gpg.DataSource, timeSpan? : gpg.LeaderboardTimeSpan, collection? : gpg.LeaderboardCollection, leaderboard_id : string }}
+ * @typedef {Object} LeaderboardFetchScoreSummaryParams
+ * @property data_source {gpg.DataSource=} If not set defaults to CACHE_OR_NETWORK
+ * @property timeSpan {gpg.LeaderboardTimeSpan=} If not set defaults to gpg.LeaderboardTimeSpan.ALL_TIME.
+ * @property collection {gpg.LeaderboardCollection=} If not set defaults to gpg.LeaderboardCollection.PUBLIC.
+ * @property leaderboard_id {string}
  */
-var LeaderboardFetchScoreSummaryParams;
 
 /**
- * @typedef {{ data_source? : gpg.DataSource, leaderboard_id : string }}
+ * @typedef {Object} LeaderboardFetchAllScoreSummariesParams
+ * @property data_source {gpg.DataSource=} If not set defaults to CACHE_OR_NETWORK
+ * @property leaderboard_id {string}
  */
-var LeaderboardFetchAllScoreSummariesParams;
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, score_summary_array : gpg.ScoreSummary[] }}
+ * @typedef {Object} LeaderboardFetchAllScoreSummariesCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property score_summary_array {gpg.ScoreSummary[]}
  */
-var LeaderboardFetchAllScoreSummariesCallbackParams;
 
 /**
- * @typedef {{ leaderboard_id : string, score:number, metadata?:string }}
+ * @typedef {Object} LeaderboardSubmitScoreParams
+ * @property leaderboard_id {string}
+ * @property score {number} The score value must be in the Leaderboard's defined valid range set.
+ * @property metadata {string}
  */
-var LeaderboardSubmitScoreParams;
 
 /**
- * @typedef {{ leaderboard_id:string, data_source?:gpg.DataSource, start?:gpg.LeaderboardStart, time_span?:gpg.LeaderboardTimeSpan, collection?:gpg.LeaderboardCollection, max_items?:number }}
+ * @typedef {Object} LeaderboardFetchScorePageParams
+ * @property leaderboard_id {string}
+ * @property data_source {gpg.DataSource=} If not set defaults to CACHE_OR_NETWORK.
+ * @property start {gpg.LeaderboardStart} If not set defaults to gpg.LeaderboardStart.TOP_SCORES.
+ * @property time_span {gpg.LeaderboardTimeSpan=} If not set defaults to gpg.LeaderboardTimeSpan.ALL_TIME.
+ * @property collection {gpg.LeaderboardCollection=} If not set defaults to gpg.LeaderboardCollection.PUBLIC.
+ * @property max_items {number=} Defaults to 10.
  */
-var LeaderboardFetchScorePageParams;
 
 /**
- * @typedef {{ data_source?:gpg.DataSource, max_items?:number }}
+ * @typedef {Object} LeaderboardFetchOtherScorePageParams
+ * @property data_source {gpg.DataSource=} If not set defaults to CACHE_OR_NETWORK.
+ * @property max_items {number=} Defaults to 10.
  */
-var LeaderboardFetchOtherScorePageParams;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -873,9 +924,10 @@ var LeaderboardFetchOtherScorePageParams;
  */
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, achievement_array: gpg.Achievement[] }}
+ * @typedef {Object} AchievementFetchAllCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property achievement_array {gpg.Achievement[]}
  */
-var AchievementFetchAllCallbackParams;
 
 /**
  * @callback AchievementFetchCallback
@@ -883,14 +935,16 @@ var AchievementFetchAllCallbackParams;
  */
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, achievement: gpg.Achievement }}
+ * @typedef {Object} AchievementFetchCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property achievement {gpg.Achievement}
  */
-var AchievementFetchCallbackParams;
 
 /**
- * @typedef {{ achievement_id : string, data_source: gpg.DataSource  }}
+ * @typedef {Object} AchievementFetchParams
+ * @property data_source {gpg.DataSource=} If not set defaults to CACHE_OR_NETWORK.
+ * @property achievement_id {string}
  */
-var AchievementFetchParams;
 
 /**
  * @callback AchievementShowAllUICallback
@@ -898,121 +952,126 @@ var AchievementFetchParams;
  */
 
 /**
- * @typedef {{ result : gpg.ResponseStatus }}
+ * @typedef {Object} AchievementShowAllUICallbackParams
+ * @property result {gpg.ResponseStatus}
  */
-var AchievementShowAllUICallbackParams;
 
 
 /**
- * @typedef {{ achievement_id : string, increment?: number }}
+ * @typedef {Object} AchievementIncrementParams
+ * @property achievement_id {string}
+ * @property increment {number=} Defaults to 1.
  */
-var AchievementIncrementParams;
 
 /**
- * @typedef {{ achievement_id : string, increment?: number }}
+ * @typedef {Object} AchievementSetStepsAtLeastParams
+ * @property achievement_id {string}
+ * @property steps {number} Defaults to 1.
  */
-var AchievementSetStepsAtLeastParams;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////// Quests callbacks and types
 
 /**
- * @typedef {{ quest_id : string, data_source : gpg.DataSource }}
+ * @typedef {Object} QuestsFetchParams
+ * @property data_source {gpg.DataSource=} If not set defaults to CACHE_OR_NETWORK.
+ * @property quest_id {string}
  */
-var QuestsFetchParams;
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, quest : gpg.Quest }}
+ * @typedef {Object} QuestsFetchCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property quest {gpg.Quest}
  */
-var QuestsFetchCallbackParams;
 
 /**
  * @callback QuestsFetchCallback
  * @param QuestsFetchCallbackParams
  */
 
-
 /**
- * @typedef {{ result : gpg.ResponseStatus, data : gpg.Quest[] }}
+ * @typedef {{ result : gpg.ResponseStatus, data : gpg.Quest[] }} QuestsFetchListCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property data {gpg.Quest[]}
  */
-var QuestsFetchListCallbackParams;
 
 /**
  * @callback QuestsFetchListCallback
  * @param QuestsFetchListCallbackParams
  */
 
-
 /**
- * @typedef {{ result : gpg.ResponseStatus, quest : gpg.Quest }}
+ * @typedef {{ result : gpg.ResponseStatus, quest : gpg.Quest }} QuestsAcceptCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property quest {gpg.Quest}
  */
-var QuestsAcceptCallbackParams;
 
 /**
  * @callback QuestsAcceptCallback
  * @param QuestsAcceptCallbackParams
  */
 
-
 /**
- * @typedef {{ result : gpg.ResponseStatus, quest : gpg.Quest, milestone : gpg.QuestMilestone }}
+ * @typedef {Object} QuestsClaimMilestoneCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property quest {gpg.Quest}
+ * @property milestone {gpg.QuestMilestone}
  */
-var QuestsClaimMilestoneCallbackParams;
 
 /**
  * @callback QuestsClaimMilestoneCallback
  * @param QuestsClaimMilestoneCallbackParams
  */
 
-
 /**
- * @typedef {{ result : gpg.ResponseStatus, quest? : gpg.Quest }}
+ * @typedef {Object} QuestsShowAllUICallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property quest {gpg.Quest=} Not set if gpg.IsSuccess(result) is false.
  */
-var QuestsShowAllUICallbackParams;
 
 /**
  * @callback QuestsShowAllUICallback
  * @param QuestsShowAllUICallbackParams
  */
 
-
-
 /**
- * @typedef {{ result : gpg.ResponseStatus, quest? : gpg.Quest }}
+ * @typedef {Object} QuestsShowUICallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property quest {gpg.Quest=} Not set if gpg.IsSuccess(result) is false.
  */
-var QuestsShowUICallbackParams;
 
 /**
  * @callback QuestsShowUICallback
  * @param QuestsShowUICallbackParams
  */
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////// Events callbacks and types
 
 /**
- * @typedef {{ event_id : string, data_source? : gpg.DataSource }}
+ * @typedef {Object} EventsFetchParams
+ * @property data_source {gpg.DataSource=} If not set defaults to CACHE_OR_NETWORK
+ * @property event_id {string}
  */
-var EventsFetchParams;
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, event : gpg.Event }}
+ * @typedef {Object} EventsFetchCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property event {gpg.Event}
  */
-var EventsFetchCallbackParams;
 
 /**
  * @callback EventsFetchCallback
  * @param EventsFetchCallbackParams
  */
 
-
 /**
- * @typedef {{ result : gpg.ResponseStatus, data : {event_id : gpg.Event} }}
+ * @typedef {Object} EventsFetchAllCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property data {Object.<string, gpg.Event>}
  */
-var EventsFetchAllCallbackParams;
 
 /**
  * @callback EventsFetchAllCallback
@@ -1020,18 +1079,20 @@ var EventsFetchAllCallbackParams;
  */
 
 /**
- * @typedef {{ event_id : string, increment? : number }}
+ * @typedef {Object} EventsIncrementParams
+ * @property event_id {string}
+ * @property increment {number=} Defaults to 1.
  */
-var EventsIncrementParams;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////// Stats callbacks and types
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, data : gpg.PlayerStats}}
+ * @typedef {Object} StatsFetchForPlayerCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property data {gpg.PlayerStats}
  */
-var StatsFetchForPlayerCallbackParams;
 
 /**
  * @callback StatsFetchForPlayerCallback
@@ -1043,24 +1104,32 @@ var StatsFetchForPlayerCallbackParams;
 //////////// RealTimeMultiplier callbacks and types
 
 /**
- * @typedef {{  type : 'quick_match' | 'ui'
- *              quick_match_params? : {
- *                  minimumAutomatchingPlayers : number,
- *                  maximumAutomatchingPlayers : number,
- *                  exclusiveBitMask? :          number
- *              },
- *              ui_params? : {
- *                  minimumPlayers : number,
- *                  maximumPlayers : number
- *              }
- * }}
+ * @typedef {Object} RTCreateRoomQuickMatchParams
+ * @property minimumAutomatchingPlayers {number}
+ * @property maximumAutomatchingPlayers {number}
+ * @property exclusiveBitMask {number=}
  */
-var RTCreateRoomParams;
 
 /**
- * @typedef {{ result : gpg.ResponseStatus, room : gpg.RealTimeRoom }}
+ * @typedef {Object} RTCreateRoomUIParams
+ * @property minimumPlayers {number}
+ * @property maximumPlayers {number}
  */
-var RTCreateRoomCallbackParams;
+
+/**
+ * @typedef {Object} RTCreateRoomParams
+ * @property type {'quick_match' | 'ui'}
+ * @property quick_match_params {RTCreateRoomQuickMatchParams=}
+ * @property ui_params {RTCreateRoomUIParams=}
+ *
+ */
+
+/**
+ * @typedef {Object} RTCreateRoomCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property room {gpg.RealTimeRoom=}
+ */
+
 
 /**
  * @callback RTCreateRoomCallback
@@ -1068,9 +1137,10 @@ var RTCreateRoomCallbackParams;
  */
 
 /**
- * @typedef {{ room : gpg.RealTimeRoom|null, listener : gpg.RealTimeEventListener|null }}
+ * @typedef {Object} RealTimeRoomAndListenerPair
+ * @property room {gpg.RealTimeRoom|null}
+ * @property listener {gpg.RealTimeEventListener|null}
  */
-var RealTimeRoomAndListenerPair;
 
 /**
  * @callback RTLeaveRoomCallback
@@ -1078,9 +1148,10 @@ var RealTimeRoomAndListenerPair;
  */
 
 /**
- * @typedef {{ result:gpg.MultiplayerStatus, room:gpg.RealTimeRoom }}
+ * @typedef {Object} RTAcceptInvitationCallbackParams
+ * @property result {gpg.MultiplayerStatus}
+ * @property room {gpg.RealTimeRoom}
  */
-var RTAcceptInvitationCallbackParams;
 
 /**
  * @callback RTAcceptInvitationCallback
@@ -1093,14 +1164,16 @@ var RTAcceptInvitationCallbackParams;
  */
 
 /**
- * @typedef {{ result: gpg.ResponseStatus, invitation? : gpg.MultiplayerInvitation }}
+ * @typedef {Object} RTShowRoomInboxUICallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property invitation {gpg.MultiplayerInvitation}
  */
-var RTShowRoomInboxUICallbackParams;
 
 /**
- * @typedef {{ result: gpg.ResponseStatus, invitations? : gpg.MultiplayerInvitation[] }}
+ * @typedef {Object} RTFetchInvitationsCallbackParams
+ * @property result {gpg.ResponseStatus}
+ * @property invitations {Array.<gpg.MultiplayerInvitation>=} Not set if gpg.IsSuccess(result) is false.
  */
-var RTFetchInvitationsCallbackParams;
 
 /**
  * @callback RTFetchInvitationsCallback
@@ -1108,9 +1181,10 @@ var RTFetchInvitationsCallbackParams;
  */
 
 /**
- * {{ invitation_id : string, listener? : gpg.RealTimeEventListener }}
+ * @typedef {Object} RTAcceptInvitationParams
+ * @property invitation_id {string}
+ * @property listener {gpg.RealTimeEventListener}
  */
-var RTAcceptInvitationParams;
 
 /**
  * @callback RTSendReliableMessageCallback
@@ -1118,19 +1192,24 @@ var RTAcceptInvitationParams;
  */
 
 /**
- * @typedef {{ room_id : string, to_participant_id : string, data : string }}
+ * @typedef {Object} RTSendReliableMessageParams
+ * @property room_id {string}
+ * @property to_participant_id {string}
+ * @property data {string}
  */
-var RTSendReliableMessageParams;
 
 /**
- * @typedef {{ room_id : string, participant_ids : string[], data : string }}
+ * @typedef {{ room_id : string, participant_ids : string[], data : string }} RTSendUnreliableMessageParams
+ * @property room_id {string}
+ * @property participant_ids {string[]}
+ * @property data {string}
  */
-var RTSendUnreliableMessageParams;
 
 /**
- * @typedef {{ room_id : string, data : string }}
+ * @typedef {{ room_id : string, data : string }} RTSendUnreliableMessageToOthersParams
+ * @property room_id {string}
+ * @property data {string}
  */
-var RTSendUnreliableMessageToOthersParams;
 
 /**
  * @callback MultiplayerInvitationCallback
@@ -1138,9 +1217,12 @@ var RTSendUnreliableMessageToOthersParams;
  */
 
 /**
- * @typedef {{ event : string, match_id : string, match : gpg.MultiplayerInvitation }}
+ * @typedef {Object} MultiplayerInvitationCallbackParams
+ * @property event {string}
+ * @property match_id {string}
+ * @property match {gpg.MultiplayerInvitation}
  */
-var MultiplayerInvitationCallbackParams;
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1229,9 +1311,10 @@ CallbackManager.prototype = {
 var __callbackManager = new CallbackManager();
 
 /**
- * @namespace
  *
  * Global GPG library namespace.
+ *
+ * @namespace gpg
  */
 var gpg = {
 
@@ -1541,6 +1624,12 @@ var gpg = {
        INVALID: -1
     },
 
+    /**
+     *  The set of possible values representing the result of a multiplayer
+     *  operation.
+     *
+     *  @enum {number}
+     */
     MultiplayerStatus : {
         VALID: BaseStatus.VALID,
         VALID_BUT_STALE: BaseStatus.VALID_BUT_STALE,
@@ -1586,9 +1675,8 @@ var gpg = {
      * An instance of this object will be supplied to the gpg.GameServices.Builder.Create method's callback upon successful
      * GPG authentication.
      *
-     * @name GameServices
+     * @namespace GameServices
      * @memberOf gpg
-     * @namespace
      *
      */
     GameServices : {
@@ -1622,8 +1710,10 @@ var gpg = {
         },
 
         /**
-         * Used for creating and configuring an instance of the GameServices class.
          * @class
+         * @classdesc
+         * Used for creating and configuring an instance of the GameServices class.
+         *
          * @name Builder
          * @memberOf gpg.GameServices
          * @constructor
@@ -1750,9 +1840,10 @@ var gpg = {
         },
 
         /**
+         * @class
+         * @classdesc
          * Gets and sets various player-related data.
          *
-         * @class
          * @memberOf gpg.GameServices
          */
         Players: {
@@ -1799,9 +1890,10 @@ var gpg = {
         },
 
         /**
+         * @class
+         * @classdesc
          * Gets and sets various cloud game-related data.
          *
-         * @class
          * @memberOf gpg.GameServices
          */
         Snapshots: {
@@ -2205,13 +2297,13 @@ var gpg = {
              * @param params {AchievementSetStepsAtLeastParams}
              */
             SetStepsAtLeast : function( params ) {
-                if ( typeof params.increment==='undefined' ) {
-                    params.increment = 1;
+                if ( typeof params.steps==='undefined' ) {
+                    params.steps = 1;
                 }
 
                 _gpg.GPGAchievementWrapper.SetStepsAtLeast(
                     params.achievement_id,
-                    params.increment
+                    params.steps
                 );
             },
 
@@ -2357,7 +2449,7 @@ var gpg = {
                     /**
                      *
                      * @param result {{ room:           gpg.RealTimeRoom,
-                     *                  participant:    gpg.MultiplayerParticipant
+                     *                  participant:    gpg.MultiplayerParticipant,
                      *                  data :          string,
                      *                  is_reliable :   boolean
                      *          }}
@@ -2804,31 +2896,119 @@ var gpg = {
                     data_source
                 );
             }
+        },
+
+        NearbyConnection : {
+            Init : function(str_json, callback) {
+                return _gpg.GPGNearbyConnectionsWrapper.init(str_json,
+                    __callbackManager.addCallback(callback));
+            },
+
+            GetLocalEndpointId : function() {
+                return _gpg.GPGNearbyConnectionsWrapper.GetLocalEndpointId();
+            },
+
+            GetLocalDeviceId : function() {
+                return _gpg.GPGNearbyConnectionsWrapper.GetLocalDeviceId();
+            },
+
+            StartAdvertising : function(str_json, start_advertising_callback, request_callback) {
+                _gpg.GPGNearbyConnectionsWrapper.StartAdvertising(str_json,
+                    __callbackManager.addCallback(start_advertising_callback),
+                    __callbackManager.addCallback(request_callback));
+            },
+
+            StopAdvertising : function() {
+                _gpg.GPGNearbyConnectionsWrapper.StopAdvertising();
+            },
+
+            AcceptConnectionRequest : function(remote_endpoint_id, payload, callback) {
+                _gpg.GPGNearbyConnectionsWrapper.AcceptConnectionRequest(remote_endpoint_id,
+                    payload,
+                    __callbackManager.addCallback(callback));
+            },
+
+            RejectConnectionRequest : function(remote_endpoint_id) {
+                _gpg.GPGNearbyConnectionsWrapper.RejectConnectionRequest(remote_endpoint_id);
+            },
+
+            StartDiscovery : function(service_id, duration, callback) {
+                _gpg.GPGNearbyConnectionsWrapper.StartDiscovery(service_id, duration,
+                    __callbackManager.addCallback(callback));
+            },
+
+            StopDiscovery : function( service_id ) {
+                _gpg.GPGNearbyConnectionsWrapper.StopAdvertising(service_id);
+            },
+
+            SendConnectionRequest : function(name, remote_endpoint_id, payload, connect_response_callback, message_callback) {
+                _gpg.GPGNearbyConnectionsWrapper.SendConnectionRequest(name,
+                    remote_endpoint_id, payload,
+                    __callbackManager.addCallback(connect_response_callback),
+                    __callbackManager.addCallback(message_callback));
+            },
+
+            SendReliableMessage : function(remote_endpoint_id, payload) {
+                _gpg.GPGNearbyConnectionsWrapper.SendReliableMessage(remote_endpoint_id, payload);
+            },
+
+            SendUnreliableMessage : function(remote_endpoint_id, payload) {
+                _gpg.GPGNearbyConnectionsWrapper.SendUnreliableMessage(remote_endpoint_id, payload);
+            },
+
+            Disconnect : function(remote_endpoint_id) {
+                _gpg.GPGNearbyConnectionsWrapper.Disconnect(remote_endpoint_id);
+            },
+
+            Stop : function() {
+                _gpg.GPGNearbyConnectionsWrapper.Stop();
+            }
+
         }
     }
 };
 
 /**
  * @class
+ * @classdesc
+ * Player level metadata object.
+ *
  * @constructor
  */
 gpg.PlayerLevel = function() {
 
+    /**
+     *
+     * @type {boolean}
+     */
     this.valid=         false;
 
+    /**
+     *
+     * @type {number}
+     */
     this.levelNumber =  -1;
 
+    /**
+     *
+     * @type {number}
+     */
     this.minimumXP=     -1;
 
+    /**
+     *
+     * @type {number}
+     */
     this.maximumXP=     -1;
 
     return this;
 };
 
 /**
+ * @class
+ * @classdesc
  * Leaderboard metadata class
  *
- * @class
  * @constructor
  */
 gpg.Leaderboard = function() {
@@ -2866,84 +3046,115 @@ gpg.Leaderboard = function() {
  */
 gpg.SnapshotMetadata = function() {
 
+    /**
+     *
+     * @type {string}
+     */
     this.filename = '';
 
+    /**
+     *
+     * @type {string}
+     */
     this.coverImageURL = '';
 
+    /**
+     *
+     * @type {string}
+     */
     this.description= '';
 
+    /**
+     *
+     * @type {boolean}
+     */
     this.valid= false;
 
+    /**
+     *
+     * @type {number}
+     */
     this.lastModifiedTime= 0;
 
+    /**
+     *
+     * @type {number}
+     */
     this.playedTime = 0;
 
     return this;
 };
 
 /**
+ * @class Player
+ * @classdesc
  * A local player wrapper object.
  * This object can be safely cached for information requests on the current logged-in player.
  *
- * @class Player
  * @memberOf gpg
  * @constructor
  */
 gpg.Player= function( ) {
-    return this;
-};
-
-/**
- * @lends gpg.Player.prototype
- */
-gpg.Player.prototype = {
 
     /**
      * Get local player display name.
+     * @type string
      */
-    name: '',
-
-    id: '',
-
-    avatarUrlIconRes: '',
-
-    avatarUrlHiRes: '',
+    this.name= '';
 
     /**
      *
-     * @returns {boolean}
+     * @type {string}
      */
-    hasLevelInfo: false,
+    this.id = '';
+
+    /**
+     *
+     * @type {string}
+     */
+    this.avatarUrlIconRes= '';
+
+    /**
+     *
+     * @type {string}
+     */
+    this.avatarUrlHiRes= '';
+
+    /**
+     *
+     * @type {boolean}
+     */
+    this.hasLevelInfo= false;
 
     /**
      *
      * @type number
      */
-    currentXP: -1,
+    this.currentXP= -1;
 
     /**
      *
      * @type number
      */
-    lastLevelUpTime: -1,
+    this.lastLevelUpTime= -1;
 
     /**
      *
-     * @returns {string}
+     * @type {string}
      */
-    title: '',
+    this.title= '';
 
     /**
      *
      * @type gpg.PlayerLevel|null
      */
-    currentLevel: null,
+    this.currentLevel= null;
 
     /**
      *
      * @type {gpg.PlayerLevel|null}
      */
-    nextLevel: null
+    this.nextLevel= null;
 };
 
 gpg.Player.__Dump = function( p ) {
@@ -2960,9 +3171,10 @@ gpg.Player.__Dump = function( p ) {
 };
 
 /**
+ * @class
+ * @classdesc
  * A data structure that allows you to access data about a specific player.
  *
- * @class
  * @memberOf gpg
  * @constructor
  */
@@ -2981,6 +3193,8 @@ gpg.PlayerStats.prototype = {
      * unpopulated user-created PlayerStats or for a populated one accompanied by
      * an unsuccessful response status.
      * It must be true for the getter functions on this object to be usable.
+     *
+     * @type {boolean}
      */
     valid : false,
 
@@ -2988,6 +3202,8 @@ gpg.PlayerStats.prototype = {
      * Returns whether or not this PlayerStats object has average session length
      * available. It must be true for <code>averageSessionLength</code>
      * to be usable.
+     *
+     * @type {boolean}
      */
     hasAverageSessionLength : false,
 
@@ -3004,6 +3220,8 @@ gpg.PlayerStats.prototype = {
      * Whether or not this PlayerStats object has churn probability
      * available. It must be true for <code>churnProbability</code> to be
      * usable.
+     *
+     * @type {boolean}
      */
     hasChurnProbability : false,
 
@@ -3020,6 +3238,8 @@ gpg.PlayerStats.prototype = {
      * Whether or not this PlayerStats object has days since last played
      * available. It must be true for <code>daysSinceLastPlayed</code> to be
      * usable.
+     *
+     * @type {boolean}
      */
     hasDaysSinceLastPlayed : false,
 
@@ -3036,6 +3256,8 @@ gpg.PlayerStats.prototype = {
      * Whether or not this PlayerStats object has number of purchases
      * available. It must be true for <code>numberOfPurchases</code> to be
      * usable.
+     *
+     * @type {boolean}
      */
     hasNumberOfPurchases : false,
 
@@ -3052,6 +3274,8 @@ gpg.PlayerStats.prototype = {
      * Whether or not this PlayerStats object has number of sessions
      * available. It must return true for <code>numberOfSessions</code> to be
      * usable.
+     *
+     * @type {boolean}
      */
     hasNumberOfSessions : false,
 
@@ -3068,6 +3292,8 @@ gpg.PlayerStats.prototype = {
      * Whether or not this PlayerStats object has session percentile
      * available. It must return true for <code>sessionPercentile</code> to be
      * usable.
+     *
+     * @type {boolean}
      */
     hasSessionPercentile : false,
 
@@ -3084,6 +3310,8 @@ gpg.PlayerStats.prototype = {
      * Whether or not this PlayerStats object has spend percentile
      * available. It must be true for <code>spendPercentile()</code> to be
      * usable.
+     *
+     * @type {boolean}
      */
     hasSpendPercentile : false,
 
@@ -3099,6 +3327,10 @@ gpg.PlayerStats.prototype = {
 
 /**
  * @class RealTimeRoom
+ * @classdesc
+ * A data structure containing the current state of a real-time multiplayer
+ * room.
+ *
  * @memberOf gpg
  * @constructor
  */
@@ -3114,6 +3346,8 @@ gpg.RealTimeRoom.prototype = {
     /**
      * true if this <code>RealTimeRoom</code> object is populated with
      * data.
+     *
+     * @type {boolean}
      */
     valid : false,
 
@@ -3122,6 +3356,8 @@ gpg.RealTimeRoom.prototype = {
      * object.
      * To retrieve this room at a later point, use this ID with
      * <code>RealTimeRoom.FetchRoom</code>.
+     *
+     * @type {string}
      */
     id : '',
 
@@ -3158,6 +3394,8 @@ gpg.RealTimeRoom.prototype = {
 
     /**
      * A server-generated summary of the state of the room.
+     *
+     * @type string
      */
     description : '',
 
@@ -3189,8 +3427,10 @@ gpg.RealTimeRoom.prototype = {
 };
 
 /**
- * A data structure containing data about a participant in a multiplayer match.
  * @class MultiplayerParticipant
+ * @classdesc
+ * A data structure containing data about a participant in a multiplayer match.
+ *
  * @memberOf gpg
  * @constructor
  */
@@ -3208,23 +3448,31 @@ gpg.MultiplayerParticipant.prototype = {
      * with data. Must be true in order for the getter functions
      * (<code>DisplayName</code>, <code>AvatarUrl</code>, <code>Id</code>, etc.)
      * on this <code>MultiplayerParticipant</code> to be usable.
+     *
+     * @type {boolean}
      */
     valid: false,
 
     /**
      * The display name for this <code>MultiplayerParticipant</code>
+     *
+     * @type string
      */
     displayName: '',
 
     /**
      * URL where the image of this
      * <code>MultiplayerParticipant</code>'s avatar resides.
+     *
+     * @type string
      */
     avatarUrlHiRes: '',
 
     /**
      * URL where the image of this
      * <code>MultiplayerParticipant</code>'s avatar resides.
+     *
+     * @type string
      */
     avatarUrlIconRes: '',
 
@@ -3232,12 +3480,16 @@ gpg.MultiplayerParticipant.prototype = {
      * The <code>Id</code> of this <code>MultiplayerParticipant</code>.
      * <code>Id</code>'s are only valid in the scope of a single match, and are
      * different from <code>Player.id</code>'s.
+     *
+     * @type string
      */
     id: '',
 
     /**
      * Whether a Player is associated with this
      * <code>MultiplayerParticipant</code>.
+     *
+     * @type {boolean}
      */
     hasPlayer: false,
 
@@ -3252,6 +3504,8 @@ gpg.MultiplayerParticipant.prototype = {
     /**
      * The status of this <code>MultiplayerParticipant</code> with respect to the
      * match.
+     *
+     * @type gpg.ParticipantStatus
      */
     status: gpg.ParticipantStatus.INVALID,
 
@@ -3259,6 +3513,7 @@ gpg.MultiplayerParticipant.prototype = {
      * Whether this participant has a result for this match. If false,
      * {@link matchResult} and {@link matchRank} do not return valid data.
      *
+     * @type {boolean}
      */
     hasMatchResult: false,
 
@@ -3285,13 +3540,17 @@ gpg.MultiplayerParticipant.prototype = {
     /**
      * Whether this participant is connected to a <code>RealTimeRoom</code>.
      * Always false if this is a participant from a <code>TurnBasedMatch</code>.
+     *
+     * @type {boolean}
      */
     isConnectedToRoom: false
 };
 
 /**
- * Quest metadata object.
  * @class
+ * @classdesc
+ * Quest metadata object.
+ *
  * @memberOf gpg
  * @constructor
  */
@@ -3304,12 +3563,24 @@ gpg.QuestMilestone = function() {
  */
 gpg.QuestMilestone.prototype= {
 
+    /**
+     * @type {boolean}
+     */
     valid : false,
 
+    /**
+     * @type string
+     */
     id : '',
 
+    /**
+     * @type string
+     */
     questId : '',
 
+    /**
+     * @type string
+     */
     eventId : '',
 
     /**
@@ -3327,14 +3598,18 @@ gpg.QuestMilestone.prototype= {
      */
     targetCount : -1,
 
+    /**
+     * @type string
+     */
     completionRewardData : ''
 };
 
 /**
+ * @class
+ * @classdesc
  * A single data structure allowing you to access data about the status of a
  * specific quest.
  *
- * @class
  * @memberOf gpg
  * @constructor
  */
@@ -3346,16 +3621,35 @@ gpg.Quest = function() {
  * @lends gpg.Quest.prototype
  */
 gpg.Quest.prototype = {
+
+    /**
+     * @type {boolean}
+     */
     valid : false,
 
+    /**
+     * @type string
+     */
     id : '',
 
+    /**
+     * @type string
+     */
     name : '',
 
+    /**
+     * @type string
+     */
     description : '',
 
+    /**
+     * @type string
+     */
     iconUrl : '',
 
+    /**
+     * @type string
+     */
     bannerUrl : '',
 
     /**
@@ -3385,11 +3679,12 @@ gpg.Quest.prototype = {
 };
 
 /**
+ * @class
+ * @classdesc
  * A single data structure containing data about the status of
  * a specific event. Data comprise two types: user-specific (e.g.,
  * whether the user has unlocked the event), and global (e.g., event name).
  *
- * @class
  * @memberOf gpg
  * @constructor
  */
@@ -3402,12 +3697,24 @@ gpg.Event = function() {
  */
 gpg.Event.prototype = {
 
+    /**
+     * @type {boolean}
+     */
     valid : false,
 
+    /**
+     * @type string
+     */
     id : '',
 
+    /**
+     * @type string
+     */
     name : '',
 
+    /**
+     * @type string
+     */
     description : '',
 
     /**
@@ -3422,9 +3729,10 @@ gpg.Event.prototype = {
 };
 
 /**
+ * @class
+ * @classdesc
  * Achievement metadata class
  *
- * @class
  * @memberOf gpg
  * @constructor
  */
@@ -3501,11 +3809,12 @@ gpg.Achievement.prototype = {
 };
 
 /**
+ * @class
+ * @classdesc
  * Single data structure which allows you to access data about a player's
  * score.
  *
- * @class
- * @memberOf gpg;
+ * @memberOf gpg
  * @constructor
  */
 gpg.Score = function() {
@@ -3538,10 +3847,11 @@ gpg.Score.prototype = {
 };
 
 /**
+ * @class
+ * @classdesc
  * A single data structure which allows you to access a summary of score
  * information.
  *
- * @class
  * @memberOf gpg
  * @constructor
  */
@@ -3586,12 +3896,13 @@ gpg.ScoreSummary.prototype = {
 };
 
 /**
+ * @class
+ * @classdesc
  * A single data structure which allows you to access score data.
  * Data include Leaderboard id, start, timespan, collection, previous
  * score-page token, next score-page token, and the vector of all
  * score entries.
  *
- * @class
  * @memberOf gpg
  * @constructor
  */
@@ -3600,9 +3911,10 @@ gpg.ScorePage = function() {
 };
 
 /**
+ * @class Entry
+ * @classdesc
  * A class that creates an entry on a score page.
  *
- * @name Entry
  * @memberOf gpg.ScorePage
  * @constructor
  */
@@ -3684,10 +3996,11 @@ gpg.ScorePage.prototype = {
 };
 
 /**
+ * @class
+ * @classdesc
  * A data structure containing data about the current state of an invitation to
  * a turn-based match.
  *
- * @class
  * @memberOf gpg
  * @constructor
  */
@@ -3769,7 +4082,8 @@ gpg.MultiplayerInvitation = function() {
 };
 
 /**
- * @template
+ *
+ * @interface
  * @name RealTimeEventListener
  * @memberOf gpg
  * @constructor
