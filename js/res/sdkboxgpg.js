@@ -2938,7 +2938,7 @@ var gpg = {
             },
 
             StopDiscovery : function( service_id ) {
-                _gpg.GPGNearbyConnectionsWrapper.StopAdvertising(service_id);
+                _gpg.GPGNearbyConnectionsWrapper.StopDiscovery(service_id);
             },
 
             SendConnectionRequest : function(name, remote_endpoint_id, payload, connect_response_callback, message_callback) {
