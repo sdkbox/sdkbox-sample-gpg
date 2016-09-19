@@ -1,4 +1,5 @@
 #include <sstream>
+#include <vector>
 #include "Utils.h"
 
 std::vector<uint8_t> str_to_vector( const std::string& str ) {
