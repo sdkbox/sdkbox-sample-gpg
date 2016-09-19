@@ -32,12 +32,17 @@ function TurnBasedMultiplayerScene:setupTestMenu()
     local size = cc.Director:getInstance():getWinSize()
 
     local menu = cc.Menu:create(
+        cc.MenuItemFont:create("Show Match Inbox UI"):onClicked(function()
+            gpg.Turnbased:ShowMatchInboxUI(function(o)
+                log:d(log:to_str(o))
+            end)
+        end),
         cc.MenuItemFont:create("Choose Players"):onClicked(function()
             gpg.Turnbased:ShowPlayerSelectUI(2, 2, false, function(o)
                 log:d(log:to_str(o))
             end)
         end),
-        cc.MenuItemFont:create("Create Game UI"):onClicked(function()
+        cc.MenuItemFont:create("Create Match"):onClicked(function()
             params = {
                 type = "ui",
                 minimumAutomatchingPlayers = 2,
