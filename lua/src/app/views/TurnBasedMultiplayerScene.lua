@@ -21,6 +21,7 @@ function TurnBasedMultiplayerScene:onCreate()
 
     log:setup(self, 300, 20)
 
+    gpg.Turnbased:addMatchEventCallback(gpg.DefaultCallbacks.TURN_BASED_MATCH_EVENT, {self, handleMatchEvent})
     self:setupTestMenu()
 
 end
@@ -31,9 +32,14 @@ function TurnBasedMultiplayerScene:setupTestMenu()
     local size = cc.Director:getInstance():getWinSize()
 
     local menu = cc.Menu:create(
-        cc.MenuItemFont:create("Create TB Game Auto"):onClicked(function()
+        cc.MenuItemFont:create("Choose Players"):onClicked(function()
+            gpg.Turnbased:ShowPlayerSelectUI(2, 2, false, function(o)
+                log:d(log:to_str(o))
+            end)
+        end),
+        cc.MenuItemFont:create("Create Game UI"):onClicked(function()
             params = {
-                type = "quick_match",
+                type = "ui",
                 minimumAutomatchingPlayers = 2,
                 maximumAutomatchingPlayers = 2
             }
@@ -51,7 +57,10 @@ end
 function TurnBasedMultiplayerScene:setupGame()
 end
 
-
+function TurnBasedMultiplayerScene:handleMatchEvent(o)
+    log:d("TurnBasedMultiplayerScene:handleMatchEvent")
+    log:d(log:to_str(o))
+end
 
 return TurnBasedMultiplayerScene
 

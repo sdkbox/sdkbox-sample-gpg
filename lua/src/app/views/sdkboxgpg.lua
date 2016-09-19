@@ -205,7 +205,18 @@ gpg.DefaultCallbacks = {
     DEFAULT_CALLBACKS_BEGIN = 1,
     AUTH_ACTION_STARTED = 1,
     AUTH_ACTION_FINISHED = 2,
-    DEFAULT_CALLBACKS_END = 2
+
+    RTMP_ROOM_STATUS_CHANGED = 3,
+    RTMP_CONNECTED_SET_CHANGED = 4,
+    RTMP_P2P_CONNECTED = 5,
+    RTMP_P2P_DISCONNECTED = 6,
+    RTMP_PARTICIPANT_STATUS_CHANGED = 7,
+    RTMP_DATA_RECEIVED = 8,
+
+    TURN_BASED_MATCH_EVENT = 9,
+    MULTIPLAYER_INVITATION_EVENT = 10,
+
+    DEFAULT_CALLBACKS_END = 10
 }
 
 gpg.ResponseStatus = {
@@ -296,6 +307,12 @@ end
 function gpg.CallbackManager:addCallbackById(id, callback)
     if (self._callbacks[id] == nil) then
         self._callbacks[id] = callback
+    end
+end
+
+function gpg.CallbackManager:removeCallbackById(id)
+    if (self._callbacks[id] ~= nil) then
+        self._callbacks[id] = nil
     end
 end
 
@@ -667,6 +684,14 @@ end
 
 function gpg.Turnbased:ShowPlayerSelectUI(min_players, max_players, allow_automatch, callback)
     sdkbox.GPGTurnBasedMultiplayerWrapper:ShowPlayerSelectUI(gpg.CallbackManager:addCallback(callback), min_players, max_players, allow_rematch)
+end
+
+function gpg.Turnbased:addMatchEventCallback(id, callback)
+    if callback then
+        gpg.CallbackManager:addCallbackById(id, callback)
+    else
+        gpg.CallbackManager:removeCallbackById(id, callback)
+    end
 end
 
 return gpg
