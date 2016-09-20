@@ -56,7 +56,7 @@ if [ -d ../lua ]; then
 fi
 if [ -d ../js ]; then
         IOS_DEST="../js/frameworks/runtime-src/proj.ios_mac/gpg.framework"
-        ANDROID_DEST="../js/frameworks/runtime-src/proj.android/jnigpg"
+        ANDROID_DEST="../js/frameworks/runtime-src/proj.android/jni/gpg"
         rm -rfv $IOS_DEST
         rm -rfv $ANDROID_DEST
         cp -rfv $IOS_FRAMEWORK $IOS_DEST
