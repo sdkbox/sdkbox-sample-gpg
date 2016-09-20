@@ -52,7 +52,8 @@ namespace sdkbox
 		static void ConfirmPendingCompletion(int callback_id, const std::string& match_id);
 		static void LeaveMatchDuringTheirTurn(int callback_id, const std::string& match_id);
 		static void LeaveMatchDuringMyTurn(int callback_id, const std::string& match_id, const std::string& next_participant_id);
-
+		static std::string CreateParticipantResult(const std::string& match_id, const std::string& participant_id, int placing, int matchResult);
+		
         // invitations
         static void AcceptInvitation(int callback_id, const std::string& invitation_id);
         static void DeclineInvitation(const std::string& invitation_id);
