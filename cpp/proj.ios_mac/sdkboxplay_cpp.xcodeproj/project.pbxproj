@@ -15,7 +15,6 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		2D6F436BA1302F35EDAB4135 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22C4446CB0DA4F00831F593C /* CoreTelephony.framework */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
-		46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */; };
 		481A44FB9D5290D340B28D72 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9144BFDA5E31D0509C82381 /* StoreKit.framework */; };
 		4AF24228B721699D68B0EB58 /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC054D038170C9031CB136DE /* libcocos2d iOS.a */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
@@ -40,6 +39,17 @@
 		521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6219F0C34300D177D7 /* Default-667h@2x.png */; };
 		521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6319F0C34300D177D7 /* Default-736h@3x.png */; };
 		561D467E9E476499AB8E5745 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 782149BABFD0131F0A442BCA /* EventKit.framework */; };
+		597793371D90759C00CCDD33 /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793331D90759C00CCDD33 /* BaseScene.cpp */; };
+		597793381D90759C00CCDD33 /* EventScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793351D90759C00CCDD33 /* EventScene.cpp */; };
+		597793481D9075A600CCDD33 /* json98.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793391D9075A600CCDD33 /* json98.cpp */; };
+		597793491D9075A600CCDD33 /* LeaderboardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5977933B1D9075A600CCDD33 /* LeaderboardScene.cpp */; };
+		5977934A1D9075A600CCDD33 /* PlayerStatScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5977933D1D9075A600CCDD33 /* PlayerStatScene.cpp */; };
+		5977934B1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5977933F1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp */; };
+		5977934C1D9075A600CCDD33 /* QuestScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793401D9075A600CCDD33 /* QuestScene.cpp */; };
+		5977934D1D9075A600CCDD33 /* SaveGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793421D9075A600CCDD33 /* SaveGameScene.cpp */; };
+		5977934E1D9075A600CCDD33 /* StateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793441D9075A600CCDD33 /* StateManager.cpp */; };
+		5977934F1D9075A600CCDD33 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793461D9075A600CCDD33 /* Utils.cpp */; };
+		597793521D90760000CCDD33 /* AchievementScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793501D90760000CCDD33 /* AchievementScene.cpp */; };
 		62F14B8C999BCF36037FACE6 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1122400199CC18360FC80E32 /* GameController.framework */; };
 		759F46CD98D89D436E005AB0 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49D94E7AA8DEB99F9111726A /* EventKitUI.framework */; };
 		80E24F7B91524232D61BA223 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC394683B8779E6D912A331F /* MediaPlayer.framework */; };
@@ -93,8 +103,6 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
-		46880B8719C43A87006E1F66 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
 		49D94E7AA8DEB99F9111726A /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/EventKitUI.framework; sourceTree = DEVELOPER_DIR; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
 		503AE0FB17EB989F00D1A890 /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppController.mm; path = ios/AppController.mm; sourceTree = SOURCE_ROOT; };
@@ -125,6 +133,27 @@
 		50EF62A117ECD613001EB2F8 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
 		521A8E6219F0C34300D177D7 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		521A8E6319F0C34300D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
+		597793331D90759C00CCDD33 /* BaseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseScene.cpp; sourceTree = "<group>"; };
+		597793341D90759C00CCDD33 /* BaseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseScene.h; sourceTree = "<group>"; };
+		597793351D90759C00CCDD33 /* EventScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventScene.cpp; sourceTree = "<group>"; };
+		597793361D90759C00CCDD33 /* EventScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventScene.h; sourceTree = "<group>"; };
+		597793391D9075A600CCDD33 /* json98.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json98.cpp; sourceTree = "<group>"; };
+		5977933A1D9075A600CCDD33 /* json98.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json98.h; sourceTree = "<group>"; };
+		5977933B1D9075A600CCDD33 /* LeaderboardScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LeaderboardScene.cpp; sourceTree = "<group>"; };
+		5977933C1D9075A600CCDD33 /* LeaderboardScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardScene.h; sourceTree = "<group>"; };
+		5977933D1D9075A600CCDD33 /* PlayerStatScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerStatScene.cpp; sourceTree = "<group>"; };
+		5977933E1D9075A600CCDD33 /* PlayerStatScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerStatScene.h; sourceTree = "<group>"; };
+		5977933F1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PluginSdkboxGooglePlayCppHelper.cpp; sourceTree = "<group>"; };
+		597793401D9075A600CCDD33 /* QuestScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuestScene.cpp; sourceTree = "<group>"; };
+		597793411D9075A600CCDD33 /* QuestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestScene.h; sourceTree = "<group>"; };
+		597793421D9075A600CCDD33 /* SaveGameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SaveGameScene.cpp; sourceTree = "<group>"; };
+		597793431D9075A600CCDD33 /* SaveGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveGameScene.h; sourceTree = "<group>"; };
+		597793441D9075A600CCDD33 /* StateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateManager.cpp; sourceTree = "<group>"; };
+		597793451D9075A600CCDD33 /* StateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateManager.h; sourceTree = "<group>"; };
+		597793461D9075A600CCDD33 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
+		597793471D9075A600CCDD33 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		597793501D90760000CCDD33 /* AchievementScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AchievementScene.cpp; sourceTree = "<group>"; };
+		597793511D90760000CCDD33 /* AchievementScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementScene.h; sourceTree = "<group>"; };
 		74B64601A42103298D3FFB62 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
 		782149BABFD0131F0A442BCA /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/EventKit.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -333,10 +362,29 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				597793501D90760000CCDD33 /* AchievementScene.cpp */,
+				597793511D90760000CCDD33 /* AchievementScene.h */,
+				597793391D9075A600CCDD33 /* json98.cpp */,
+				5977933A1D9075A600CCDD33 /* json98.h */,
+				5977933B1D9075A600CCDD33 /* LeaderboardScene.cpp */,
+				5977933C1D9075A600CCDD33 /* LeaderboardScene.h */,
+				5977933D1D9075A600CCDD33 /* PlayerStatScene.cpp */,
+				5977933E1D9075A600CCDD33 /* PlayerStatScene.h */,
+				5977933F1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp */,
+				597793401D9075A600CCDD33 /* QuestScene.cpp */,
+				597793411D9075A600CCDD33 /* QuestScene.h */,
+				597793421D9075A600CCDD33 /* SaveGameScene.cpp */,
+				597793431D9075A600CCDD33 /* SaveGameScene.h */,
+				597793441D9075A600CCDD33 /* StateManager.cpp */,
+				597793451D9075A600CCDD33 /* StateManager.h */,
+				597793461D9075A600CCDD33 /* Utils.cpp */,
+				597793471D9075A600CCDD33 /* Utils.h */,
+				597793331D90759C00CCDD33 /* BaseScene.cpp */,
+				597793341D90759C00CCDD33 /* BaseScene.h */,
+				597793351D90759C00CCDD33 /* EventScene.cpp */,
+				597793361D90759C00CCDD33 /* EventScene.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
-				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
-				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -463,11 +511,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				597793381D90759C00CCDD33 /* EventScene.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
-				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
+				5977934A1D9075A600CCDD33 /* PlayerStatScene.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				5977934D1D9075A600CCDD33 /* SaveGameScene.cpp in Sources */,
+				597793371D90759C00CCDD33 /* BaseScene.cpp in Sources */,
+				597793491D9075A600CCDD33 /* LeaderboardScene.cpp in Sources */,
+				5977934C1D9075A600CCDD33 /* QuestScene.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				597793481D9075A600CCDD33 /* json98.cpp in Sources */,
+				5977934B1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp in Sources */,
+				597793521D90760000CCDD33 /* AchievementScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				5977934F1D9075A600CCDD33 /* Utils.cpp in Sources */,
+				5977934E1D9075A600CCDD33 /* StateManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
