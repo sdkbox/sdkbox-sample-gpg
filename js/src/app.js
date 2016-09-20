@@ -1717,6 +1717,9 @@ var LayerNearbyConnection = cc.Layer.extend({
         this.addChild(this._text_listener_data);
 
         _global_label = this._text_listener;
+
+        this._msg_advertising = 'this is a reliable from advertising';
+        this._msg_discovery = 'this is a reliable msg from discovery'
     },
 
     __createMenu : function() {
@@ -1725,19 +1728,21 @@ var LayerNearbyConnection = cc.Layer.extend({
         const winSize = cc.Director.getInstance().getWinSize();
 
         this._mi_start_advertising = new cc.MenuItemFont("StartAdvertising", function() {
-            self._mi_start_advertising.setVisible(false);
-            self._mi_stop_advertising.setVisible(true);
             _context.gameServices().NearbyConnection.StartAdvertising(
                 "\"name\":\"\",\"duration\":0,\"app_identifiers\":{\"identifier\":\"com.sdkbox.gpg\"},",
                 function(result) {
                     //start_advertising_callback
                     if (1 == result.start_advertising_result.status) {
+                        self._mi_start_advertising.setVisible(false);
+                        self._mi_stop_advertising.setVisible(true);
                         self._mi_start_discovery.setVisible(false);
                         __log("GPG start advertising result:" + result.client_id
                             + " status:" + result.start_advertising_result.status
                             + " local_endpoint_name:" + result.start_advertising_result.local_endpoint_name);
+                        self._text.setString('start advertising success');
                     } else {
                         __log("GPG advertising start failed");
+                        self._text.setString('start advertising failed');
                     }
                 },
                 function(result) {
@@ -1752,6 +1757,7 @@ var LayerNearbyConnection = cc.Layer.extend({
                         payload,
                         function (result) {
                             __log('advertising connect listener')
+                            self._text.setString('receive event:' + result.event);
                             if ('OnMessageReceived' == result.event) {
                                 __log('OnMessageReceived client_id:' + result.client_id
                                     + ' remote_endpoint_id:' + result.remote_endpoint_id
@@ -1766,11 +1772,12 @@ var LayerNearbyConnection = cc.Layer.extend({
                             }
                         });
                     //send message to connector
-                    payload = 'this is a reliable message from advertising';
+                    payload = self._msg_advertising;
                     _context.gameServices().NearbyConnection.SendUnreliableMessage(
                         remote_endpoint_id, payload);
                     //reject connection
                     // _context.gameServices().NearbyConnection.RejectConnectionRequest(remote_endpoint_id);
+                    self._text.setString('receive connect request');
                 });
         });
         this._mi_stop_advertising = new cc.MenuItemFont("StopAdvertising", function() {
@@ -1786,6 +1793,7 @@ var LayerNearbyConnection = cc.Layer.extend({
             self._mi_stop_discovery.setVisible(true);
             _context.gameServices().NearbyConnection.StartDiscovery(server_id, 0,
                 function(result) {
+                    self._text.setString('discovery event:' + result.event);
                     if ('OnEndpointFound' == result.event) {
                         __log('found client_id:' + result.client_id
                             + 'endpoint detail endpoint_id:' + result.endpoint_details.endpoint_id
@@ -1804,22 +1812,25 @@ var LayerNearbyConnection = cc.Layer.extend({
                             name, remote_endpoint_id, payload,
                             function(result) {
                                 //connect_response_callback
-                                if (1 == result.status) {
-                                    __log('Connect success');
-                                    const remote_endpoint_id = result.remote_endpoint_id;
-                                    const payload = 'this is a reliable message';
+                                if (1 == result.response.status) {
+                                    __log('Connect advertising success');
+                                    const remote_endpoint_id = result.response.remote_endpoint_id;
+                                    const payload = self._msg_discovery;
                                     _context.gameServices().NearbyConnection.SendUnreliableMessage(
                                         remote_endpoint_id, payload);
+                                    self._text.setString('connect advertising success');
                                 } else {
-                                    __log('Connect failed');
+                                    __log('Connect advertising failed');
+                                    self._text.setString('connect advertising failed');
                                 }
-                                __log('GPG connect client_id:' + result.client_id
-                                    + ' REI:' + result.response.remote_endpoint_id
-                                    + ' Status:' + result.response.status
-                                    + ' Payload: ' + result.response.payload);
+                                // __log('GPG connect client_id:' + result.client_id
+                                //     + ' REI:' + result.response.remote_endpoint_id
+                                //     + ' Status:' + result.response.status
+                                //     + ' Payload: ' + result.response.payload);
                             },
                             function(result) {
                                 //message callback
+                                self._text.setString('discovery receive:' + result.event);
                                 if ('OnMessageReceived' == result.event) {
                                     __log('OnMessageReceived client_id:' + result.client_id
                                         + ' remote_endpoint_id:' + result.remote_endpoint_id
@@ -1868,35 +1879,6 @@ var LayerNearbyConnection = cc.Layer.extend({
         this._mi_stop = new cc.MenuItemFont("Stop", function() {
             _context.gameServices().NearbyConnection.Stop();
         });
-
-                    // new cc.MenuItemFont("AcceptConnectionRequest", function() {
-            //     const remote_endpoint_id = '';
-            //     const payload = '';
-            //     _context.gameServices().NearbyConnection.AcceptConnectionRequest(
-            //         remote_endpoint_id, payload,
-            //         function (str_json) {
-            //             __log('GPG accecpt listener:' + str_json);
-            //         });
-            // }),
-            // new cc.MenuItemFont("RejectConnectionRequest", function() {
-            //     const remote_endpoint_id = '';
-            //     _context.gameServices().NearbyConnection.RejectConnectionRequest(remote_endpoint_id);
-            // }),
-            // new cc.MenuItemFont("SendConnectionRequest", function() {
-            //     const name = '';
-            //     const remote_endpoint_id = '';
-            //     const payload = '';
-            //     _context.gameServices().NearbyConnection.SendConnectionRequest(
-            //         name, remote_endpoint_id, payload,
-            //         function(str_json) {
-            //             //connect_response_callback
-            //             __log('GPG connect response:' + str_json);
-            //         },
-            //         function(str_json) {
-            //             //message callback
-            //             __log('GPG message:' + str_json);
-            //         });
-            // }),
 
         const menu = new cc.Menu(
             this._mi_start_advertising,
@@ -1956,10 +1938,10 @@ var LayerNearbyConnection = cc.Layer.extend({
             server_id: server_id
         }
         this._endpoints.push(detail);
-        detail._menu_item = new cc.MenuItemFont('Advertor: ' + name, function () {
-            __log('Click on endpoint item');
-        })
-        this._Menu.addChild(detail._menu_item);
+        // detail._menu_item = new cc.MenuItemFont('Advertor: ' + name, function () {
+        //     __log('Click on endpoint item');
+        // })
+        // this._Menu.addChild(detail._menu_item);
     },
 
     __removeEndpoint : function (client_id, endpoint_id) {
@@ -1970,7 +1952,7 @@ var LayerNearbyConnection = cc.Layer.extend({
                 break;
             }
         }
-        this._Menu.removeChild(this._endpoints[i]._menu_item);
+        // this._Menu.removeChild(this._endpoints[i]._menu_item);
         this._endpoints.splice(i, 1);
     },
 
