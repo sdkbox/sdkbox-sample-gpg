@@ -11,8 +11,10 @@
 #define SDKBOX_GPG_TAG "SdkboxGPG"
 #define SDKBOX_GPG_VERSION "1.0"
 
-namespace sdkbox {
-    enum class BuilderCallbackIDs {
+namespace sdkbox
+{
+    enum class BuilderCallbackIDs
+    {
         AUTH_ACTION_STARTED = 1,
         AUTH_ACTION_FINISHED = 2,
         
@@ -27,6 +29,9 @@ namespace sdkbox {
         MULTIPLAYER_INVITATION_EVENT = 10
     };
 
+    static const int ERROR_OPERATION_NUMERIC = -256;
+    static const int ERROR_INVALID_GAME_SERVICES = -257;
+    static const int ERROR_NULL_POINTER = -259;
 }
 
 #endif

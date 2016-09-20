@@ -13,7 +13,17 @@ LOCAL_ARM_MODE := arm
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/AppDelegate.cpp \
-../../Classes/HelloWorldScene.cpp
+../../Classes/AchievementScene.cpp \
+../../Classes/BaseScene.cpp \
+../../Classes/EventScene.cpp \
+../../Classes/LeaderboardScene.cpp \
+../../Classes/PlayerStatScene.cpp \
+../../Classes/QuestScene.cpp \
+../../Classes/SaveGameScene.cpp \
+../../Classes/StateManager.cpp \
+../../Classes/Utils.cpp \
+../../Classes/json98.cpp \
+../../Classes/PluginSdkboxGooglePlayCppHelper.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
 LOCAL_LDLIBS := -landroid \

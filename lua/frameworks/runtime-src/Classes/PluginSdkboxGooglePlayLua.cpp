@@ -43,6 +43,342 @@ int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_CreateRealTimeRo
 #endif
     return 0;
 }
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_LeaveRoom(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:LeaveRoom");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGRealTimeMultiplayerWrapper:LeaveRoom");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_LeaveRoom'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::LeaveRoom(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:LeaveRoom",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_LeaveRoom'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessage");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::SendUnreliableMessage(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessage",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_DismissInvitation(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:DismissInvitation");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_DismissInvitation'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::DismissInvitation(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:DismissInvitation",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_DismissInvitation'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_DeclineInvitation(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:DeclineInvitation");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_DeclineInvitation'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::DeclineInvitation(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:DeclineInvitation",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_DeclineInvitation'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendReliableMessage(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 4)
+    {
+        int arg0;
+        std::string arg1;
+        std::string arg2;
+        std::string arg3;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:SendReliableMessage");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGRealTimeMultiplayerWrapper:SendReliableMessage");
+        ok &= luaval_to_std_string(tolua_S, 4,&arg2, "sdkbox.GPGRealTimeMultiplayerWrapper:SendReliableMessage");
+        ok &= luaval_to_std_string(tolua_S, 5,&arg3, "sdkbox.GPGRealTimeMultiplayerWrapper:SendReliableMessage");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendReliableMessage'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::SendReliableMessage(arg0, arg1, arg2, arg3);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:SendReliableMessage",argc, 4);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendReliableMessage'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_AcceptInvitation(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:AcceptInvitation");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGRealTimeMultiplayerWrapper:AcceptInvitation");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_AcceptInvitation'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::AcceptInvitation(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:AcceptInvitation",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_AcceptInvitation'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_FetchInvitations(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        int arg0;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:FetchInvitations");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_FetchInvitations'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::FetchInvitations(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:FetchInvitations",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_FetchInvitations'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        std::string arg0;
+        std::string arg1;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessageToOthers");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessageToOthers");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::SendUnreliableMessageToOthers(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessageToOthers",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGRealTimeMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        int arg0;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGRealTimeMultiplayerWrapper:ShowRoomInboxUI");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGRealTimeMultiplayerWrapper::ShowRoomInboxUI(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGRealTimeMultiplayerWrapper:ShowRoomInboxUI",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI'.",&tolua_err);
+#endif
+    return 0;
+}
 static int lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_finalize(lua_State* tolua_S)
 {
     printf("luabindings: finalizing LUA object (GPGRealTimeMultiplayerWrapper)");
@@ -56,10 +392,703 @@ int lua_register_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper(lua_Sta
 
     tolua_beginmodule(tolua_S,"GPGRealTimeMultiplayerWrapper");
         tolua_function(tolua_S,"CreateRealTimeRoom", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom);
+        tolua_function(tolua_S,"LeaveRoom", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_LeaveRoom);
+        tolua_function(tolua_S,"SendUnreliableMessage", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage);
+        tolua_function(tolua_S,"DismissInvitation", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_DismissInvitation);
+        tolua_function(tolua_S,"DeclineInvitation", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_DeclineInvitation);
+        tolua_function(tolua_S,"SendReliableMessage", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendReliableMessage);
+        tolua_function(tolua_S,"AcceptInvitation", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_AcceptInvitation);
+        tolua_function(tolua_S,"FetchInvitations", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_FetchInvitations);
+        tolua_function(tolua_S,"SendUnreliableMessageToOthers", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers);
+        tolua_function(tolua_S,"ShowRoomInboxUI", lua_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI);
     tolua_endmodule(tolua_S);
     std::string typeName = typeid(sdkbox::GPGRealTimeMultiplayerWrapper).name();
     g_luaType[typeName] = "sdkbox.GPGRealTimeMultiplayerWrapper";
     g_typeCast["GPGRealTimeMultiplayerWrapper"] = "sdkbox.GPGRealTimeMultiplayerWrapper";
+    return 1;
+}
+
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 4)
+    {
+        int arg0;
+        int arg1;
+        int arg2;
+        bool arg3;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:ShowPlayerSelectUI");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:ShowPlayerSelectUI");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGTurnBasedMultiplayerWrapper:ShowPlayerSelectUI");
+        ok &= luaval_to_boolean(tolua_S, 5,&arg3, "sdkbox.GPGTurnBasedMultiplayerWrapper:ShowPlayerSelectUI");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::ShowPlayerSelectUI(arg0, arg1, arg2, arg3);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:ShowPlayerSelectUI",argc, 4);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_CancelMatch(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:CancelMatch");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:CancelMatch");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_CancelMatch'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::CancelMatch(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:CancelMatch",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_CancelMatch'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DismissMatch(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:DismissMatch");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DismissMatch'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::DismissMatch(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:DismissMatch",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DismissMatch'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        int arg0;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:ShowMatchInboxUI");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::ShowMatchInboxUI(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:ShowMatchInboxUI",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_SynchronizeData(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 0)
+    {
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_SynchronizeData'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::SynchronizeData();
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:SynchronizeData",argc, 0);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_SynchronizeData'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:CreateTurnBasedMatch");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:CreateTurnBasedMatch");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::CreateTurnBasedMatch(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:CreateTurnBasedMatch",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DismissInvitation(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:DismissInvitation");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DismissInvitation'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::DismissInvitation(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:DismissInvitation",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DismissInvitation'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FetchMatch(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:FetchMatch");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:FetchMatch");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FetchMatch'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::FetchMatch(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:FetchMatch",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FetchMatch'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DeclineInvitation(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:DeclineInvitation");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DeclineInvitation'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::DeclineInvitation(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:DeclineInvitation",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DeclineInvitation'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:ConfirmPendingCompletion");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:ConfirmPendingCompletion");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::ConfirmPendingCompletion(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:ConfirmPendingCompletion",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 4)
+    {
+        int arg0;
+        std::string arg1;
+        std::string arg2;
+        std::string arg3;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:FinishMatchDuringMyTurn");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:FinishMatchDuringMyTurn");
+        ok &= luaval_to_std_string(tolua_S, 4,&arg2, "sdkbox.GPGTurnBasedMultiplayerWrapper:FinishMatchDuringMyTurn");
+        ok &= luaval_to_std_string(tolua_S, 5,&arg3, "sdkbox.GPGTurnBasedMultiplayerWrapper:FinishMatchDuringMyTurn");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::FinishMatchDuringMyTurn(arg0, arg1, arg2, arg3);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:FinishMatchDuringMyTurn",argc, 4);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_Rematch(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:Rematch");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:Rematch");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_Rematch'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::Rematch(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:Rematch",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_Rematch'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:LeaveMatchDuringTheirTurn");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:LeaveMatchDuringTheirTurn");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::LeaveMatchDuringTheirTurn(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:LeaveMatchDuringTheirTurn",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_TakeMyTurn(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 5)
+    {
+        int arg0;
+        std::string arg1;
+        std::string arg2;
+        std::string arg3;
+        std::string arg4;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:TakeMyTurn");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:TakeMyTurn");
+        ok &= luaval_to_std_string(tolua_S, 4,&arg2, "sdkbox.GPGTurnBasedMultiplayerWrapper:TakeMyTurn");
+        ok &= luaval_to_std_string(tolua_S, 5,&arg3, "sdkbox.GPGTurnBasedMultiplayerWrapper:TakeMyTurn");
+        ok &= luaval_to_std_string(tolua_S, 6,&arg4, "sdkbox.GPGTurnBasedMultiplayerWrapper:TakeMyTurn");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_TakeMyTurn'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::TakeMyTurn(arg0, arg1, arg2, arg3, arg4);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:TakeMyTurn",argc, 5);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_TakeMyTurn'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FetchMatches(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        int arg0;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:FetchMatches");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FetchMatches'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::FetchMatches(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:FetchMatches",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FetchMatches'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        int arg0;
+        std::string arg1;
+        std::string arg2;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:LeaveMatchDuringMyTurn");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:LeaveMatchDuringMyTurn");
+        ok &= luaval_to_std_string(tolua_S, 4,&arg2, "sdkbox.GPGTurnBasedMultiplayerWrapper:LeaveMatchDuringMyTurn");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::LeaveMatchDuringMyTurn(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:LeaveMatchDuringMyTurn",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_AcceptInvitation(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGTurnBasedMultiplayerWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGTurnBasedMultiplayerWrapper:AcceptInvitation");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGTurnBasedMultiplayerWrapper:AcceptInvitation");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_AcceptInvitation'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGTurnBasedMultiplayerWrapper::AcceptInvitation(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGTurnBasedMultiplayerWrapper:AcceptInvitation",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_AcceptInvitation'.",&tolua_err);
+#endif
+    return 0;
+}
+static int lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (GPGTurnBasedMultiplayerWrapper)");
+    return 0;
+}
+
+int lua_register_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"sdkbox.GPGTurnBasedMultiplayerWrapper");
+    tolua_cclass(tolua_S,"GPGTurnBasedMultiplayerWrapper","sdkbox.GPGTurnBasedMultiplayerWrapper","",nullptr);
+
+    tolua_beginmodule(tolua_S,"GPGTurnBasedMultiplayerWrapper");
+        tolua_function(tolua_S,"ShowPlayerSelectUI", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI);
+        tolua_function(tolua_S,"CancelMatch", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_CancelMatch);
+        tolua_function(tolua_S,"DismissMatch", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DismissMatch);
+        tolua_function(tolua_S,"ShowMatchInboxUI", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI);
+        tolua_function(tolua_S,"SynchronizeData", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_SynchronizeData);
+        tolua_function(tolua_S,"CreateTurnBasedMatch", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch);
+        tolua_function(tolua_S,"DismissInvitation", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DismissInvitation);
+        tolua_function(tolua_S,"FetchMatch", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FetchMatch);
+        tolua_function(tolua_S,"DeclineInvitation", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_DeclineInvitation);
+        tolua_function(tolua_S,"ConfirmPendingCompletion", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion);
+        tolua_function(tolua_S,"FinishMatchDuringMyTurn", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn);
+        tolua_function(tolua_S,"Rematch", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_Rematch);
+        tolua_function(tolua_S,"LeaveMatchDuringTheirTurn", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn);
+        tolua_function(tolua_S,"TakeMyTurn", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_TakeMyTurn);
+        tolua_function(tolua_S,"FetchMatches", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_FetchMatches);
+        tolua_function(tolua_S,"LeaveMatchDuringMyTurn", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn);
+        tolua_function(tolua_S,"AcceptInvitation", lua_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper_AcceptInvitation);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(sdkbox::GPGTurnBasedMultiplayerWrapper).name();
+    g_luaType[typeName] = "sdkbox.GPGTurnBasedMultiplayerWrapper";
+    g_typeCast["GPGTurnBasedMultiplayerWrapper"] = "sdkbox.GPGTurnBasedMultiplayerWrapper";
     return 1;
 }
 
@@ -150,20 +1179,22 @@ int lua_PluginSdkboxGooglePlayLua_GPGWrapper_CreateGameServices(lua_State* tolua
 
     argc = lua_gettop(tolua_S) - 1;
 
-    if (argc == 1)
+    if (argc == 2)
     {
-        std::string arg0;
-        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGWrapper:CreateGameServices");
+        int arg0;
+        std::string arg1;
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0, "sdkbox.GPGWrapper:CreateGameServices");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGWrapper:CreateGameServices");
         if(!ok)
         {
             tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGWrapper_CreateGameServices'", nullptr);
             return 0;
         }
-        sdkbox::GPGWrapper::CreateGameServices(arg0);
+        sdkbox::GPGWrapper::CreateGameServices(arg0, arg1);
         lua_settop(tolua_S, 1);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGWrapper:CreateGameServices",argc, 1);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGWrapper:CreateGameServices",argc, 2);
     return 0;
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
@@ -1966,10 +2997,11 @@ TOLUA_API int register_all_PluginSdkboxGooglePlayLua(lua_State* tolua_S)
 	lua_register_PluginSdkboxGooglePlayLua_GPGSnapshotWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGQuestsWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGTurnBasedMultiplayerWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGAchievementWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGStatsWrapper(tolua_S);
-	lua_register_PluginSdkboxGooglePlayLua_GPGRealTimeMultiplayerWrapper(tolua_S);
-	lua_register_PluginSdkboxGooglePlayLua_GPGLeaderboardWrapper(tolua_S);
 
 	tolua_endmodule(tolua_S);
 

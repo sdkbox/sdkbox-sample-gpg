@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "SaveGameScene.h"
 
 #ifdef SDKBOX_ENABLED
 #include "PluginSdkboxGooglePlay/PluginSdkboxGooglePlay.h"
@@ -35,11 +35,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::createWithRect("sdkboxplay_cpp", Rect(0, 0, 640, 960));
+        glview = GLViewImpl::createWithRect("sdkboxplay_cpp", Rect(0, 0, 1136, 640));
         director->setOpenGLView(glview);
     }
 
-    director->getOpenGLView()->setDesignResolutionSize(640, 960, ResolutionPolicy::SHOW_ALL);
+    director->getOpenGLView()->setDesignResolutionSize(1136, 640, ResolutionPolicy::SHOW_ALL);
 
     // turn on display FPS
     director->setDisplayStats(true);
@@ -50,7 +50,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     FileUtils::getInstance()->addSearchPath("res");
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+    auto scene = SaveGameScene::createScene();
 
     // run
     director->runWithScene(scene);

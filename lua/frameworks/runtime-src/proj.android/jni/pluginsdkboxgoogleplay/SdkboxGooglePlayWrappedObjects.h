@@ -11,6 +11,7 @@
 #include <string>
 #include "GPGConstants.h"
 #include "GPGRealtimeMultiplayerWrapper.h"
+#include "GPGTurnBasedMultiplayerWrapper.h"
 
 /**
  * (ibon) TODO:

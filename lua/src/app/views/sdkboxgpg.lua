@@ -126,7 +126,11 @@ local gpg = {
     Stats  = {},
     Achievements = {},
     Leaderboards = {},
-    Snapshots = {}
+    Snapshots = {},
+    Realtime = {},
+    Turnbased = {
+        Builder = {}
+    }
 }
 
 gpg.LeaderboardOrder = {
@@ -201,7 +205,18 @@ gpg.DefaultCallbacks = {
     DEFAULT_CALLBACKS_BEGIN = 1,
     AUTH_ACTION_STARTED = 1,
     AUTH_ACTION_FINISHED = 2,
-    DEFAULT_CALLBACKS_END = 2
+
+    RTMP_ROOM_STATUS_CHANGED = 3,
+    RTMP_CONNECTED_SET_CHANGED = 4,
+    RTMP_P2P_CONNECTED = 5,
+    RTMP_P2P_DISCONNECTED = 6,
+    RTMP_PARTICIPANT_STATUS_CHANGED = 7,
+    RTMP_DATA_RECEIVED = 8,
+
+    TURN_BASED_MATCH_EVENT = 9,
+    MULTIPLAYER_INVITATION_EVENT = 10,
+
+    DEFAULT_CALLBACKS_END = 10
 }
 
 gpg.ResponseStatus = {
@@ -260,7 +275,11 @@ function gpg:CreateGameServices(config, start_callback, finished_callback)
     if finished_callback ~= nil then
         gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.AUTH_ACTION_FINISHED, finished_callback)
     end
-    sdkbox.GPGWrapper:CreateGameServices(json.encode(config))
+    local cb = gpg.CallbackManager:addCallback(function(result)
+        __log("CreateGameServices "..result)
+    end)
+    __log("About to CreateGameServices")
+    sdkbox.GPGWrapper:CreateGameServices(cb, json.encode(config))
 end
 
 function gpg:StartAuthorizationUI()
@@ -288,6 +307,12 @@ end
 function gpg.CallbackManager:addCallbackById(id, callback)
     if (self._callbacks[id] == nil) then
         self._callbacks[id] = callback
+    end
+end
+
+function gpg.CallbackManager:removeCallbackById(id)
+    if (self._callbacks[id] ~= nil) then
+        self._callbacks[id] = nil
     end
 end
 
@@ -587,6 +612,86 @@ end
 
 function gpg.Achievements:Unlock()
     sdkbox.GPGAchievementWrapper:Unlock(achievement_id)
+end
+
+--
+-- Turn Based Multiplayer
+--
+
+function gpg.Turnbased:CreateTurnBasedMatch(params, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:CreateTurnBasedMatch(gpg.CallbackManager:addCallback(callback), json.encode(params))
+end
+
+function gpg.Turnbased:DismissMatch(match_id)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:DismissMatch(match_id)
+end
+
+function gpg.Turnbased:FetchMatch(match_id, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:FetchMatch(gpg.CallbackManager:addCallback(callback), match_id)
+end
+
+function gpg.Turnbased:Rematch(match_id, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:Rematch(gpg.CallbackManager:addCallback(callback), match_id)
+end
+
+function gpg.Turnbased:CancelMatch(match_id, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:CancelMatch(gpg.CallbackManager:addCallback(callback), match_id)
+end
+
+function gpg.Turnbased:FetchMatches(callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:FetchMatches(gpg.CallbackManager:addCallback(callback))
+end
+
+function gpg.Turnbased:ShowMatchInboxUI(callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:ShowMatchInboxUI(gpg.CallbackManager:addCallback(callback))
+end
+
+function gpg.Turnbased:TakeMyTurn(match_id, participant_results_id, next_participant_id, data, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:TakeMyTurn(gpg.CallbackManager:addCallback(callback), match_id, participant_results_id, next_participant_id, data)
+end
+
+function gpg.Turnbased:FinishMatchDuringMyTurn(match_id, participant_results_id, data, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:FinishMatchDuringMyTurn(gpg.CallbackManager:addCallback(callback), match_id, participant_results_id, data)
+end
+
+function gpg.Turnbased:ConfirmPendingCompletion(match_id, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:ConfirmPendingCompletion(gpg.CallbackManager:addCallback(callback), match_id)
+end
+
+function gpg.Turnbased:LeaveMatchDuringTheirTurn(match_id, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:LeaveMatchDuringTheirTurn(gpg.CallbackManager:addCallback(callback), match_id)
+end
+
+function gpg.Turnbased:LeaveMatchDuringMyTurn(match_id, next_participant_id, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:LeaveMatchDuringMyTurn(gpg.CallbackManager:addCallback(callback), match_id, next_participant_id)
+end
+
+function gpg.Turnbased:AcceptInvitation(invitation_id, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:AcceptInvitation(gpg.CallbackManager:addCallback(callback), invitation_id)
+end
+
+function gpg.Turnbased:DeclineInvitation(invitation_id)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:DeclineInvitation(invitation_id)
+end
+
+function gpg.Turnbased:DismissInvitation(invitation_id)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:DismissInvitation(invitation_id)
+end
+
+function gpg.Turnbased:SynchronizeData()
+    sdkbox.GPGTurnBasedMultiplayerWrapper:SynchronizeData()
+end
+
+function gpg.Turnbased:ShowPlayerSelectUI(min_players, max_players, allow_automatch, callback)
+    sdkbox.GPGTurnBasedMultiplayerWrapper:ShowPlayerSelectUI(gpg.CallbackManager:addCallback(callback), min_players, max_players, allow_rematch)
+end
+
+function gpg.Turnbased:addMatchEventCallback(id, callback)
+    if callback then
+        gpg.CallbackManager:addCallbackById(id, callback)
+    else
+        gpg.CallbackManager:removeCallbackById(id, callback)
+    end
 end
 
 return gpg

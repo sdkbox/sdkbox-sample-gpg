@@ -64,4 +64,31 @@ int register_all_PluginSdkboxGooglePlayLua(lua_State* tolua_S);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif // __PluginSdkboxGooglePlayLua_h__

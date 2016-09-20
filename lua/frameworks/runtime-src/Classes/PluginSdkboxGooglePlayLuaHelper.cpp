@@ -6,6 +6,10 @@
 #include "SnapshotMetadataLuaHelper.h"
 #include "SDKBoxLuaHelper.h"
 
+int register_all_PluginSdkboxGooglePlayLua_helper(lua_State* L) {
+    return 1;
+};
+
 NativeLuaNotifierScheduler::NativeLuaNotifierScheduler(int id, const std::string& json)
 	: _id(id)
 	, _json(json)

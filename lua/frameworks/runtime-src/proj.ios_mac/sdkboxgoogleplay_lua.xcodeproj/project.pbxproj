@@ -164,6 +164,7 @@
 		C39F4EA6B9087FA84FAC007D /* libsimulator iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsimulator iOS.a"; path = "$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libsimulator iOS.a"; sourceTree = "<absolute>"; };
 		C6474EAFB6B6C2519C56E346 /* PluginSdkboxGooglePlayLua.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginSdkboxGooglePlayLua.cpp; path = ../Classes/PluginSdkboxGooglePlayLua.cpp; sourceTree = SOURCE_ROOT; };
 		CA2F456F8F3532FC418A64E4 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlus.framework; sourceTree = SOURCE_ROOT; };
+		D045964C1D90499200FF52B2 /* sdkboxgoogleplay_lua-mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "sdkboxgoogleplay_lua-mobile.entitlements"; sourceTree = "<group>"; };
 		D0FBD4FE1D64F31B000079E1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D38C44E086DC483714BDDE16 /* gpg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = gpg.framework; sourceTree = SOURCE_ROOT; };
 		D6B061341803AC000077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
@@ -310,6 +311,7 @@
 		F293B3BD15EB7BE500256477 = {
 			isa = PBXGroup;
 			children = (
+				D045964C1D90499200FF52B2 /* sdkboxgoogleplay_lua-mobile.entitlements */,
 				5023810617EBBCAC00990C9B /* ios */,
 				F293BB7C15EB830F00256477 /* Classes */,
 				F293B3CB15EB7BE500256477 /* Frameworks */,
@@ -441,6 +443,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					F293B3C715EB7BE500256477 = {
+						DevelopmentTeam = LNN652W6T6;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = F293B3C215EB7BE500256477 /* Build configuration list for PBXProject "sdkboxgoogleplay_lua" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -620,8 +632,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "sdkboxgoogleplay_lua-mobile.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = LNN652W6T6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -678,8 +692,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "sdkboxgoogleplay_lua-mobile.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = LNN652W6T6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
