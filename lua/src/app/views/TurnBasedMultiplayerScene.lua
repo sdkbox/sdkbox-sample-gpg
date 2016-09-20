@@ -6,6 +6,12 @@ end
 
 local TurnBasedMultiplayerScene = class("TurnBasedMultiplayerScene", cc.load("mvc").ViewBase)
 
+TurnBasedMultiplayerScene.TurnResult = {
+    TAKE_TURN = 0,
+    WIN = 1,
+    LOSE = 2
+}
+
 function TurnBasedMultiplayerScene:onCreate()
 
     local label = cc.Label:createWithSystemFont("Back", "sans", 32)
@@ -129,18 +135,39 @@ function TurnBasedMultiplayerScene:playMatch(match)
 
     local menu = cc.Menu:create(
         cc.MenuItemFont:create("Win"):onClicked(function()
+            self:takeTurn(self.TurnResult.WIN)
             self:popMenu()
         end),
         cc.MenuItemFont:create("Lose"):onClicked(function()
+            self:takeTurn(self.TurnResult.LOSE)
             self:popMenu()
         end),
         cc.MenuItemFont:create("Leave"):onClicked(function()
             self:leaveMatch()
             self:popMenu()
+        end),
+        cc.MenuItemFont:create("Take Turn!"):onClicked(function()
+            self:takeTurn(self.TurnResult.TAKE_TURN)
         end)
     )
 
     self:pushMenu(menu)
+end
+
+function TurnBasedMultiplayerScene:takeTurn(result)
+    local results = self._match.participantResults
+    if result == self.TurnResult.WIN then
+        results = gpg.Turnbased:createParticipantResult(self._match.id, self._match.pendingParticipant.id, 0, gpg.MatchResult.WIN)
+    else
+        results = gpg.Turnbased:createParticipantResult(self._match.id, self._match.pendingParticipant.id, 0, gpg.MatchResult.LOSS)
+    end
+    log:d(log:to_str(results))
+    data = json.encode({
+        counter = 1
+    })
+    gpg.Turnbased:TakeMyTurn(self._match.id, results.id, self._match.suggestedNextParticipant.id, data, function(o)
+        log:d(log:to_str(o))
+    end)
 end
 
 function TurnBasedMultiplayerScene:manageMatch(match, leave, cancel, rematch)

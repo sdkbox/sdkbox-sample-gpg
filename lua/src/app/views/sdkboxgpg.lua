@@ -716,4 +716,9 @@ function gpg.Turnbased:addMatchEventCallback(id, callback)
     end
 end
 
+function gpg.Turnbased:createParticipantResult(match_id, participant_id, placement, matchResult)
+    local result_str = sdkbox.GPGTurnBasedMultiplayerWrapper:CreateParticipantResult(match_id, participant_id, placement, matchResult)
+    return json.decode(result_str)
+end
+
 return gpg
