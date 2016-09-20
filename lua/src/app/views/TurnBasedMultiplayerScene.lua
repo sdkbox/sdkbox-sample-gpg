@@ -12,12 +12,18 @@ TurnBasedMultiplayerScene.TurnResult = {
     LOSE = 2
 }
 
+TurnBasedMultiplayerScene.AUTOMATCHING_PARTICIPANT = "AUTOMATCHING_PARTICIPANT"
+
 function TurnBasedMultiplayerScene:onCreate()
 
     local label = cc.Label:createWithSystemFont("Back", "sans", 32)
     local back = cc.MenuItemLabel:create(label)
     back:onClicked(function()
-        app:enterScene('MainScene')
+        if #self._menus > 1 then
+            self:popMenu()
+        else
+            app:enterScene('MainScene')
+        end
     end)
 
     local size = label:getContentSize()
@@ -28,6 +34,8 @@ function TurnBasedMultiplayerScene:onCreate()
     log:setup(self, 300, 20)
 
     gpg.Turnbased:addMatchEventCallback(gpg.DefaultCallbacks.TURN_BASED_MATCH_EVENT, {self, handleMatchEvent})
+    gpg.Turnbased:addMatchEventCallback(gpg.DefaultCallbacks.MULTIPLAYER_INVITATION_EVENT, {self, handleInvitationEvent})
+
     self:setupTestMenu()
 
 end
@@ -41,11 +49,7 @@ function TurnBasedMultiplayerScene:setupTestMenu()
 
     local menu = cc.Menu:create(
         cc.MenuItemFont:create("Show Match Inbox UI"):onClicked(function()
-            gpg.Turnbased:ShowMatchInboxUI(function(o)
-                if gpg:IsSuccess(o.result) then
-                    self:handleShowMatchInbox(o.match)
-                end
-            end)
+            self:showMatchInbox()
         end),
         cc.MenuItemFont:create("Quick Match"):onClicked(function()
             params = {
@@ -110,6 +114,13 @@ end
 function TurnBasedMultiplayerScene:handleMatchEvent(o)
     log:d("TurnBasedMultiplayerScene:handleMatchEvent")
     log:d(log:to_str(o))
+    self:showMatchInbox(o)
+end
+
+function TurnBasedMultiplayerScene:handleInvitationEvent(o)
+    log:d("TurnBasedMultiplayerScene:handleInvitationEvent")
+    log:d(log:to_str(o))
+    self:showMatchInbox(o)
 end
 
 function TurnBasedMultiplayerScene:handleShowMatchInbox(match)
@@ -124,8 +135,16 @@ function TurnBasedMultiplayerScene:handleShowMatchInbox(match)
     elseif match.matchStatus == gpg.MatchStatus.EXPIRED then
         self:manageMatch(match, false, false, false)
     else
-        log:d("Unhandled status "..match.matchStatus)
+        log:d("Unhandled status "..tostring(match.matchStatus))
     end
+end
+
+function TurnBasedMultiplayerScene:showMatchInbox()
+    gpg.Turnbased:ShowMatchInboxUI(function(o)
+        if gpg:IsSuccess(o.result) then
+            self:handleShowMatchInbox(o.match)
+        end
+    end)
 end
 
 function TurnBasedMultiplayerScene:playMatch(match)
@@ -165,45 +184,49 @@ function TurnBasedMultiplayerScene:takeTurn(result)
     data = json.encode({
         counter = 1
     })
-    gpg.Turnbased:TakeMyTurn(self._match.id, results.id, self._match.suggestedNextParticipant.id, data, function(o)
-        log:d(log:to_str(o))
+    local nextParticipant = "AUTOMATCHING_PARTICIPANT"
+    if self._match.suggestedNextParticipant.valid and self._match.suggestedNextParticipant.id ~= "" then
+        nextParticipant = self._match.suggestedNextParticipant.id
+    end
+    gpg.Turnbased:TakeMyTurn(self._match.id, self._match.pendingParticipant.id, nextParticipant, data, function(o)
+        log:d("TakeMyTurn "..log:to_str(o))
     end)
 end
 
 function TurnBasedMultiplayerScene:manageMatch(match, leave, cancel, rematch)
     log:d("TurnBasedMultiplayerScene:manageMatch")
-    self._match = match
-    log:d(log:to_str(match))
 
-    if not (leave and cancel and rematch) then
-        log:d("Nothing to manage")
-        return
-    end
+    self._match = match
 
     local menu = cc.Menu:create()
 
-    if (leave) then
+    if leave then
         menu:addChild(cc.MenuItemFont:create("Leave"):onClicked(function()
             self:leaveMatch()
             self:popMenu()
         end))
     end
 
-    if (cancel) then
+    if cancel then
         menu:addChild(cc.MenuItemFont:create("Cancel"):onClicked(function()
             self:cancelMatch()
             self:popMenu()
         end))
     end
 
-    if (rematch) then
+    if rematch then
         menu:addChild(cc.MenuItemFont:create("Rematch"):onClicked(function()
             self:rematch()
             self:popMenu()
         end))
     end
-
+    
     self:pushMenu(menu)
+end
+
+function TurnBasedMultiplayerScene:dismissMatch()
+    gpg.Turnbased:dismissMatch(self._match)
+    self._match = nil
 end
 
 function TurnBasedMultiplayerScene:leaveMatch()
@@ -217,12 +240,14 @@ function TurnBasedMultiplayerScene:leaveMatch()
             log:d(log:to_str(o))
         end)
     end
+    self._match = nil
 end
 
 function TurnBasedMultiplayerScene:cancelMatch()
     gpg.Turnbased:CancelMatch(self._match, function(o)
         log:d(log:to_str(o))
     end)
+    self._match = nil
 end
 
 function TurnBasedMultiplayerScene:rematch()
