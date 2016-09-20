@@ -49,7 +49,7 @@ function MainScene:setupTestMenu()
         end
         self:updateSignIn(self._signed_in)
     end)
-    
+
     self._snapshots = cc.MenuItemFont:create("Snapshots"):onClicked(function()
             app:enterScene('SnapshotScene')
         end)
@@ -90,7 +90,10 @@ function MainScene:setupTestMenu()
         self._leaderboards,
         self._playerstats,
         self._realtimemultiplayer,
-        self._turnbasedmultiplayer
+        self._turnbasedmultiplayer,
+        cc.MenuItemFont:create("Nearby Connections"):onClicked(function()
+            app:enterScene('NearbyConnectionsScene')
+        end)
     )
 
     menu:alignItemsVerticallyWithPadding(5)
