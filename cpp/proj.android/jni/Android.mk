@@ -27,7 +27,7 @@ LOCAL_LDLIBS := -landroid \
 -llog
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
-../gpg/include/ \
+./gpg/include/ \
 $(LOCAL_PATH)/..
 
 LOCAL_WHOLE_STATIC_LIBRARIES := sdkbox \
@@ -41,5 +41,5 @@ $(call import-add-path, $(LOCAL_PATH))
 
 $(call import-module, ./sdkbox)
 $(call import-module, ./PluginSdkboxGooglePlay)
-$(call import-module, ../gpg)
+$(call import-module, ./gpg)
 $(call import-module, ./prebuilt-mk)

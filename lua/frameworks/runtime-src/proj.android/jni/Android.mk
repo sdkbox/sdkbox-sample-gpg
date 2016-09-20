@@ -1,9 +1,6 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := libgpg
-LOCAL_SRC_FILES := gpg/lib/gnustl/$(TARGET_ARCH_ABI)/libgpg.a
-include $(PREBUILT_STATIC_LIBRARY)
 
 LOCAL_MODULE := cocos2dlua_shared
 

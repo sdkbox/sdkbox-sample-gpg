@@ -40,7 +40,7 @@ IOS_FRAMEWORK="gpg-cpp-sdk/ios/gpg.framework"
 ANDROID_MODULE="gpg-cpp-sdk/android"
 if [ -d ../cpp ]; then
 	IOS_DEST="../cpp/proj.ios_mac/gpg.framework"
-	ANDROID_DEST="../cpp/proj.android/gpg"
+	ANDROID_DEST="../cpp/proj.android/jni/gpg"
 	rm -rfv $IOS_DEST
 	rm -rfv $ANDROID_DEST
 	cp -rfv $IOS_FRAMEWORK $IOS_DEST
@@ -48,7 +48,7 @@ if [ -d ../cpp ]; then
 fi
 if [ -d ../lua ]; then
         IOS_DEST="../lua/frameworks/runtime-src/proj.ios_mac/gpg.framework"
-        ANDROID_DEST="../lua/frameworks/runtime-src/proj.android/gpg"
+        ANDROID_DEST="../lua/frameworks/runtime-src/proj.android/jni/gpg"
         rm -rfv $IOS_DEST
         rm -rfv $ANDROID_DEST
         cp -rfv $IOS_FRAMEWORK $IOS_DEST
@@ -56,7 +56,7 @@ if [ -d ../lua ]; then
 fi
 if [ -d ../js ]; then
         IOS_DEST="../js/frameworks/runtime-src/proj.ios_mac/gpg.framework"
-        ANDROID_DEST="../js/frameworks/runtime-src/proj.android/gpg"
+        ANDROID_DEST="../js/frameworks/runtime-src/proj.android/jnigpg"
         rm -rfv $IOS_DEST
         rm -rfv $ANDROID_DEST
         cp -rfv $IOS_FRAMEWORK $IOS_DEST
