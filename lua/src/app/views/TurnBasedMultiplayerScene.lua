@@ -144,7 +144,7 @@ function TurnBasedMultiplayerScene:handleShowMatchInbox(match)
     elseif match.matchStatus == gpg.MatchStatus.EXPIRED then
         self:manageMatch(match, false, false, false)
     else
-        log:d("Unhandled status "..tostring(match.matchStatus))
+        log:d("Unhandled status")
     end
 end
 
@@ -207,7 +207,7 @@ function TurnBasedMultiplayerScene:takeTurn(result)
     local results = self._match.participantResults
     if result == self.TurnResult.WIN then
         results = gpg.Turnbased:createParticipantResult(self._match.id, self._match.pendingParticipant.id, 0, gpg.MatchResult.WIN)
-    else
+    elseif result == self.TurnResult.LOSE then
         results = gpg.Turnbased:createParticipantResult(self._match.id, self._match.pendingParticipant.id, 0, gpg.MatchResult.LOSS)
     end
     log:d(log:to_str(results))
