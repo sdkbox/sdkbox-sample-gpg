@@ -5,7 +5,7 @@ local NearbyConnectionsScene = class("NearbyConnectionsScene", cc.load("mvc").Vi
 
 function NearbyConnectionsScene:onCreate()
 
-    self.server_id = 'com.sdkbox.hugo.test.gpg.nearby';
+    self.server_id = 'com.sdkbox.hugo.test.gpg.nearby'
     self._msg_advertising = 'this is a msg from advertising'
     self._msg_discovery = 'this is a msg from discovery'
 
@@ -61,20 +61,23 @@ function NearbyConnectionsScene:setupTestMenu()
                     remote_endpoint_id,
                     payload,
                     function (result)
-                        if ('OnMessageReceived' == result.event) then
-                            log:d('OnMessageReceived client_id:' .. result.client_id
-                                .. ' remote_endpoint_id:' .. result.remote_endpoint_id
-                                .. ' payload:' .. result.payload
-                                .. ' is_reliable:' .. result.is_reliable)
-                        elseif ('OnDisconnected' == result.event) then
-                            log:d('OnDisconnected client_id:' .. result.client_id
-                                .. ' remote_endpoint_id:' .. result.remote_endpoint_id)
+                        log:d('advertising event:' .. result.event)
+                        if 'OnMessageReceived' == result.event then
+                            log:d('OnMessageReceived client_id:' .. (result.client_id or '')
+                                .. ' remote_endpoint_id:' .. (result.remote_endpoint_id or '')
+                                .. ' payload:' .. (result.payload or '')
+                                .. ' is_reliable:' .. tostring(result.is_reliable))
+                        elseif 'OnDisconnected' == result.event then
+                            log:d('OnDisconnected client_id:' .. (result.client_id or '')
+                                .. ' remote_endpoint_id:' .. (result.remote_endpoint_id or ''))
                         else
                             log:d('Unknown event:' .. result.event);
                         end
                     end)
                 --send message to connector
                 payload = self._msg_advertising;
+                log:d('Send to:' .. (remote_endpoint_id or '')
+                    .. ' msg:' .. (payload or ''))
                 gpg.NearbyConnections:SendUnreliableMessage(remote_endpoint_id, payload);
                 -- reject connection
                 -- gpg.NearbyConnections:RejectConnectionRequest(remote_endpoint_id);
@@ -92,13 +95,12 @@ function NearbyConnectionsScene:setupTestMenu()
         self._mi_stop_discovery:setVisible(true)
         gpg.NearbyConnections:StartDiscovery(self.server_id, 0,
             function (result)
-                log:d('discovery listener entry: ' .. result.event)
                 if 'OnEndpointFound' == result.event then
-                    log:d('found client_id:' .. result.client_id
-                        .. ' endpoint_id:' .. result.endpoint_details.endpoint_id
-                        .. ' device_id:' .. result.endpoint_details.device_id
-                        .. ' name:' .. result.endpoint_details.name
-                        .. ' service_id:' .. result.endpoint_details.server_id)
+                    log:d('found client_id:' .. (result.client_id or '')
+                        .. ' endpoint_id:' .. (result.endpoint_details.endpoint_id or '')
+                        .. ' device_id:' .. (result.endpoint_details.device_id or '')
+                        .. ' name:' .. (result.endpoint_details.name or '')
+                        .. ' service_id:' .. (result.endpoint_details.server_id or '') )
                     local name = ''
                     local remote_endpoint_id = result.endpoint_details.endpoint_id
                     local payload = ''
@@ -110,6 +112,8 @@ function NearbyConnectionsScene:setupTestMenu()
                                 log:d('Connect advertising success');
                                 local remote_endpoint_id = result.response.remote_endpoint_id;
                                 local payload = self._msg_discovery;
+                                log:d('Send to:' .. (remote_endpoint_id or '')
+                                    .. ' msg:' .. (payload or ''))
                                 gpg.NearbyConnections:SendUnreliableMessage(
                                     remote_endpoint_id, payload);
                             else
@@ -117,14 +121,14 @@ function NearbyConnectionsScene:setupTestMenu()
                             end
                         end,
                         function(result)
-                            if ('OnMessageReceived' == result.event) then
-                                log:d('OnMessageReceived client_id:' .. result.client_id
-                                    .. ' remote_endpoint_id:' .. result.remote_endpoint_id
-                                    .. ' payload:' .. result.payload
-                                    .. ' is_reliable:' .. result.is_reliable)
-                            elseif ('OnDisconnected' == result.event) then
-                                log:d('OnDisconnected client_id:' .. result.client_id
-                                    .. ' remote_endpoint_id:' .. result.remote_endpoint_id)
+                            if 'OnMessageReceived' == result.event then
+                                log:d('OnMessageReceived client_id:' .. (result.client_id or '')
+                                    .. ' remote_endpoint_id:' .. (result.remote_endpoint_id or '')
+                                    .. ' payload:' .. (result.payload or '')
+                                    .. ' is_reliable:' .. tostring(result.is_reliable))
+                            elseif 'OnDisconnected' == result.event then
+                                log:d('OnDisconnected client_id:' .. (result.client_id or '')
+                                    .. ' remote_endpoint_id:' .. (result.remote_endpoint_id or ''))
                             else
                                 log:d('Unknown event:' .. result.event);
                             end
