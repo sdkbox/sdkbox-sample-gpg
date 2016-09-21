@@ -51,6 +51,7 @@ function TurnBasedMultiplayerScene:setupTestMenu()
         cc.MenuItemFont:create("Show Match Inbox UI"):onClicked(function()
             self:showMatchInbox()
         end),
+    --[[
         cc.MenuItemFont:create("Quick Match"):onClicked(function()
             params = {
                 type = "quick_match",
@@ -63,6 +64,7 @@ function TurnBasedMultiplayerScene:setupTestMenu()
                 end
             end)
         end),
+        ]]
         cc.MenuItemFont:create("Choose Players"):onClicked(function()
             gpg.Turnbased:ShowPlayerSelectUI(1, 2, false, function(o)
                 log:d(log:to_str(o))
@@ -79,7 +81,8 @@ function TurnBasedMultiplayerScene:setupTestMenu()
                     end
                 end)
             end)
-        end),
+        end)
+        --[[,
         cc.MenuItemFont:create("Create Match"):onClicked(function()
             params = {
                 type = "ui",
@@ -90,6 +93,7 @@ function TurnBasedMultiplayerScene:setupTestMenu()
                 log:d(log:to_str(o))
             end)
         end)
+        ]]
     )
 
     self:pushMenu(menu)
