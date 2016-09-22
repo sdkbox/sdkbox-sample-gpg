@@ -20,7 +20,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/StateManager.cpp \
 ../../Classes/Utils.cpp \
 ../../Classes/json98.cpp \
-../../Classes/PluginSdkboxGooglePlayCppHelper.cpp
+../../Classes/PluginSdkboxGooglePlayCppHelper.cpp \
+../../Classes/NearbyConnectionsScene.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
 LOCAL_LDLIBS := -landroid \
