@@ -65,7 +65,7 @@ function TurnBasedMultiplayerScene:setupTestMenu()
             end)
         end),
         ]]
-        cc.MenuItemFont:create("Choose Players"):onClicked(function()
+        cc.MenuItemFont:create("Create Match With Players"):onClicked(function()
             gpg.Turnbased:ShowPlayerSelectUI(1, 2, false, function(o)
                 log:d(log:to_str(o))
                 params = {
@@ -160,30 +160,74 @@ function TurnBasedMultiplayerScene:showMatchInbox()
     end)
 end
 
+function TurnBasedMultiplayerScene:showWinLoss(match)
+
+    local winloss = false
+    local matchResult = nil
+
+    local lastId = match.lastUpdatingParticipant.id
+    if lastId ~= self._myId then
+        local lastResults = match.lastUpdatingParticipant
+        if lastResults.hasMatchResult == true and lastResults.matchResult ~= gpg.MatchResult.WIN then
+            return
+        end
+        winloss = true
+        matchResult = gpg.MatchResult.LOSS
+    else
+        local myResults = match.participantResults[self._myId]
+        if myResults.hasResultsForParticipant == true and myResults.matchResultForParticipant ~= gpg.MatchResult.NONE then
+            winloss = true
+            matchResult = myResults.matchResultForParticipant
+        end
+    end
+
+    log:d("myId        "..self._myId)
+    log:d("lastId      "..lastId)
+    log:d("matchResult "..matchResult)
+
+    if winloss ~= true or matchResult == nil then
+        return
+    end
+    
+    -- there is a win/loss condition
+
+    local results = {
+        [3] = "You Lose",
+        [6] = "You Win"
+    }
+    local result_str = results[matchResult]
+    local menu = cc.Menu:create(
+        cc.MenuItemFont:create(result_str):onClicked(function()
+            self:dismissMatch()
+            self:popMenu()
+        end)
+    )
+    self:pushMenu(menu)
+    
+end
+
 function TurnBasedMultiplayerScene:playMatch(match)
-    log:d("TurnBasedMultiplayerScene:playMatch")
-    self._match = match
+
+    log:d("TurnBasedMultiplayerScene:playMatch "..log:to_str(match))
+
     local menu = nil
 
-    --log:d(log:to_str(match))
+    self._match = match
+    self._myId = match.pendingParticipant.id
+    local myResults = match.participantResults[self._myId]
 
-    local myId = match.pendingParticipant.id
-    local myResults = match.participantResults[myId]
-    log:d("myId "..myId)
-    log:d(log:to_str(myResults))
+    -- check for other player win/loss condition
+    local lastId = match.lastUpdatingParticipant.id
+    if lastId ~= self._myId then
+        local theirResults = match.participantResults[lastId]
+        if theirResults.hasResultsForParticipant == true and theirResults.matchResultForParticipant ~= gpg.MatchResult.NONE then
+            self:showWinLoss(match)
+            return
+        end
+    end
 
     if myResults.hasResultsForParticipant == true and myResults.matchResultForParticipant ~= gpg.MatchResult.NONE then
-        local results = {
-            [3] = "You Lose",
-            [6] = "You Win"
-        }
-        local result_str = results[myResults.matchResultForParticipant]
-        menu = cc.Menu:create(
-            cc.MenuItemFont:create(result_str):onClicked(function()
-                self:dismissMatch()
-                self:popMenu()
-            end)
-        )
+        self:showWinLoss(match)
     else
         menu = cc.Menu:create(
             cc.MenuItemFont:create("Win"):onClicked(function()
@@ -200,6 +244,8 @@ function TurnBasedMultiplayerScene:playMatch(match)
             end),
             cc.MenuItemFont:create("Take Turn!"):onClicked(function()
                 self:takeTurn(self.TurnResult.TAKE_TURN)
+                self:popMenu()
+
             end)
         )
     end
@@ -224,6 +270,13 @@ function TurnBasedMultiplayerScene:takeTurn(result)
     end
     gpg.Turnbased:TakeMyTurn(self._match.id, self._match.pendingParticipant.id, nextParticipant, data, function(o)
         log:d("TakeMyTurn "..log:to_str(o))
+
+        -- immediately check for win loss condition
+        local myResults = o.match.participantResults[self._myId]
+        if myResults.hasResultsForParticipant == true and myResults.matchResultForParticipant ~= gpg.MatchResult.NONE then
+            self:showWinLoss(o.match)
+        end
+
     end)
 end
 
