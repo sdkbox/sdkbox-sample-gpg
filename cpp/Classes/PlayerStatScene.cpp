@@ -5,6 +5,7 @@
 #include "PlayerStatScene.h"
 #include "Utils.h"
 #include "QuestScene.h"
+#include "NearbyConnectionsScene.hpp"
 
 using namespace cocos2d;
 
@@ -50,7 +51,8 @@ void PlayerStatScene::onPrevScene(cocos2d::Ref *sender)
 
 void PlayerStatScene::onNextScene(cocos2d::Ref *sender)
 {
-    BaseScene::onNextScene(sender);
+    Director::getInstance()->replaceScene(NearbyConnectionsScene::createScene());
+    //BaseScene::onNextScene(sender);
 }
 
 void PlayerStatScene::FetchForPlayer(cocos2d::Ref *sender)
