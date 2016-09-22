@@ -9,6 +9,8 @@ local.properties
 gpg-cpp-sdk.*.zip
 gpg.framework/
 
+bin/
+**/jni/gpg/
 
 cpp/bin/
 cpp/proj.ios_mac/build/
@@ -17,7 +19,7 @@ cpp/proj.android/assets/
 cpp/proj.android/obj/
 cpp/proj.android/bin/
 cpp/proj.android/gen/
-cpp/proj.android/gpg/
+cpp/proj.android/jni/gpg/
 cpp/proj.android/libs/armeabi/
 cpp/proj.android/libs/gps/bin/
 cpp/proj.android/libs/gps/gen/

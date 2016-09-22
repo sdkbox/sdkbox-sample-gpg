@@ -269,6 +269,25 @@ gpg.SnapshotConflictPolicy = {
     DefaultConflictPolicy = 4
 }
 
+gpg.MatchStatus = {
+  INVITED = 1,
+  THEIR_TURN = 2,
+  MY_TURN = 3,
+  PENDING_COMPLETION = 4,
+  COMPLETED = 5,
+  CANCELED = 6,
+  EXPIRED = 7
+}
+
+gpg.MatchResult = {
+  DISAGREED = 1,
+  DISCONNECTED = 2,
+  LOSS = 3,
+  NONE = 4,
+  TIE = 5,
+  WIN = 6
+}
+
 function gpg:CreateGameServices(config, start_callback, finished_callback)
     if start_callback ~= nil then
         gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.AUTH_ACTION_STARTED,  start_callback)
@@ -292,7 +311,10 @@ function gpg:SignOut()
 end
 
 function gpg:IsSuccess(response_status)
-    --return response_status == self.ResponseStatus.VALID || response_status == self.ResponseStatus.VALID_BUT_STALE
+    if response_status == self.ResponseStatus.VALID or response_status == self.ResponseStatus.VALID_BUT_STALE then
+        return true
+    end
+    return false
 end
 
 --
@@ -695,6 +717,10 @@ function gpg.Turnbased:addMatchEventCallback(id, callback)
     end
 end
 
+function gpg.Turnbased:createParticipantResult(match_id, participant_id, placement, matchResult)
+    local result_str = sdkbox.GPGTurnBasedMultiplayerWrapper:CreateParticipantResult(match_id, participant_id, placement, matchResult)
+    return json.decode(result_str)
+end
 
 --
 -- Nearby Connection
