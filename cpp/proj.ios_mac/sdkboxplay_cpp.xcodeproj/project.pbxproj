@@ -80,7 +80,6 @@
 		96C542E51D64B906009E476A /* PluginSdkboxGooglePlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542E41D64B906009E476A /* PluginSdkboxGooglePlay.framework */; };
 		96C542E71D64BFA2009E476A /* gpg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542E61D64BFA2009E476A /* gpg.framework */; };
 		96C542EB1D64C01A009E476A /* gpg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96C542EA1D64C01A009E476A /* gpg.bundle */; };
-		9AC198881D93841E00586218 /* NearbyConnectionsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9AC198861D93841E00586218 /* NearbyConnectionsScene.cpp */; };
 		AA9C410483CFB8EE306FCEBA /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB0549D4984AE4807A61D96C /* CoreMedia.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -186,8 +185,6 @@
 		96C542E41D64B906009E476A /* PluginSdkboxGooglePlay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PluginSdkboxGooglePlay.framework; sourceTree = "<group>"; };
 		96C542E61D64BFA2009E476A /* gpg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = gpg.framework; sourceTree = "<group>"; };
 		96C542EA1D64C01A009E476A /* gpg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = gpg.bundle; sourceTree = "<group>"; };
-		9AC198861D93841E00586218 /* NearbyConnectionsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NearbyConnectionsScene.cpp; sourceTree = "<group>"; };
-		9AC198871D93841E00586218 /* NearbyConnectionsScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NearbyConnectionsScene.hpp; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -392,8 +389,6 @@
 				597793361D90759C00CCDD33 /* EventScene.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
-				9AC198861D93841E00586218 /* NearbyConnectionsScene.cpp */,
-				9AC198871D93841E00586218 /* NearbyConnectionsScene.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -533,7 +528,6 @@
 				5977934B1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp in Sources */,
 				597793521D90760000CCDD33 /* AchievementScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
-				9AC198881D93841E00586218 /* NearbyConnectionsScene.cpp in Sources */,
 				5977934F1D9075A600CCDD33 /* Utils.cpp in Sources */,
 				5977934E1D9075A600CCDD33 /* StateManager.cpp in Sources */,
 			);
