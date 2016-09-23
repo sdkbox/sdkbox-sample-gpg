@@ -726,7 +726,7 @@ end
 -- Nearby Connection
 --
 function gpg.NearbyConnections:Init(str_json, callback)
-    sdkbox.GPGNearbyConnectionsWrapper:init(str_json, gpg.CallbackManager:addCallback(callback))
+    sdkbox.GPGNearbyConnectionsWrapper:Init(str_json, gpg.CallbackManager:addCallback(callback))
 end
 
 function gpg.NearbyConnections:GetLocalEndpointId()
