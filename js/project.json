@@ -1,18 +1,27 @@
 {
     "project_type": "javascript",
 
-    "debugMode" : 1,
-    "showFPS" : true,
-    "frameRate" : 60,
-    "noCache" : false,
-    "id" : "gameCanvas",
-    "renderMode" : 0,
-    "engineDir":"frameworks/cocos2d-html5",
+    "debugMode": 1,
+    "showFPS": true,
+    "frameRate": 60,
+    "noCache": false,
+    "id": "gameCanvas",
+    "renderMode": 0,
+    "engineDir": "frameworks/cocos2d-html5",
 
-    "modules" : ["cocos2d", "cocostudio"],
+    "modules": ["cocos2d", "cocostudio"],
 
-    "jsList" : [
+    "jsList": [
         "src/resource.js",
+        "src/AchievementScene.js",
+        "src/EventsScene.js",
+        "src/HelloWorldScene.js",
+        "src/LeaderboardScene.js",
+        "src/NearbyConnectionsScene.js",
+        "src/PlayerStatsScene.js",
+        "src/QuestScene.js",
+        "src/RealtimeMultiplayerScene.js",
+        "src/SnapShotsScene.js",
         "src/app.js"
     ]
 }
