@@ -2963,7 +2963,6 @@ var gpg = {
             Stop : function() {
                 _gpg.GPGNearbyConnectionsWrapper.Stop();
             }
-
         }
     }
 };

@@ -16,7 +16,7 @@
 /**
  * (ibon) TODO:
  * need to keep this classes separated because they automatically wrapped by bindings.
- * if i keep them in PluginSdkboxGooglePlay.h, the bidingins generator will fail. 
+ * if i keep them in PluginSdkboxGooglePlay.h, the bidingins generator will fail.
  * I can then instrument the bindings config to read this file.
  */
 
@@ -24,7 +24,7 @@ namespace sdkbox {
     class GPGWrapper
     {
     public:
-        
+
         /**
          * options : json representation of the builder object options.
          */
@@ -32,7 +32,7 @@ namespace sdkbox {
         static bool IsAuthorized();
         static void StartAuthorizationUI();
         static void SignOut();
-        
+
         /**
          * Must be implemented per scripting language and native as empty function.
          * For js it is implemented in js/manual/PluginSdkboxGooglePlayJSHelper.cpp
@@ -48,10 +48,10 @@ namespace sdkbox {
         static void FetchRecentlyConnected( int callback_id, int datasource );
         static void FetchRecentlyInvitable( int callback_id, int datasource );
     };
-    
+
     class GPGSnapshotWrapper {
     public:
-        
+
         /**
          * @param str_json  {
          *   allow_create : bool,
@@ -61,7 +61,7 @@ namespace sdkbox {
          * }
          */
         static void ShowSelectUIOperation( int callback_id, const std::string& str_json );
-        
+
         /**
          *
          */
@@ -70,10 +70,10 @@ namespace sdkbox {
         static void FetchAll( int callback_id, const std::string& str_json );
         static void Delete( int callback_id, const std::string& filename );
     };
-    
+
     class GPGLeaderboardWrapper {
     public:
-        
+
         static void Fetch( int callback_id, const std::string& leaderboard_id, int datasource );
         static void FetchAll( int callback_id, int datasource );
         static void FetchScoreSummary( int callback_id, int datasource, std::string const &leaderboard_id, int time_span, int collection );
@@ -85,16 +85,16 @@ namespace sdkbox {
         static void FetchNextScorePage( int callback_id, int data_source, int max_items );
         static void FetchPreviousScorePage( int callback_id, int data_source, int max_items );
     };
-    
+
     class GPGAchievementWrapper {
     public:
-        
+
         static void Fetch( int callback_id, const std::string& achievement_id, int datasource );
         static void FetchAll( int callback_id, int datasource );
         static void ShowAllUI(int callback_id );
 
         // these methods have no native callback.
-        
+
         static void Increment( const std::string& achievement_id, uint32_t steps );
         static void Reveal( const std::string& achievement_id );
         static void SetStepsAtLeast(std::string const &achievement_id, uint32_t steps);
@@ -128,6 +128,48 @@ namespace sdkbox {
 
 		static void FetchForPlayer(int callback_id, int datasource);
 	};
+
+    /*
+     * ONLY avaiable on android
+     */
+    class GPGNearbyConnectionsWrapper
+    {
+    public:
+
+        static bool Init(const std::string& str_json, int callback_id);
+
+        static std::string GetLocalEndpointId();
+        static std::string GetLocalDeviceId();
+        static void StartAdvertising(std::string const &str_json,
+            int start_advertising_callback,
+            int request_callback);
+        static void StopAdvertising();
+        static void AcceptConnectionRequest(std::string const &remote_endpoint_id,
+                                   std::string const &payload,
+                                   int callback);
+        static void RejectConnectionRequest(std::string const &remote_endpoint_id);
+        static void StartDiscovery(std::string const &service_id,
+                          int duration,
+                          int callback);
+        static void StopDiscovery(std::string const &service_id);
+        static void SendConnectionRequest(std::string const &name,
+                                 std::string const &remote_endpoint_id,
+                                 std::string const &payload,
+                                 int connect_response_callback,
+                                 int message_callback);
+        static void SendReliableMessage(std::string const &remote_endpoint_id,
+                               std::string const &payload);
+        static void SendReliableMessage(std::vector<std::string> const &remote_endpoint_ids,
+                               std::string const &payload);
+        static void SendUnreliableMessage(std::string const &remote_endpoint_id,
+                                 std::string const &payload);
+        static void SendUnreliableMessage(
+          std::vector<std::string> const &remote_endpoint_ids,
+          std::string const &payload);
+        static void Disconnect(std::string const &remote_endpoint_id);
+        static void Stop();
+
+    };
 }
 
 #endif
