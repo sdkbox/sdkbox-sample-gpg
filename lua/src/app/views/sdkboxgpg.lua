@@ -128,9 +128,7 @@ local gpg = {
     Leaderboards = {},
     Snapshots = {},
     Realtime = {},
-    Turnbased = {
-        Builder = {}
-    }
+    Turnbased = {}
 }
 
 gpg.LeaderboardOrder = {
@@ -741,5 +739,53 @@ function gpg.Turnbased:createParticipantResult(match_id, participant_id, placeme
     local result_str = sdkbox.GPGTurnBasedMultiplayerWrapper:CreateParticipantResult(match_id, participant_id, placement, matchResult)
     return json.decode(result_str)
 end
+
+--
+-- Realtime Multiplayer
+--
+
+function gpg.Realtime.CreateRealTimeRoom(json_str, callback)
+    sdkbox.CreateRealTimeRoom(gpg.CallbackManager:addCallback(callback), json_str)
+end
+
+function gpg.Realtime.LeaveRoom(room_id, callback)
+    sdkbox.LeaveRoom(gpg.CallbackManager:addCallback(callback), room_id)
+end
+
+function gpg.Realtime.ShowRoomInboxUI(callback)
+    sdkbox.ShowRoomInboxUI(gpg.CallbackManager:addCallback(callback))
+end
+
+function gpg.Realtime.FetchInvitations(callback)
+    sdkbox.FetchInvitations(gpg.CallbackManager:addCallback(callback))
+end
+
+function gpg.Realtime.AcceptInvitation(invitation_id, callback)
+    sdkbox.AcceptInvitation(gpg.CallbackManager:addCallback(callback), invitation_id)
+end
+
+function gpg.Realtime.DeclineInvitation(invitation_id)
+    sdkbox.DeclineInvitation(invitation_id)
+end
+
+function gpg.Realtime.DismissInvitation(invitation_id)
+    sdkbox.DismissInvitation(invitation_id)
+end
+
+function gpg.Realtime.SendReliableMessage(room_id, participant_id, data, callback)
+    sdkbox.SendReliableMessage(gpg.CallbackManager:addCallback(callback), room_id, participant_id, data)
+end
+
+function gpg.Realtime.SendUnreliableMessageToOthers(room_id, data)
+    sdkbox.SendUnreliableMessageToOthers(room_id, data)
+end
+
+function gpg.Realtime.SendUnreliableMessage(json_str)
+    sdkbox.SendUnreliableMessage(json_str)
+end
+
+--
+-- end of API
+--
 
 return gpg
