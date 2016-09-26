@@ -61,7 +61,7 @@ var LayerNearbyConnection = cc.Layer.extend({
         const winSize = cc.Director.getInstance().getWinSize();
 
         this._mi_start_advertising = new cc.MenuItemFont("StartAdvertising", function() {
-            _context.gameServices().NearbyConnection.StartAdvertising(
+            _context.gameServices().NearbyConnections.StartAdvertising(
                 "\"name\":\"\",\"duration\":0,\"app_identifiers\":{\"identifier\":\"com.sdkbox.gpg\"},",
                 function(result) {
                     //start_advertising_callback
@@ -83,7 +83,7 @@ var LayerNearbyConnection = cc.Layer.extend({
                     let payload = result.request.payload;
 
                     //accept connection
-                    _context.gameServices().NearbyConnection.AcceptConnectionRequest(
+                    _context.gameServices().NearbyConnections.AcceptConnectionRequest(
                         remote_endpoint_id,
                         payload,
                         function(result) {
@@ -100,10 +100,10 @@ var LayerNearbyConnection = cc.Layer.extend({
                         });
                     //send message to connector
                     payload = self._msg_advertising;
-                    _context.gameServices().NearbyConnection.SendUnreliableMessage(
+                    _context.gameServices().NearbyConnections.SendUnreliableMessage(
                         remote_endpoint_id, payload);
                     //reject connection
-                    // _context.gameServices().NearbyConnection.RejectConnectionRequest(remote_endpoint_id);
+                    // _context.gameServices().NearbyConnections.RejectConnectionRequest(remote_endpoint_id);
                     self._text.setString('receive connect request');
                 });
         });
@@ -111,14 +111,14 @@ var LayerNearbyConnection = cc.Layer.extend({
             self._mi_start_advertising.setVisible(true);
             self._mi_stop_advertising.setVisible(false);
             self._mi_start_discovery.setVisible(true);
-            _context.gameServices().NearbyConnection.StopAdvertising();
+            _context.gameServices().NearbyConnections.StopAdvertising();
         });
         this._mi_start_discovery = new cc.MenuItemFont("StartDiscovery", function() {
             const server_id = 'com.sdkbox.hugo.test.gpg.nearby';
             self._mi_start_advertising.setVisible(false);
             self._mi_start_discovery.setVisible(false);
             self._mi_stop_discovery.setVisible(true);
-            _context.gameServices().NearbyConnection.StartDiscovery(server_id, 0,
+            _context.gameServices().NearbyConnections.StartDiscovery(server_id, 0,
                 function(result) {
                     self._text.setString('discovery event:' + result.event);
                     if ('OnEndpointFound' == result.event) {
@@ -131,7 +131,7 @@ var LayerNearbyConnection = cc.Layer.extend({
                         const name = '';
                         const remote_endpoint_id = result.endpoint_details.endpoint_id;
                         const payload = '';
-                        _context.gameServices().NearbyConnection.SendConnectionRequest(
+                        _context.gameServices().NearbyConnections.SendConnectionRequest(
                             name, remote_endpoint_id, payload,
                             function(result) {
                                 //connect_response_callback
@@ -139,7 +139,7 @@ var LayerNearbyConnection = cc.Layer.extend({
                                     __log('Connect advertising success');
                                     const remote_endpoint_id = result.response.remote_endpoint_id;
                                     const payload = self._msg_discovery;
-                                    _context.gameServices().NearbyConnection.SendUnreliableMessage(
+                                    _context.gameServices().NearbyConnections.SendUnreliableMessage(
                                         remote_endpoint_id, payload);
                                     self._text.setString('connect advertising success');
                                 } else {
@@ -176,26 +176,26 @@ var LayerNearbyConnection = cc.Layer.extend({
             self._mi_start_advertising.setVisible(true);
             self._mi_start_discovery.setVisible(true);
             self._mi_stop_discovery.setVisible(false);
-            _context.gameServices().NearbyConnection.StopDiscovery(server_id);
+            _context.gameServices().NearbyConnections.StopDiscovery(server_id);
         });
         this._mi_send_reliable_message = new cc.MenuItemFont("SendReliableMessage", function() {
             const remote_endpoint_id = '';
             const payload = 'this message';
-            _context.gameServices().NearbyConnection.SendReliableMessage(
+            _context.gameServices().NearbyConnections.SendReliableMessage(
                 remote_endpoint_id, payload);
         });
         this._mi_send_unreliable_message = new cc.MenuItemFont("SendUnreliableMessage", function() {
             const remote_endpoint_id = '';
             const payload = 'this is unreliable message';
-            _context.gameServices().NearbyConnection.SendUnreliableMessage(
+            _context.gameServices().NearbyConnections.SendUnreliableMessage(
                 remote_endpoint_id, payload);
         });
         this._mi_disconnect = new cc.MenuItemFont("Disconnect", function() {
             const remote_endpoint_id = '';
-            _context.gameServices().NearbyConnection.Disconnect(remote_endpoint_id);
+            _context.gameServices().NearbyConnections.Disconnect(remote_endpoint_id);
         });
         this._mi_stop = new cc.MenuItemFont("Stop", function() {
-            _context.gameServices().NearbyConnection.Stop();
+            _context.gameServices().NearbyConnections.Stop();
         });
 
         const menu = new cc.Menu(
@@ -227,13 +227,13 @@ var LayerNearbyConnection = cc.Layer.extend({
 
         // let gs = _context.gameServices().RealTimeMultiplayer;
         // console.log(gs);
-        if (!_context.gameServices().NearbyConnection.Init("{\"LogLevel\":1,\"ClientID\":234,\"ServiceID\":\"com.sdkbox.hugo.test.gpg.nearby\"}", function(result) {
+        if (!_context.gameServices().NearbyConnections.Init("{\"LogLevel\":1}", function(result) {
                 __log("GPG InitializationStatus:" + result.InitializationStatus);
                 if (result.InitializationStatus) {
                     self._mi_start_advertising.setVisible(true);
                     self._mi_start_discovery.setVisible(true);
-                    const deviceId = _context.gameServices().NearbyConnection.GetLocalDeviceId();
-                    const endpointId = _context.gameServices().NearbyConnection.GetLocalEndpointId();
+                    const deviceId = _context.gameServices().NearbyConnections.GetLocalDeviceId();
+                    const endpointId = _context.gameServices().NearbyConnections.GetLocalEndpointId();
                     __log('GPG NearbyConnection deviceId:' + deviceId + ' endpointId:' + endpointId);
                     self._text.setString('NearbyConnection init success');
                 } else {
@@ -272,293 +272,6 @@ var LayerNearbyConnection = cc.Layer.extend({
         }
         // this._Menu.removeChild(this._endpoints[i]._menu_item);
         this._endpoints.splice(i, 1);
-    },
-
-    __createMenu1: function() {
-
-        var me = this;
-
-        cc.MenuItemFont.setFontName("sans");
-        var size = cc.Director.getInstance().getWinSize();
-
-        /**
-         *
-         * @type {gpg.RealTimeEventListener}
-         */
-        var listener = {
-
-            onRoomStatusChanged: function(room) {
-                me._text_listener.setString("room status changed. " + room.status);
-            },
-
-            onConnectedSetChanged: function(room) {
-                me._text_listener.setString("room connected set changed.");
-            },
-
-            onP2PConnected: function(room, participant) {
-                me._text_listener.setString("room p2p connected: " + participant.displayName);
-            },
-
-            onP2PDisconnected: function(room, participant) {
-                me._text_listener.setString("room p2p disconnected: " + participant.displayName);
-            },
-
-            onParticipantStatusChanged: function(room, participant) {
-                me._text_listener.setString("room participant status changed: " + participant.displayName + " st:" + participant.status);
-            },
-
-            onDataReceived: function(room, from_participant, data, is_reliable) {
-                me._text_listener.setString("data from:" + from_participant.displayName + " reliable:" + is_reliable + " len:" + data.length);
-                me._text_listener_data.setString("'" + data + "'");
-            }
-
-        };
-
-        this._mi_message_reliable = new cc.MenuItemFont("message reliable", function() {
-            _context.gameServices().RealTimeMultiplayer.SendReliableMessage({
-                    data: "message " + me._message_index++,
-                    room_id: me._room.id,
-                    to_participant_id: me._room.participants.filter(function(p) {
-                        return p.id !== me._room.creatingParticipant.id;
-                    })[0].id
-                },
-                /**
-                 *
-                 * @param result {gpg.MultiplayerStatus}
-                 */
-                function(result) {
-                    me._text.setString("send reliable message success: " + gpg.IsSuccess(result) ? "true" : "no. code:" + result);
-                }
-            );
-        });
-
-        this._mi_message_unreliable = new cc.MenuItemFont("message unreliable", function() {
-            _context.gameServices().RealTimeMultiplayer.SendUnreliableMessage({
-                data: "message " + me._message_index++,
-                room_id: me._room.id,
-                participant_ids: me._room.participants.filter(function(p) {
-                    return p.id !== me._room.creatingParticipant.id;
-                }).map(function(p) {
-                    return p.id;
-                })
-            });
-        });
-
-        this._mi_message_unreliable_to_others = new cc.MenuItemFont("message unreliable to others", function() {
-            _context.gameServices().RealTimeMultiplayer.SendUnreliableMessageToOthers({
-                data: "message " + me._message_index++,
-                room_id: me._room.id
-            });
-        });
-
-
-        this._mi_leaveroom = new cc.MenuItemFont("Leave room", function() {
-
-            _context.gameServices().RealTimeMultiplayer.LeaveRoom(
-                /**
-                 *
-                 * @param res {gpg.ResponseStatus}
-                 */
-                function(res) {
-                    if (gpg.IsSuccess(res)) {
-                        me._text.setString("Room left.");
-                        me._text_listener.setString("");
-                        me._room = null;
-                        me._mi_leaveroom.setVisible(false);
-                        me._mi_message_reliable.setVisible(false);
-                        me._mi_message_unreliable.setVisible(false);
-                        me._mi_message_unreliable_to_others.setVisible(false);
-                    } else {
-                        me._text.setString("Room left error: " + res);
-                    }
-                }
-            );
-        });
-
-        this._mi_accept_invitation = new cc.MenuItemFont("Accept invitation", function() {
-
-            if (me._invitation) {
-                _context.gameServices().RealTimeMultiplayer.AcceptInvitation({
-                        invitation_id: me._invitation.id,
-                        listener: listener
-                    },
-                    /**
-                     *
-                     * @param res {RTAcceptInvitationCallbackParams}
-                     */
-                    function(res) {
-                        if (gpg.IsSuccess(res.result)) {
-                            me._text.setString("accepted invitation. Start game, room: " + res.room.id.substring(0, 10) + "...");
-                            me._mi_leaveroom.setVisible(true);
-                            me._mi_message_reliable.setVisible(true);
-                            me._mi_message_unreliable.setVisible(true);
-                            me._mi_message_unreliable_to_others.setVisible(true);
-
-
-                            me._mi_accept_invitation.setVisible(false);
-                            me._mi_dismiss_invitation.setVisible(false);
-                            me._mi_decline_invitation.setVisible(false);
-
-                            me._room = res.room;
-                        } else {
-                            me._text.setString("Accept invitation error: " + res.result);
-                        }
-                    }
-                );
-            } else {
-                __log("can't find a local invitation.");
-            }
-        });
-
-        this._mi_decline_invitation = new cc.MenuItemFont("Decline invitation", function() {
-            _context.gameServices().RealTimeMultiplayer.DeclineInvitation(me._invitation.id);
-        });
-
-        this._mi_dismiss_invitation = new cc.MenuItemFont("Dismiss invitation", function() {
-            _context.gameServices().RealTimeMultiplayer.DismissInvitation(me._invitation.id);
-        });
-
-        this._mi_leaveroom.setVisible(false);
-        this._mi_accept_invitation.setVisible(false);
-        this._mi_dismiss_invitation.setVisible(false);
-        this._mi_decline_invitation.setVisible(false);
-
-        this._mi_message_reliable.setVisible(false);
-        this._mi_message_unreliable.setVisible(false);
-        this._mi_message_unreliable_to_others.setVisible(false);
-
-        var menu = new cc.Menu(
-
-            new cc.MenuItemFont("CreateRoom automatch", function() {
-                _context.gameServices().RealTimeMultiplayer.CreateRealTimeRoom({
-                        type: "quick_match",
-                        quick_match_params: {
-                            maximumAutomatchingPlayers: 1,
-                            minimumAutomatchingPlayers: 1
-                        }
-                    },
-                    listener,
-                    /**
-                     *
-                     * @param res {RTCreateRoomCallbackParams}
-                     */
-                    function(res) {
-
-                        if (gpg.IsSuccess(res.result)) {
-                            me._text.setString("Room created: id=" + res.room.id + " participants=" + res.room.participants.length);
-                            me._room = res.room;
-                            me._mi_leaveroom.setVisible(true);
-                            me._mi_message_reliable.setVisible(true);
-                            me._mi_message_unreliable.setVisible(true);
-                            me._mi_message_unreliable_to_others.setVisible(true);
-
-                        } else {
-                            me._text.setString("RT create room automatch error: " + res.result);
-                        }
-                    }
-                );
-
-            }),
-
-            new cc.MenuItemFont("CreateRoom select", function() {
-
-                _context.gameServices().RealTimeMultiplayer.CreateRealTimeRoom({
-                        type: "ui",
-                        ui_params: {
-                            maximumPlayers: 1,
-                            minimumPlayers: 1
-                        }
-                    },
-                    listener,
-                    /**
-                     *
-                     * @param res {RTCreateRoomCallbackParams}
-                     */
-                    function(res) {
-                        if (gpg.IsSuccess(res.result)) {
-                            me._text.setString("Room created: id=" + res.room.id.substring(0, 10) + "... participants=" + res.room.participants.length);
-                            me._room = res.room;
-                            me._mi_leaveroom.setVisible(true);
-                            me._mi_message_reliable.setVisible(true);
-                            me._mi_message_unreliable.setVisible(true);
-                            me._mi_message_unreliable_to_others.setVisible(true);
-
-                        } else {
-                            me._text.setString("RT create room ui error: " + res.result);
-                        }
-
-                    }
-                );
-
-            }),
-
-            new cc.MenuItemFont("Invitations UI", function() {
-
-                _context.gameServices().RealTimeMultiplayer.ShowRoomInboxUI(
-                    /**
-                     *
-                     * @param res {RTShowRoomInboxUICallbackParams}
-                     */
-                    function(res) {
-                        if (gpg.IsSuccess(res.result)) {
-                            me._text.setString("got invitation: " + (res.invitation.id.substr(0, 10)) + "...");
-                            me._invitation = res.invitation;
-
-                            // normally, you'd accept here the invitation.
-                            // we're enabling accept/dismiss/decline ui just for sample purposes.
-                            me._mi_accept_invitation.setVisible(true);
-                            me._mi_dismiss_invitation.setVisible(true);
-                            me._mi_decline_invitation.setVisible(true);
-                        } else {
-                            me._text.setString("RT invitation ui error: " + res.result);
-
-                            me._mi_accept_invitation.setVisible(false);
-                            me._mi_dismiss_invitation.setVisible(false);
-                            me._mi_decline_invitation.setVisible(false);
-                        }
-                    }
-                );
-            }),
-
-            new cc.MenuItemFont("Fetch invitations", function() {
-                _context.gameServices().RealTimeMultiplayer.FetchInvitations(
-                    /**
-                     *
-                     * @param res {RTFetchInvitationsCallbackParams}
-                     */
-                    function(res) {
-                        if (gpg.IsSuccess(res.result)) {
-                            me._text.setString("fetched " + res.invitations.length + " invitations.");
-                        } else {
-                            me._text.setString("fetch invitations error: " + res.result);
-                        }
-                    }
-                );
-            }),
-
-            me._mi_leaveroom,
-
-            me._mi_accept_invitation,
-
-            me._mi_dismiss_invitation,
-
-            me._mi_decline_invitation,
-
-            me._mi_message_reliable,
-
-            me._mi_message_unreliable,
-
-            me._mi_message_unreliable_to_others,
-
-            new cc.MenuItemFont("Main menu", function() {
-                cc.director.runScene(new HelloWorldScene());
-            })
-        );
-
-        menu.alignItemsVerticallyWithPadding(3);
-        menu.x = size.width / 2;
-        menu.y = size.height / 2 + 40;
-        this.addChild(menu);
     }
 });
 
