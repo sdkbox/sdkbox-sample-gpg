@@ -2898,7 +2898,7 @@ var gpg = {
             }
         },
 
-        NearbyConnection : {
+        NearbyConnections : {
             Init : function(str_json, callback) {
                 return _gpg.GPGNearbyConnectionsWrapper.Init(str_json,
                     __callbackManager.addCallback(callback));
