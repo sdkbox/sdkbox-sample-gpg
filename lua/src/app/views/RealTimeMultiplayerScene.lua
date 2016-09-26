@@ -151,7 +151,7 @@ function RealTimeMultiplayerScene:setupTestMenu()
                 self._mi_message_unreliable:setVisible(false)
                 self._mi_message_unreliable_to_others:setVisible(false)
             else
-                self._text:setString("Room left error: " + res)
+                self._text:setString("Room left error: " .. res)
             end
         end)
     end)
@@ -176,11 +176,11 @@ function RealTimeMultiplayerScene:setupTestMenu()
 
                         self._room = res.room
                     else
-                        self._text:setString("Accept invitation error: " + res.result)
+                        self._text:setString("Accept invitation error: " .. res.result)
                     end
                 end)
         else
-            __log("can't find a local invitation.")
+            log:d("can't find a local invitation.")
         end
     end)
 
@@ -209,21 +209,21 @@ function RealTimeMultiplayerScene:setupTestMenu()
                 minimumAutomatchingPlayers = 1
             }
         },
-            self._listener,
-            function(res)
+        self._listener,
+        function(res)
 
-                if (gpg.IsSuccess(res.result)) then
-                    self._text:setString("Room created: id=" + res.room.id + " participants=" + res.room.participants.length)
-                    self._room = res.room
-                    self._mi_leaveroom:setVisible(true)
-                    self._mi_message_reliable:setVisible(true)
-                    self._mi_message_unreliable:setVisible(true)
-                    self._mi_message_unreliable_to_others:setVisible(true)
+            if (gpg.IsSuccess(res.result)) then
+                self._text:setString("Room created: id=" .. res.room.id .. " participants=" .. res.room.participants.length)
+                self._room = res.room
+                self._mi_leaveroom:setVisible(true)
+                self._mi_message_reliable:setVisible(true)
+                self._mi_message_unreliable:setVisible(true)
+                self._mi_message_unreliable_to_others:setVisible(true)
 
-                else
-                    self._text:setString("RT create room automatch error: " + res.result)
-                end
-            end)
+            else
+                self._text:setString("RT create room automatch error: " .. res.result)
+            end
+        end)
     end),
 
     cc.MenuItemFont:create("CreateRoom select"):onClicked(function()
@@ -235,34 +235,34 @@ function RealTimeMultiplayerScene:setupTestMenu()
                 minimumPlayers = 1
             }
         },
-            self.listener,
-            function(res)
-                if (gpg.IsSuccess(res.result)) then
-                    self._text:setString("Room created: id=" + res.room.id.substring(0, 10) + "... participants=" + res.room.participants.length)
-                    self._room = res.room
-                    self._mi_leaveroom:setVisible(true)
-                    self._mi_message_reliable:setVisible(true)
-                    self._mi_message_unreliable:setVisible(true)
-                    self._mi_message_unreliable_to_others:setVisible(true)
+        self.listener,
+        function(res)
+            if (gpg.IsSuccess(res.result)) then
+                self._text:setString("Room created: id=" .. res.room.id.substring(0, 10) .. "... participants=" .. res.room.participants.length)
+                self._room = res.room
+                self._mi_leaveroom:setVisible(true)
+                self._mi_message_reliable:setVisible(true)
+                self._mi_message_unreliable:setVisible(true)
+                self._mi_message_unreliable_to_others:setVisible(true)
 
-                else
-                    self._text:setString("RT create room ui error: " + res.result)
-                end
-            end)
+            else
+                self._text:setString("RT create room ui error: " .. res.result)
+            end
+        end)
     end),
 
     cc.MenuItemFont:create("Invitations UI"):onClicked(function()
 
         gpg.Realtime:ShowRoomInboxUI(function(res)
             if (gpg.IsSuccess(res.result)) then
-                self._text:setString("got invitation: " + (res.invitation.id.substr(0, 10)) + "...")
+                self._text:setString("got invitation: " .. (res.invitation.id.substr(0, 10)) .. "...")
                 self._invitation = res.invitation
 
                 self._mi_accept_invitation:setVisible(true)
                 self._mi_dismiss_invitation:setVisible(true)
                 self._mi_decline_invitation:setVisible(true)
             else
-                self._text:setString("RT invitation ui error: " + res.result)
+                self._text:setString("RT invitation ui error: " .. res.result)
 
                 self._mi_accept_invitation:setVisible(false)
                 self._mi_dismiss_invitation:setVisible(false)
@@ -274,9 +274,9 @@ function RealTimeMultiplayerScene:setupTestMenu()
     cc.MenuItemFont:create("Fetch invitations"):onClicked(function()
         gpg.Realtime:FetchInvitations(function(res)
             if (gpg.IsSuccess(res.result)) then
-                self._text:setString("fetched " + res.invitations.length + " invitations.")
+                self._text:setString("fetched " .. res.invitations.length .. " invitations.")
             else
-                self._text:setString("fetch invitations error: " + res.result)
+                self._text:setString("fetch invitations error: " .. res.result)
             end
         end)
     end),
