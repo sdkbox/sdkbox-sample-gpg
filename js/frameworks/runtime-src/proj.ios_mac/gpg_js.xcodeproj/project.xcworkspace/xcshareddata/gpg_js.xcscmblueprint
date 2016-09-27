@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8" : 0,
+    "81D6D44179E6F25DEFD75513229825753CC0073D" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "BCBF02C9-BB4B-45FF-9BD3-BD4525D3D123",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8" : "sdkbox-sample-googleplay\/",
+    "81D6D44179E6F25DEFD75513229825753CC0073D" : "sdkbox-sample-sdkboxplay\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "gpg_js",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "js\/frameworks\/runtime-src\/proj.ios_mac\/gpg_js.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sdkbox\/sdkbox-sample-sdkboxplay.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "81D6D44179E6F25DEFD75513229825753CC0073D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sdkbox\/sdkbox-sample-googleplay.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8"
+    }
+  ]
+}

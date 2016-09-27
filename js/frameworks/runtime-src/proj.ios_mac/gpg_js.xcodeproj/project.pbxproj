@@ -133,7 +133,7 @@
 		509D4AEA17EBB82600697056 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		671A491884E0C7533ED0085C /* script */ = {isa = PBXFileReference; lastKnownFileType = "?"; name = script; path = ../../../script; sourceTree = "<group>"; };
 		6B564679B658042AE38A8CF9 /* PluginSdkboxGooglePlay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PluginSdkboxGooglePlay.framework; sourceTree = SOURCE_ROOT; };
-		7701445D903D038C0DB44DFC /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = ./GoogleSignIn.bundle; sourceTree = SOURCE_ROOT; };
+		7701445D903D038C0DB44DFC /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = SOURCE_ROOT; };
 		7F79424BA7264731E524A735 /* GoogleNetworkingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleNetworkingUtilities.framework; sourceTree = SOURCE_ROOT; };
 		965052451D58CF77005D6396 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AddressBook.framework; sourceTree = DEVELOPER_DIR; };
 		965052471D58CFA5005D6396 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/SafariServices.framework; sourceTree = DEVELOPER_DIR; };
@@ -161,7 +161,7 @@
 		9FFEB9A71A6AB7F70095C43A /* js_module_register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = js_module_register.h; sourceTree = "<group>"; };
 		9FFEB9C01A6B86360095C43A /* SimpleConfigParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleConfigParser.cpp; sourceTree = "<group>"; };
 		9FFEB9C11A6B86360095C43A /* SimpleConfigParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleConfigParser.h; sourceTree = "<group>"; };
-		A922753D1517C094001B78AA /* sdkboxplay_js-mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sdkboxplay_js-mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A922753D1517C094001B78AA /* gpg_js-mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "gpg_js-mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A92275411517C094001B78AA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A92275451517C094001B78AA /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		A92275471517C094001B78AA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -183,10 +183,10 @@
 		D4545215156E28EF00887EB5 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		D4545216156E28EF00887EB5 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D55C41EAB0C65BF776514166 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
-		E78D468EAA196DAE099511D1 /* gpg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = gpg.bundle; path = ./gpg.bundle; sourceTree = SOURCE_ROOT; };
+		E78D468EAA196DAE099511D1 /* gpg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = gpg.bundle; sourceTree = SOURCE_ROOT; };
 		EF9046F0B5B364DDC08F175A /* SDKBoxJSHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SDKBoxJSHelper.cpp; path = ../Classes/SDKBoxJSHelper.cpp; sourceTree = SOURCE_ROOT; };
 		F1C34FD48D4024F1E65C0557 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/EventKitUI.framework; sourceTree = DEVELOPER_DIR; };
-		F4174D5FB11506067047DDF2 /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = ./GooglePlus.bundle; sourceTree = SOURCE_ROOT; };
+		F4174D5FB11506067047DDF2 /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GooglePlus.bundle; sourceTree = SOURCE_ROOT; };
 		FAFA4A809D656752FC7C0411 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		FEA74C5FB03B881B63E0FEC5 /* PluginSdkboxGooglePlayJSHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginSdkboxGooglePlayJSHelper.h; path = ../Classes/PluginSdkboxGooglePlayJSHelper.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -310,7 +310,7 @@
 		A922753E1517C094001B78AA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A922753D1517C094001B78AA /* sdkboxplay_js-mobile.app */,
+				A922753D1517C094001B78AA /* gpg_js-mobile.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -429,9 +429,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A922753C1517C094001B78AA /* sdkboxplay_js-mobile */ = {
+		A922753C1517C094001B78AA /* gpg_js-mobile */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A92277001517C097001B78AA /* Build configuration list for PBXNativeTarget "sdkboxplay_js-mobile" */;
+			buildConfigurationList = A92277001517C097001B78AA /* Build configuration list for PBXNativeTarget "gpg_js-mobile" */;
 			buildPhases = (
 				A92275391517C094001B78AA /* Sources */,
 				A922753A1517C094001B78AA /* Frameworks */,
@@ -441,9 +441,9 @@
 			);
 			dependencies = (
 			);
-			name = "sdkboxplay_js-mobile";
+			name = "gpg_js-mobile";
 			productName = sdkboxplay_js;
-			productReference = A922753D1517C094001B78AA /* sdkboxplay_js-mobile.app */;
+			productReference = A922753D1517C094001B78AA /* gpg_js-mobile.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -454,7 +454,7 @@
 			attributes = {
 				LastUpgradeCheck = 0730;
 			};
-			buildConfigurationList = A92275371517C094001B78AA /* Build configuration list for PBXProject "sdkboxplay_js" */;
+			buildConfigurationList = A92275371517C094001B78AA /* Build configuration list for PBXProject "gpg_js" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -468,7 +468,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A922753C1517C094001B78AA /* sdkboxplay_js-mobile */,
+				A922753C1517C094001B78AA /* gpg_js-mobile */,
 			);
 		};
 /* End PBXProject section */
@@ -632,6 +632,7 @@
 				OTHER_CFLAGS = "-DSDKBOX_ENABLED";
 				OTHER_LDFLAGS = " -ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdkbox.gpg;
+				PRODUCT_NAME = "gpg_js-mobile";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/cocos $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/cocos/platform/ios $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/external/spidermonkey/include/ios $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/plugin/jsbindings/auto $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/plugin/jsbindings/manual $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/external/curl/include/ios";
@@ -684,6 +685,7 @@
 				OTHER_CFLAGS = "-DSDKBOX_ENABLED";
 				OTHER_LDFLAGS = " -ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sdkbox.gpg;
+				PRODUCT_NAME = "gpg_js-mobile";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/cocos $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/cocos/platform/ios $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/external/spidermonkey/include/ios $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/plugin/jsbindings/auto $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/plugin/jsbindings/manual $(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/external/curl/include/ios";
@@ -694,7 +696,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A92275371517C094001B78AA /* Build configuration list for PBXProject "sdkboxplay_js" */ = {
+		A92275371517C094001B78AA /* Build configuration list for PBXProject "gpg_js" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A92276FE1517C097001B78AA /* Debug */,
@@ -703,7 +705,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A92277001517C097001B78AA /* Build configuration list for PBXNativeTarget "sdkboxplay_js-mobile" */ = {
+		A92277001517C097001B78AA /* Build configuration list for PBXNativeTarget "gpg_js-mobile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A92277011517C097001B78AA /* Debug */,
