@@ -128,7 +128,8 @@ local gpg = {
     Leaderboards = {},
     Snapshots = {},
     Realtime = {},
-    Turnbased = {}
+    Turnbased = {},
+    NearbyConnections = {}
 }
 
 gpg.LeaderboardOrder = {
@@ -881,6 +882,68 @@ end
 
 function gpg.Realtime:SendUnreliableMessage(json_str)
     sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessage(json_str)
+end
+
+--
+-- Nearby Connection
+--
+
+function gpg.NearbyConnections:Init(str_json, callback)
+    sdkbox.GPGNearbyConnectionsWrapper:Init(str_json, gpg.CallbackManager:addCallback(callback))
+end
+
+function gpg.NearbyConnections:GetLocalEndpointId()
+    sdkbox.GPGNearbyConnectionsWrapper:GetLocalEndpointId()
+end
+
+function gpg.NearbyConnections:GetLocalDeviceId()
+    sdkbox.GPGNearbyConnectionsWrapper:GetLocalDeviceId()
+end
+
+function gpg.NearbyConnections:StartAdvertising(str_json, start_advertising_callback, request_callback)
+    sdkbox.GPGNearbyConnectionsWrapper:StartAdvertising(str_json,
+        gpg.CallbackManager:addCallback(start_advertising_callback),
+        gpg.CallbackManager:addCallback(request_callback))
+end
+
+function gpg.NearbyConnections:StopAdvertising()
+    sdkbox.GPGNearbyConnectionsWrapper:StopAdvertising()
+end
+
+function gpg.NearbyConnections:AcceptConnectionRequest(remote_endpoint_id, payload, callback)
+    sdkbox.GPGNearbyConnectionsWrapper:AcceptConnectionRequest(remote_endpoint_id, payload, gpg.CallbackManager:addCallback(callback))
+end
+
+function gpg.NearbyConnections:RejectConnectionRequest(remote_endpoint_id)
+    sdkbox.GPGNearbyConnectionsWrapper:RejectConnectionRequest(remote_endpoint_id)
+end
+
+function gpg.NearbyConnections:StartDiscovery(service_id, duration, callback)
+    sdkbox.GPGNearbyConnectionsWrapper:StartDiscovery(service_id, duration, gpg.CallbackManager:addCallback(callback))
+end
+
+function gpg.NearbyConnections:StopDiscovery(service_id)
+    sdkbox.GPGNearbyConnectionsWrapper:StopDiscovery(service_id)
+end
+
+function gpg.NearbyConnections:SendConnectionRequest(name, remote_endpoint_id, payload, connect_response_callback, message_callback)
+    sdkbox.GPGNearbyConnectionsWrapper:SendConnectionRequest(name, remote_endpoint_id, payload, gpg.CallbackManager:addCallback(connect_response_callback), gpg.CallbackManager:addCallback(message_callback))
+end
+
+function gpg.NearbyConnections:SendReliableMessage(remote_endpoint_id, payload)
+    sdkbox.GPGNearbyConnectionsWrapper:SendReliableMessage(remote_endpoint_id, payload)
+end
+
+function gpg.NearbyConnections:SendUnreliableMessage(remote_endpoint_id, payload)
+    sdkbox.GPGNearbyConnectionsWrapper:SendUnreliableMessage(remote_endpoint_id, payload)
+end
+
+function gpg.NearbyConnections:Disconnect(remote_endpoint_id)
+    sdkbox.GPGNearbyConnectionsWrapper:Disconnect(remote_endpoint_id)
+end
+
+function gpg.NearbyConnections:Stop()
+    sdkbox.GPGNearbyConnectionsWrapper:Stop()
 end
 
 --

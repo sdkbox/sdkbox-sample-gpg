@@ -6,6 +6,11 @@
 #include "Utils.h"
 #include "QuestScene.h"
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "NearbyConnectionsScene.hpp"
+#endif
+
+
 using namespace cocos2d;
 
 cocos2d::Scene *PlayerStatScene::createScene()
@@ -50,7 +55,11 @@ void PlayerStatScene::onPrevScene(cocos2d::Ref *sender)
 
 void PlayerStatScene::onNextScene(cocos2d::Ref *sender)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    Director::getInstance()->replaceScene(NearbyConnectionsScene::createScene());
+#else
     BaseScene::onNextScene(sender);
+#endif
 }
 
 void PlayerStatScene::FetchForPlayer(cocos2d::Ref *sender)

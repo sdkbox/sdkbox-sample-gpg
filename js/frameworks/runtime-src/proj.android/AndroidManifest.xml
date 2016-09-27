@@ -11,6 +11,7 @@
             </intent-filter>
         </activity>
         <meta-data android:name="com.google.android.gms.games.APP_ID" android:value="@string/google_app_id" />
+        <meta-data android:name="com.google.android.gms.nearby.connection.SERVICE_ID" android:value="@string/service_id" />
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <meta-data android:name="google_app_id" android:value="your_app_id_here" />
         <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.android.gms.ads.AdActivity" android:theme="@android:style/Theme.Translucent" />

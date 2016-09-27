@@ -390,5 +390,89 @@ bool js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, u
 #elif defined(JS_VERSION)
 JSBool js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, uint32_t argc, jsval *vp);
 #endif
+
+extern JSClass  *jsb_sdkbox_GPGNearbyConnectionsWrapper_class;
+extern JSObject *jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype;
+
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper(JSContext *cx, JS::HandleObject global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj);
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper(JSContext *cx, JSObject* global);
+void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj);
+#endif
+
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_finalize(JSContext *cx, JSObject *obj);
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartDiscovery(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartDiscovery(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Disconnect(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Disconnect(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopAdvertising(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopAdvertising(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Stop(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Stop(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Init(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Init(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopDiscovery(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopDiscovery(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartAdvertising(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartAdvertising(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp);
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp);
+#endif
 #endif
 

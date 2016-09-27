@@ -1,8 +1,7 @@
 #include "PluginSdkboxGooglePlayJS.hpp"
-#include "cocos2d_specifics.hpp"
 #include "PluginSdkboxGooglePlay/SdkboxGooglePlayWrappedObjects.h"
 #include "SDKBoxJSHelper.h"
-#include "sdkbox/sdkbox.h"
+#include "sdkbox/Sdkbox.h"
 
 
 #if defined(MOZJS_MAJOR_VERSION)
@@ -22,7 +21,7 @@ static bool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
         typeClass = typeMapIter->second;
         CCASSERT(typeClass, "The value is null.");
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
         JS::RootedObject proto(cx, typeClass->proto.ref());
         JS::RootedObject parent(cx, typeClass->parentProto.ref());
 #else
@@ -30,7 +29,7 @@ static bool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
         JS::RootedObject parent(cx, typeClass->parentProto.get());
 #endif
         JS::RootedObject _tmp(cx, JS_NewObject(cx, typeClass->jsclass, proto, parent));
-        
+
         T* cobj = new T();
         js_proxy_t *pp = jsb_new_proxy(cobj, _tmp);
         AddObjectRoot(cx, &pp->obj);
@@ -49,7 +48,7 @@ static bool js_is_native_obj(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     args.rval().setBoolean(true);
-    return true;    
+    return true;
 }
 #else
 template<class T>
@@ -84,7 +83,7 @@ static bool empty_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
 static bool js_is_native_obj(JSContext *cx, JS::HandleObject obj, JS::HandleId id, JS::MutableHandleValue vp)
 {
     vp.set(BOOLEAN_TO_JSVAL(true));
-    return true;    
+    return true;
 }
 #endif
 #elif defined(JS_VERSION)
@@ -475,7 +474,7 @@ void js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_finalize(JSFreeOp
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -489,7 +488,7 @@ void js_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper_finalize(JSFreeOp
         sdkbox::GPGRealTimeMultiplayerWrapper *nobj = static_cast<sdkbox::GPGRealTimeMultiplayerWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -543,11 +542,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContex
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGRealTimeMultiplayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype);
     jsb_register_class<sdkbox::GPGRealTimeMultiplayerWrapper>(cx, jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class, proto, JS::NullPtr());
 #else
@@ -612,7 +611,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGRealTimeMultiplayerWrapper(JSContex
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGRealTimeMultiplayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -849,7 +848,7 @@ void js_PluginSdkboxGooglePlayJS_GPGWrapper_finalize(JSFreeOp *fop, JSObject *ob
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -863,7 +862,7 @@ void js_PluginSdkboxGooglePlayJS_GPGWrapper_finalize(JSFreeOp *fop, JSObject *ob
         sdkbox::GPGWrapper *nobj = static_cast<sdkbox::GPGWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -912,11 +911,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JS::HandleOb
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGWrapper_prototype);
     jsb_register_class<sdkbox::GPGWrapper>(cx, jsb_sdkbox_GPGWrapper_class, proto, JS::NullPtr());
 #else
@@ -976,7 +975,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGWrapper(JSContext *cx, JSObject *gl
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -1247,7 +1246,7 @@ void js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_finalize(JSFreeOp *fop, JSObje
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -1261,7 +1260,7 @@ void js_PluginSdkboxGooglePlayJS_GPGPlayerWrapper_finalize(JSFreeOp *fop, JSObje
         sdkbox::GPGPlayerWrapper *nobj = static_cast<sdkbox::GPGPlayerWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -1310,11 +1309,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(JSContext *cx, JS::Ha
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGPlayerWrapper_prototype);
     jsb_register_class<sdkbox::GPGPlayerWrapper>(cx, jsb_sdkbox_GPGPlayerWrapper_class, proto, JS::NullPtr());
 #else
@@ -1374,7 +1373,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(JSContext *cx, JSObje
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -1649,7 +1648,7 @@ void js_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper_finalize(JSFreeOp *fop, JSOb
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -1663,7 +1662,7 @@ void js_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper_finalize(JSFreeOp *fop, JSOb
         sdkbox::GPGSnapshotWrapper *nobj = static_cast<sdkbox::GPGSnapshotWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -1712,11 +1711,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(JSContext *cx, JS::
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGSnapshotWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGSnapshotWrapper_prototype);
     jsb_register_class<sdkbox::GPGSnapshotWrapper>(cx, jsb_sdkbox_GPGSnapshotWrapper_class, proto, JS::NullPtr());
 #else
@@ -1776,7 +1775,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(JSContext *cx, JSOb
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGSnapshotWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -2304,7 +2303,7 @@ void js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_finalize(JSFreeOp *fop, J
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -2318,7 +2317,7 @@ void js_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper_finalize(JSFreeOp *fop, J
         sdkbox::GPGLeaderboardWrapper *nobj = static_cast<sdkbox::GPGLeaderboardWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -2372,11 +2371,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(JSContext *cx, J
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGLeaderboardWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGLeaderboardWrapper_prototype);
     jsb_register_class<sdkbox::GPGLeaderboardWrapper>(cx, jsb_sdkbox_GPGLeaderboardWrapper_class, proto, JS::NullPtr());
 #else
@@ -2441,7 +2440,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGLeaderboardWrapper(JSContext *cx, J
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGLeaderboardWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -2779,7 +2778,7 @@ void js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_finalize(JSFreeOp *fop, J
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -2793,7 +2792,7 @@ void js_PluginSdkboxGooglePlayJS_GPGAchievementWrapper_finalize(JSFreeOp *fop, J
         sdkbox::GPGAchievementWrapper *nobj = static_cast<sdkbox::GPGAchievementWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -2844,11 +2843,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(JSContext *cx, J
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGAchievementWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGAchievementWrapper_prototype);
     jsb_register_class<sdkbox::GPGAchievementWrapper>(cx, jsb_sdkbox_GPGAchievementWrapper_class, proto, JS::NullPtr());
 #else
@@ -2910,7 +2909,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGAchievementWrapper(JSContext *cx, J
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGAchievementWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -3252,7 +3251,7 @@ void js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_finalize(JSFreeOp *fop, JSObje
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -3266,7 +3265,7 @@ void js_PluginSdkboxGooglePlayJS_GPGQuestsWrapper_finalize(JSFreeOp *fop, JSObje
         sdkbox::GPGQuestsWrapper *nobj = static_cast<sdkbox::GPGQuestsWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -3316,11 +3315,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(JSContext *cx, JS::Ha
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGQuestsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGQuestsWrapper_prototype);
     jsb_register_class<sdkbox::GPGQuestsWrapper>(cx, jsb_sdkbox_GPGQuestsWrapper_class, proto, JS::NullPtr());
 #else
@@ -3381,7 +3380,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGQuestsWrapper(JSContext *cx, JSObje
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGQuestsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -3631,7 +3630,7 @@ void js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_finalize(JSFreeOp *fop, JSObje
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -3645,7 +3644,7 @@ void js_PluginSdkboxGooglePlayJS_GPGEventsWrapper_finalize(JSFreeOp *fop, JSObje
         sdkbox::GPGEventsWrapper *nobj = static_cast<sdkbox::GPGEventsWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -3692,11 +3691,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(JSContext *cx, JS::Ha
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGEventsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGEventsWrapper_prototype);
     jsb_register_class<sdkbox::GPGEventsWrapper>(cx, jsb_sdkbox_GPGEventsWrapper_class, proto, JS::NullPtr());
 #else
@@ -3754,7 +3753,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(JSContext *cx, JSObje
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGEventsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -3871,7 +3870,7 @@ void js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_finalize(JSFreeOp *fop, JSObjec
     js_proxy_t* nproxy;
     js_proxy_t* jsproxy;
 
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     JS::RootedObject jsobj(cx, obj);
     jsproxy = jsb_get_js_proxy(jsobj);
@@ -3885,7 +3884,7 @@ void js_PluginSdkboxGooglePlayJS_GPGStatsWrapper_finalize(JSFreeOp *fop, JSObjec
         sdkbox::GPGStatsWrapper *nobj = static_cast<sdkbox::GPGStatsWrapper *>(nproxy->ptr);
         if (nobj)
             delete nobj;
-        
+
         jsb_remove_proxy(nproxy, jsproxy);
     }
 }
@@ -3930,11 +3929,11 @@ void js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(JSContext *cx, JS::Han
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGStatsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
-#if (COCOS2D_VERSION >= 0x00031000)
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
     JS::RootedObject proto(cx, jsb_sdkbox_GPGStatsWrapper_prototype);
     jsb_register_class<sdkbox::GPGStatsWrapper>(cx, jsb_sdkbox_GPGStatsWrapper_class, proto, JS::NullPtr());
 #else
@@ -3990,7 +3989,7 @@ void js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(JSContext *cx, JSObjec
         st_funcs);
     // make the class enumerable in the registered namespace
 //  bool found;
-//FIXME: Removed in Firefox v27 
+//FIXME: Removed in Firefox v27
 //  JS_SetPropertyAttributes(cx, global, "GPGStatsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
     // add the proto and JSClass to the type->js info hash table
@@ -4058,6 +4057,724 @@ void js_register_PluginSdkboxGooglePlayJS_GPGStatsWrapper(JSContext *cx, JSObjec
     }
 }
 #endif
+JSClass  *jsb_sdkbox_GPGNearbyConnectionsWrapper_class;
+JSObject *jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype;
+
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartDiscovery(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        std::string arg0;
+        int arg1;
+        int arg2;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartDiscovery : Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::StartDiscovery(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartDiscovery : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartDiscovery(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        std::string arg0;
+        int arg1;
+        int arg2;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::StartDiscovery(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest : Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::RejectConnectionRequest(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::RejectConnectionRequest(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Disconnect(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Disconnect : Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::Disconnect(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Disconnect : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Disconnect(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::Disconnect(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    
+    do {
+        if (argc == 2) {
+            std::vector<std::string> arg0;
+            ok &= jsval_to_std_vector_string(cx, args.get(0), &arg0);
+            if (!ok) { ok = true; break; }
+            std::string arg1;
+            ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+            if (!ok) { ok = true; break; }
+            sdkbox::GPGNearbyConnectionsWrapper::SendUnreliableMessage(arg0, arg1);
+            return true;
+        }
+    } while (0);
+    
+    do {
+        if (argc == 2) {
+            std::string arg0;
+            ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+            if (!ok) { ok = true; break; }
+            std::string arg1;
+            ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+            if (!ok) { ok = true; break; }
+            sdkbox::GPGNearbyConnectionsWrapper::SendUnreliableMessage(arg0, arg1);
+            return true;
+        }
+    } while (0);
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage : wrong number of arguments");
+    return false;
+}
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+        std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalDeviceId();
+        jsval jsret = JSVAL_NULL;
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    if (argc == 0) {
+        std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalDeviceId();
+        jsval jsret;
+        jsret = std_string_to_jsval(cx, ret);
+        JS_SET_RVAL(cx, vp, jsret);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopAdvertising(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+        sdkbox::GPGNearbyConnectionsWrapper::StopAdvertising();
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopAdvertising : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopAdvertising(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    if (argc == 0) {
+        sdkbox::GPGNearbyConnectionsWrapper::StopAdvertising();
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Stop(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+        sdkbox::GPGNearbyConnectionsWrapper::Stop();
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Stop : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Stop(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    if (argc == 0) {
+        sdkbox::GPGNearbyConnectionsWrapper::Stop();
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    
+    do {
+        if (argc == 2) {
+            std::vector<std::string> arg0;
+            ok &= jsval_to_std_vector_string(cx, args.get(0), &arg0);
+            if (!ok) { ok = true; break; }
+            std::string arg1;
+            ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+            if (!ok) { ok = true; break; }
+            sdkbox::GPGNearbyConnectionsWrapper::SendReliableMessage(arg0, arg1);
+            return true;
+        }
+    } while (0);
+    
+    do {
+        if (argc == 2) {
+            std::string arg0;
+            ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+            if (!ok) { ok = true; break; }
+            std::string arg1;
+            ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+            if (!ok) { ok = true; break; }
+            sdkbox::GPGNearbyConnectionsWrapper::SendReliableMessage(arg0, arg1);
+            return true;
+        }
+    } while (0);
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendReliableMessage : wrong number of arguments");
+    return false;
+}
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+        std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalEndpointId();
+        jsval jsret = JSVAL_NULL;
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    if (argc == 0) {
+        std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalEndpointId();
+        jsval jsret;
+        jsret = std_string_to_jsval(cx, ret);
+        JS_SET_RVAL(cx, vp, jsret);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Init(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 2) {
+        std::string arg0;
+        int arg1;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Init : Error processing arguments");
+        bool ret = sdkbox::GPGNearbyConnectionsWrapper::Init(arg0, arg1);
+        jsval jsret = JSVAL_NULL;
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Init : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Init(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 2) {
+        std::string arg0;
+        int arg1;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        bool ret = sdkbox::GPGNearbyConnectionsWrapper::Init(arg0, arg1);
+        jsval jsret;
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        JS_SET_RVAL(cx, vp, jsret);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopDiscovery(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopDiscovery : Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::StopDiscovery(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopDiscovery : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopDiscovery(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::StopDiscovery(arg0);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 5) {
+        std::string arg0;
+        std::string arg1;
+        std::string arg2;
+        int arg3;
+        int arg4;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_std_string(cx, args.get(2), &arg2);
+        ok &= jsval_to_int32(cx, args.get(3), (int32_t *)&arg3);
+        ok &= jsval_to_int32(cx, args.get(4), (int32_t *)&arg4);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendConnectionRequest : Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::SendConnectionRequest(arg0, arg1, arg2, arg3, arg4);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendConnectionRequest : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 5) {
+        std::string arg0;
+        std::string arg1;
+        std::string arg2;
+        int arg3;
+        int arg4;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_std_string(cx, argv[2], &arg2);
+        ok &= jsval_to_int32(cx, argv[3], (int32_t *)&arg3);
+        ok &= jsval_to_int32(cx, argv[4], (int32_t *)&arg4);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::SendConnectionRequest(arg0, arg1, arg2, arg3, arg4);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartAdvertising(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        std::string arg0;
+        int arg1;
+        int arg2;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartAdvertising : Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::StartAdvertising(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartAdvertising : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartAdvertising(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        std::string arg0;
+        int arg1;
+        int arg2;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::StartAdvertising(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 3) {
+        std::string arg0;
+        std::string arg1;
+        int arg2;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest : Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::AcceptConnectionRequest(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    jsval *argv = JS_ARGV(cx, vp);
+    JSBool ok = JS_TRUE;
+    if (argc == 3) {
+        std::string arg0;
+        std::string arg1;
+        int arg2;
+        ok &= jsval_to_std_string(cx, argv[0], &arg0);
+        ok &= jsval_to_std_string(cx, argv[1], &arg1);
+        ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        sdkbox::GPGNearbyConnectionsWrapper::AcceptConnectionRequest(arg0, arg1, arg2);
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+
+
+void js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
+    CCLOGINFO("jsbindings: finalizing JS object %p (GPGNearbyConnectionsWrapper)", obj);
+    js_proxy_t* nproxy;
+    js_proxy_t* jsproxy;
+
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
+    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
+    JS::RootedObject jsobj(cx, obj);
+    jsproxy = jsb_get_js_proxy(jsobj);
+#else
+    jsproxy = jsb_get_js_proxy(obj);
+#endif
+
+    if (jsproxy) {
+        nproxy = jsb_get_native_proxy(jsproxy->ptr);
+
+        sdkbox::GPGNearbyConnectionsWrapper *nobj = static_cast<sdkbox::GPGNearbyConnectionsWrapper *>(nproxy->ptr);
+        if (nobj)
+            delete nobj;
+
+        jsb_remove_proxy(nproxy, jsproxy);
+    }
+}
+
+#if defined(MOZJS_MAJOR_VERSION)
+#if MOZJS_MAJOR_VERSION >= 33
+void js_register_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper(JSContext *cx, JS::HandleObject global) {
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->name = "GPGNearbyConnectionsWrapper";
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_finalize;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_PS_END
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("StartDiscovery", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartDiscovery, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("RejectConnectionRequest", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Disconnect", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Disconnect, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendUnreliableMessage", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("GetLocalDeviceId", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("StopAdvertising", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopAdvertising, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Stop", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Stop, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendReliableMessage", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendReliableMessage, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("GetLocalEndpointId", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Init", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Init, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("StopDiscovery", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopDiscovery, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendConnectionRequest", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendConnectionRequest, 5, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("StartAdvertising", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartAdvertising, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("AcceptConnectionRequest", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype = JS_InitClass(
+        cx, global,
+        JS::NullPtr(), // parent proto
+        jsb_sdkbox_GPGNearbyConnectionsWrapper_class,
+        dummy_constructor<sdkbox::GPGNearbyConnectionsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27
+//  JS_SetPropertyAttributes(cx, global, "GPGNearbyConnectionsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+#if (SDKBOX_COCOS_JSB_VERSION >= 2)
+    JS::RootedObject proto(cx, jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype);
+    jsb_register_class<sdkbox::GPGNearbyConnectionsWrapper>(cx, jsb_sdkbox_GPGNearbyConnectionsWrapper_class, proto, JS::NullPtr());
+#else
+    TypeTest<sdkbox::GPGNearbyConnectionsWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGNearbyConnectionsWrapper_class;
+        p->proto = jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+#endif
+}
+#else
+void js_register_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->name = "GPGNearbyConnectionsWrapper";
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->delProperty = JS_DeletePropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_finalize;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    static JSPropertySpec properties[] = {
+        {"__nativeObj", 0, JSPROP_ENUMERATE | JSPROP_PERMANENT, JSOP_WRAPPER(js_is_native_obj), JSOP_NULLWRAPPER},
+        {0, 0, 0, JSOP_NULLWRAPPER, JSOP_NULLWRAPPER}
+    };
+
+    static JSFunctionSpec funcs[] = {
+        JS_FS_END
+    };
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("StartDiscovery", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartDiscovery, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("RejectConnectionRequest", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Disconnect", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Disconnect, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendUnreliableMessage", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("GetLocalDeviceId", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("StopAdvertising", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopAdvertising, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Stop", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Stop, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendReliableMessage", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendReliableMessage, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("GetLocalEndpointId", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Init", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Init, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("StopDiscovery", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopDiscovery, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendConnectionRequest", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendConnectionRequest, 5, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("StartAdvertising", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartAdvertising, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("AcceptConnectionRequest", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGNearbyConnectionsWrapper_class,
+        dummy_constructor<sdkbox::GPGNearbyConnectionsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+//  bool found;
+//FIXME: Removed in Firefox v27
+//  JS_SetPropertyAttributes(cx, global, "GPGNearbyConnectionsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGNearbyConnectionsWrapper> t;
+    js_type_class_t *p;
+    std::string typeName = t.s_name();
+    if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
+    {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->jsclass = jsb_sdkbox_GPGNearbyConnectionsWrapper_class;
+        p->proto = jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype;
+        p->parentProto = NULL;
+        _js_global_type_map.insert(std::make_pair(typeName, p));
+    }
+}
+#endif
+#elif defined(JS_VERSION)
+void js_register_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper(JSContext *cx, JSObject *global) {
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->name = "GPGNearbyConnectionsWrapper";
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->addProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->delProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->getProperty = JS_PropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->setProperty = JS_StrictPropertyStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->enumerate = JS_EnumerateStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->resolve = JS_ResolveStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->convert = JS_ConvertStub;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->finalize = js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_finalize;
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+
+    JSPropertySpec *properties = NULL;
+
+    JSFunctionSpec *funcs = NULL;
+
+    static JSFunctionSpec st_funcs[] = {
+        JS_FN("StartDiscovery", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartDiscovery, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("RejectConnectionRequest", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Disconnect", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Disconnect, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendUnreliableMessage", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("GetLocalDeviceId", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("StopAdvertising", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopAdvertising, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Stop", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Stop, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendReliableMessage", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendReliableMessage, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("GetLocalEndpointId", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Init", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_Init, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("StopDiscovery", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StopDiscovery, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SendConnectionRequest", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_SendConnectionRequest, 5, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("StartAdvertising", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_StartAdvertising, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("AcceptConnectionRequest", js_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FS_END
+    };
+
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype = JS_InitClass(
+        cx, global,
+        NULL, // parent proto
+        jsb_sdkbox_GPGNearbyConnectionsWrapper_class,
+        dummy_constructor<sdkbox::GPGNearbyConnectionsWrapper>, 0, // no constructor
+        properties,
+        funcs,
+        NULL, // no static properties
+        st_funcs);
+    // make the class enumerable in the registered namespace
+    JSBool found;
+    JS_SetPropertyAttributes(cx, global, "GPGNearbyConnectionsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<sdkbox::GPGNearbyConnectionsWrapper> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = jsb_sdkbox_GPGNearbyConnectionsWrapper_class;
+        p->proto = jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype;
+        p->parentProto = NULL;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
+}
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj) {
@@ -4066,6 +4783,7 @@ void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JS::HandleObject obj) 
     get_or_create_js_obj(cx, obj, "_gpg", &ns);
 
     js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(cx, ns);
+    js_register_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper(cx, ns);
     js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(cx, ns);
     js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(cx, ns);
     js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, ns);
@@ -4093,6 +4811,7 @@ void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj) {
     obj = ns;
 
     js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, obj);
@@ -4121,6 +4840,7 @@ void register_all_PluginSdkboxGooglePlayJS(JSContext* cx, JSObject* obj) {
     obj = ns;
 
     js_register_PluginSdkboxGooglePlayJS_GPGEventsWrapper(cx, obj);
+    js_register_PluginSdkboxGooglePlayJS_GPGNearbyConnectionsWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGPlayerWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGSnapshotWrapper(cx, obj);
     js_register_PluginSdkboxGooglePlayJS_GPGWrapper(cx, obj);

@@ -3028,6 +3028,593 @@ int lua_register_PluginSdkboxGooglePlayLua_GPGStatsWrapper(lua_State* tolua_S)
     g_typeCast["GPGStatsWrapper"] = "sdkbox.GPGStatsWrapper";
     return 1;
 }
+
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StartDiscovery(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        std::string arg0;
+        int arg1;
+        int arg2;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:StartDiscovery");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGNearbyConnectionsWrapper:StartDiscovery");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGNearbyConnectionsWrapper:StartDiscovery");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StartDiscovery'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGNearbyConnectionsWrapper::StartDiscovery(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:StartDiscovery",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StartDiscovery'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_RejectConnectionRequest(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:RejectConnectionRequest");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_RejectConnectionRequest'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGNearbyConnectionsWrapper::RejectConnectionRequest(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:RejectConnectionRequest",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_RejectConnectionRequest'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Disconnect(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:Disconnect");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Disconnect'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGNearbyConnectionsWrapper::Disconnect(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:Disconnect",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Disconnect'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendUnreliableMessage(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+
+    do 
+    {
+        if (argc == 2)
+        {
+            std::vector<std::string> arg0;
+            ok &= luaval_to_std_vector_string(tolua_S, 2, &arg0, "sdkbox.GPGNearbyConnectionsWrapper:SendUnreliableMessage");
+            if (!ok) { break; }
+            std::string arg1;
+            ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGNearbyConnectionsWrapper:SendUnreliableMessage");
+            if (!ok) { break; }
+            sdkbox::GPGNearbyConnectionsWrapper::SendUnreliableMessage(arg0, arg1);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do 
+    {
+        if (argc == 2)
+        {
+            std::string arg0;
+            ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:SendUnreliableMessage");
+            if (!ok) { break; }
+            std::string arg1;
+            ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGNearbyConnectionsWrapper:SendUnreliableMessage");
+            if (!ok) { break; }
+            sdkbox::GPGNearbyConnectionsWrapper::SendUnreliableMessage(arg0, arg1);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d", "sdkbox.GPGNearbyConnectionsWrapper:SendUnreliableMessage",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendUnreliableMessage'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_GetLocalDeviceId(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 0)
+    {
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_GetLocalDeviceId'", nullptr);
+            return 0;
+        }
+        std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalDeviceId();
+        tolua_pushcppstring(tolua_S,ret);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:GetLocalDeviceId",argc, 0);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_GetLocalDeviceId'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StopAdvertising(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 0)
+    {
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StopAdvertising'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGNearbyConnectionsWrapper::StopAdvertising();
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:StopAdvertising",argc, 0);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StopAdvertising'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Stop(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 0)
+    {
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Stop'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGNearbyConnectionsWrapper::Stop();
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:Stop",argc, 0);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Stop'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendReliableMessage(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+
+    do 
+    {
+        if (argc == 2)
+        {
+            std::vector<std::string> arg0;
+            ok &= luaval_to_std_vector_string(tolua_S, 2, &arg0, "sdkbox.GPGNearbyConnectionsWrapper:SendReliableMessage");
+            if (!ok) { break; }
+            std::string arg1;
+            ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGNearbyConnectionsWrapper:SendReliableMessage");
+            if (!ok) { break; }
+            sdkbox::GPGNearbyConnectionsWrapper::SendReliableMessage(arg0, arg1);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    do 
+    {
+        if (argc == 2)
+        {
+            std::string arg0;
+            ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:SendReliableMessage");
+            if (!ok) { break; }
+            std::string arg1;
+            ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGNearbyConnectionsWrapper:SendReliableMessage");
+            if (!ok) { break; }
+            sdkbox::GPGNearbyConnectionsWrapper::SendReliableMessage(arg0, arg1);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+    } while (0);
+    ok  = true;
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d", "sdkbox.GPGNearbyConnectionsWrapper:SendReliableMessage",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendReliableMessage'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_GetLocalEndpointId(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 0)
+    {
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_GetLocalEndpointId'", nullptr);
+            return 0;
+        }
+        std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalEndpointId();
+        tolua_pushcppstring(tolua_S,ret);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:GetLocalEndpointId",argc, 0);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_GetLocalEndpointId'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Init(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 2)
+    {
+        std::string arg0;
+        int arg1;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:Init");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGNearbyConnectionsWrapper:Init");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Init'", nullptr);
+            return 0;
+        }
+        bool ret = sdkbox::GPGNearbyConnectionsWrapper::Init(arg0, arg1);
+        tolua_pushboolean(tolua_S,(bool)ret);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:Init",argc, 2);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Init'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StopDiscovery(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 1)
+    {
+        std::string arg0;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:StopDiscovery");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StopDiscovery'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGNearbyConnectionsWrapper::StopDiscovery(arg0);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:StopDiscovery",argc, 1);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StopDiscovery'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendConnectionRequest(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 5)
+    {
+        std::string arg0;
+        std::string arg1;
+        std::string arg2;
+        int arg3;
+        int arg4;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:SendConnectionRequest");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGNearbyConnectionsWrapper:SendConnectionRequest");
+        ok &= luaval_to_std_string(tolua_S, 4,&arg2, "sdkbox.GPGNearbyConnectionsWrapper:SendConnectionRequest");
+        ok &= luaval_to_int32(tolua_S, 5,(int *)&arg3, "sdkbox.GPGNearbyConnectionsWrapper:SendConnectionRequest");
+        ok &= luaval_to_int32(tolua_S, 6,(int *)&arg4, "sdkbox.GPGNearbyConnectionsWrapper:SendConnectionRequest");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendConnectionRequest'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGNearbyConnectionsWrapper::SendConnectionRequest(arg0, arg1, arg2, arg3, arg4);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:SendConnectionRequest",argc, 5);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendConnectionRequest'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StartAdvertising(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        std::string arg0;
+        int arg1;
+        int arg2;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:StartAdvertising");
+        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "sdkbox.GPGNearbyConnectionsWrapper:StartAdvertising");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGNearbyConnectionsWrapper:StartAdvertising");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StartAdvertising'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGNearbyConnectionsWrapper::StartAdvertising(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:StartAdvertising",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StartAdvertising'.",&tolua_err);
+#endif
+    return 0;
+}
+int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_AcceptConnectionRequest(lua_State* tolua_S)
+{
+    int argc = 0;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertable(tolua_S,1,"sdkbox.GPGNearbyConnectionsWrapper",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    argc = lua_gettop(tolua_S) - 1;
+
+    if (argc == 3)
+    {
+        std::string arg0;
+        std::string arg1;
+        int arg2;
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sdkbox.GPGNearbyConnectionsWrapper:AcceptConnectionRequest");
+        ok &= luaval_to_std_string(tolua_S, 3,&arg1, "sdkbox.GPGNearbyConnectionsWrapper:AcceptConnectionRequest");
+        ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "sdkbox.GPGNearbyConnectionsWrapper:AcceptConnectionRequest");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_AcceptConnectionRequest'", nullptr);
+            return 0;
+        }
+        sdkbox::GPGNearbyConnectionsWrapper::AcceptConnectionRequest(arg0, arg1, arg2);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "sdkbox.GPGNearbyConnectionsWrapper:AcceptConnectionRequest",argc, 3);
+    return 0;
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_AcceptConnectionRequest'.",&tolua_err);
+#endif
+    return 0;
+}
+static int lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_finalize(lua_State* tolua_S)
+{
+    printf("luabindings: finalizing LUA object (GPGNearbyConnectionsWrapper)");
+    return 0;
+}
+
+int lua_register_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper(lua_State* tolua_S)
+{
+    tolua_usertype(tolua_S,"sdkbox.GPGNearbyConnectionsWrapper");
+    tolua_cclass(tolua_S,"GPGNearbyConnectionsWrapper","sdkbox.GPGNearbyConnectionsWrapper","",nullptr);
+
+    tolua_beginmodule(tolua_S,"GPGNearbyConnectionsWrapper");
+        tolua_function(tolua_S,"StartDiscovery", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StartDiscovery);
+        tolua_function(tolua_S,"RejectConnectionRequest", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_RejectConnectionRequest);
+        tolua_function(tolua_S,"Disconnect", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Disconnect);
+        tolua_function(tolua_S,"SendUnreliableMessage", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendUnreliableMessage);
+        tolua_function(tolua_S,"GetLocalDeviceId", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_GetLocalDeviceId);
+        tolua_function(tolua_S,"StopAdvertising", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StopAdvertising);
+        tolua_function(tolua_S,"Stop", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Stop);
+        tolua_function(tolua_S,"SendReliableMessage", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendReliableMessage);
+        tolua_function(tolua_S,"GetLocalEndpointId", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_GetLocalEndpointId);
+        tolua_function(tolua_S,"Init", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_Init);
+        tolua_function(tolua_S,"StopDiscovery", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StopDiscovery);
+        tolua_function(tolua_S,"SendConnectionRequest", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_SendConnectionRequest);
+        tolua_function(tolua_S,"StartAdvertising", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_StartAdvertising);
+        tolua_function(tolua_S,"AcceptConnectionRequest", lua_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper_AcceptConnectionRequest);
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(sdkbox::GPGNearbyConnectionsWrapper).name();
+    g_luaType[typeName] = "sdkbox.GPGNearbyConnectionsWrapper";
+    g_typeCast["GPGNearbyConnectionsWrapper"] = "sdkbox.GPGNearbyConnectionsWrapper";
+    return 1;
+}
 TOLUA_API int register_all_PluginSdkboxGooglePlayLua(lua_State* tolua_S)
 {
 	tolua_open(tolua_S);
@@ -3036,6 +3623,7 @@ TOLUA_API int register_all_PluginSdkboxGooglePlayLua(lua_State* tolua_S)
 	tolua_beginmodule(tolua_S,"sdkbox");
 
 	lua_register_PluginSdkboxGooglePlayLua_GPGEventsWrapper(tolua_S);
+	lua_register_PluginSdkboxGooglePlayLua_GPGNearbyConnectionsWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGPlayerWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGSnapshotWrapper(tolua_S);
 	lua_register_PluginSdkboxGooglePlayLua_GPGWrapper(tolua_S);
