@@ -325,13 +325,13 @@ function gpg.CallbackManager:__nextIndex()
 end
 
 function gpg.CallbackManager:addCallbackById(id, callback)
-    if (self._callbacks[id] == nil) then
+    if self._callbacks[id] == nil then
         self._callbacks[id] = callback
     end
 end
 
 function gpg.CallbackManager:removeCallbackById(id)
-    if (self._callbacks[id] ~= nil) then
+    if self._callbacks[id] ~= nil then
         self._callbacks[id] = nil
     end
 end
@@ -344,7 +344,7 @@ end
 
 function gpg.CallbackManager:nativeNotify(id, str_json)
 
-    if (self._callbacks[id]) then
+    if self._callbacks[id] then
 
         local o = json.decode(str_json)
 
@@ -360,7 +360,7 @@ function gpg.CallbackManager:nativeNotify(id, str_json)
     end
 
     -- callbacks that are temporary one shot calls have to be removed.
-    if (id >= 1000) then
+    if id >= 1000 then
         self._callbacks[id] = nil
         __log("Removed " .. id)
     end
@@ -749,121 +749,137 @@ gpg.Realtime._room_info = {
     listener = nil
 }
 
-function gpg.Realtime.__setRoomInfo(room, listener)
+function gpg.Realtime:__setRoom(room)
+    gpg.Realtime._room_info.room = room
+end
 
-    local function __getDescriptor(room)
-        gpg.Realtime._room_info.room = room
-        return gpg.Realtime._room_info
+function gpg.Realtime:__dispatch(cb, ...)
+    if nil == cb then
+        __log("__dispatch callback is nil")
+        return
     end
-    
-    gpg.CallbackManager:addCallbackById(DefaultCallbacks.RTMP_ROOM_STATUS_CHANGED,
+    if type(cb) == 'function' then
+        cb(...)
+    else
+        local this = cb[1]
+        local func = cb[2]
+        func(this, ...)
+    end
+end
+
+function gpg.Realtime:__getDescriptor(room)
+    gpg.Realtime._room_info.room = room
+    return gpg.Realtime._room_info
+end
+
+function gpg.Realtime:__setListener(listener)
+
+    gpg.Realtime._room_info.listener = listener
+
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_ROOM_STATUS_CHANGED,
 
         function(room)
-
-            local descriptor = __getDescriptor(room)
-            if (descriptor.listener) then
-                descriptor.listener.onRoomStatusChanged(room)
+            local descriptor = gpg.Realtime:__getDescriptor(room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onRoomStatusChanged, room)
             end
         end)
 
-    gpg.CallbackManager:addCallbackById(DefaultCallbacks.RTMP_CONNECTED_SET_CHANGED,
-
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_CONNECTED_SET_CHANGED,
         function(room)
-
-            local descriptor = __getDescriptor(room)
-            if (descriptor.listener) then
-                descriptor.listener.onConnectedSetChanged(room)
+            local descriptor = gpg.Realtime:__getDescriptor(room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onConnectedSetChanged, room)
             end
         end)
 
-    gpg.CallbackManager:addCallbackById(DefaultCallbacks.RTMP_P2P_CONNECTED,
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_P2P_CONNECTED,
         function(result)
-
-            local descriptor = __getDescriptor(result.room)
-            if (descriptor.listener) then
-                descriptor.listener.onP2PConnected(result.room, result.participant)
+            local descriptor = gpg.Realtime:__getDescriptor(result.room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onP2PConnected, result.room, result.participant)
             end
         end)
 
-    gpg.CallbackManager:addCallbackById(DefaultCallbacks.RTMP_P2P_DISCONNECTED,
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_P2P_DISCONNECTED,
         function(result)
-
             local descriptor = __getDescriptor(result.room)
-            if (descriptor.listener) then
-                descriptor.listener.onP2PDisconnected(result.room, result.participant)
+            if descriptor.listener then
+                __dispatch(descriptor.listener.onP2PDisconnected, result.room, result.participant)
             end
         end)
 
-    gpg.CallbackManager:addCallbackById(DefaultCallbacks.RTMP_PARTICIPANT_STATUS_CHANGED,
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_PARTICIPANT_STATUS_CHANGED,
         function(result)
-
-            local descriptor = __getDescriptor(result.room)
-            if (descriptor.listener) then
-                descriptor.listener.onParticipantStatusChanged(result.room, result.participant)
+            __log("in gpg.DefaultCallbacks.RTMP_PARTICIPANT_STATUS_CHANGED")
+            local descriptor = gpg.Realtime:__getDescriptor(result.room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onParticipantStatusChanged, result.room, result.participant)
             end
         end)
 
-    gpg.CallbackManager:addCallbackById(DefaultCallbacks.RTMP_DATA_RECEIVED,
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_DATA_RECEIVED,
         function(result)
-            local descriptor = __getDescriptor(result.room)
-            if (descriptor.listener) then
-                descriptor.listener.onDataReceived(
+            local descriptor = gpg.Realtime:__getDescriptor(result.room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onDataReceived,
                     result.room,
                     result.participant,
                     result.data,
                     result.is_reliable)
             end
         end)
-    
 end
 
-function gpg.Realtime.CreateRealTimeRoom(params, listener, callback)
+function gpg.Realtime:CreateRealTimeRoom(params, listener, callback)
+    gpg.Realtime:__setListener(listener)
     sdkbox.GPGRealTimeMultiplayerWrapper:CreateRealTimeRoom(gpg.CallbackManager:addCallback(function(o)
-        if gpg.IsSuccess(o.result) then
-            gpg.Realtime.__setRoomInfo(o.room, listener)
-            callback(o)
+        if gpg:IsSuccess(o.result) then
+            gpg.Realtime:__setRoom(o.room)
         end
+        gpg.Realtime:__dispatch(callback, o)
     end), json.encode(params))
 end
 
-function gpg.Realtime.LeaveRoom(room_id, callback)
+function gpg.Realtime:LeaveRoom(room_id, callback)
     sdkbox.GPGRealTimeMultiplayerWrapper:LeaveRoom(gpg.CallbackManager:addCallback(callback), room_id)
 end
 
-function gpg.Realtime.ShowRoomInboxUI(callback)
+function gpg.Realtime:ShowRoomInboxUI(callback)
     sdkbox.GPGRealTimeMultiplayerWrapper:ShowRoomInboxUI(gpg.CallbackManager:addCallback(callback))
 end
 
-function gpg.Realtime.FetchInvitations(callback)
+function gpg.Realtime:FetchInvitations(callback)
     sdkbox.GPGRealTimeMultiplayerWrapper:FetchInvitations(gpg.CallbackManager:addCallback(callback))
 end
 
-function gpg.Realtime.AcceptInvitation(invitation_id, listener, callback)
+function gpg.Realtime:AcceptInvitation(invitation_id, listener, callback)
+    gpg.Realtime:__setListener(listener)
     sdkbox.GPGRealTimeMultiplayerWrapper:AcceptInvitation(gpg.CallbackManager:addCallback(function (o)
-        if gpg.IsSuccess(o.result) then
-            gpg.Realtime.__setRoomInfo(o.room, listener)
-            callback(o)
+        if gpg:IsSuccess(o.result) then
+            gpg.Realtime:__setRoom(o.room)
         end
+        gpg.Realtime:__dispatch(callback, o)
     end), invitation_id)
 end
 
-function gpg.Realtime.DeclineInvitation(invitation_id)
+function gpg.Realtime:DeclineInvitation(invitation_id)
     sdkbox.GPGRealTimeMultiplayerWrapper:DeclineInvitation(invitation_id)
 end
 
-function gpg.Realtime.DismissInvitation(invitation_id)
+function gpg.Realtime:DismissInvitation(invitation_id)
     sdkbox.GPGRealTimeMultiplayerWrapper:DismissInvitation(invitation_id)
 end
 
-function gpg.Realtime.SendReliableMessage(room_id, participant_id, data, callback)
+function gpg.Realtime:SendReliableMessage(room_id, participant_id, data, callback)
     sdkbox.GPGRealTimeMultiplayerWrapper:SendReliableMessage(gpg.CallbackManager:addCallback(callback), room_id, participant_id, data)
 end
 
-function gpg.Realtime.SendUnreliableMessageToOthers(room_id, data)
+function gpg.Realtime:SendUnreliableMessageToOthers(room_id, data)
     sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessageToOthers(room_id, data)
 end
 
-function gpg.Realtime.SendUnreliableMessage(json_str)
+function gpg.Realtime:SendUnreliableMessage(json_str)
     sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessage(json_str)
 end
 
