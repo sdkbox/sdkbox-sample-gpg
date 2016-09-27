@@ -10,7 +10,7 @@
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3B8633CF-8A7B-4D30-B945-7F1F31999801",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "7FFA4C9D6A5D7E1D85A2D9ACDBE9BFDD1D55EE4E" : "..\/..\/..",
-    "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8" : "sdkbox-sample-sdkboxgoogleplay\/"
+    "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8" : "sdkbox-sample-googleplay\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "sdkboxgoogleplay_lua",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
