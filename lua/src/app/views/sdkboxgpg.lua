@@ -8,20 +8,20 @@ require "cocos.cocos2d.functions"
 -- Constants
 --
 
-local P_DATA_SOURCE = 'data_source';
+local P_DATA_SOURCE = 'data_source'
 
-local P_SNP_CONFLICT_POLICY = 'conflict_policy';
-local P_SNP_TITLE = 'title';
-local P_SNP_FILE_NAME = 'filename';
-local P_SNP_DESCRIPTION = 'description';
-local P_SNP_PAGE_SIZE = 10;
+local P_SNP_CONFLICT_POLICY = 'conflict_policy'
+local P_SNP_TITLE = 'title'
+local P_SNP_FILE_NAME = 'filename'
+local P_SNP_DESCRIPTION = 'description'
+local P_SNP_PAGE_SIZE = 10
 
-local P_LDB_ORDER= 'order';
-local P_LDB_COLLECTION= 'collection';
-local P_LDB_START= 'start';
-local P_LDB_TIME_SPAN= 'time_span';
-local P_LDB_METADATA= 'metadata';
-local P_LDB_SCORE_PAGE_SIZE= 'max_items';
+local P_LDB_ORDER= 'order'
+local P_LDB_COLLECTION= 'collection'
+local P_LDB_START= 'start'
+local P_LDB_TIME_SPAN= 'time_span'
+local P_LDB_METADATA= 'metadata'
+local P_LDB_SCORE_PAGE_SIZE= 'max_items'
 
 function __log(message)
     print(message)
@@ -29,25 +29,25 @@ end
 
 function __dp(params, fields)
     if params == nil then
-        error('setting def params in undefined object.');
+        error('setting def params in undefined object.')
     end
     for i, f in ipairs(fields) do
-        __dp1(params, f);
+        __dp1(params, f)
     end
 end
 
 function __dp1(params, f)
-    function switch(n, ...)
+    local function switch(n, ...)
       for _,v in ipairs {...} do
         if v[1] == n or v[1] == nil then
           return v[2]()
         end
       end
     end
-    function case(n,f)
+    local function case(n,f)
       return {n,f}
     end
-    function default(f)
+    local function default(f)
       return {nil,f}
     end
     switch (f,
@@ -73,10 +73,10 @@ function __dp1(params, f)
             params[P_LDB_ORDER] = params[P_LDB_ORDER] or gpg.LeaderboardOrder.LARGER_IS_BETTER
         end),
         case (P_LDB_START, function()
-            params[P_LDB_START] = params[P_LDB_START] or gpg.LeaderboardStart.TOP_SCORES;
+            params[P_LDB_START] = params[P_LDB_START] or gpg.LeaderboardStart.TOP_SCORES
         end),
         case (P_LDB_TIME_SPAN, function()
-            params[P_LDB_TIME_SPAN] = params[P_LDB_TIME_SPAN] or gpg.LeaderboardTimeSpan.ALL_TIME;
+            params[P_LDB_TIME_SPAN] = params[P_LDB_TIME_SPAN] or gpg.LeaderboardTimeSpan.ALL_TIME
         end),
         case (P_LDB_METADATA, function()
             params[P_LDB_METADATA] = params[P_LDB_METADATA] or ''
@@ -84,7 +84,7 @@ function __dp1(params, f)
         case (P_LDB_SCORE_PAGE_SIZE, function()
             params[P_LDB_SCORE_PAGE_SIZE] = params[P_LDB_SCORE_PAGE_SIZE] or 10
         end)
-    )
+   )
 end
 
 local BaseStatus = {
@@ -128,9 +128,7 @@ local gpg = {
     Leaderboards = {},
     Snapshots = {},
     Realtime = {},
-    Turnbased = {
-        Builder = {}
-    },
+    Turnbased = {},
     NearbyConnections = {}
 }
 
@@ -322,48 +320,48 @@ end
 --
 
 function gpg.CallbackManager:__nextIndex()
-    i = self._id_index
+    local i = self._id_index
     self._id_index = i + 1
     return i
 end
 
 function gpg.CallbackManager:addCallbackById(id, callback)
-    if (self._callbacks[id] == nil) then
+    if self._callbacks[id] == nil then
         self._callbacks[id] = callback
     end
 end
 
 function gpg.CallbackManager:removeCallbackById(id)
-    if (self._callbacks[id] ~= nil) then
+    if self._callbacks[id] ~= nil then
         self._callbacks[id] = nil
     end
 end
 
 function gpg.CallbackManager:addCallback(callback)
-    index = self:__nextIndex()
+    local index = self:__nextIndex()
     self:addCallbackById(index, callback)
     return index
 end
 
 function gpg.CallbackManager:nativeNotify(id, str_json)
 
-    if (self._callbacks[id]) then
+    if self._callbacks[id] then
 
         local o = json.decode(str_json)
 
-        cb = self._callbacks[id]
+        local cb = self._callbacks[id]
         if type(cb) == 'function' then
             cb(o)
         else
-            this = cb[1]
-            func = cb[2]
+            local this = cb[1]
+            local func = cb[2]
             func(this, o)
         end
 
     end
 
     -- callbacks that are temporary one shot calls have to be removed.
-    if (id >= 1000) then
+    if id >= 1000 then
         self._callbacks[id] = nil
         __log("Removed " .. id)
     end
@@ -374,13 +372,13 @@ function fixUTF8(s, replacement)
     while p <= len do
         if     p == s:find("[%z\1-\127]", p) then p = p + 1
         elseif p == s:find("[\194-\223][\128-\191]", p) then p = p + 2
-        elseif p == s:find(       "\224[\160-\191][\128-\191]", p)
+        elseif p == s:find(      "\224[\160-\191][\128-\191]", p)
             or p == s:find("[\225-\236][\128-\191][\128-\191]", p)
-            or p == s:find(       "\237[\128-\159][\128-\191]", p)
+            or p == s:find(      "\237[\128-\159][\128-\191]", p)
             or p == s:find("[\238-\239][\128-\191][\128-\191]", p) then p = p + 3
-        elseif p == s:find(       "\240[\144-\191][\128-\191][\128-\191]", p)
+        elseif p == s:find(      "\240[\144-\191][\128-\191][\128-\191]", p)
             or p == s:find("[\241-\243][\128-\191][\128-\191][\128-\191]", p)
-            or p == s:find(       "\244[\128-\143][\128-\191][\128-\191]", p) then p = p + 4
+            or p == s:find(      "\244[\128-\143][\128-\191][\128-\191]", p) then p = p + 4
         else
             s = s:sub(1, p-1)..replacement..s:sub(p+1)
             table.insert(invalid, p)
@@ -389,7 +387,7 @@ function fixUTF8(s, replacement)
     return s, invalid
 end
 
-function cc.exports.__nativeNotify( id, str_json )
+function cc.exports.__nativeNotify(id, str_json)
     local json, invalid = fixUTF8(str_json, " ")
     gpg.CallbackManager:nativeNotify(id, json)
 end
@@ -528,7 +526,7 @@ function gpg.Leaderboards:Fetch(leaderboard_id, data_source, callback)
     local params = {
         data_source = data_source
     }
-    __dp(params, {P_DATA_SOURCE});
+    __dp(params, {P_DATA_SOURCE})
     sdkbox.GPGLeaderboardWrapper:Fetch(gpg.CallbackManager:addCallback(callback), leaderboard_id, data_source)
 end
 
@@ -536,7 +534,7 @@ function gpg.Leaderboards:FetchAll(data_source, callback)
     local params = {
         data_source = data_source
     }
-    __dp(params, {P_DATA_SOURCE});
+    __dp(params, {P_DATA_SOURCE})
     sdkbox.GPGLeaderboardWrapper:FetchAll(gpg.CallbackManager:addCallback(callback), data_source)
 end
 
@@ -562,7 +560,7 @@ function gpg.Leaderboards:FetchAllScoreSummaries(leaderboard_id, data_source, ca
     local params = {
         data_source = data_source
     }
-    __dp(params, {P_DATA_SOURCE});
+    __dp(params, {P_DATA_SOURCE})
     sdkbox.GPGLeaderboardWrapper:FetchAllScoreSummaries(gpg.CallbackManager:addCallback(callback), params.data_source, leaderboard_id)
 end
 
@@ -599,7 +597,7 @@ function gpg.Leaderboards:FetchScorePage(leaderboard_id, data_source, start, tim
         max_items = max_items
     }
     __dp(params, {P_DATA_SOURCE, P_LDB_START, P_LDB_TIME_SPAN, P_LDB_COLLECTION, P_LDB_SCORE_PAGE_SIZE})
-    sdkbox.GPGLeaderboardWrapper:FetchScorePage(gpg.CallbackManager:addCallback(callback), params.leaderboard_id, params.data_source, params.start, params.time_span, params.collection, params.max_items);
+    sdkbox.GPGLeaderboardWrapper:FetchScorePage(gpg.CallbackManager:addCallback(callback), params.leaderboard_id, params.data_source, params.start, params.time_span, params.collection, params.max_items)
 end
 
 function gpg.Leaderboards:FetchNextScorePage(data_source, max_items, callback)
@@ -608,7 +606,7 @@ function gpg.Leaderboards:FetchNextScorePage(data_source, max_items, callback)
         max_items = max_items
     }
     __dp(params, {P_DATA_SOURCE, P_LDB_SCORE_PAGE_SIZE})
-    sdkbox.GPGLeaderboardWrapper:FetchNextScorePage(gpg.CallbackManager:addCallback(callback), params.data_source, params.max_items);
+    sdkbox.GPGLeaderboardWrapper:FetchNextScorePage(gpg.CallbackManager:addCallback(callback), params.data_source, params.max_items)
 end
 
 function gpg.Leaderboards:FetchPreviousScorePage(data_source, max_items, callback)
@@ -617,7 +615,7 @@ function gpg.Leaderboards:FetchPreviousScorePage(data_source, max_items, callbac
         max_items = max_items
     }
     __dp(params, {P_DATA_SOURCE, P_LDB_SCORE_PAGE_SIZE})
-    sdkbox.GPGLeaderboardWrapper:FetchPreviousScorePage(gpg.CallbackManager:addCallback(callback), params.data_source, params.max_items);
+    sdkbox.GPGLeaderboardWrapper:FetchPreviousScorePage(gpg.CallbackManager:addCallback(callback), params.data_source, params.max_items)
 end
 
 --
@@ -744,8 +742,152 @@ function gpg.Turnbased:createParticipantResult(match_id, participant_id, placeme
 end
 
 --
+-- Realtime Multiplayer
+--
+
+gpg.Realtime._room_info = {
+    room     = nil,
+    listener = nil
+}
+
+function gpg.Realtime:__setRoom(room)
+    gpg.Realtime._room_info.room = room
+end
+
+function gpg.Realtime:__dispatch(cb, ...)
+    if nil == cb then
+        __log("__dispatch callback is nil")
+        return
+    end
+    if type(cb) == 'function' then
+        cb(...)
+    else
+        local this = cb[1]
+        local func = cb[2]
+        func(this, ...)
+    end
+end
+
+function gpg.Realtime:__getDescriptor(room)
+    gpg.Realtime._room_info.room = room
+    return gpg.Realtime._room_info
+end
+
+function gpg.Realtime:__setListener(listener)
+
+    gpg.Realtime._room_info.listener = listener
+
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_ROOM_STATUS_CHANGED,
+
+        function(room)
+            local descriptor = gpg.Realtime:__getDescriptor(room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onRoomStatusChanged, room)
+            end
+        end)
+
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_CONNECTED_SET_CHANGED,
+        function(room)
+            local descriptor = gpg.Realtime:__getDescriptor(room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onConnectedSetChanged, room)
+            end
+        end)
+
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_P2P_CONNECTED,
+        function(result)
+            local descriptor = gpg.Realtime:__getDescriptor(result.room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onP2PConnected, result.room, result.participant)
+            end
+        end)
+
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_P2P_DISCONNECTED,
+        function(result)
+            local descriptor = __getDescriptor(result.room)
+            if descriptor.listener then
+                __dispatch(descriptor.listener.onP2PDisconnected, result.room, result.participant)
+            end
+        end)
+
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_PARTICIPANT_STATUS_CHANGED,
+        function(result)
+            __log("in gpg.DefaultCallbacks.RTMP_PARTICIPANT_STATUS_CHANGED")
+            local descriptor = gpg.Realtime:__getDescriptor(result.room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onParticipantStatusChanged, result.room, result.participant)
+            end
+        end)
+
+    gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_DATA_RECEIVED,
+        function(result)
+            local descriptor = gpg.Realtime:__getDescriptor(result.room)
+            if descriptor.listener then
+                gpg.Realtime:__dispatch(descriptor.listener.onDataReceived,
+                    result.room,
+                    result.participant,
+                    result.data,
+                    result.is_reliable)
+            end
+        end)
+end
+
+function gpg.Realtime:CreateRealTimeRoom(params, listener, callback)
+    gpg.Realtime:__setListener(listener)
+    sdkbox.GPGRealTimeMultiplayerWrapper:CreateRealTimeRoom(gpg.CallbackManager:addCallback(function(o)
+        if gpg:IsSuccess(o.result) then
+            gpg.Realtime:__setRoom(o.room)
+        end
+        gpg.Realtime:__dispatch(callback, o)
+    end), json.encode(params))
+end
+
+function gpg.Realtime:LeaveRoom(room_id, callback)
+    sdkbox.GPGRealTimeMultiplayerWrapper:LeaveRoom(gpg.CallbackManager:addCallback(callback), room_id)
+end
+
+function gpg.Realtime:ShowRoomInboxUI(callback)
+    sdkbox.GPGRealTimeMultiplayerWrapper:ShowRoomInboxUI(gpg.CallbackManager:addCallback(callback))
+end
+
+function gpg.Realtime:FetchInvitations(callback)
+    sdkbox.GPGRealTimeMultiplayerWrapper:FetchInvitations(gpg.CallbackManager:addCallback(callback))
+end
+
+function gpg.Realtime:AcceptInvitation(invitation_id, listener, callback)
+    gpg.Realtime:__setListener(listener)
+    sdkbox.GPGRealTimeMultiplayerWrapper:AcceptInvitation(gpg.CallbackManager:addCallback(function (o)
+        if gpg:IsSuccess(o.result) then
+            gpg.Realtime:__setRoom(o.room)
+        end
+        gpg.Realtime:__dispatch(callback, o)
+    end), invitation_id)
+end
+
+function gpg.Realtime:DeclineInvitation(invitation_id)
+    sdkbox.GPGRealTimeMultiplayerWrapper:DeclineInvitation(invitation_id)
+end
+
+function gpg.Realtime:DismissInvitation(invitation_id)
+    sdkbox.GPGRealTimeMultiplayerWrapper:DismissInvitation(invitation_id)
+end
+
+function gpg.Realtime:SendReliableMessage(room_id, participant_id, data, callback)
+    sdkbox.GPGRealTimeMultiplayerWrapper:SendReliableMessage(gpg.CallbackManager:addCallback(callback), room_id, participant_id, data)
+end
+
+function gpg.Realtime:SendUnreliableMessageToOthers(room_id, data)
+    sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessageToOthers(room_id, data)
+end
+
+function gpg.Realtime:SendUnreliableMessage(json_str)
+    sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessage(json_str)
+end
+
+--
 -- Nearby Connection
 --
+
 function gpg.NearbyConnections:Init(str_json, callback)
     sdkbox.GPGNearbyConnectionsWrapper:Init(str_json, gpg.CallbackManager:addCallback(callback))
 end
@@ -804,6 +946,8 @@ function gpg.NearbyConnections:Stop()
     sdkbox.GPGNearbyConnectionsWrapper:Stop()
 end
 
-
+--
+-- end of API
+--
 
 return gpg
