@@ -37,9 +37,9 @@ function QuestScene:setupTestMenu()
         gpg.Quests:FetchList(function(o)
             if o.result == 1 then
                 q = o.data[1]
-                self._quest_id = q.Id
-                print("Setting quest id to " .. q.Id)
-                self._milestone_id = q.CurrentMilestone.Id
+                self._quest_id = q.id
+                print("Setting quest id to " .. q.id)
+                self._milestone_id = q.CurrentMilestone.id
                 log:d("Setting milestone id to " .. self._milestone_id)
             end
             log:d(log:to_str(o))

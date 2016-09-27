@@ -409,7 +409,7 @@ function gpg.Quests:ShowUI(quest_id, callback)
 end
 
 function gpg.Quests:FetchList(callback)
-    --sdkbox.GPGQuestsWrapper:FetchList(gpg.CallbackManager:addCallback(callback))
+    sdkbox.GPGQuestsWrapper:FetchList(gpg.CallbackManager:addCallback(callback))
 end
 
 function gpg.Quests:Accept(quest_id, callback)
