@@ -1,5 +1,3 @@
-#include "gpg/nearby_connections.h"
-
 #include "NearbyConnectionsScene.hpp"
 #include "Utils.h"
 
