@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SdkboxPlay</string>
+    <string name="app_name">GPG_CPP</string>
     <string name="google_app_id">777734739048</string>
     <string name="service_id">com.sdkbox.hugo.test.gpg.nearby</string>
 </resources>

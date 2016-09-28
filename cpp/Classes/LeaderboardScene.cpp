@@ -208,7 +208,7 @@ void LeaderboardScene::ldbSubmitScore(cocos2d::Ref *sender)
     if ( _game_services ) {
         // submit score has no result callback.
         _game_services->Leaderboards().SubmitScore("CgkI6KjppNEWEAIQAg", 15001);
-        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
+        _txtStat->setString( "Score submitted" );
     }
 }
 

@@ -110,7 +110,7 @@ void AchievementScene::achUnlock(cocos2d::Ref *sender)
 {
     if ( _game_services ) {
         _game_services->Achievements().Unlock( "CgkI6KjppNEWEAIQDg" );
-        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
+        _txtStat->setString( "Unlock achievement" );
     }
 }
 
@@ -118,7 +118,7 @@ void AchievementScene::achIncrement(cocos2d::Ref *sender)
 {
     if ( _game_services ) {
         _game_services->Achievements().Increment( "CgkI6KjppNEWEAIQDg", 2 );
-        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
+        _txtStat->setString( "Increment achievement by 2" );
     }
 }
 
@@ -126,7 +126,7 @@ void AchievementScene::achReveal(cocos2d::Ref *sender)
 {
     if ( _game_services ) {
         _game_services->Achievements().Increment( "CgkI6KjppNEWEAIQDg" );
-        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
+        _txtStat->setString( "Reveal achievement" );
     }
 }
 
@@ -134,6 +134,6 @@ void AchievementScene::achSetAtLeastSteps(cocos2d::Ref *sender)
 {
     if ( _game_services ) {
         _game_services->Achievements().SetStepsAtLeast( "CgkI6KjppNEWEAIQDg", 20 );
-        _txtStat->setString( "Call w/o callback. Check by fetch, or show ui." );
+        _txtStat->setString( "Set steps for achievement" );
     }
 }
