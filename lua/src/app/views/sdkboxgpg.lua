@@ -812,7 +812,6 @@ function gpg.Realtime:__setListener(listener)
 
     gpg.CallbackManager:addCallbackById(gpg.DefaultCallbacks.RTMP_PARTICIPANT_STATUS_CHANGED,
         function(result)
-            __log("in gpg.DefaultCallbacks.RTMP_PARTICIPANT_STATUS_CHANGED")
             local descriptor = gpg.Realtime:__getDescriptor(result.room)
             if descriptor.listener then
                 gpg.Realtime:__dispatch(descriptor.listener.onParticipantStatusChanged, result.room, result.participant)
@@ -876,12 +875,12 @@ function gpg.Realtime:SendReliableMessage(room_id, participant_id, data, callbac
     sdkbox.GPGRealTimeMultiplayerWrapper:SendReliableMessage(gpg.CallbackManager:addCallback(callback), room_id, participant_id, data)
 end
 
-function gpg.Realtime:SendUnreliableMessageToOthers(room_id, data)
-    sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessageToOthers(room_id, data)
-end
-
 function gpg.Realtime:SendUnreliableMessage(json_str)
     sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessage(json_str)
+end
+
+function gpg.Realtime:SendUnreliableMessageToOthers(room_id, data)
+    sdkbox.GPGRealTimeMultiplayerWrapper:SendUnreliableMessageToOthers(room_id, data)
 end
 
 --
