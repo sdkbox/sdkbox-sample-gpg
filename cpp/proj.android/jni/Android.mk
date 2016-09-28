@@ -21,7 +21,9 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/Utils.cpp \
 ../../Classes/json98.cpp \
 ../../Classes/PluginSdkboxGooglePlayCppHelper.cpp \
-../../Classes/NearbyConnectionsScene.cpp
+../../Classes/NearbyConnectionsScene.cpp \
+../../Classes/RealTimeMultiplayerScene.cpp \
+../../Classes/TurnBasedMultiplayerScene.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
 LOCAL_LDLIBS := -landroid \
