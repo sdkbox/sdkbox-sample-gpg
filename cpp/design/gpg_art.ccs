@@ -1,0 +1,13 @@
+<Solution>
+  <PropertyGroup Name="gpg_art" Version="3.10.0.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Image Name="btn_disabled.png" />
+        <Image Name="btn_green_down.png" />
+        <Image Name="btn_green_normal.png" />
+        <Project Name="quest_item.csd" Type="Node" />
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>

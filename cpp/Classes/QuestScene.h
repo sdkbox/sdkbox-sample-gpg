@@ -12,6 +12,10 @@ public:
     CREATE_FUNC(QuestScene);
 
 protected:
+    
+    std::vector<gpg::Quest> _questData;
+    
+    void updateQuests(const std::vector<gpg::Quest>& data);
 
     virtual void onPrevScene(cocos2d::Ref *sender) override;
 

@@ -41,7 +41,7 @@ bool QuestScene::init()
             MenuItemFont::create("Claim Milestone", CC_CALLBACK_1(QuestScene::ClaimMilestone, this)),
             nullptr
     );
-
+    
     menu->alignItemsVerticallyWithPadding(5);
     menu->setPosition(size.width/2, size.height/2 + 40);
     addChild(menu);
@@ -82,10 +82,20 @@ void QuestScene::FetchList(cocos2d::Ref *sender)
             [this](const gpg::QuestManager::FetchListResponse& response) {
                 if (IsSuccess(response.status)) {
                     this->_txtStat->setString( __printf("Fetch Quest list got %lu quests.", response.data.size() ) );
+                    this->updateQuests(response.data);
                 } else {
                     this->_txtStat->setString( __printf("Fetch Quest list error. code %d.", (int)response.status) );
                 }
             });
+}
+
+void QuestScene::updateQuests(const std::vector<gpg::Quest>& data)
+{
+    _questData = data;
+    for (auto it = _questData.begin(); it != _questData.end(); ++it)
+    {
+        
+    }
 }
 
 void QuestScene::Accept(cocos2d::Ref *sender)
