@@ -51,6 +51,9 @@
 		5977934E1D9075A600CCDD33 /* StateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793441D9075A600CCDD33 /* StateManager.cpp */; };
 		5977934F1D9075A600CCDD33 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793461D9075A600CCDD33 /* Utils.cpp */; };
 		597793521D90760000CCDD33 /* AchievementScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793501D90760000CCDD33 /* AchievementScene.cpp */; };
+		59E78F2F1D9C540800E39380 /* NearbyConnectionsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E78F291D9C540800E39380 /* NearbyConnectionsScene.cpp */; };
+		59E78F301D9C540800E39380 /* RealTimeMultiplayerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E78F2B1D9C540800E39380 /* RealTimeMultiplayerScene.cpp */; };
+		59E78F311D9C540800E39380 /* TurnBasedMultiplayerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E78F2D1D9C540800E39380 /* TurnBasedMultiplayerScene.cpp */; };
 		62F14B8C999BCF36037FACE6 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1122400199CC18360FC80E32 /* GameController.framework */; };
 		759F46CD98D89D436E005AB0 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49D94E7AA8DEB99F9111726A /* EventKitUI.framework */; };
 		80E24F7B91524232D61BA223 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC394683B8779E6D912A331F /* MediaPlayer.framework */; };
@@ -155,6 +158,12 @@
 		597793471D9075A600CCDD33 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		597793501D90760000CCDD33 /* AchievementScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AchievementScene.cpp; sourceTree = "<group>"; };
 		597793511D90760000CCDD33 /* AchievementScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementScene.h; sourceTree = "<group>"; };
+		59E78F291D9C540800E39380 /* NearbyConnectionsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NearbyConnectionsScene.cpp; sourceTree = "<group>"; };
+		59E78F2A1D9C540800E39380 /* NearbyConnectionsScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NearbyConnectionsScene.hpp; sourceTree = "<group>"; };
+		59E78F2B1D9C540800E39380 /* RealTimeMultiplayerScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RealTimeMultiplayerScene.cpp; sourceTree = "<group>"; };
+		59E78F2C1D9C540800E39380 /* RealTimeMultiplayerScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RealTimeMultiplayerScene.hpp; sourceTree = "<group>"; };
+		59E78F2D1D9C540800E39380 /* TurnBasedMultiplayerScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TurnBasedMultiplayerScene.cpp; sourceTree = "<group>"; };
+		59E78F2E1D9C540800E39380 /* TurnBasedMultiplayerScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TurnBasedMultiplayerScene.hpp; sourceTree = "<group>"; };
 		74B64601A42103298D3FFB62 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
 		782149BABFD0131F0A442BCA /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/EventKit.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -366,6 +375,12 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				59E78F291D9C540800E39380 /* NearbyConnectionsScene.cpp */,
+				59E78F2A1D9C540800E39380 /* NearbyConnectionsScene.hpp */,
+				59E78F2B1D9C540800E39380 /* RealTimeMultiplayerScene.cpp */,
+				59E78F2C1D9C540800E39380 /* RealTimeMultiplayerScene.hpp */,
+				59E78F2D1D9C540800E39380 /* TurnBasedMultiplayerScene.cpp */,
+				59E78F2E1D9C540800E39380 /* TurnBasedMultiplayerScene.hpp */,
 				597793501D90760000CCDD33 /* AchievementScene.cpp */,
 				597793511D90760000CCDD33 /* AchievementScene.h */,
 				597793391D9075A600CCDD33 /* json98.cpp */,
@@ -456,6 +471,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = LNN652W6T6;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "gpg_cpp" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -517,10 +537,12 @@
 			files = (
 				597793381D90759C00CCDD33 /* EventScene.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				59E78F311D9C540800E39380 /* TurnBasedMultiplayerScene.cpp in Sources */,
 				5977934A1D9075A600CCDD33 /* PlayerStatScene.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				5977934D1D9075A600CCDD33 /* SaveGameScene.cpp in Sources */,
 				597793371D90759C00CCDD33 /* BaseScene.cpp in Sources */,
+				59E78F301D9C540800E39380 /* RealTimeMultiplayerScene.cpp in Sources */,
 				597793491D9075A600CCDD33 /* LeaderboardScene.cpp in Sources */,
 				5977934C1D9075A600CCDD33 /* QuestScene.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
@@ -528,6 +550,7 @@
 				5977934B1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp in Sources */,
 				597793521D90760000CCDD33 /* AchievementScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				59E78F2F1D9C540800E39380 /* NearbyConnectionsScene.cpp in Sources */,
 				5977934F1D9075A600CCDD33 /* Utils.cpp in Sources */,
 				5977934E1D9075A600CCDD33 /* StateManager.cpp in Sources */,
 			);
@@ -542,7 +565,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = LNN652W6T6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -588,7 +611,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = LNN652W6T6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
