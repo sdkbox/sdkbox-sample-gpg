@@ -6,6 +6,8 @@
 #include "EventScene.h"
 #include "Utils.h"
 #include "PlayerStatScene.h"
+#include "cocostudio/CocoStudio.h"
+#include "ui/CocosGUI.h"
 
 using namespace cocos2d;
 
@@ -45,6 +47,12 @@ bool QuestScene::init()
     menu->alignItemsVerticallyWithPadding(5);
     menu->setPosition(size.width/2, size.height/2 + 40);
     addChild(menu);
+    
+    _questNode = Node::create();
+    _questNode->setPosition(size.width - 220, size.height/2 +40);
+    addChild(_questNode);
+    
+    _currQuestNodeY = 0;
 
     return true;
 }
@@ -94,7 +102,11 @@ void QuestScene::updateQuests(const std::vector<gpg::Quest>& data)
     _questData = data;
     for (auto it = _questData.begin(); it != _questData.end(); ++it)
     {
+        auto quest_item = CSLoader::createNode("quest_item.csb");
+        quest_item->setPosition(0, _currQuestNodeY);
+        _questNode->addChild(quest_item);
         
+        _currQuestNodeY += 40;
     }
 }
 

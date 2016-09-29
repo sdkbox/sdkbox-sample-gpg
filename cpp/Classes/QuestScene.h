@@ -13,7 +13,9 @@ public:
 
 protected:
     
+    int _currQuestNodeY;
     std::vector<gpg::Quest> _questData;
+    cocos2d::Node* _questNode;
     
     void updateQuests(const std::vector<gpg::Quest>& data);
 
