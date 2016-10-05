@@ -35,21 +35,17 @@ bool QuestScene::init()
     setTitle("Quest");
 
     Menu* menu = Menu::create(
-            MenuItemFont::create("Fetch", CC_CALLBACK_1(QuestScene::Fetch, this)),
-            MenuItemFont::create("Fetch List", CC_CALLBACK_1(QuestScene::FetchList, this)),
-            MenuItemFont::create("Show UI", CC_CALLBACK_1(QuestScene::ShowUI, this)),
-            MenuItemFont::create("Show All UI", CC_CALLBACK_1(QuestScene::ShowAllUI, this)),
-            MenuItemFont::create("Accept", CC_CALLBACK_1(QuestScene::Accept, this)),
-            MenuItemFont::create("Claim Milestone", CC_CALLBACK_1(QuestScene::ClaimMilestone, this)),
+            MenuItemFont::create("Fetch Quests", CC_CALLBACK_1(QuestScene::FetchList, this)),
+            MenuItemFont::create("Show UI", CC_CALLBACK_1(QuestScene::ShowAllUI, this)),
             nullptr
     );
     
     menu->alignItemsVerticallyWithPadding(5);
-    menu->setPosition(size.width/2, size.height/2 + 40);
+    menu->setPosition(size.width/2 - 220, size.height/2 + 40);
     addChild(menu);
     
     _questNode = Node::create();
-    _questNode->setPosition(size.width - 220, size.height/2 +40);
+    _questNode->setPosition(size.width - 420, size.height/2 +40);
     addChild(_questNode);
     
     _currQuestNodeY = 0;
@@ -67,22 +63,6 @@ void QuestScene::onNextScene(cocos2d::Ref *sender)
     Director::getInstance()->replaceScene(PlayerStatScene::createScene());
 }
 
-
-void QuestScene::Fetch(cocos2d::Ref *sender)
-{
-    _game_services->Quests().Fetch(
-            gpg::DataSource::CACHE_OR_NETWORK,
-            "<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ",
-            [this](const gpg::QuestManager::FetchResponse& response)
-            {
-                if ( gpg::IsSuccess( response.status ) ) {
-                    this->_txtStat->setString( __printf("Fetch Quest success. Name: %s", response.data.Name().c_str()) );
-                } else {
-                    this->_txtStat->setString( __printf("Fetch Quest error code %d.", (int)response.status) );
-                }
-            });
-}
-
 void QuestScene::FetchList(cocos2d::Ref *sender)
 {
     _game_services->Quests().FetchList(
@@ -97,24 +77,93 @@ void QuestScene::FetchList(cocos2d::Ref *sender)
             });
 }
 
+void QuestScene::ShowAllUI(cocos2d::Ref *sender)
+{
+    _game_services->Quests().ShowAllUI(
+                                       [this](const gpg::QuestManager::QuestUIResponse& response)  {
+                                       });
+}
+
 void QuestScene::updateQuests(const std::vector<gpg::Quest>& data)
 {
-    _questData = data;
-    for (auto it = _questData.begin(); it != _questData.end(); ++it)
-    {
-        auto quest_item = CSLoader::createNode("quest_item.csb");
-        quest_item->setPosition(0, _currQuestNodeY);
-        _questNode->addChild(quest_item);
+    Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
+        _questData = data;
         
-        _currQuestNodeY += 40;
-    }
+        for (int i = 0; i < _questData.size(); ++i)
+        {
+            auto it = _questData[i];
+            auto lbl_name = Label::create( it.Name(), "", 20);
+            lbl_name->setPosition(0, _currQuestNodeY);
+            lbl_name->setTag(i);
+            _questNode->addChild(lbl_name);
+            
+            auto btn_fetch = ui::Button::create("btn_green_normal.png");
+            btn_fetch->setTitleText("Fetch");
+            btn_fetch->setPosition(Vec2(80, _currQuestNodeY));
+            btn_fetch->setTag(i);
+            btn_fetch->addClickEventListener([=](Ref* sender){
+                this->Fetch(sender);
+            });
+            _questNode->addChild(btn_fetch);
+            
+            auto btn_view = ui::Button::create("btn_green_normal.png");
+            btn_view->setTitleText("View");
+            btn_view->setPosition(Vec2(140, _currQuestNodeY));
+            btn_view->setTag(i);
+            btn_view->addClickEventListener([=](Ref* sender){
+                this->ShowUI(sender);
+            });
+            _questNode->addChild(btn_view);
+            
+            auto btn_accept = ui::Button::create("btn_green_normal.png");
+            btn_accept->setTitleText("Accept");
+            btn_accept->setPosition(Vec2(200, _currQuestNodeY));
+            btn_accept->setTag(i);
+            btn_accept->addClickEventListener([=](Ref* sender){
+                this->Accept(sender);
+            });
+            _questNode->addChild(btn_accept);
+            
+            auto btn_claim =  ui::Button::create("btn_green_normal.png");
+            btn_claim->setTitleText("Claim");
+            btn_claim->setPosition(Vec2(260, _currQuestNodeY));
+            btn_claim->setTag(i);
+            btn_claim->addClickEventListener([=](Ref* sender){
+                this->ClaimMilestone(sender);
+            });
+            _questNode->addChild(btn_claim);
+            
+            _currQuestNodeY += 60;
+        }
+    });
+}
+
+void QuestScene::Fetch(cocos2d::Ref *sender)
+{
+    auto btn = (ui::Button*)sender;
+    auto data = _questData[btn->getTag()];
+    
+    _game_services->Quests().Fetch(
+                                   gpg::DataSource::CACHE_OR_NETWORK,
+                                   data.Id(),
+                                   [this](const gpg::QuestManager::FetchResponse& response)
+                                   {
+                                       if ( gpg::IsSuccess( response.status ) ) {
+                                           this->_txtStat->setString( __printf("Fetch Quest success. Name: %s", response.data.Name().c_str()) );
+                                       } else {
+                                           this->_txtStat->setString( __printf("Fetch Quest error code %d.", (int)response.status) );
+                                       }
+                                   });
 }
 
 void QuestScene::Accept(cocos2d::Ref *sender)
 {
+    auto btn = (ui::Button*)sender;
+    auto data = _questData[btn->getTag()];
+    
     _game_services->Quests().Fetch(
             gpg::DataSource::CACHE_OR_NETWORK,
-            "<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ",
+            data.Id(),
             [this](const gpg::QuestManager::FetchResponse& response) {
 
                 if ( gpg::IsSuccess( response.status ) ) {
@@ -136,9 +185,12 @@ void QuestScene::Accept(cocos2d::Ref *sender)
 
 void QuestScene::ClaimMilestone(cocos2d::Ref *sender)
 {
+    auto btn = (ui::Button*)sender;
+    auto data = _questData[btn->getTag()];
+    
     _game_services->Quests().Fetch(
             gpg::DataSource::CACHE_OR_NETWORK,
-            "<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ",
+            data.Id(),
             [this](const gpg::QuestManager::FetchResponse& response) {
 
                 if ( IsSuccess(response.status) ) {
@@ -164,18 +216,15 @@ void QuestScene::ClaimMilestone(cocos2d::Ref *sender)
             });
 }
 
-void QuestScene::ShowAllUI(cocos2d::Ref *sender)
-{
-    _game_services->Quests().ShowAllUI(
-            [this](const gpg::QuestManager::QuestUIResponse& response)  {
-            });
-}
 
 void QuestScene::ShowUI(cocos2d::Ref *sender)
 {
+    auto btn = (ui::Button*)sender;
+    auto data = _questData[btn->getTag()];
+    
     _game_services->Quests().Fetch(
             gpg::DataSource::CACHE_OR_NETWORK,
-            "<CgkI4PT5o5sDEAESDQoJCOio6aTRFhACEA0YAQ",
+            data.Id(),
             [this](const gpg::QuestManager::FetchResponse& response) {
 
                 if ( IsSuccess(response.status) ) {

@@ -14,7 +14,7 @@
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition />
             <PreSize X="0.0000" Y="0.0000" />
-            <TextColor A="255" R="255" G="0" B="0" />
+            <TextColor A="255" R="165" G="42" B="42" />
             <DisabledFileData Type="Normal" Path="btn_disabled.png" Plist="" />
             <PressedFileData Type="Normal" Path="btn_green_down.png" Plist="" />
             <NormalFileData Type="Normal" Path="btn_green_normal.png" Plist="" />
@@ -40,7 +40,7 @@
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition />
             <PreSize X="0.0000" Y="0.0000" />
-            <TextColor A="255" R="255" G="0" B="0" />
+            <TextColor A="255" R="165" G="42" B="42" />
             <DisabledFileData Type="Normal" Path="btn_disabled.png" Plist="" />
             <PressedFileData Type="Normal" Path="btn_green_down.png" Plist="" />
             <NormalFileData Type="Normal" Path="btn_green_normal.png" Plist="" />
@@ -55,7 +55,7 @@
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition />
             <PreSize X="0.0000" Y="0.0000" />
-            <TextColor A="255" R="255" G="0" B="0" />
+            <TextColor A="255" R="165" G="42" B="42" />
             <DisabledFileData Type="Normal" Path="btn_disabled.png" Plist="" />
             <PressedFileData Type="Normal" Path="btn_green_down.png" Plist="" />
             <NormalFileData Type="Normal" Path="btn_green_normal.png" Plist="" />
@@ -70,7 +70,7 @@
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition />
             <PreSize X="0.0000" Y="0.0000" />
-            <TextColor A="255" R="255" G="0" B="0" />
+            <TextColor A="255" R="165" G="42" B="42" />
             <DisabledFileData Type="Normal" Path="btn_disabled.png" Plist="" />
             <PressedFileData Type="Normal" Path="btn_green_down.png" Plist="" />
             <NormalFileData Type="Normal" Path="btn_green_normal.png" Plist="" />
