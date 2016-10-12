@@ -12,8 +12,6 @@ LOCAL_SRC_FILES := hellojavascript/main.cpp \
 ../../Classes/AppDelegate.cpp \
 ../../Classes/ide-support/SimpleConfigParser.cpp \
 ../../Classes/ide-support/RuntimeJsImpl.cpp \
-../../Classes/PluginSdkboxGooglePlayJS.cpp \
-../../Classes/PluginSdkboxGooglePlayJSHelper.cpp \
 ../../Classes/SDKBoxJSHelper.cpp \
 ../../Classes/PluginGPGJS.cpp \
 ../../Classes/PluginGPGJSHelper.cpp
@@ -28,7 +26,6 @@ $(LOCAL_PATH)/..
 
 LOCAL_WHOLE_STATIC_LIBRARIES := PluginSdkboxPlay \
 sdkbox \
-PluginSdkboxGooglePlay \
 gpg-1 \
 PluginGPG
 
@@ -41,6 +38,5 @@ $(call import-add-path, $(LOCAL_PATH))
 $(call import-module,scripting/js-bindings/proj.android/prebuilt-mk)
 $(call import-module,tools/simulator/libsimulator/proj.android/prebuilt-mk)
 $(call import-module, ./sdkbox)
-$(call import-module, ./PluginSdkboxGooglePlay)
 $(call import-module, ./gpg)
 $(call import-module, ./plugingpg)
