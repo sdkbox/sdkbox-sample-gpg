@@ -12,8 +12,8 @@
 #include "js_module_register.h"
 #endif
 #ifdef SDKBOX_ENABLED
-#include "PluginSdkboxGooglePlayJS.hpp"
-#include "PluginSdkboxGooglePlayJSHelper.h"
+#include "PluginGPGJS.hpp"
+#include "PluginGPGJSHelper.h"
 #endif
 
 USING_NS_CC;
@@ -75,8 +75,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     js_module_register();
     ScriptingCore* sc = ScriptingCore::getInstance();
 #ifdef SDKBOX_ENABLED
-    sc->addRegisterCallback(register_all_PluginSdkboxGooglePlayJS);
-    sc->addRegisterCallback(register_all_PluginSdkboxGooglePlayJS_helper);
+    sc->addRegisterCallback(register_all_PluginGPGJS);
+    sc->addRegisterCallback(register_all_PluginGPGJS_helper);
 #endif
         
     sc->start();
