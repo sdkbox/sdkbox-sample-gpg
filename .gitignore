@@ -7,6 +7,7 @@ backup-*-*-*.zip
 
 .DS_Store
 *.swp
+.d
 
 gpg-cpp-sdk.*.zip
 gpg.framework/

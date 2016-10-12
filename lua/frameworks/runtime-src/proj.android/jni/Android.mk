@@ -11,20 +11,19 @@ LOCAL_SRC_FILES := ../../Classes/AppDelegate.cpp \
 ../../Classes/ide-support/RuntimeLuaImpl.cpp \
 ../../Classes/ide-support/lua_debugger.c \
 hellolua/main.cpp \
-../../Classes/PluginSdkboxGooglePlayLua.cpp \
-../../Classes/PluginSdkboxGooglePlayLuaHelper.cpp \
 ../../Classes/SnapshotMetadataLuaHelper.cpp \
-../../Classes/SDKBoxLuaHelper.cpp
+../../Classes/SDKBoxLuaHelper.cpp \
+../../Classes/PluginGPGLua.cpp \
+../../Classes/PluginGPGLuaHelper.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
 LOCAL_LDLIBS := -landroid \
 -llog
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
-
-LOCAL_WHOLE_STATIC_LIBRARIES := PluginSdkboxGooglePlay \
-sdkbox \
-gpg-1
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
+LOCAL_WHOLE_STATIC_LIBRARIES := sdkbox \
+gpg-1 \
+PluginGPG
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END
@@ -41,8 +40,8 @@ $(call import-add-path,$(LOCAL_PATH))
 $(call import-module,scripting/lua-bindings/proj.android/prebuilt-mk)
 $(call import-module,tools/simulator/libsimulator/proj.android/prebuilt-mk)
 $(call import-module, ./sdkbox)
-$(call import-module, ./PluginSdkboxGooglePlay)
 $(call import-module, ./gpg)
+$(call import-module, ./plugingpg)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
 # _COCOS_LIB_IMPORT_ANDROID_END

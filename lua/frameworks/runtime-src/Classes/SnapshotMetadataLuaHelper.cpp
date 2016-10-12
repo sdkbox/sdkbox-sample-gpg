@@ -1,6 +1,6 @@
 #include "SnapshotMetadataLuaHelper.h"
-#include "PluginSdkboxGooglePlay/PluginSdkboxGooglePlay.h"
-#include "PluginSdkboxGooglePlay/SnapshotManager.h"
+#include "PluginGPG/PluginGPG.h"
+#include "PluginGPG/SnapshotManager.h"
 #include "SDKBoxLuaHelper.h"
 
 //int lua_PluginSdkboxGooglePlayLua_SnapshotMetadata_operator=(lua_State* tolua_S)

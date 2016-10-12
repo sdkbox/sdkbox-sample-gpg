@@ -11,8 +11,8 @@
 #include "3d/lua_cocos2dx_3d_manual.h"
 #include "audioengine/lua_cocos2dx_audioengine_manual.h"
 #ifdef SDKBOX_ENABLED
-#include "PluginSdkboxGooglePlayLua.hpp"
-#include "PluginSdkboxGooglePlayLuaHelper.h"
+#include "PluginGPGLua.hpp"
+#include "PluginGPGLuaHelper.h"
 #endif
 #include "physics3d/lua_cocos2dx_physics3d_manual.h"
 #include "navmesh/lua_cocos2dx_navmesh_manual.h"
@@ -30,8 +30,8 @@ static int lua_module_register(lua_State* L)
     register_cocos3d_module(L);
     register_audioengine_module(L);
 #ifdef SDKBOX_ENABLED
-    register_all_PluginSdkboxGooglePlayLua(L);
-    //register_all_PluginSdkboxGooglePlayLua_helper(L);
+    register_all_PluginGPGLua(L);
+    register_all_PluginGPGLua_helper(L);
 #endif
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
     register_physics3d_module(L);

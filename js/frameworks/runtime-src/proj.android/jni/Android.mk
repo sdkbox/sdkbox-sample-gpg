@@ -24,8 +24,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
 ./gpg/include/ \
 $(LOCAL_PATH)/..
 
-LOCAL_WHOLE_STATIC_LIBRARIES := PluginSdkboxPlay \
-sdkbox \
+LOCAL_WHOLE_STATIC_LIBRARIES := sdkbox \
 gpg-1 \
 PluginGPG
 

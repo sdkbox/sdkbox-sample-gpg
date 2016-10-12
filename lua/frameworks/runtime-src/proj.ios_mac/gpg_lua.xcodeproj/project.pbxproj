@@ -41,17 +41,17 @@
 		521A8E7019F0C3D200D177D7 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6E19F0C3D200D177D7 /* Default-667h@2x.png */; };
 		521A8E7119F0C3D200D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6F19F0C3D200D177D7 /* Default-736h@3x.png */; };
 		56F841DA8866CC8413832AB3 /* GoogleAuthUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 293048C28D1AD6B2C3248B08 /* GoogleAuthUtilities.framework */; };
-		5B5F460187444526D064D463 /* PluginSdkboxGooglePlayLua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6474EAFB6B6C2519C56E346 /* PluginSdkboxGooglePlayLua.cpp */; };
 		5CF44AA38A00C9F59E39D879 /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55AA4481BDB4DD681262F849 /* libcocos2d iOS.a */; };
 		616B4EE29B34B7FC38C03714 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A34595B0D126ED3C928A65 /* SafariServices.framework */; };
 		653844229B75043E1EC5F401 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2F456F8F3532FC418A64E4 /* GooglePlus.framework */; };
-		754F4F0590F12BEF004A1333 /* PluginSdkboxGooglePlayLuaHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 570F421DA2F7B74D819BE188 /* PluginSdkboxGooglePlayLuaHelper.cpp */; };
+		7625478F8D7F72D0E6799357 /* Plugingpg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E124589B6323B9D1875A63A /* Plugingpg.framework */; };
 		7BE848DC932F720C26152D34 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0D4885B54419BE9267FE93 /* GameController.framework */; };
 		7FB2473699145FA612C7875B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CD34871B4AACD37EA2E3A78 /* CoreData.framework */; };
 		8375426783FF30F4FAA65A04 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F79C418281DFA06B42B6D51B /* GoogleOpenSource.framework */; };
 		843C438E99DD3E6FC5F2670F /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D6C46FB893FF99722CF385D /* AdSupport.framework */; };
 		93AF43C1AED4733E742A8262 /* SnapshotMetadataLuaHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAF94728A3958ECD7F90E2F6 /* SnapshotMetadataLuaHelper.cpp */; };
 		94A74A7A9DCEC2A6F99971FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E54E5E87C84B7121BC5931 /* SystemConfiguration.framework */; };
+		95E249D1AB488BD96CF751D9 /* PluginGPGLua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E85F4C8F998B8ACEF02B6743 /* PluginGPGLua.cpp */; };
 		9FA3AE4E1BE9BCC900FC9645 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA3AE4D1BE9BCC900FC9645 /* CFNetwork.framework */; };
 		9FC760451A677A4A00D1E6E7 /* SimpleConfigParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FC760411A67791200D1E6E7 /* SimpleConfigParser.cpp */; };
 		9FFE009F1ACCF59E00D6E35A /* lua_debugger.c in Sources */ = {isa = PBXBuildFile; fileRef = 9FFE009B1ACCF59E00D6E35A /* lua_debugger.c */; };
@@ -59,13 +59,13 @@
 		A66744168B77A7842FE5307A /* sdkbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 541247E29554D1E57DD8D814 /* sdkbox.framework */; };
 		A8AB43E3B9622CFF833D43CD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C3B42DEB8F56FF3EDE6004A /* StoreKit.framework */; };
 		B38E49F8934C0AF3DD407E7D /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F354244A829D2957EB15A57 /* libc++.dylib */; };
-		B69A4ACCAEEA86F7478FD8CA /* PluginSdkboxGooglePlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C20B49928B8866C991440BCA /* PluginSdkboxGooglePlay.framework */; };
 		BB314B73BACC1896D21CECC3 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5C4B7083AA4E9B856BB896 /* AssetsLibrary.framework */; };
 		C03781B918BF655400FE4F13 /* res in Resources */ = {isa = PBXBuildFile; fileRef = C03781B718BF655400FE4F13 /* res */; };
 		C03781BB18BF655400FE4F13 /* src in Resources */ = {isa = PBXBuildFile; fileRef = C03781B818BF655400FE4F13 /* src */; };
 		C05D1C121923449100B808A4 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = C05D1C111923449100B808A4 /* config.json */; };
 		CA5A4879BA0D82B9B6D398CD /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 972A47098BAD69ECC4A2C03E /* GooglePlus.bundle */; };
 		D0FBD4FF1D64F31B000079E1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FBD4FE1D64F31B000079E1 /* GoogleService-Info.plist */; };
+		D3D04F3B805DE71B9B96E8FD /* PluginGPGLuaHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 963A44389DA6502D8348E16D /* PluginGPGLuaHelper.cpp */; };
 		D6B061351803AC000077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B061341803AC000077942B /* CoreMotion.framework */; };
 		DBD04575876BFD0A2C27216F /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F1346DC901005C6CF1332B2 /* GoogleSignIn.bundle */; };
 		DC754250BA068F40BB14EB94 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9784A999E831D813EE58B68 /* CoreLocation.framework */; };
@@ -90,11 +90,13 @@
 		0BDA4B46B9FE4405D35BD1A9 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		0D6C46FB893FF99722CF385D /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
 		0F1346DC901005C6CF1332B2 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = SOURCE_ROOT; };
+		10E249FB8F51F8A7D59672EA /* PluginGPGLuaHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginGPGLuaHelper.h; path = ../Classes/PluginGPGLuaHelper.h; sourceTree = SOURCE_ROOT; };
 		15427CE2198F237300DC375D /* lua_module_register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lua_module_register.h; path = ../Classes/lua_module_register.h; sourceTree = "<group>"; };
 		15A8A4871834C90E00142BE0 /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
 		15C1568D1683131500D239F2 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = "../../cocos2d-x/cocos2dx/platform/third_party/ios/libraries/libcurl.a"; sourceTree = "<group>"; };
 		1AF4C402178663F200122817 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		293048C28D1AD6B2C3248B08 /* GoogleAuthUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAuthUtilities.framework; sourceTree = SOURCE_ROOT; };
+		2E124589B6323B9D1875A63A /* Plugingpg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plugingpg.framework; sourceTree = SOURCE_ROOT; };
 		37A34595B0D126ED3C928A65 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SafariServices.framework; sourceTree = DEVELOPER_DIR; };
 		3EEEDB60197107C0006A9FF8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
 		3F87435E828971DB23FD51E3 /* gpg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = gpg.bundle; sourceTree = SOURCE_ROOT; };
@@ -132,16 +134,16 @@
 		521A8E6F19F0C3D200D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		541247E29554D1E57DD8D814 /* sdkbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = sdkbox.framework; sourceTree = SOURCE_ROOT; };
 		55AA4481BDB4DD681262F849 /* libcocos2d iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcocos2d iOS.a"; path = "$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libcocos2d iOS.a"; sourceTree = "<absolute>"; };
-		570F421DA2F7B74D819BE188 /* PluginSdkboxGooglePlayLuaHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginSdkboxGooglePlayLuaHelper.cpp; path = ../Classes/PluginSdkboxGooglePlayLuaHelper.cpp; sourceTree = SOURCE_ROOT; };
-		66FA4DFA86904F8D7FB8A31A /* PluginSdkboxGooglePlayLuaHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginSdkboxGooglePlayLuaHelper.h; path = ../Classes/PluginSdkboxGooglePlayLuaHelper.h; sourceTree = SOURCE_ROOT; };
 		6CD34871B4AACD37EA2E3A78 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		6E0D4885B54419BE9267FE93 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		6F354244A829D2957EB15A57 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libc++.dylib"; sourceTree = DEVELOPER_DIR; };
 		6FB64172AED067A9FC5584CE /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AddressBook.framework; sourceTree = DEVELOPER_DIR; };
+		7390408FB61447A9C15120D7 /* PluginGPGLua.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginGPGLua.hpp; path = ../Classes/PluginGPGLua.hpp; sourceTree = SOURCE_ROOT; };
 		74504302983F5C5C58C8380A /* libluacocos2d iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libluacocos2d iOS.a"; path = "$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libluacocos2d iOS.a"; sourceTree = "<absolute>"; };
 		7DCD408A927A1C14EA0566C5 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = SOURCE_ROOT; };
 		89E54E5E87C84B7121BC5931 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		8C3B42DEB8F56FF3EDE6004A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		963A44389DA6502D8348E16D /* PluginGPGLuaHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginGPGLuaHelper.cpp; path = ../Classes/PluginGPGLuaHelper.cpp; sourceTree = SOURCE_ROOT; };
 		972A47098BAD69ECC4A2C03E /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GooglePlus.bundle; sourceTree = SOURCE_ROOT; };
 		9FA3AE4D1BE9BCC900FC9645 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		9FC7603F1A67791200D1E6E7 /* CodeIDESupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeIDESupport.h; sourceTree = "<group>"; };
@@ -153,16 +155,13 @@
 		9FFE009D1ACCF59E00D6E35A /* RuntimeLuaImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RuntimeLuaImpl.cpp; sourceTree = "<group>"; };
 		9FFE009E1ACCF59E00D6E35A /* RuntimeLuaImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RuntimeLuaImpl.h; sourceTree = "<group>"; };
 		AEB345AC8EE0F13219D87320 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = SOURCE_ROOT; };
-		B50640979E0B2B974FC9840A /* PluginSdkboxGooglePlayLua.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginSdkboxGooglePlayLua.hpp; path = ../Classes/PluginSdkboxGooglePlayLua.hpp; sourceTree = SOURCE_ROOT; };
 		B9784A999E831D813EE58B68 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		BD5C4B7083AA4E9B856BB896 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AssetsLibrary.framework; sourceTree = DEVELOPER_DIR; };
 		BF1D424D944DE5DDFCBCB0F6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		C03781B718BF655400FE4F13 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = ../../../res; sourceTree = "<group>"; };
 		C03781B818BF655400FE4F13 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../../src; sourceTree = "<group>"; };
 		C05D1C111923449100B808A4 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = config.json; path = ../../../config.json; sourceTree = "<group>"; };
-		C20B49928B8866C991440BCA /* PluginSdkboxGooglePlay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PluginSdkboxGooglePlay.framework; sourceTree = SOURCE_ROOT; };
 		C39F4EA6B9087FA84FAC007D /* libsimulator iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsimulator iOS.a"; path = "$(SRCROOT)/../../../../../sdkbox-cocos2d-x-binary/prebuilt/ios/libsimulator iOS.a"; sourceTree = "<absolute>"; };
-		C6474EAFB6B6C2519C56E346 /* PluginSdkboxGooglePlayLua.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginSdkboxGooglePlayLua.cpp; path = ../Classes/PluginSdkboxGooglePlayLua.cpp; sourceTree = SOURCE_ROOT; };
 		CA2F456F8F3532FC418A64E4 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlus.framework; sourceTree = SOURCE_ROOT; };
 		D045964C1D90499200FF52B2 /* sdkboxgoogleplay_lua-mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "sdkboxgoogleplay_lua-mobile.entitlements"; sourceTree = "<group>"; };
 		D0FBD4FE1D64F31B000079E1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -170,6 +169,7 @@
 		D6B061341803AC000077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		DA9E7D871AB1ABCC004B27C8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E8274331B03CC4516BABB516 /* SDKBoxLuaHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SDKBoxLuaHelper.cpp; path = ../Classes/SDKBoxLuaHelper.cpp; sourceTree = SOURCE_ROOT; };
+		E85F4C8F998B8ACEF02B6743 /* PluginGPGLua.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginGPGLua.cpp; path = ../Classes/PluginGPGLua.cpp; sourceTree = SOURCE_ROOT; };
 		E86D4D1688FA6DA6BAB2977B /* SDKBoxLuaHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDKBoxLuaHelper.h; path = ../Classes/SDKBoxLuaHelper.h; sourceTree = SOURCE_ROOT; };
 		EAF94728A3958ECD7F90E2F6 /* SnapshotMetadataLuaHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SnapshotMetadataLuaHelper.cpp; path = ../Classes/SnapshotMetadataLuaHelper.cpp; sourceTree = SOURCE_ROOT; };
 		ED545A881B68A23E00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
@@ -215,7 +215,6 @@
 				94A74A7A9DCEC2A6F99971FF /* SystemConfiguration.framework in Frameworks */,
 				843C438E99DD3E6FC5F2670F /* AdSupport.framework in Frameworks */,
 				A8AB43E3B9622CFF833D43CD /* StoreKit.framework in Frameworks */,
-				B69A4ACCAEEA86F7478FD8CA /* PluginSdkboxGooglePlay.framework in Frameworks */,
 				A66744168B77A7842FE5307A /* sdkbox.framework in Frameworks */,
 				653844229B75043E1EC5F401 /* GooglePlus.framework in Frameworks */,
 				FA6246A793C07161009F5716 /* GoogleUtilities.framework in Frameworks */,
@@ -235,6 +234,7 @@
 				7BE848DC932F720C26152D34 /* GameController.framework in Frameworks */,
 				616B4EE29B34B7FC38C03714 /* SafariServices.framework in Frameworks */,
 				B38E49F8934C0AF3DD407E7D /* libc++.dylib in Frameworks */,
+				7625478F8D7F72D0E6799357 /* Plugingpg.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,7 +358,6 @@
 				89E54E5E87C84B7121BC5931 /* SystemConfiguration.framework */,
 				0D6C46FB893FF99722CF385D /* AdSupport.framework */,
 				8C3B42DEB8F56FF3EDE6004A /* StoreKit.framework */,
-				C20B49928B8866C991440BCA /* PluginSdkboxGooglePlay.framework */,
 				541247E29554D1E57DD8D814 /* sdkbox.framework */,
 				CA2F456F8F3532FC418A64E4 /* GooglePlus.framework */,
 				7DCD408A927A1C14EA0566C5 /* GoogleUtilities.framework */,
@@ -381,6 +380,7 @@
 				6E0D4885B54419BE9267FE93 /* GameController.framework */,
 				37A34595B0D126ED3C928A65 /* SafariServices.framework */,
 				6F354244A829D2957EB15A57 /* libc++.dylib */,
+				2E124589B6323B9D1875A63A /* Plugingpg.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -392,14 +392,14 @@
 				15427CE2198F237300DC375D /* lua_module_register.h */,
 				F293BB7E15EB831F00256477 /* AppDelegate.cpp */,
 				F293BB7F15EB831F00256477 /* AppDelegate.h */,
-				B50640979E0B2B974FC9840A /* PluginSdkboxGooglePlayLua.hpp */,
-				C6474EAFB6B6C2519C56E346 /* PluginSdkboxGooglePlayLua.cpp */,
-				66FA4DFA86904F8D7FB8A31A /* PluginSdkboxGooglePlayLuaHelper.h */,
-				570F421DA2F7B74D819BE188 /* PluginSdkboxGooglePlayLuaHelper.cpp */,
 				FDDC466C9AFA40CED61DF544 /* SnapshotMetadataLuaHelper.h */,
 				EAF94728A3958ECD7F90E2F6 /* SnapshotMetadataLuaHelper.cpp */,
 				E86D4D1688FA6DA6BAB2977B /* SDKBoxLuaHelper.h */,
 				E8274331B03CC4516BABB516 /* SDKBoxLuaHelper.cpp */,
+				7390408FB61447A9C15120D7 /* PluginGPGLua.hpp */,
+				E85F4C8F998B8ACEF02B6743 /* PluginGPGLua.cpp */,
+				10E249FB8F51F8A7D59672EA /* PluginGPGLuaHelper.h */,
+				963A44389DA6502D8348E16D /* PluginGPGLuaHelper.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -565,10 +565,10 @@
 				5023812417EBBCAC00990C9B /* main.m in Sources */,
 				9FFE00A11ACCF59E00D6E35A /* RuntimeLuaImpl.cpp in Sources */,
 				5023811817EBBCAC00990C9B /* AppController.mm in Sources */,
-				5B5F460187444526D064D463 /* PluginSdkboxGooglePlayLua.cpp in Sources */,
-				754F4F0590F12BEF004A1333 /* PluginSdkboxGooglePlayLuaHelper.cpp in Sources */,
 				93AF43C1AED4733E742A8262 /* SnapshotMetadataLuaHelper.cpp in Sources */,
 				3F344B7780DE99E521FBD611 /* SDKBoxLuaHelper.cpp in Sources */,
+				95E249D1AB488BD96CF751D9 /* PluginGPGLua.cpp in Sources */,
+				D3D04F3B805DE71B9B96E8FD /* PluginGPGLuaHelper.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
