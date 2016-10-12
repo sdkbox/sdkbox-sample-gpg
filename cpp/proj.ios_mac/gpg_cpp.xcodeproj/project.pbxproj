@@ -45,7 +45,6 @@
 		597793481D9075A600CCDD33 /* json98.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793391D9075A600CCDD33 /* json98.cpp */; };
 		597793491D9075A600CCDD33 /* LeaderboardScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5977933B1D9075A600CCDD33 /* LeaderboardScene.cpp */; };
 		5977934A1D9075A600CCDD33 /* PlayerStatScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5977933D1D9075A600CCDD33 /* PlayerStatScene.cpp */; };
-		5977934B1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5977933F1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp */; };
 		5977934C1D9075A600CCDD33 /* QuestScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793401D9075A600CCDD33 /* QuestScene.cpp */; };
 		5977934D1D9075A600CCDD33 /* SaveGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793421D9075A600CCDD33 /* SaveGameScene.cpp */; };
 		5977934E1D9075A600CCDD33 /* StateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597793441D9075A600CCDD33 /* StateManager.cpp */; };
@@ -80,7 +79,6 @@
 		96C542D61D648338009E476A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542D51D648338009E476A /* UIKit.framework */; };
 		96C542DA1D64843E009E476A /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542D91D64843E009E476A /* libsqlite3.0.tbd */; };
 		96C542DC1D64847D009E476A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542DB1D64847D009E476A /* Security.framework */; };
-		96C542E51D64B906009E476A /* PluginSdkboxGooglePlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542E41D64B906009E476A /* PluginSdkboxGooglePlay.framework */; };
 		96C542E71D64BFA2009E476A /* gpg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C542E61D64BFA2009E476A /* gpg.framework */; };
 		96C542EB1D64C01A009E476A /* gpg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 96C542EA1D64C01A009E476A /* gpg.bundle */; };
 		AA9C410483CFB8EE306FCEBA /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB0549D4984AE4807A61D96C /* CoreMedia.framework */; };
@@ -90,9 +88,11 @@
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
+		D541463FA8BD4DCEE026A980 /* Plugingpg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C47543579DBC933D707A7E41 /* Plugingpg.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		D6E24F89B6A66A39FBE87185 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74B64601A42103298D3FFB62 /* MessageUI.framework */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
+		F45641A0B90F1C58FE93A5AF /* PluginGPGCppHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1184FAE85D92DF0417D12CC /* PluginGPGCppHelper.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,7 +147,6 @@
 		5977933C1D9075A600CCDD33 /* LeaderboardScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardScene.h; sourceTree = "<group>"; };
 		5977933D1D9075A600CCDD33 /* PlayerStatScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerStatScene.cpp; sourceTree = "<group>"; };
 		5977933E1D9075A600CCDD33 /* PlayerStatScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerStatScene.h; sourceTree = "<group>"; };
-		5977933F1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PluginSdkboxGooglePlayCppHelper.cpp; sourceTree = "<group>"; };
 		597793401D9075A600CCDD33 /* QuestScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuestScene.cpp; sourceTree = "<group>"; };
 		597793411D9075A600CCDD33 /* QuestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestScene.h; sourceTree = "<group>"; };
 		597793421D9075A600CCDD33 /* SaveGameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SaveGameScene.cpp; sourceTree = "<group>"; };
@@ -191,14 +190,15 @@
 		96C542D51D648338009E476A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		96C542D91D64843E009E476A /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/usr/lib/libsqlite3.0.tbd; sourceTree = DEVELOPER_DIR; };
 		96C542DB1D64847D009E476A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
-		96C542E41D64B906009E476A /* PluginSdkboxGooglePlay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PluginSdkboxGooglePlay.framework; sourceTree = "<group>"; };
 		96C542E61D64BFA2009E476A /* gpg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = gpg.framework; sourceTree = "<group>"; };
 		96C542EA1D64C01A009E476A /* gpg.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = gpg.bundle; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C47543579DBC933D707A7E41 /* Plugingpg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Plugingpg.framework; sourceTree = SOURCE_ROOT; };
 		C9144BFDA5E31D0509C82381 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		CC394683B8779E6D912A331F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
+		D1184FAE85D92DF0417D12CC /* PluginGPGCppHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginGPGCppHelper.cpp; path = ../Classes/PluginGPGCppHelper.cpp; sourceTree = SOURCE_ROOT; };
 		D44C620B132DFF330009C878 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -217,7 +217,6 @@
 			files = (
 				96C542DC1D64847D009E476A /* Security.framework in Frameworks */,
 				96C542DA1D64843E009E476A /* libsqlite3.0.tbd in Frameworks */,
-				96C542E51D64B906009E476A /* PluginSdkboxGooglePlay.framework in Frameworks */,
 				96C542D61D648338009E476A /* UIKit.framework in Frameworks */,
 				96C542D41D648333009E476A /* SystemConfiguration.framework in Frameworks */,
 				96C542D21D648319009E476A /* SafariServices.framework in Frameworks */,
@@ -259,6 +258,7 @@
 				62F14B8C999BCF36037FACE6 /* GameController.framework in Frameworks */,
 				80E24F7B91524232D61BA223 /* MediaPlayer.framework in Frameworks */,
 				16AC43C080CA2517592932A4 /* libc++.dylib in Frameworks */,
+				D541463FA8BD4DCEE026A980 /* Plugingpg.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,7 +326,6 @@
 				96C542A91D6481F4009E476A /* GoogleAppUtilities.framework */,
 				96C542AA1D6481F4009E476A /* GoogleAuthUtilities.framework */,
 				96C542EA1D64C01A009E476A /* gpg.bundle */,
-				96C542E41D64B906009E476A /* PluginSdkboxGooglePlay.framework */,
 				96C542AB1D6481F4009E476A /* GoogleNetworkingUtilities.framework */,
 				96C542AC1D6481F4009E476A /* GoogleOpenSource.framework */,
 				96C542AD1D6481F4009E476A /* GooglePlus.bundle */,
@@ -358,6 +357,7 @@
 				96C542D51D648338009E476A /* UIKit.framework */,
 				1CDCD79B1CC93D380037CB30 /* sdkbox.framework */,
 				DE124DBF92193F63A655C149 /* libc++.dylib */,
+				C47543579DBC933D707A7E41 /* Plugingpg.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -389,7 +389,6 @@
 				5977933C1D9075A600CCDD33 /* LeaderboardScene.h */,
 				5977933D1D9075A600CCDD33 /* PlayerStatScene.cpp */,
 				5977933E1D9075A600CCDD33 /* PlayerStatScene.h */,
-				5977933F1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp */,
 				597793401D9075A600CCDD33 /* QuestScene.cpp */,
 				597793411D9075A600CCDD33 /* QuestScene.h */,
 				597793421D9075A600CCDD33 /* SaveGameScene.cpp */,
@@ -404,6 +403,7 @@
 				597793361D90759C00CCDD33 /* EventScene.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
+				D1184FAE85D92DF0417D12CC /* PluginGPGCppHelper.cpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -547,12 +547,12 @@
 				5977934C1D9075A600CCDD33 /* QuestScene.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				597793481D9075A600CCDD33 /* json98.cpp in Sources */,
-				5977934B1D9075A600CCDD33 /* PluginSdkboxGooglePlayCppHelper.cpp in Sources */,
 				597793521D90760000CCDD33 /* AchievementScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				59E78F2F1D9C540800E39380 /* NearbyConnectionsScene.cpp in Sources */,
 				5977934F1D9075A600CCDD33 /* Utils.cpp in Sources */,
 				5977934E1D9075A600CCDD33 /* StateManager.cpp in Sources */,
+				F45641A0B90F1C58FE93A5AF /* PluginGPGCppHelper.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

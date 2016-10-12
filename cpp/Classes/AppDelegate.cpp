@@ -2,7 +2,7 @@
 #include "SaveGameScene.h"
 
 #ifdef SDKBOX_ENABLED
-#include "PluginSdkboxGooglePlay/PluginSdkboxGooglePlay.h"
+#include "Plugingpg/PluginGPG.h"
 #endif
 
 USING_NS_CC;
@@ -29,7 +29,7 @@ void AppDelegate::initGLContextAttrs()
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
 #ifdef SDKBOX_ENABLED
-    sdkbox::PluginSdkboxGooglePlay::init();
+    sdkbox::PluginGPG::init();
 #endif
 
     auto director = Director::getInstance();

@@ -20,10 +20,10 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/StateManager.cpp \
 ../../Classes/Utils.cpp \
 ../../Classes/json98.cpp \
-../../Classes/PluginSdkboxGooglePlayCppHelper.cpp \
 ../../Classes/NearbyConnectionsScene.cpp \
 ../../Classes/RealTimeMultiplayerScene.cpp \
-../../Classes/TurnBasedMultiplayerScene.cpp
+../../Classes/TurnBasedMultiplayerScene.cpp \
+../../Classes/PluginGPGCppHelper.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
 LOCAL_LDLIBS := -landroid \
@@ -34,8 +34,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
 $(LOCAL_PATH)/..
 
 LOCAL_WHOLE_STATIC_LIBRARIES := sdkbox \
-PluginSdkboxGooglePlay \
-gpg-1
+gpg-1 \
+PluginGPG
 
 LOCAL_STATIC_LIBRARIES := cocos2dx_static
 
@@ -43,6 +43,6 @@ include $(BUILD_SHARED_LIBRARY)
 $(call import-add-path, $(LOCAL_PATH))
 
 $(call import-module, ./sdkbox)
-$(call import-module, ./PluginSdkboxGooglePlay)
 $(call import-module, ./gpg)
 $(call import-module, ./prebuilt-mk)
+$(call import-module, ./plugingpg)

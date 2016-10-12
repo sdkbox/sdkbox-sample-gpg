@@ -3,7 +3,7 @@
 
 #include <cocos/ui/UIButton.h>
 #include "cocos2d.h"
-#include "PluginSdkboxGooglePlay/PluginSdkboxGooglePlay.h"
+#include "Plugingpg/PluginGPG.h"
 
 class BaseScene : public cocos2d::Layer
 {
