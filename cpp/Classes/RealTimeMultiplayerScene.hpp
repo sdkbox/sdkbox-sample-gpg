@@ -3,6 +3,9 @@
 #include "BaseScene.h"
 #include <gpg/gpg.h>
 
+#define MAX_AUTOMATCH_PLAYER 4
+#define MIN_AUTOMATCH_PLAYER 1
+
 class RealTimeMultiplayerScene : public BaseScene, public gpg::IRealTimeEventListener
 {
 public:
@@ -18,9 +21,8 @@ protected:
     
     virtual void onNextScene(cocos2d::Ref *sender) override;
     
-    void CreateRoomAutoMatch(cocos2d::Ref *sender);
-    void CreateRoomSelect(cocos2d::Ref *sender);
-    void ShowRoomInbox(cocos2d::Ref *sender);
+    void CreateRoom(cocos2d::Ref *sender);
+    void ShowInvitations(cocos2d::Ref *sender);
     void FetchInvitations(cocos2d::Ref *sender);
     void LeaveRoom(cocos2d::Ref *sender);
     void AcceptInvitation(cocos2d::Ref *sender);
@@ -46,6 +48,11 @@ protected:
                         bool is_reliable) override;
     
 private:
-    gpg::RealTimeRoom room;
-    gpg::MultiplayerInvitation invitation;
+
+    void setRoom(gpg::RealTimeRoom const &room);
+
+    cocos2d::Label* _txt_room;
+    cocos2d::Label* _txt_message;
+    gpg::RealTimeRoom _room;
+    gpg::MultiplayerInvitation _invitation;
 };
