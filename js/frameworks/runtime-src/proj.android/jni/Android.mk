@@ -14,7 +14,9 @@ LOCAL_SRC_FILES := hellojavascript/main.cpp \
 ../../Classes/ide-support/RuntimeJsImpl.cpp \
 ../../Classes/PluginSdkboxGooglePlayJS.cpp \
 ../../Classes/PluginSdkboxGooglePlayJSHelper.cpp \
-../../Classes/SDKBoxJSHelper.cpp
+../../Classes/SDKBoxJSHelper.cpp \
+../../Classes/PluginGPGJS.cpp \
+../../Classes/PluginGPGJSHelper.cpp
 
 LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
 LOCAL_LDLIBS := -landroid \
@@ -27,7 +29,8 @@ $(LOCAL_PATH)/..
 LOCAL_WHOLE_STATIC_LIBRARIES := PluginSdkboxPlay \
 sdkbox \
 PluginSdkboxGooglePlay \
-gpg-1
+gpg-1 \
+PluginGPG
 
 LOCAL_STATIC_LIBRARIES := cocos2d_js_static
 LOCAL_STATIC_LIBRARIES += cocos2d_simulator_static
@@ -40,3 +43,4 @@ $(call import-module,tools/simulator/libsimulator/proj.android/prebuilt-mk)
 $(call import-module, ./sdkbox)
 $(call import-module, ./PluginSdkboxGooglePlay)
 $(call import-module, ./gpg)
+$(call import-module, ./plugingpg)

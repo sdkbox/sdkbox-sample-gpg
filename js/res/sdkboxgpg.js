@@ -1804,7 +1804,9 @@ var gpg = {
              * @param create_result {BuilderCreateCallback}
              *
              */
-            this.Create = function (platform_configuration, create_result) {
+            this.Create = function (create_result, platform_configuration) {
+
+                platform_configuration = platform_configuration || {}
 
                 // call native and create the game services instance based on Builder config.
                 _gpg.GPGWrapper.CreateGameServices(
