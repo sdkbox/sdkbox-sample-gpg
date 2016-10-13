@@ -46,7 +46,7 @@ bool RealTimeMultiplayerScene::init()
                               nullptr
                               );
 
-    menu->alignItemsVerticallyWithPadding(5);
+    menu->alignItemsVerticallyWithPadding(30);
     menu->setPosition(size.width/2, size.height/2 + 40);
     addChild(menu);
 
@@ -104,10 +104,22 @@ void RealTimeMultiplayerScene::CreateRoom(cocos2d::Ref *sender) {
                        [this](gpg::RealTimeMultiplayerManager::PlayerSelectUIResponse const & response) {
                            if (gpg::UIStatus::VALID == response.status) {
 
-                               auto config = gpg::RealTimeRoomConfig::Builder()
-                                .PopulateFromPlayerSelectUIResponse(response).Create();
-
-                               CreateRealtimeRoom(config);
+                               auto config = gpg::RealTimeRoomConfig::Builder().PopulateFromPlayerSelectUIResponse(response).Create();
+                               auto roomResponse = _game_services->RealTimeMultiplayer().CreateRealTimeRoomBlocking(config, this);
+                               
+                               if(gpg::IsSuccess(roomResponse.status)){
+                                   
+                                   _game_services->RealTimeMultiplayer().ShowWaitingRoomUI(roomResponse.room, MIN_AUTOMATCH_PLAYER,[this](gpg::RealTimeMultiplayerManager::WaitingRoomUIResponse const &waitResult) {
+                                       if (gpg::IsSuccess(waitResult.status)) {
+                                           string msg;
+                                           msg = "Game Started: ";
+                                           msg += waitResult.room.Id();
+                                           _txtStat->setString(msg);
+                                           CCLOG("Game Started");
+                                           setRoom(waitResult.room);
+                                       }
+                                   });
+                               }
                            }
                        });
 }
@@ -119,8 +131,22 @@ void RealTimeMultiplayerScene::ShowInvitations(cocos2d::Ref *sender) {
 
             //Accept invitation
             auto result = _game_services->RealTimeMultiplayer().AcceptInvitationBlocking(response.invitation, this);
+            
+            //It's okey to remove this if you want to use google play's UI to handle all the flow
             _invitation = response.invitation;
-            setRoom(result.room);
+            
+            if (gpg::IsSuccess(result.status)) {
+                _game_services->RealTimeMultiplayer().ShowWaitingRoomUI(result.room, MIN_AUTOMATCH_PLAYER, [this](gpg::RealTimeMultiplayerManager::WaitingRoomUIResponse const &waitResult){
+                    if (gpg::IsSuccess(waitResult.status)) {
+                        string msg;
+                        msg = "Game Started: ";
+                        msg += waitResult.room.Id();
+                        _txtStat->setString(msg);
+                        CCLOG("Game Started");
+                        setRoom(waitResult.room);
+                    }
+                });
+            }
         }
     });
 }
@@ -131,11 +157,11 @@ void RealTimeMultiplayerScene::LeaveRoom(cocos2d::Ref *sender) {
         return;
     }
     _game_services->RealTimeMultiplayer()
-    .LeaveRoom(_room,
-               [this](gpg::ResponseStatus const & status) {
+    .LeaveRoom(_room, [this](gpg::ResponseStatus const & status) {
                    if (gpg::ResponseStatus::VALID == status) {
                        _txtStat->setString("Left room");
                        _txt_room->setString("");
+                       _txt_message->setString("");
                        CCLOG("leave room success");
                    } else {
                        CCLOG("leave room fail");
@@ -148,6 +174,8 @@ void RealTimeMultiplayerScene::SendReliableMsg(cocos2d::Ref *sender) {
     msg.append(StateManager::PlayerName);
     
     for (auto part : _room.Participants()) {
+        CCLOG("part_id: %s", part.Player().Id().c_str());
+        CCLOG("player_id: %s", StateManager::PlayerID.c_str());
         if(part.Player().Id() != StateManager::PlayerID){
             CCLOG("sending message to: %s", part.DisplayName().c_str());
             _game_services->RealTimeMultiplayer().SendReliableMessage(_room, part, str_to_vector(msg), [](gpg::MultiplayerStatus const & status) {
