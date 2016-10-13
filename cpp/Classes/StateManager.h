@@ -31,10 +31,14 @@ public:
     static void ShowAchievements();
     static void ShowLeaderboard(const char *leaderboardId);
     static bool IsSignedIn() { return isSignedIn; }
+    static std::string PlayerID;
+    static std::string PlayerName;
+    
 private:
     static bool isSignedIn;
     static std::unique_ptr<gpg::GameServices> gameServices;
     static gpg::GameServices::Builder::OnAuthActionFinishedCallback _callback;
+    
 };
 
 

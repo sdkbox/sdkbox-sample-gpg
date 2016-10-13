@@ -1,6 +1,7 @@
 #include "RealTimeMultiplayerScene.hpp"
 #include "Utils.h"
 
+#include "StateManager.h"
 #include "PlayerStatScene.h"
 #include "TurnBasedMultiplayerScene.hpp"
 
@@ -143,37 +144,29 @@ void RealTimeMultiplayerScene::LeaveRoom(cocos2d::Ref *sender) {
 }
 
 void RealTimeMultiplayerScene::SendReliableMsg(cocos2d::Ref *sender) {
-    gpg::MultiplayerParticipant participant;
+    std::string msg = "this is a reliable msg from: ";
+    msg.append(StateManager::PlayerName);
+    
     for (auto part : _room.Participants()) {
-        if (part.Id() != _room.CreatingParticipant().Id()) {
-            participant = part;
+        if(part.Player().Id() != StateManager::PlayerID){
+            CCLOG("sending message to: %s", part.DisplayName().c_str());
+            _game_services->RealTimeMultiplayer().SendReliableMessage(_room, part, str_to_vector(msg), [](gpg::MultiplayerStatus const & status) {
+                 if (gpg::MultiplayerStatus::VALID == status) {
+                     CCLOG("send reliable msg success");
+                 } else {
+                     CCLOG("send reliable msg fail");
+                 }
+             });
         }
     }
-    std::string msg = "this is a reliable msg";
-    _game_services->RealTimeMultiplayer()
-    .SendReliableMessage(_room,
-                         participant,
-                         std::vector<uint8_t>(msg.begin(), msg.end()),
-                         [](gpg::MultiplayerStatus const & status) {
-                             if (gpg::MultiplayerStatus::VALID == status) {
-                                 CCLOG("send reliable msg success");
-                             } else {
-                                 CCLOG("send reliable msg fail");
-                             }
-                         });
 }
 
 void RealTimeMultiplayerScene::SendUnreliableMsg(cocos2d::Ref *sender) {
-    std::vector<gpg::MultiplayerParticipant> participants;
-    for (auto part : _room.Participants()) {
-        if (part.Id() != _room.CreatingParticipant().Id()) {
-            participants.push_back(part);
-        }
-    }
     
-    std::string msg = "this is a unreliable msg";
-    _game_services->RealTimeMultiplayer()
-    .SendUnreliableMessage(_room, participants, std::vector<uint8_t>(msg.begin(), msg.end()));
+    std::string msg = "this is a unreliable msg from: ";
+    msg += StateManager::PlayerName;
+    
+    _game_services->RealTimeMultiplayer().SendUnreliableMessageToOthers(_room, str_to_vector(msg));
 }
 
 /******************************************
@@ -278,6 +271,9 @@ void RealTimeMultiplayerScene::OnDataReceived(gpg::RealTimeRoom const &room,
                     std::vector<uint8_t> data,
                     bool is_reliable)
 {
+    string m = vec_to_string(data);
+    _txt_message->setString(m);
+    
     string msg = "DataReceived from: ";
     msg += from_participant.DisplayName();
     _txtStat->setString(msg);

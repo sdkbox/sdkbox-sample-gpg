@@ -35,6 +35,8 @@ const int32_t BUFFER_SIZE = 256;
 
 #endif
 
+std::string StateManager::PlayerID = "";
+std::string StateManager::PlayerName = "";
 bool StateManager::isSignedIn = false;
 gpg::GameServices::Builder::OnAuthActionFinishedCallback StateManager::_callback = nullptr;
 std::unique_ptr<gpg::GameServices> StateManager::gameServices;
@@ -87,8 +89,7 @@ void StateManager::SubmitHighScore(const char *leaderboardId, uint64_t score) {
     }
 }
 
-void StateManager::ShowAchievements()
-{
+void StateManager::ShowAchievements(){
     if (gameServices->IsAuthorized()) {
         LOGI("Show achievement");
         gameServices->Achievements().ShowAllUI([](gpg::UIStatus const &status) {
@@ -97,8 +98,7 @@ void StateManager::ShowAchievements()
     }
 }
 
-void StateManager::ShowLeaderboard(const char *leaderboardId)
-{
+void StateManager::ShowLeaderboard(const char *leaderboardId){
     if (gameServices->IsAuthorized()) {
         LOGI("Show leaderboard");
         gameServices->Leaderboards().ShowUI(leaderboardId, [](gpg::UIStatus const &status) {
@@ -110,15 +110,24 @@ void StateManager::ShowLeaderboard(const char *leaderboardId)
 
 void StateManager::Init(gpg::PlatformConfiguration &pc) {
     LOGI("Initializing Services");
-    if (!gameServices) {
+    if (!gameServices)
+    {
         LOGI("Uninitialized services, so creating");
         gameServices = gpg::GameServices::Builder()
                 .SetOnAuthActionFinished([](gpg::AuthOperation op, gpg::AuthStatus status){
                     LOGI("Sign in finished with a result of %d", status);
-                    if( status == gpg::AuthStatus::VALID )
+                    if( status == gpg::AuthStatus::VALID ){
+                        gameServices->Players().FetchSelf([=](gpg::PlayerManager::FetchSelfResponse const &response) {
+                            if (gpg::IsSuccess(response.status)) {
+                                PlayerID = response.data.Id();
+                                PlayerName = response.data.Name();
+                            }
+                        });
                         isSignedIn = true;
-                    else
+                    }
+                    else{
                         isSignedIn = false;
+                    }
                     if(_callback)
                     {
                         _callback( op, status);
