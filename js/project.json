@@ -21,6 +21,7 @@
         "src/PlayerStatsScene.js",
         "src/QuestScene.js",
         "src/RealtimeMultiplayerScene.js",
+        "src/TurnBasedMultiplayerScene.js",
         "src/SnapShotsScene.js",
         "src/app.js"
     ]

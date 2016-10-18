@@ -1814,6 +1814,7 @@ var gpg = {
 
                         // TODO: Add GameServices' objects initialization here.
                         gpg.GameServices.RealTimeMultiplayer.__initialize();
+                        gpg.GameServices.TurnBasedMultiplayer.__initialize();
 
                         create_result( result ? gpg.GameServices : null );
                     }),
@@ -2965,6 +2966,119 @@ var gpg = {
             Stop : function() {
                 _gpg.GPGNearbyConnectionsWrapper.Stop();
             }
+        },
+
+        TurnBasedMultiplayer : {
+
+            __initialize: function() {
+                cc.log('TurnBasedMultiplayer init');
+            },
+
+            CreateTurnBasedMatch : function(callback, params) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.CreateTurnBasedMatch(
+                    __callbackManager.addCallback(callback),
+                    JSON.stringify(params));
+            },
+
+            DismissMatch : function(match_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.DismissMatch(match_id);
+            },
+
+            FetchMatch : function(callback, match_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.FetchMatch(
+                    __callbackManager.addCallback(callback),
+                    match_id);
+            },
+
+            Rematch : function(callback, match_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.Rematch(
+                    __callbackManager.addCallback(callback),
+                    match_id);
+            },
+
+            CancelMatch : function(callback, match_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.CancelMatch(
+                    __callbackManager.addCallback(callback),
+                    match_id);
+            },
+
+            FetchMatches : function(callback) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.FetchMatches(
+                    __callbackManager.addCallback(callback));
+            },
+
+            ShowMatchInboxUI : function(callback) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.ShowMatchInboxUI(
+                    __callbackManager.addCallback(callback));
+            },
+
+            TakeMyTurn : function(callback, match_id, participant_results_id, next_participant_id, data) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.TakeMyTurn(
+                    __callbackManager.addCallback(callback),
+                    match_id,
+                    participant_results_id,
+                    next_participant_id,
+                    data);
+            },
+
+            FinishMatchDuringMyTurn : function(callback, match_id, participant_results_id, data) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.FinishMatchDuringMyTurn(
+                    __callbackManager.addCallback(callback),
+                    match_id,
+                    participant_results_id,
+                    data);
+            },
+
+            ConfirmPendingCompletion : function(callback, match_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.ConfirmPendingCompletion(
+                    __callbackManager.addCallback(callback),
+                    match_id);
+            },
+
+            LeaveMatchDuringTheirTurn : function(callback, match_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.LeaveMatchDuringTheirTurn(
+                    __callbackManager.addCallback(callback),
+                    match_id);
+            },
+
+            LeaveMatchDuringMyTurn : function(callback, match_id, next_participant_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.LeaveMatchDuringMyTurn(
+                    __callbackManager.addCallback(callback),
+                    match_id,
+                    next_participant_id);
+            },
+
+            CreateParticipantResult : function(match_id, participant_id, placing, matchResult) {
+                let json_s = _gpg.GPGTurnBasedMultiplayerWrapper.CreateParticipantResult(match_id, participant_id, placing, matchResult);
+                return JSON.parse(json_s);
+            },
+
+            AcceptInvitation : function(callback, invitation_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.AcceptInvitation(
+                    __callbackManager.addCallback(callback),
+                    invitation_id);
+            },
+
+            DeclineInvitation : function(invitation_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.DeclineInvitation(invitation_id);
+            },
+
+            DismissInvitation : function(invitation_id) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.DismissInvitation(invitation_id);
+            },
+
+            SynchronizeData : function() {
+                _gpg.GPGTurnBasedMultiplayerWrapper.SynchronizeData();
+            },
+
+            ShowPlayerSelectUI : function(callback, min_players, max_players, allow_automatch) {
+                _gpg.GPGTurnBasedMultiplayerWrapper.ShowPlayerSelectUI(
+                    __callbackManager.addCallback(callback),
+                    min_players,
+                    max_players,
+                    allow_automatch);
+            }
+
         }
     }
 };

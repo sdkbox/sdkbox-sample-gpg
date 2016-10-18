@@ -58,6 +58,9 @@ var HelloWorldLayer = cc.Layer.extend({
             new cc.MenuItemFont("Realtime Multiplayer", function() {
                 cc.director.runScene(new S_RealtimeMultiplayer());
             }),
+            new cc.MenuItemFont("TurnBased Multiplayer", function() {
+                cc.director.runScene(new S_TurnBasedMultiplayer());
+            }),
             new cc.MenuItemFont("Nearby Connection", function() {
                 cc.director.runScene(new S_NearbyConnection());
             })
