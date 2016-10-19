@@ -38,7 +38,7 @@ bool NearbyConnectionsScene::init()
         }
     });
 
-    nearby_conn = _builder->Create( *CreatePlatformConfiguration("").get() );
+    nearby_conn = _builder->Create( *GetGPGConfig().get() );
 
     delete _builder;
 
