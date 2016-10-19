@@ -140,5 +140,8 @@ def main():
     copyFolder(ios_src, ios_dst)
     copyFolder(android_src, android_dst)
 
+    # clear temp folder
+    rmFile(TMP_DIR)
+
 if __name__ == '__main__':
     main()
