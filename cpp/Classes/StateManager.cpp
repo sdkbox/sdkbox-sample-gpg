@@ -133,6 +133,8 @@ void StateManager::Init(gpg::PlatformConfiguration &pc) {
                         _callback( op, status);
                     }
                 } )
+                .SetOnMultiplayerInvitationEvent([](gpg::MultiplayerEvent evt, std::string msg, gpg::MultiplayerInvitation inv){
+                })
                 .EnableSnapshots()
                 .SetDefaultOnLog(gpg::LogLevel::VERBOSE)
                 .Create(pc);
