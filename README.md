@@ -43,3 +43,7 @@ You can also run the sample with commandline
 
 ~~~
 
+###Testing
+You need a tester account in order to test google play functionalities
+Make sure you opt-in as an alpha tester [here](https://play.google.com/apps/testing/com.sdkbox.gpg) before testing with your own google account.
+
