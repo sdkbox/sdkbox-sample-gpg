@@ -81,7 +81,7 @@ void BaseScene::initGPG()
     StateManager::setCallback([this](gpg::AuthOperation op, gpg::AuthStatus st){
         updateConnectionStatus();
     });
-    StateManager::Init(*GetGPGConfig().get());
+    StateManager::Init(*CreatePlatformConfiguration().get());
     
     _game_services = StateManager::GetGameServices();
     
