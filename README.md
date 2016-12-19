@@ -1,4 +1,4 @@
-# Samples of Google Play Game Services with Cocos2d-x 
+# Samples of Google Play Services with Cocos2d-x 
 
 ##Getting Started
 
@@ -11,7 +11,7 @@
 After setup your directory will looks like this
 ~~~
 +-- sdkbox-cocos2d-x-binary
-+-- sdkbox-sample-gpg
++-- sdkbox-sample-googlplay
 | +-- cpp
 | +-- lua
 | \-- js
@@ -28,11 +28,23 @@ Under each sample project there are project files for different platform
 * proj.ios_mac: project file for ios/mac platform
 * proj.android: project file to android platform
 
-Compile&Run with Cocos command line tool: 
-* cocos run -p android 
-* cocos run -p ios 
+Compile with Cocos command line tool: 
+* cocos compile -p android 
+* cocos compile -p ios 
 
-###Testing
-You need a tester account in order to test google play functionalities
-Make sure you opt-in as an alpha tester [here](https://play.google.com/apps/testing/com.sdkbox.gpg) before testing with your own google account.
+You can also run the sample with commandline
+~~~bash
+
+# run sample with specified language and platform
+# eg: cpp and ios
+../sdkbox-cocos2d-x-binary/run_sample.sh googleplay cpp ios
+## or
+cd cpp && cocos run -p ios
+
+# javascript and android
+../sdkbox-cocos2d-x-binary/run_sample.sh googleplay js android
+## or
+cd js && cocos run -p android
+
+~~~
 
