@@ -18,8 +18,7 @@
 #include <gpg/gpg.h>
 #endif
 
-std::unique_ptr<gpg::PlatformConfiguration> CreatePlatformConfiguration( const std::string& client_id );
-std::unique_ptr<gpg::PlatformConfiguration> GetGPGConfig();
+std::unique_ptr<gpg::PlatformConfiguration> CreatePlatformConfiguration();
 
 namespace sdkbox
 {
