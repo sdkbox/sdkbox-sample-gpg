@@ -103,6 +103,7 @@ function MainScene:setupTestMenu()
 end
 
 function MainScene:onAuthFinished(obj)
+    dump(obj, 'AuthFinish:')
     if obj.AuthStatus == 1 then
         self._signed_in = true
     end
