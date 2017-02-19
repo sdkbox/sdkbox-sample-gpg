@@ -25,7 +25,7 @@ std::string getGPGURLSchemes();
         }
     };
 
-    std::unique_ptr<gpg::PlatformConfiguration> CreatePlatformConfiguration( const std::string& client_id ) {
+    std::unique_ptr<gpg::PlatformConfiguration> CreatePlatformConfiguration() {
         
         if (!__initialized) {
             sdkbox::Logger::i("SDKBOX_GPG", "SDKBOX<->GPG Initialization with jni_onload.");
@@ -42,22 +42,14 @@ std::string getGPGURLSchemes();
         return std::unique_ptr<gpg::PlatformConfiguration>(config);
     }
 
-    std::unique_ptr<gpg::PlatformConfiguration> GetGPGConfig() {
-        return CreatePlatformConfiguration("");
-    }
-
 #else
 
-    std::unique_ptr<gpg::PlatformConfiguration> CreatePlatformConfiguration( const std::string& client_id ) {
-        
+    std::unique_ptr<gpg::PlatformConfiguration> CreatePlatformConfiguration() {
+        std::string client_id = getGPGURLSchemes();
         gpg::IosPlatformConfiguration* config = new gpg::IosPlatformConfiguration();
         config->SetClientID( client_id );
         
         return std::unique_ptr<gpg::PlatformConfiguration>(config);
-    }
-
-    std::unique_ptr<gpg::PlatformConfiguration> GetGPGConfig() {
-        return CreatePlatformConfiguration(getGPGURLSchemes());
     }
 
 #endif
