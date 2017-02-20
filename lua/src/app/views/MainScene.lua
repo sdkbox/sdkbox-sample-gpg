@@ -28,7 +28,9 @@ function MainScene:onCreate()
 
     log:setup(self, 300, 18)
 
-    local config = {ClientID="777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni.apps.googleusercontent.com"}
+        local config = {
+        ClientID="777734739048-n1onhbado0h83scdhcdl4m4vco9vhip5.apps.googleusercontent.com",
+        EnableSnapshots = true }
     gpg:CreateGameServices(config, nil, {self, MainScene.onAuthFinished})
 
 end
