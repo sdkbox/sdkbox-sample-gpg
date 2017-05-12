@@ -116,8 +116,8 @@ GPGContext.prototype = {
 
         me._initialized = true;
 
-        // var config = new gpg.PlatformConfiguration();
-        // config.SetClientID('777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni.apps.googleusercontent.com');
+        var config = new gpg.PlatformConfiguration();
+        config.SetClientID('777734739048-cdkbeieil19d6pfkavddrri5o19gk4ni.apps.googleusercontent.com');
 
         new gpg.GameServices.Builder()
             .SetOnAuthActionStarted(
@@ -174,7 +174,7 @@ GPGContext.prototype = {
                     }
 
                     params.onGameServicesCreated && params.onGameServicesCreated(gs);
-                });
+                }, config);
     },
 
     isSignedIn: function() {
