@@ -107,6 +107,24 @@ void StateManager::ShowLeaderboard(const char *leaderboardId){
     }
 }
 
+static std::string getStatusString(gpg::AuthStatus st) {
+    switch (st) {
+        case gpg::AuthStatus::VALID: return "VALID"; break;
+        case gpg::AuthStatus::ERROR_INTERNAL: return "ERROR_INTERNAL"; break;
+        case gpg::AuthStatus::ERROR_NOT_AUTHORIZED: return "ERROR_NOT_AUTHORIZED"; break;
+        case gpg::AuthStatus::ERROR_VERSION_UPDATE_REQUIRED: return "ERROR_VERSION_UPDATE_REQUIRED"; break;
+        case gpg::AuthStatus::ERROR_TIMEOUT: return "ERROR_TIMEOUT"; break;
+
+#if 0 // 2.3
+        case gpg::AuthStatus::ERROR_NO_DATA: return "ERROR_NO_DATA"; break;
+        case gpg::AuthStatus::ERROR_NETWORK_OPERATION_FAILED: return "ERROR_NETWORK_OPERATION_FAILED"; break;
+        case gpg::AuthStatus::ERROR_APP_MISCONFIGURED: return "ERROR_APP_MISCONFIGURED"; break;
+        case gpg::AuthStatus::ERROR_GAME_NOT_FOUND: return "ERROR_GAME_NOT_FOUND"; break;
+        case gpg::AuthStatus::ERROR_INTERRUPTED: return "ERROR_INTERRUPTED"; break;
+#endif
+    }
+    return "Unknown";
+}
 
 void StateManager::Init(gpg::PlatformConfiguration &pc) {
     LOGI("Initializing Services");
@@ -115,7 +133,7 @@ void StateManager::Init(gpg::PlatformConfiguration &pc) {
         LOGI("Uninitialized services, so creating");
         gameServices = gpg::GameServices::Builder()
                 .SetOnAuthActionFinished([](gpg::AuthOperation op, gpg::AuthStatus status){
-                    LOGI("Sign in finished with a result of %d", status);
+                    LOGI("Sign in finished with a result of (%s)", getStatusString(status).c_str());
                     if( status == gpg::AuthStatus::VALID ){
                         gameServices->Players().FetchSelf([=](gpg::PlayerManager::FetchSelfResponse const &response) {
                             if (gpg::IsSuccess(response.status)) {
