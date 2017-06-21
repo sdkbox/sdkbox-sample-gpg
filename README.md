@@ -48,3 +48,11 @@ cd js && cocos run -p android
 
 ~~~
 
+### NOTE
+
+You MUST test app with **release** mode
+
+```
+cocos run -p android -m release
+```
+
