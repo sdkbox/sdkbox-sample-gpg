@@ -5,47 +5,15 @@
 
 
 #if defined(MOZJS_MAJOR_VERSION)
-#if MOZJS_MAJOR_VERSION >= 33
+#if MOZJS_MAJOR_VERSION >= 52
+#elif MOZJS_MAJOR_VERSION >= 33
 template<class T>
 static bool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    JS::RootedValue initializing(cx);
-    bool isNewValid = true;
-    if (isNewValid)
-    {
-        TypeTest<T> t;
-        js_type_class_t *typeClass = nullptr;
-        std::string typeName = t.s_name();
-        auto typeMapIter = _js_global_type_map.find(typeName);
-        CCASSERT(typeMapIter != _js_global_type_map.end(), "Can't find the class type!");
-        typeClass = typeMapIter->second;
-        CCASSERT(typeClass, "The value is null.");
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-        JS::RootedObject proto(cx, typeClass->proto.ref());
-        JS::RootedObject parent(cx, typeClass->parentProto.ref());
-#else
-        JS::RootedObject proto(cx, typeClass->proto.get());
-        JS::RootedObject parent(cx, typeClass->parentProto.get());
-#endif
-        JS::RootedObject _tmp(cx, JS_NewObject(cx, typeClass->jsclass, proto, parent));
-
-        T* cobj = new T();
-        js_proxy_t *pp = jsb_new_proxy(cobj, _tmp);
-        AddObjectRoot(cx, &pp->obj);
-        args.rval().set(OBJECT_TO_JSVAL(_tmp));
-        return true;
-    }
-
+    JS_ReportErrorUTF8(cx, "Constructor for the requested class is not available, please refer to the API reference.");
     return false;
 }
 
-static bool empty_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
-    return false;
-}
-
-static bool js_is_native_obj(JSContext *cx, uint32_t argc, jsval *vp)
-{
+static bool js_is_native_obj(JSContext *cx, uint32_t argc, jsval *vp) {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     args.rval().setBoolean(true);
     return true;
@@ -107,10 +75,11 @@ static JSBool empty_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
 }
 #endif
 JSClass  *jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -124,7 +93,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(JSContext *
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -147,7 +116,7 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_CreateRealTimeRoom(JSContext
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_LeaveRoom(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_LeaveRoom(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -161,7 +130,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_LeaveRoom(JSContext *cx, uint3
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_LeaveRoom : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_LeaveRoom : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -184,7 +153,7 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_LeaveRoom(JSContext *cx, uin
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -196,7 +165,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage(JSContex
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -217,7 +186,7 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessage(JSCont
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DismissInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DismissInvitation(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -229,7 +198,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DismissInvitation(JSContext *c
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DismissInvitation : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DismissInvitation : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -250,7 +219,7 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DismissInvitation(JSContext 
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -262,7 +231,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation(JSContext *c
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -283,7 +252,7 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_DeclineInvitation(JSContext 
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -301,7 +270,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage(JSContext 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -328,7 +297,7 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendReliableMessage(JSContex
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -342,7 +311,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation(JSContext *cx
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -365,7 +334,7 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_AcceptInvitation(JSContext *
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_FetchInvitations(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_FetchInvitations(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -377,7 +346,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_FetchInvitations(JSContext *cx
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_FetchInvitations : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_FetchInvitations : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -398,7 +367,7 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_FetchInvitations(JSContext *
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -412,7 +381,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers(
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOthers : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -435,7 +404,7 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_SendUnreliableMessageToOther
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -447,7 +416,7 @@ bool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI(JSContext *cx,
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -471,33 +440,19 @@ JSBool js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_ShowRoomInboxUI(JSContext *c
 
 void js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGRealTimeMultiplayerWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGRealTimeMultiplayerWrapper *nobj = static_cast<sdkbox::GPGRealTimeMultiplayerWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->name = "GPGRealTimeMultiplayerWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGRealTimeMultiplayerWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->getProperty = JS_PropertyStub;
@@ -507,9 +462,9 @@ void js_register_PluginGPGJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JS::Ha
     jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->finalize = js_PluginGPGJS_GPGRealTimeMultiplayerWrapper_finalize;
     jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -531,24 +486,24 @@ void js_register_PluginGPGJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JS::Ha
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class,
         dummy_constructor<sdkbox::GPGRealTimeMultiplayerWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGRealTimeMultiplayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGRealTimeMultiplayerWrapper>(cx, jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGRealTimeMultiplayerWrapper>(cx, jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGRealTimeMultiplayerWrapper> t;
     js_type_class_t *p;
@@ -557,11 +512,19 @@ void js_register_PluginGPGJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JS::Ha
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGRealTimeMultiplayerWrapper_class;
-        p->proto = jsb_sdkbox_GPGRealTimeMultiplayerWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGRealTimeMultiplayerWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JSObject *global) {
@@ -689,10 +652,11 @@ void js_register_PluginGPGJS_GPGRealTimeMultiplayerWrapper(JSContext *cx, JSObje
 }
 #endif
 JSClass  *jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -704,13 +668,13 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI(JSContext 
         ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
         ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
         ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
-        arg3 = JS::ToBoolean(args.get(3));
+        ok &= sdkbox::js_to_bool(cx, args.get(3), (bool *)&arg3);
         JSB_PRECONDITION2(ok, cx, false, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI : Error processing arguments");
         sdkbox::GPGTurnBasedMultiplayerWrapper::ShowPlayerSelectUI(arg0, arg1, arg2, arg3);
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -726,7 +690,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI(JSContex
         ok &= jsval_to_int32(cx, argv[0], (int32_t *)&arg0);
         ok &= jsval_to_int32(cx, argv[1], (int32_t *)&arg1);
         ok &= jsval_to_int32(cx, argv[2], (int32_t *)&arg2);
-        arg3 = JS::ToBoolean(argv[3]);
+        ok &= sdkbox::js_to_bool(cx, argv[3], (bool *)&arg3);
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
         sdkbox::GPGTurnBasedMultiplayerWrapper::ShowPlayerSelectUI(arg0, arg1, arg2, arg3);
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
@@ -737,7 +701,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowPlayerSelectUI(JSContex
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CancelMatch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CancelMatch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -751,7 +715,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CancelMatch(JSContext *cx, ui
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CancelMatch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CancelMatch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -774,7 +738,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CancelMatch(JSContext *cx, 
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissMatch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissMatch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -786,7 +750,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissMatch(JSContext *cx, u
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissMatch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissMatch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -807,7 +771,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissMatch(JSContext *cx,
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -819,7 +783,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI(JSContext *c
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -840,7 +804,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ShowMatchInboxUI(JSContext 
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_SynchronizeData(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_SynchronizeData(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     if (argc == 0) {
@@ -848,7 +812,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_SynchronizeData(JSContext *cx
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_SynchronizeData : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_SynchronizeData : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -864,7 +828,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_SynchronizeData(JSContext *
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -878,7 +842,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch(JSContex
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -901,7 +865,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateTurnBasedMatch(JSCont
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissInvitation(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -913,7 +877,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissInvitation(JSContext *
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissInvitation : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissInvitation : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -934,7 +898,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DismissInvitation(JSContext
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -948,7 +912,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatch(JSContext *cx, uin
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -971,7 +935,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatch(JSContext *cx, u
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DeclineInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DeclineInvitation(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -983,7 +947,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DeclineInvitation(JSContext *
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DeclineInvitation : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DeclineInvitation : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1004,7 +968,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_DeclineInvitation(JSContext
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1018,7 +982,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion(JSCo
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1041,7 +1005,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_ConfirmPendingCompletion(JS
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1059,7 +1023,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn(JSCon
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1086,7 +1050,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FinishMatchDuringMyTurn(JSC
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_Rematch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_Rematch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1100,7 +1064,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_Rematch(JSContext *cx, uint32
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_Rematch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_Rematch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1123,7 +1087,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_Rematch(JSContext *cx, uint
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1137,7 +1101,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn(JSC
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1160,7 +1124,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringTheirTurn(J
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateParticipantResult(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateParticipantResult(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1175,12 +1139,12 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateParticipantResult(JSCon
         ok &= jsval_to_int32(cx, args.get(3), (int32_t *)&arg3);
         JSB_PRECONDITION2(ok, cx, false, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateParticipantResult : Error processing arguments");
         std::string ret = sdkbox::GPGTurnBasedMultiplayerWrapper::CreateParticipantResult(arg0, arg1, arg2, arg3);
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
+        JS::RootedValue jsret(cx);
+        sdkbox::c_string_to_jsval(cx, ret.c_str(), &jsret, ret.size());
         args.rval().set(jsret);
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateParticipantResult : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateParticipantResult : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1200,7 +1164,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateParticipantResult(JSC
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
         std::string ret = sdkbox::GPGTurnBasedMultiplayerWrapper::CreateParticipantResult(arg0, arg1, arg2, arg3);
         jsval jsret;
-        jsret = std_string_to_jsval(cx, ret);
+        sdkbox::c_string_to_jsval(cx, ret.c_str(), &jsret, ret.size());
         JS_SET_RVAL(cx, vp, jsret);
         return JS_TRUE;
     }
@@ -1209,7 +1173,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_CreateParticipantResult(JSC
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_TakeMyTurn(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_TakeMyTurn(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1229,7 +1193,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_TakeMyTurn(JSContext *cx, uin
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_TakeMyTurn : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_TakeMyTurn : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1258,7 +1222,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_TakeMyTurn(JSContext *cx, u
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatches(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatches(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1270,7 +1234,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatches(JSContext *cx, u
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatches : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatches : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1291,7 +1255,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_FetchMatches(JSContext *cx,
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1307,7 +1271,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn(JSCont
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1332,7 +1296,7 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_LeaveMatchDuringMyTurn(JSCo
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_AcceptInvitation(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_AcceptInvitation(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1346,7 +1310,7 @@ bool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_AcceptInvitation(JSContext *c
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_AcceptInvitation : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_AcceptInvitation : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1372,33 +1336,19 @@ JSBool js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_AcceptInvitation(JSContext 
 
 void js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGTurnBasedMultiplayerWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGTurnBasedMultiplayerWrapper *nobj = static_cast<sdkbox::GPGTurnBasedMultiplayerWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGTurnBasedMultiplayerWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class->name = "GPGTurnBasedMultiplayerWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGTurnBasedMultiplayerWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class->getProperty = JS_PropertyStub;
@@ -1408,9 +1358,9 @@ void js_register_PluginGPGJS_GPGTurnBasedMultiplayerWrapper(JSContext *cx, JS::H
     jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class->finalize = js_PluginGPGJS_GPGTurnBasedMultiplayerWrapper_finalize;
     jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -1440,24 +1390,24 @@ void js_register_PluginGPGJS_GPGTurnBasedMultiplayerWrapper(JSContext *cx, JS::H
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class,
         dummy_constructor<sdkbox::GPGTurnBasedMultiplayerWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGTurnBasedMultiplayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGTurnBasedMultiplayerWrapper>(cx, jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGTurnBasedMultiplayerWrapper>(cx, jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGTurnBasedMultiplayerWrapper> t;
     js_type_class_t *p;
@@ -1466,11 +1416,19 @@ void js_register_PluginGPGJS_GPGTurnBasedMultiplayerWrapper(JSContext *cx, JS::H
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_class;
-        p->proto = jsb_sdkbox_GPGTurnBasedMultiplayerWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGTurnBasedMultiplayerWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGTurnBasedMultiplayerWrapper(JSContext *cx, JSObject *global) {
@@ -1614,10 +1572,91 @@ void js_register_PluginGPGJS_GPGTurnBasedMultiplayerWrapper(JSContext *cx, JSObj
 }
 #endif
 JSClass  *jsb_sdkbox_GPGWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGWrapper_NotifyToScripting(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGWrapper_StartAuthorizationUI(JSContext *cx, uint32_t argc, JS::Value *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+        sdkbox::GPGWrapper::StartAuthorizationUI();
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGWrapper_StartAuthorizationUI : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginGPGJS_GPGWrapper_StartAuthorizationUI(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    if (argc == 0) {
+        sdkbox::GPGWrapper::StartAuthorizationUI();
+        JS_SET_RVAL(cx, vp, JSVAL_VOID);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginGPGJS_GPGWrapper_getAuthCode(JSContext *cx, uint32_t argc, JS::Value *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+        std::string ret = sdkbox::GPGWrapper::getAuthCode();
+        JS::RootedValue jsret(cx);
+        sdkbox::c_string_to_jsval(cx, ret.c_str(), &jsret, ret.size());
+        args.rval().set(jsret);
+        return true;
+    }
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGWrapper_getAuthCode : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginGPGJS_GPGWrapper_getAuthCode(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    if (argc == 0) {
+        std::string ret = sdkbox::GPGWrapper::getAuthCode();
+        jsval jsret;
+        sdkbox::c_string_to_jsval(cx, ret.c_str(), &jsret, ret.size());
+        JS_SET_RVAL(cx, vp, jsret);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginGPGJS_GPGWrapper_IsAuthorized(JSContext *cx, uint32_t argc, JS::Value *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+        bool ret = sdkbox::GPGWrapper::IsAuthorized();
+        JS::RootedValue jsret(cx);
+        jsret = JS::BooleanValue(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGWrapper_IsAuthorized : wrong number of arguments");
+    return false;
+}
+#elif defined(JS_VERSION)
+JSBool js_PluginGPGJS_GPGWrapper_IsAuthorized(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    if (argc == 0) {
+        bool ret = sdkbox::GPGWrapper::IsAuthorized();
+        jsval jsret;
+        jsret = JS::BooleanValue(ret);
+        JS_SET_RVAL(cx, vp, jsret);
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments");
+    return JS_FALSE;
+}
+#endif
+#if defined(MOZJS_MAJOR_VERSION)
+bool js_PluginGPGJS_GPGWrapper_NotifyToScripting(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1631,7 +1670,7 @@ bool js_PluginGPGJS_GPGWrapper_NotifyToScripting(JSContext *cx, uint32_t argc, j
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGWrapper_NotifyToScripting : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGWrapper_NotifyToScripting : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1654,35 +1693,7 @@ JSBool js_PluginGPGJS_GPGWrapper_NotifyToScripting(JSContext *cx, uint32_t argc,
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGWrapper_IsAuthorized(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        bool ret = sdkbox::GPGWrapper::IsAuthorized();
-        jsval jsret = JSVAL_NULL;
-        jsret = BOOLEAN_TO_JSVAL(ret);
-        args.rval().set(jsret);
-        return true;
-    }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGWrapper_IsAuthorized : wrong number of arguments");
-    return false;
-}
-#elif defined(JS_VERSION)
-JSBool js_PluginGPGJS_GPGWrapper_IsAuthorized(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    if (argc == 0) {
-        bool ret = sdkbox::GPGWrapper::IsAuthorized();
-        jsval jsret;
-        jsret = BOOLEAN_TO_JSVAL(ret);
-        JS_SET_RVAL(cx, vp, jsret);
-        return JS_TRUE;
-    }
-    JS_ReportError(cx, "wrong number of arguments");
-    return JS_FALSE;
-}
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGWrapper_CreateGameServices(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGWrapper_CreateGameServices(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1696,7 +1707,7 @@ bool js_PluginGPGJS_GPGWrapper_CreateGameServices(JSContext *cx, uint32_t argc, 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGWrapper_CreateGameServices : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGWrapper_CreateGameServices : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1719,31 +1730,7 @@ JSBool js_PluginGPGJS_GPGWrapper_CreateGameServices(JSContext *cx, uint32_t argc
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGWrapper_StartAuthorizationUI(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
-        sdkbox::GPGWrapper::StartAuthorizationUI();
-        args.rval().setUndefined();
-        return true;
-    }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGWrapper_StartAuthorizationUI : wrong number of arguments");
-    return false;
-}
-#elif defined(JS_VERSION)
-JSBool js_PluginGPGJS_GPGWrapper_StartAuthorizationUI(JSContext *cx, uint32_t argc, jsval *vp)
-{
-    if (argc == 0) {
-        sdkbox::GPGWrapper::StartAuthorizationUI();
-        JS_SET_RVAL(cx, vp, JSVAL_VOID);
-        return JS_TRUE;
-    }
-    JS_ReportError(cx, "wrong number of arguments");
-    return JS_FALSE;
-}
-#endif
-#if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGWrapper_SignOut(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGWrapper_SignOut(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     if (argc == 0) {
@@ -1751,7 +1738,7 @@ bool js_PluginGPGJS_GPGWrapper_SignOut(JSContext *cx, uint32_t argc, jsval *vp)
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGWrapper_SignOut : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGWrapper_SignOut : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -1770,33 +1757,19 @@ JSBool js_PluginGPGJS_GPGWrapper_SignOut(JSContext *cx, uint32_t argc, jsval *vp
 
 void js_PluginGPGJS_GPGWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGWrapper *nobj = static_cast<sdkbox::GPGWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGWrapper_class->name = "GPGWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGWrapper_class->getProperty = JS_PropertyStub;
@@ -1806,9 +1779,9 @@ void js_register_PluginGPGJS_GPGWrapper(JSContext *cx, JS::HandleObject global) 
     jsb_sdkbox_GPGWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGWrapper_class->finalize = js_PluginGPGJS_GPGWrapper_finalize;
     jsb_sdkbox_GPGWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -1817,32 +1790,33 @@ void js_register_PluginGPGJS_GPGWrapper(JSContext *cx, JS::HandleObject global) 
     };
 
     static JSFunctionSpec st_funcs[] = {
-        JS_FN("NotifyToScripting", js_PluginGPGJS_GPGWrapper_NotifyToScripting, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("IsAuthorized", js_PluginGPGJS_GPGWrapper_IsAuthorized, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("CreateGameServices", js_PluginGPGJS_GPGWrapper_CreateGameServices, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("StartAuthorizationUI", js_PluginGPGJS_GPGWrapper_StartAuthorizationUI, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getAuthCode", js_PluginGPGJS_GPGWrapper_getAuthCode, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("IsAuthorized", js_PluginGPGJS_GPGWrapper_IsAuthorized, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("NotifyToScripting", js_PluginGPGJS_GPGWrapper_NotifyToScripting, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("CreateGameServices", js_PluginGPGJS_GPGWrapper_CreateGameServices, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("SignOut", js_PluginGPGJS_GPGWrapper_SignOut, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGWrapper_class,
         dummy_constructor<sdkbox::GPGWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGWrapper>(cx, jsb_sdkbox_GPGWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGWrapper>(cx, jsb_sdkbox_GPGWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGWrapper> t;
     js_type_class_t *p;
@@ -1851,11 +1825,19 @@ void js_register_PluginGPGJS_GPGWrapper(JSContext *cx, JS::HandleObject global) 
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGWrapper_class;
-        p->proto = jsb_sdkbox_GPGWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGWrapper(JSContext *cx, JSObject *global) {
@@ -1881,10 +1863,11 @@ void js_register_PluginGPGJS_GPGWrapper(JSContext *cx, JSObject *global) {
     };
 
     static JSFunctionSpec st_funcs[] = {
-        JS_FN("NotifyToScripting", js_PluginGPGJS_GPGWrapper_NotifyToScripting, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("IsAuthorized", js_PluginGPGJS_GPGWrapper_IsAuthorized, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("CreateGameServices", js_PluginGPGJS_GPGWrapper_CreateGameServices, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("StartAuthorizationUI", js_PluginGPGJS_GPGWrapper_StartAuthorizationUI, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getAuthCode", js_PluginGPGJS_GPGWrapper_getAuthCode, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("IsAuthorized", js_PluginGPGJS_GPGWrapper_IsAuthorized, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("NotifyToScripting", js_PluginGPGJS_GPGWrapper_NotifyToScripting, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("CreateGameServices", js_PluginGPGJS_GPGWrapper_CreateGameServices, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("SignOut", js_PluginGPGJS_GPGWrapper_SignOut, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
@@ -1936,10 +1919,11 @@ void js_register_PluginGPGJS_GPGWrapper(JSContext *cx, JSObject *global) {
     JSFunctionSpec *funcs = NULL;
 
     static JSFunctionSpec st_funcs[] = {
-        JS_FN("NotifyToScripting", js_PluginGPGJS_GPGWrapper_NotifyToScripting, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("IsAuthorized", js_PluginGPGJS_GPGWrapper_IsAuthorized, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("CreateGameServices", js_PluginGPGJS_GPGWrapper_CreateGameServices, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("StartAuthorizationUI", js_PluginGPGJS_GPGWrapper_StartAuthorizationUI, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getAuthCode", js_PluginGPGJS_GPGWrapper_getAuthCode, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("IsAuthorized", js_PluginGPGJS_GPGWrapper_IsAuthorized, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("NotifyToScripting", js_PluginGPGJS_GPGWrapper_NotifyToScripting, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("CreateGameServices", js_PluginGPGJS_GPGWrapper_CreateGameServices, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("SignOut", js_PluginGPGJS_GPGWrapper_SignOut, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
@@ -1973,10 +1957,11 @@ void js_register_PluginGPGJS_GPGWrapper(JSContext *cx, JSObject *global) {
 }
 #endif
 JSClass  *jsb_sdkbox_GPGPlayerWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGPlayerWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyConnected(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyConnected(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -1990,7 +1975,7 @@ bool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyConnected(JSContext *cx, uint3
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyConnected : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyConnected : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2013,7 +1998,7 @@ JSBool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyConnected(JSContext *cx, uin
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyInvitable(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyInvitable(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2027,7 +2012,7 @@ bool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyInvitable(JSContext *cx, uint3
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyInvitable : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyInvitable : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2050,7 +2035,7 @@ JSBool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyInvitable(JSContext *cx, uin
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2066,7 +2051,7 @@ bool js_PluginGPGJS_GPGPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGPlayerWrapper_Fetch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGPlayerWrapper_Fetch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2091,7 +2076,7 @@ JSBool js_PluginGPGJS_GPGPlayerWrapper_Fetch(JSContext *cx, uint32_t argc, jsval
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyPlayed(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyPlayed(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2105,7 +2090,7 @@ bool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyPlayed(JSContext *cx, uint32_t
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyPlayed : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyPlayed : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2128,7 +2113,7 @@ JSBool js_PluginGPGJS_GPGPlayerWrapper_FetchRecentlyPlayed(JSContext *cx, uint32
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGPlayerWrapper_FetchSelf(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGPlayerWrapper_FetchSelf(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2142,7 +2127,7 @@ bool js_PluginGPGJS_GPGPlayerWrapper_FetchSelf(JSContext *cx, uint32_t argc, jsv
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGPlayerWrapper_FetchSelf : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGPlayerWrapper_FetchSelf : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2168,33 +2153,19 @@ JSBool js_PluginGPGJS_GPGPlayerWrapper_FetchSelf(JSContext *cx, uint32_t argc, j
 
 void js_PluginGPGJS_GPGPlayerWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGPlayerWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGPlayerWrapper *nobj = static_cast<sdkbox::GPGPlayerWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGPlayerWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGPlayerWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGPlayerWrapper_class->name = "GPGPlayerWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGPlayerWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGPlayerWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGPlayerWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGPlayerWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGPlayerWrapper_class->getProperty = JS_PropertyStub;
@@ -2204,9 +2175,9 @@ void js_register_PluginGPGJS_GPGPlayerWrapper(JSContext *cx, JS::HandleObject gl
     jsb_sdkbox_GPGPlayerWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGPlayerWrapper_class->finalize = js_PluginGPGJS_GPGPlayerWrapper_finalize;
     jsb_sdkbox_GPGPlayerWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -2223,24 +2194,24 @@ void js_register_PluginGPGJS_GPGPlayerWrapper(JSContext *cx, JS::HandleObject gl
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGPlayerWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGPlayerWrapper_class,
         dummy_constructor<sdkbox::GPGPlayerWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGPlayerWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGPlayerWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGPlayerWrapper>(cx, jsb_sdkbox_GPGPlayerWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGPlayerWrapper>(cx, jsb_sdkbox_GPGPlayerWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGPlayerWrapper> t;
     js_type_class_t *p;
@@ -2249,11 +2220,19 @@ void js_register_PluginGPGJS_GPGPlayerWrapper(JSContext *cx, JS::HandleObject gl
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGPlayerWrapper_class;
-        p->proto = jsb_sdkbox_GPGPlayerWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGPlayerWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGPlayerWrapper(JSContext *cx, JSObject *global) {
@@ -2371,10 +2350,11 @@ void js_register_PluginGPGJS_GPGPlayerWrapper(JSContext *cx, JSObject *global) {
 }
 #endif
 JSClass  *jsb_sdkbox_GPGSnapshotWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGSnapshotWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGSnapshotWrapper_Load(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGSnapshotWrapper_Load(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2392,7 +2372,7 @@ bool js_PluginGPGJS_GPGSnapshotWrapper_Load(JSContext *cx, uint32_t argc, jsval 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGSnapshotWrapper_Load : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGSnapshotWrapper_Load : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2419,7 +2399,7 @@ JSBool js_PluginGPGJS_GPGSnapshotWrapper_Load(JSContext *cx, uint32_t argc, jsva
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGSnapshotWrapper_ShowSelectUIOperation(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGSnapshotWrapper_ShowSelectUIOperation(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2433,7 +2413,7 @@ bool js_PluginGPGJS_GPGSnapshotWrapper_ShowSelectUIOperation(JSContext *cx, uint
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGSnapshotWrapper_ShowSelectUIOperation : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGSnapshotWrapper_ShowSelectUIOperation : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2456,7 +2436,7 @@ JSBool js_PluginGPGJS_GPGSnapshotWrapper_ShowSelectUIOperation(JSContext *cx, ui
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGSnapshotWrapper_Save(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGSnapshotWrapper_Save(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2470,7 +2450,7 @@ bool js_PluginGPGJS_GPGSnapshotWrapper_Save(JSContext *cx, uint32_t argc, jsval 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGSnapshotWrapper_Save : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGSnapshotWrapper_Save : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2493,7 +2473,7 @@ JSBool js_PluginGPGJS_GPGSnapshotWrapper_Save(JSContext *cx, uint32_t argc, jsva
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGSnapshotWrapper_Delete(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGSnapshotWrapper_Delete(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2507,7 +2487,7 @@ bool js_PluginGPGJS_GPGSnapshotWrapper_Delete(JSContext *cx, uint32_t argc, jsva
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGSnapshotWrapper_Delete : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGSnapshotWrapper_Delete : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2530,7 +2510,7 @@ JSBool js_PluginGPGJS_GPGSnapshotWrapper_Delete(JSContext *cx, uint32_t argc, js
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGSnapshotWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGSnapshotWrapper_FetchAll(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2544,7 +2524,7 @@ bool js_PluginGPGJS_GPGSnapshotWrapper_FetchAll(JSContext *cx, uint32_t argc, js
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGSnapshotWrapper_FetchAll : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGSnapshotWrapper_FetchAll : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2570,33 +2550,19 @@ JSBool js_PluginGPGJS_GPGSnapshotWrapper_FetchAll(JSContext *cx, uint32_t argc, 
 
 void js_PluginGPGJS_GPGSnapshotWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGSnapshotWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGSnapshotWrapper *nobj = static_cast<sdkbox::GPGSnapshotWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGSnapshotWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGSnapshotWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGSnapshotWrapper_class->name = "GPGSnapshotWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGSnapshotWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGSnapshotWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGSnapshotWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGSnapshotWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGSnapshotWrapper_class->getProperty = JS_PropertyStub;
@@ -2606,9 +2572,9 @@ void js_register_PluginGPGJS_GPGSnapshotWrapper(JSContext *cx, JS::HandleObject 
     jsb_sdkbox_GPGSnapshotWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGSnapshotWrapper_class->finalize = js_PluginGPGJS_GPGSnapshotWrapper_finalize;
     jsb_sdkbox_GPGSnapshotWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -2625,24 +2591,24 @@ void js_register_PluginGPGJS_GPGSnapshotWrapper(JSContext *cx, JS::HandleObject 
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGSnapshotWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGSnapshotWrapper_class,
         dummy_constructor<sdkbox::GPGSnapshotWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGSnapshotWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGSnapshotWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGSnapshotWrapper>(cx, jsb_sdkbox_GPGSnapshotWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGSnapshotWrapper>(cx, jsb_sdkbox_GPGSnapshotWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGSnapshotWrapper> t;
     js_type_class_t *p;
@@ -2651,11 +2617,19 @@ void js_register_PluginGPGJS_GPGSnapshotWrapper(JSContext *cx, JS::HandleObject 
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGSnapshotWrapper_class;
-        p->proto = jsb_sdkbox_GPGSnapshotWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGSnapshotWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGSnapshotWrapper(JSContext *cx, JSObject *global) {
@@ -2773,10 +2747,11 @@ void js_register_PluginGPGJS_GPGSnapshotWrapper(JSContext *cx, JSObject *global)
 }
 #endif
 JSClass  *jsb_sdkbox_GPGLeaderboardWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGLeaderboardWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchAll(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2790,7 +2765,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchAll(JSContext *cx, uint32_t argc,
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchAll : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchAll : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2813,7 +2788,7 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_FetchAll(JSContext *cx, uint32_t arg
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchScoreSummary(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchScoreSummary(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2833,7 +2808,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchScoreSummary(JSContext *cx, uint3
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchScoreSummary : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchScoreSummary : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2862,7 +2837,7 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_FetchScoreSummary(JSContext *cx, uin
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchPreviousScorePage(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchPreviousScorePage(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2878,7 +2853,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchPreviousScorePage(JSContext *cx, 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchPreviousScorePage : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchPreviousScorePage : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2903,7 +2878,7 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_FetchPreviousScorePage(JSContext *cx
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_ShowAllUI(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2915,7 +2890,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_ShowAllUI(JSContext *cx, uint32_t argc
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_ShowAllUI : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_ShowAllUI : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2936,7 +2911,7 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_ShowAllUI(JSContext *cx, uint32_t ar
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchNextScorePage(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchNextScorePage(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -2952,7 +2927,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchNextScorePage(JSContext *cx, uint
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchNextScorePage : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchNextScorePage : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -2977,7 +2952,7 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_FetchNextScorePage(JSContext *cx, ui
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_SubmitScore(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_SubmitScore(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3007,7 +2982,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_SubmitScore(JSContext *cx, uint32_t ar
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_SubmitScore : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_SubmitScore : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3046,7 +3021,7 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_SubmitScore(JSContext *cx, uint32_t 
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchAllScoreSummaries(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchAllScoreSummaries(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3062,7 +3037,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchAllScoreSummaries(JSContext *cx, 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchAllScoreSummaries : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchAllScoreSummaries : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3087,7 +3062,7 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_FetchAllScoreSummaries(JSContext *cx
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_ShowUI(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_ShowUI(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3101,7 +3076,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_ShowUI(JSContext *cx, uint32_t argc, j
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_ShowUI : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_ShowUI : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3124,7 +3099,7 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_ShowUI(JSContext *cx, uint32_t argc,
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_Fetch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3140,7 +3115,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_Fetch(JSContext *cx, uint32_t argc, js
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_Fetch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_Fetch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3165,7 +3140,7 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_Fetch(JSContext *cx, uint32_t argc, 
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchScorePage(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchScorePage(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3189,7 +3164,7 @@ bool js_PluginGPGJS_GPGLeaderboardWrapper_FetchScorePage(JSContext *cx, uint32_t
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchScorePage : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGLeaderboardWrapper_FetchScorePage : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3225,33 +3200,19 @@ JSBool js_PluginGPGJS_GPGLeaderboardWrapper_FetchScorePage(JSContext *cx, uint32
 
 void js_PluginGPGJS_GPGLeaderboardWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGLeaderboardWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGLeaderboardWrapper *nobj = static_cast<sdkbox::GPGLeaderboardWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGLeaderboardWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGLeaderboardWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGLeaderboardWrapper_class->name = "GPGLeaderboardWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGLeaderboardWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGLeaderboardWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGLeaderboardWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGLeaderboardWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGLeaderboardWrapper_class->getProperty = JS_PropertyStub;
@@ -3261,9 +3222,9 @@ void js_register_PluginGPGJS_GPGLeaderboardWrapper(JSContext *cx, JS::HandleObje
     jsb_sdkbox_GPGLeaderboardWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGLeaderboardWrapper_class->finalize = js_PluginGPGJS_GPGLeaderboardWrapper_finalize;
     jsb_sdkbox_GPGLeaderboardWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -3285,24 +3246,24 @@ void js_register_PluginGPGJS_GPGLeaderboardWrapper(JSContext *cx, JS::HandleObje
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGLeaderboardWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGLeaderboardWrapper_class,
         dummy_constructor<sdkbox::GPGLeaderboardWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGLeaderboardWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGLeaderboardWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGLeaderboardWrapper>(cx, jsb_sdkbox_GPGLeaderboardWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGLeaderboardWrapper>(cx, jsb_sdkbox_GPGLeaderboardWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGLeaderboardWrapper> t;
     js_type_class_t *p;
@@ -3311,11 +3272,19 @@ void js_register_PluginGPGJS_GPGLeaderboardWrapper(JSContext *cx, JS::HandleObje
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGLeaderboardWrapper_class;
-        p->proto = jsb_sdkbox_GPGLeaderboardWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGLeaderboardWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGLeaderboardWrapper(JSContext *cx, JSObject *global) {
@@ -3443,10 +3412,11 @@ void js_register_PluginGPGJS_GPGLeaderboardWrapper(JSContext *cx, JSObject *glob
 }
 #endif
 JSClass  *jsb_sdkbox_GPGAchievementWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGAchievementWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGAchievementWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGAchievementWrapper_FetchAll(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3460,7 +3430,7 @@ bool js_PluginGPGJS_GPGAchievementWrapper_FetchAll(JSContext *cx, uint32_t argc,
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGAchievementWrapper_FetchAll : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGAchievementWrapper_FetchAll : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3483,7 +3453,7 @@ JSBool js_PluginGPGJS_GPGAchievementWrapper_FetchAll(JSContext *cx, uint32_t arg
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGAchievementWrapper_Reveal(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGAchievementWrapper_Reveal(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3495,7 +3465,7 @@ bool js_PluginGPGJS_GPGAchievementWrapper_Reveal(JSContext *cx, uint32_t argc, j
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGAchievementWrapper_Reveal : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGAchievementWrapper_Reveal : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3516,7 +3486,7 @@ JSBool js_PluginGPGJS_GPGAchievementWrapper_Reveal(JSContext *cx, uint32_t argc,
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGAchievementWrapper_Unlock(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGAchievementWrapper_Unlock(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3528,7 +3498,7 @@ bool js_PluginGPGJS_GPGAchievementWrapper_Unlock(JSContext *cx, uint32_t argc, j
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGAchievementWrapper_Unlock : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGAchievementWrapper_Unlock : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3549,7 +3519,7 @@ JSBool js_PluginGPGJS_GPGAchievementWrapper_Unlock(JSContext *cx, uint32_t argc,
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGAchievementWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGAchievementWrapper_ShowAllUI(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3561,7 +3531,7 @@ bool js_PluginGPGJS_GPGAchievementWrapper_ShowAllUI(JSContext *cx, uint32_t argc
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGAchievementWrapper_ShowAllUI : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGAchievementWrapper_ShowAllUI : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3582,7 +3552,7 @@ JSBool js_PluginGPGJS_GPGAchievementWrapper_ShowAllUI(JSContext *cx, uint32_t ar
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGAchievementWrapper_SetStepsAtLeast(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGAchievementWrapper_SetStepsAtLeast(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3596,7 +3566,7 @@ bool js_PluginGPGJS_GPGAchievementWrapper_SetStepsAtLeast(JSContext *cx, uint32_
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGAchievementWrapper_SetStepsAtLeast : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGAchievementWrapper_SetStepsAtLeast : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3619,7 +3589,7 @@ JSBool js_PluginGPGJS_GPGAchievementWrapper_SetStepsAtLeast(JSContext *cx, uint3
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGAchievementWrapper_Increment(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGAchievementWrapper_Increment(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3633,7 +3603,7 @@ bool js_PluginGPGJS_GPGAchievementWrapper_Increment(JSContext *cx, uint32_t argc
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGAchievementWrapper_Increment : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGAchievementWrapper_Increment : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3656,7 +3626,7 @@ JSBool js_PluginGPGJS_GPGAchievementWrapper_Increment(JSContext *cx, uint32_t ar
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGAchievementWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGAchievementWrapper_Fetch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3672,7 +3642,7 @@ bool js_PluginGPGJS_GPGAchievementWrapper_Fetch(JSContext *cx, uint32_t argc, js
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGAchievementWrapper_Fetch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGAchievementWrapper_Fetch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3700,33 +3670,19 @@ JSBool js_PluginGPGJS_GPGAchievementWrapper_Fetch(JSContext *cx, uint32_t argc, 
 
 void js_PluginGPGJS_GPGAchievementWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGAchievementWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGAchievementWrapper *nobj = static_cast<sdkbox::GPGAchievementWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGAchievementWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGAchievementWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGAchievementWrapper_class->name = "GPGAchievementWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGAchievementWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGAchievementWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGAchievementWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGAchievementWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGAchievementWrapper_class->getProperty = JS_PropertyStub;
@@ -3736,9 +3692,9 @@ void js_register_PluginGPGJS_GPGAchievementWrapper(JSContext *cx, JS::HandleObje
     jsb_sdkbox_GPGAchievementWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGAchievementWrapper_class->finalize = js_PluginGPGJS_GPGAchievementWrapper_finalize;
     jsb_sdkbox_GPGAchievementWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -3757,24 +3713,24 @@ void js_register_PluginGPGJS_GPGAchievementWrapper(JSContext *cx, JS::HandleObje
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGAchievementWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGAchievementWrapper_class,
         dummy_constructor<sdkbox::GPGAchievementWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGAchievementWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGAchievementWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGAchievementWrapper>(cx, jsb_sdkbox_GPGAchievementWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGAchievementWrapper>(cx, jsb_sdkbox_GPGAchievementWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGAchievementWrapper> t;
     js_type_class_t *p;
@@ -3783,11 +3739,19 @@ void js_register_PluginGPGJS_GPGAchievementWrapper(JSContext *cx, JS::HandleObje
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGAchievementWrapper_class;
-        p->proto = jsb_sdkbox_GPGAchievementWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGAchievementWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGAchievementWrapper(JSContext *cx, JSObject *global) {
@@ -3909,10 +3873,11 @@ void js_register_PluginGPGJS_GPGAchievementWrapper(JSContext *cx, JSObject *glob
 }
 #endif
 JSClass  *jsb_sdkbox_GPGQuestsWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGQuestsWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGQuestsWrapper_FetchList(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGQuestsWrapper_FetchList(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3934,7 +3899,7 @@ bool js_PluginGPGJS_GPGQuestsWrapper_FetchList(JSContext *cx, uint32_t argc, jsv
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGQuestsWrapper_FetchList : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGQuestsWrapper_FetchList : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -3965,7 +3930,7 @@ JSBool js_PluginGPGJS_GPGQuestsWrapper_FetchList(JSContext *cx, uint32_t argc, j
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGQuestsWrapper_Accept(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGQuestsWrapper_Accept(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -3979,7 +3944,7 @@ bool js_PluginGPGJS_GPGQuestsWrapper_Accept(JSContext *cx, uint32_t argc, jsval 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGQuestsWrapper_Accept : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGQuestsWrapper_Accept : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -4002,7 +3967,7 @@ JSBool js_PluginGPGJS_GPGQuestsWrapper_Accept(JSContext *cx, uint32_t argc, jsva
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGQuestsWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGQuestsWrapper_ShowAllUI(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -4014,7 +3979,7 @@ bool js_PluginGPGJS_GPGQuestsWrapper_ShowAllUI(JSContext *cx, uint32_t argc, jsv
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGQuestsWrapper_ShowAllUI : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGQuestsWrapper_ShowAllUI : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -4035,7 +4000,7 @@ JSBool js_PluginGPGJS_GPGQuestsWrapper_ShowAllUI(JSContext *cx, uint32_t argc, j
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGQuestsWrapper_ShowUI(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGQuestsWrapper_ShowUI(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -4049,7 +4014,7 @@ bool js_PluginGPGJS_GPGQuestsWrapper_ShowUI(JSContext *cx, uint32_t argc, jsval 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGQuestsWrapper_ShowUI : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGQuestsWrapper_ShowUI : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -4072,7 +4037,7 @@ JSBool js_PluginGPGJS_GPGQuestsWrapper_ShowUI(JSContext *cx, uint32_t argc, jsva
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGQuestsWrapper_ClaimMilestone(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGQuestsWrapper_ClaimMilestone(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -4086,7 +4051,7 @@ bool js_PluginGPGJS_GPGQuestsWrapper_ClaimMilestone(JSContext *cx, uint32_t argc
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGQuestsWrapper_ClaimMilestone : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGQuestsWrapper_ClaimMilestone : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -4109,7 +4074,7 @@ JSBool js_PluginGPGJS_GPGQuestsWrapper_ClaimMilestone(JSContext *cx, uint32_t ar
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGQuestsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGQuestsWrapper_Fetch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -4135,7 +4100,7 @@ bool js_PluginGPGJS_GPGQuestsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGQuestsWrapper_Fetch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGQuestsWrapper_Fetch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -4173,33 +4138,19 @@ JSBool js_PluginGPGJS_GPGQuestsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval
 
 void js_PluginGPGJS_GPGQuestsWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGQuestsWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGQuestsWrapper *nobj = static_cast<sdkbox::GPGQuestsWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGQuestsWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGQuestsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGQuestsWrapper_class->name = "GPGQuestsWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGQuestsWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGQuestsWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGQuestsWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGQuestsWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGQuestsWrapper_class->getProperty = JS_PropertyStub;
@@ -4209,9 +4160,9 @@ void js_register_PluginGPGJS_GPGQuestsWrapper(JSContext *cx, JS::HandleObject gl
     jsb_sdkbox_GPGQuestsWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGQuestsWrapper_class->finalize = js_PluginGPGJS_GPGQuestsWrapper_finalize;
     jsb_sdkbox_GPGQuestsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -4229,24 +4180,24 @@ void js_register_PluginGPGJS_GPGQuestsWrapper(JSContext *cx, JS::HandleObject gl
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGQuestsWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGQuestsWrapper_class,
         dummy_constructor<sdkbox::GPGQuestsWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGQuestsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGQuestsWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGQuestsWrapper>(cx, jsb_sdkbox_GPGQuestsWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGQuestsWrapper>(cx, jsb_sdkbox_GPGQuestsWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGQuestsWrapper> t;
     js_type_class_t *p;
@@ -4255,11 +4206,19 @@ void js_register_PluginGPGJS_GPGQuestsWrapper(JSContext *cx, JS::HandleObject gl
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGQuestsWrapper_class;
-        p->proto = jsb_sdkbox_GPGQuestsWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGQuestsWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGQuestsWrapper(JSContext *cx, JSObject *global) {
@@ -4379,10 +4338,11 @@ void js_register_PluginGPGJS_GPGQuestsWrapper(JSContext *cx, JSObject *global) {
 }
 #endif
 JSClass  *jsb_sdkbox_GPGEventsWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGEventsWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGEventsWrapper_FetchAll(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGEventsWrapper_FetchAll(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -4404,7 +4364,7 @@ bool js_PluginGPGJS_GPGEventsWrapper_FetchAll(JSContext *cx, uint32_t argc, jsva
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGEventsWrapper_FetchAll : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGEventsWrapper_FetchAll : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -4435,7 +4395,7 @@ JSBool js_PluginGPGJS_GPGEventsWrapper_FetchAll(JSContext *cx, uint32_t argc, js
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGEventsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGEventsWrapper_Fetch(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -4461,7 +4421,7 @@ bool js_PluginGPGJS_GPGEventsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval *
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGEventsWrapper_Fetch : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGEventsWrapper_Fetch : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -4496,7 +4456,7 @@ JSBool js_PluginGPGJS_GPGEventsWrapper_Fetch(JSContext *cx, uint32_t argc, jsval
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGEventsWrapper_Increment(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGEventsWrapper_Increment(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -4518,7 +4478,7 @@ bool js_PluginGPGJS_GPGEventsWrapper_Increment(JSContext *cx, uint32_t argc, jsv
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGEventsWrapper_Increment : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGEventsWrapper_Increment : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -4552,33 +4512,19 @@ JSBool js_PluginGPGJS_GPGEventsWrapper_Increment(JSContext *cx, uint32_t argc, j
 
 void js_PluginGPGJS_GPGEventsWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGEventsWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGEventsWrapper *nobj = static_cast<sdkbox::GPGEventsWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGEventsWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGEventsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGEventsWrapper_class->name = "GPGEventsWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGEventsWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGEventsWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGEventsWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGEventsWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGEventsWrapper_class->getProperty = JS_PropertyStub;
@@ -4588,9 +4534,9 @@ void js_register_PluginGPGJS_GPGEventsWrapper(JSContext *cx, JS::HandleObject gl
     jsb_sdkbox_GPGEventsWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGEventsWrapper_class->finalize = js_PluginGPGJS_GPGEventsWrapper_finalize;
     jsb_sdkbox_GPGEventsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -4605,24 +4551,24 @@ void js_register_PluginGPGJS_GPGEventsWrapper(JSContext *cx, JS::HandleObject gl
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGEventsWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGEventsWrapper_class,
         dummy_constructor<sdkbox::GPGEventsWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGEventsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGEventsWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGEventsWrapper>(cx, jsb_sdkbox_GPGEventsWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGEventsWrapper>(cx, jsb_sdkbox_GPGEventsWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGEventsWrapper> t;
     js_type_class_t *p;
@@ -4631,11 +4577,19 @@ void js_register_PluginGPGJS_GPGEventsWrapper(JSContext *cx, JS::HandleObject gl
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGEventsWrapper_class;
-        p->proto = jsb_sdkbox_GPGEventsWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGEventsWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGEventsWrapper(JSContext *cx, JSObject *global) {
@@ -4749,10 +4703,11 @@ void js_register_PluginGPGJS_GPGEventsWrapper(JSContext *cx, JSObject *global) {
 }
 #endif
 JSClass  *jsb_sdkbox_GPGStatsWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGStatsWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -4766,7 +4721,7 @@ bool js_PluginGPGJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, uint32_t argc,
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGStatsWrapper_FetchForPlayer : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGStatsWrapper_FetchForPlayer : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -4792,33 +4747,19 @@ JSBool js_PluginGPGJS_GPGStatsWrapper_FetchForPlayer(JSContext *cx, uint32_t arg
 
 void js_PluginGPGJS_GPGStatsWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGStatsWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGStatsWrapper *nobj = static_cast<sdkbox::GPGStatsWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGStatsWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGStatsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGStatsWrapper_class->name = "GPGStatsWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGStatsWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGStatsWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGStatsWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGStatsWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGStatsWrapper_class->getProperty = JS_PropertyStub;
@@ -4828,9 +4769,9 @@ void js_register_PluginGPGJS_GPGStatsWrapper(JSContext *cx, JS::HandleObject glo
     jsb_sdkbox_GPGStatsWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGStatsWrapper_class->finalize = js_PluginGPGJS_GPGStatsWrapper_finalize;
     jsb_sdkbox_GPGStatsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -4843,24 +4784,24 @@ void js_register_PluginGPGJS_GPGStatsWrapper(JSContext *cx, JS::HandleObject glo
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGStatsWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGStatsWrapper_class,
         dummy_constructor<sdkbox::GPGStatsWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGStatsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGStatsWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGStatsWrapper>(cx, jsb_sdkbox_GPGStatsWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGStatsWrapper>(cx, jsb_sdkbox_GPGStatsWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGStatsWrapper> t;
     js_type_class_t *p;
@@ -4869,11 +4810,19 @@ void js_register_PluginGPGJS_GPGStatsWrapper(JSContext *cx, JS::HandleObject glo
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGStatsWrapper_class;
-        p->proto = jsb_sdkbox_GPGStatsWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGStatsWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGStatsWrapper(JSContext *cx, JSObject *global) {
@@ -4983,10 +4932,11 @@ void js_register_PluginGPGJS_GPGStatsWrapper(JSContext *cx, JSObject *global) {
 }
 #endif
 JSClass  *jsb_sdkbox_GPGNearbyConnectionsWrapper_class;
+#if MOZJS_MAJOR_VERSION < 33
 JSObject *jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype;
-
+#endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartDiscovery(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartDiscovery(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -5002,7 +4952,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartDiscovery(JSContext *cx, ui
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartDiscovery : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartDiscovery : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5027,7 +4977,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartDiscovery(JSContext *cx, 
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -5039,7 +4989,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest(JSContex
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5060,7 +5010,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_RejectConnectionRequest(JSCont
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Disconnect(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Disconnect(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -5072,7 +5022,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Disconnect(JSContext *cx, uint32
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_Disconnect : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_Disconnect : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5092,11 +5042,11 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Disconnect(JSContext *cx, uint
     return JS_FALSE;
 }
 #endif
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    
+
     do {
         if (argc == 2) {
             std::vector<std::string> arg0;
@@ -5109,7 +5059,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage(JSContext 
             return true;
         }
     } while (0);
-    
+
     do {
         if (argc == 2) {
             std::string arg0;
@@ -5122,21 +5072,21 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage(JSContext 
             return true;
         }
     } while (0);
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendUnreliableMessage : wrong number of arguments");
     return false;
 }
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     if (argc == 0) {
         std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalDeviceId();
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
+        JS::RootedValue jsret(cx);
+        sdkbox::c_string_to_jsval(cx, ret.c_str(), &jsret, ret.size());
         args.rval().set(jsret);
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5145,7 +5095,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId(JSContext *cx
     if (argc == 0) {
         std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalDeviceId();
         jsval jsret;
-        jsret = std_string_to_jsval(cx, ret);
+        sdkbox::c_string_to_jsval(cx, ret.c_str(), &jsret, ret.size());
         JS_SET_RVAL(cx, vp, jsret);
         return JS_TRUE;
     }
@@ -5154,7 +5104,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalDeviceId(JSContext *cx
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopAdvertising(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopAdvertising(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     if (argc == 0) {
@@ -5162,7 +5112,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopAdvertising(JSContext *cx, u
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopAdvertising : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopAdvertising : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5178,7 +5128,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopAdvertising(JSContext *cx,
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Stop(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Stop(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     if (argc == 0) {
@@ -5186,7 +5136,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Stop(JSContext *cx, uint32_t arg
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_Stop : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_Stop : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5201,11 +5151,11 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Stop(JSContext *cx, uint32_t a
     return JS_FALSE;
 }
 #endif
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendReliableMessage(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    
+
     do {
         if (argc == 2) {
             std::vector<std::string> arg0;
@@ -5218,7 +5168,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendReliableMessage(JSContext *c
             return true;
         }
     } while (0);
-    
+
     do {
         if (argc == 2) {
             std::string arg0;
@@ -5231,21 +5181,21 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendReliableMessage(JSContext *c
             return true;
         }
     } while (0);
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendReliableMessage : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendReliableMessage : wrong number of arguments");
     return false;
 }
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     if (argc == 0) {
         std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalEndpointId();
-        jsval jsret = JSVAL_NULL;
-        jsret = std_string_to_jsval(cx, ret);
+        JS::RootedValue jsret(cx);
+        sdkbox::c_string_to_jsval(cx, ret.c_str(), &jsret, ret.size());
         args.rval().set(jsret);
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5254,7 +5204,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId(JSContext *
     if (argc == 0) {
         std::string ret = sdkbox::GPGNearbyConnectionsWrapper::GetLocalEndpointId();
         jsval jsret;
-        jsret = std_string_to_jsval(cx, ret);
+        sdkbox::c_string_to_jsval(cx, ret.c_str(), &jsret, ret.size());
         JS_SET_RVAL(cx, vp, jsret);
         return JS_TRUE;
     }
@@ -5263,7 +5213,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_GetLocalEndpointId(JSContext *
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Init(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Init(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -5274,12 +5224,12 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Init(JSContext *cx, uint32_t arg
         ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
         JSB_PRECONDITION2(ok, cx, false, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_Init : Error processing arguments");
         bool ret = sdkbox::GPGNearbyConnectionsWrapper::Init(arg0, arg1);
-        jsval jsret = JSVAL_NULL;
-        jsret = BOOLEAN_TO_JSVAL(ret);
+        JS::RootedValue jsret(cx);
+        jsret = JS::BooleanValue(ret);
         args.rval().set(jsret);
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_Init : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_Init : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5295,7 +5245,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Init(JSContext *cx, uint32_t a
         JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
         bool ret = sdkbox::GPGNearbyConnectionsWrapper::Init(arg0, arg1);
         jsval jsret;
-        jsret = BOOLEAN_TO_JSVAL(ret);
+        jsret = JS::BooleanValue(ret);
         JS_SET_RVAL(cx, vp, jsret);
         return JS_TRUE;
     }
@@ -5304,7 +5254,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_Init(JSContext *cx, uint32_t a
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopDiscovery(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopDiscovery(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -5316,7 +5266,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopDiscovery(JSContext *cx, uin
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopDiscovery : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopDiscovery : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5337,7 +5287,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StopDiscovery(JSContext *cx, u
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendConnectionRequest(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -5357,7 +5307,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendConnectionRequest(JSContext 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendConnectionRequest : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendConnectionRequest : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5386,7 +5336,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_SendConnectionRequest(JSContex
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartAdvertising(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartAdvertising(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -5402,7 +5352,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartAdvertising(JSContext *cx, 
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartAdvertising : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartAdvertising : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5427,7 +5377,7 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_StartAdvertising(JSContext *cx
 }
 #endif
 #if defined(MOZJS_MAJOR_VERSION)
-bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
@@ -5443,7 +5393,7 @@ bool js_PluginGPGJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest(JSContex
         args.rval().setUndefined();
         return true;
     }
-    JS_ReportError(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_PluginGPGJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest : wrong number of arguments");
     return false;
 }
 #elif defined(JS_VERSION)
@@ -5471,33 +5421,19 @@ JSBool js_PluginGPGJS_GPGNearbyConnectionsWrapper_AcceptConnectionRequest(JSCont
 
 void js_PluginGPGJS_GPGNearbyConnectionsWrapper_finalize(JSFreeOp *fop, JSObject *obj) {
     CCLOGINFO("jsbindings: finalizing JS object %p (GPGNearbyConnectionsWrapper)", obj);
-    js_proxy_t* nproxy;
-    js_proxy_t* jsproxy;
-
-#if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
-    JS::RootedObject jsobj(cx, obj);
-    jsproxy = jsb_get_js_proxy(jsobj);
-#else
-    jsproxy = jsb_get_js_proxy(obj);
-#endif
-
-    if (jsproxy) {
-        nproxy = jsb_get_native_proxy(jsproxy->ptr);
-
-        sdkbox::GPGNearbyConnectionsWrapper *nobj = static_cast<sdkbox::GPGNearbyConnectionsWrapper *>(nproxy->ptr);
-        if (nobj)
-            delete nobj;
-
-        jsb_remove_proxy(nproxy, jsproxy);
-    }
 }
 
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
 void js_register_PluginGPGJS_GPGNearbyConnectionsWrapper(JSContext *cx, JS::HandleObject global) {
-    jsb_sdkbox_GPGNearbyConnectionsWrapper_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_sdkbox_GPGNearbyConnectionsWrapper_class->name = "GPGNearbyConnectionsWrapper";
+    static JSClass PluginAgeCheq_class = {
+        "GPGNearbyConnectionsWrapper",
+        JSCLASS_HAS_PRIVATE,
+        nullptr
+    };
+    jsb_sdkbox_GPGNearbyConnectionsWrapper_class = &PluginAgeCheq_class;
+
+#if MOZJS_MAJOR_VERSION < 52
     jsb_sdkbox_GPGNearbyConnectionsWrapper_class->addProperty = JS_PropertyStub;
     jsb_sdkbox_GPGNearbyConnectionsWrapper_class->delProperty = JS_DeletePropertyStub;
     jsb_sdkbox_GPGNearbyConnectionsWrapper_class->getProperty = JS_PropertyStub;
@@ -5507,9 +5443,9 @@ void js_register_PluginGPGJS_GPGNearbyConnectionsWrapper(JSContext *cx, JS::Hand
     jsb_sdkbox_GPGNearbyConnectionsWrapper_class->convert = JS_ConvertStub;
     jsb_sdkbox_GPGNearbyConnectionsWrapper_class->finalize = js_PluginGPGJS_GPGNearbyConnectionsWrapper_finalize;
     jsb_sdkbox_GPGNearbyConnectionsWrapper_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
+#endif
 
     static JSPropertySpec properties[] = {
-        JS_PSG("__nativeObj", js_is_native_obj, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_PS_END
     };
 
@@ -5535,24 +5471,24 @@ void js_register_PluginGPGJS_GPGNearbyConnectionsWrapper(JSContext *cx, JS::Hand
         JS_FS_END
     };
 
-    jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JSObject* objProto = JS_InitClass(
         cx, global,
-        JS::NullPtr(), // parent proto
+        parent_proto,
         jsb_sdkbox_GPGNearbyConnectionsWrapper_class,
         dummy_constructor<sdkbox::GPGNearbyConnectionsWrapper>, 0, // no constructor
         properties,
         funcs,
         NULL, // no static properties
         st_funcs);
-    // make the class enumerable in the registered namespace
-//  bool found;
-//FIXME: Removed in Firefox v27
-//  JS_SetPropertyAttributes(cx, global, "GPGNearbyConnectionsWrapper", JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 
-    // add the proto and JSClass to the type->js info hash table
+    JS::RootedObject proto(cx, objProto);
 #if (SDKBOX_COCOS_JSB_VERSION >= 2)
-    JS::RootedObject proto(cx, jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype);
+#if MOZJS_MAJOR_VERSION >= 52
+    jsb_register_class<sdkbox::GPGNearbyConnectionsWrapper>(cx, jsb_sdkbox_GPGNearbyConnectionsWrapper_class, proto);
+#else
     jsb_register_class<sdkbox::GPGNearbyConnectionsWrapper>(cx, jsb_sdkbox_GPGNearbyConnectionsWrapper_class, proto, JS::NullPtr());
+#endif
 #else
     TypeTest<sdkbox::GPGNearbyConnectionsWrapper> t;
     js_type_class_t *p;
@@ -5561,11 +5497,19 @@ void js_register_PluginGPGJS_GPGNearbyConnectionsWrapper(JSContext *cx, JS::Hand
     {
         p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
         p->jsclass = jsb_sdkbox_GPGNearbyConnectionsWrapper_class;
-        p->proto = jsb_sdkbox_GPGNearbyConnectionsWrapper_prototype;
+        p->proto = objProto;
         p->parentProto = NULL;
         _js_global_type_map.insert(std::make_pair(typeName, p));
     }
 #endif
+
+    // add the proto and JSClass to the type->js info hash table
+    JS::RootedValue className(cx);
+    JSString* jsstr = JS_NewStringCopyZ(cx, "GPGNearbyConnectionsWrapper");
+    className = JS::StringValue(jsstr);
+    JS_SetProperty(cx, proto, "_className", className);
+    JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
 }
 #else
 void js_register_PluginGPGJS_GPGNearbyConnectionsWrapper(JSContext *cx, JSObject *global) {

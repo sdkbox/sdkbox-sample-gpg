@@ -32,6 +32,7 @@ namespace sdkbox {
         static bool IsAuthorized();
         static void StartAuthorizationUI();
         static void SignOut();
+        static std::string getAuthCode();
 
         /**
          * Must be implemented per scripting language and native as empty function.

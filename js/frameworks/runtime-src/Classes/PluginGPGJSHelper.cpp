@@ -14,7 +14,7 @@ std::unique_ptr<NativeJSNotifier> _njsn = nullptr;
 
 void register_all_PluginGPGJS_helper(JSContext* cx, JS::HandleObject global) {
     _njsn = std::unique_ptr<NativeJSNotifier>(new NativeJSNotifier(cx));
-    
+
     // load and inject gpg js layer.
     ScriptingCore::getInstance()->runScript("res/sdkboxgpg.js");
 }
@@ -31,7 +31,7 @@ void NativeJSNotifier::__notifyImpl(int id, const std::string &json) {
     }
     JSContext* cx = s_cx;
     const char* func_name = "__nativeNotify";
-    
+
 #if defined(MOZJS_MAJOR_VERSION)
 #if MOZJS_MAJOR_VERSION >= 33
     bool hasAction;
@@ -47,17 +47,16 @@ void NativeJSNotifier::__notifyImpl(int id, const std::string &json) {
     jsval retval;
     jsval func_handle;
 #endif
-    
-    
+
+
     JS::RootedObject obj (cx,ScriptingCore::getInstance()->getGlobalObject());
     JSAutoCompartment ac(cx, obj);
-    
-    if (JS_HasProperty(cx, obj, func_name, &hasAction) && hasAction) {
 
-        jsval pvals[2];
-        pvals[0]= INT_TO_JSVAL(id);
-        pvals[1]= std_string_to_jsval(cx, json);
-    
+    if (JS_HasProperty(cx, obj, func_name, &hasAction) && hasAction) {
+        JS::Value pvals[2];
+        pvals[0] = JS::Int32Value(id);
+        pvals[1] = 0 == json.size() ? JS::StringValue(JS_NewStringCopyZ(cx, "")) : JS::StringValue(JS_NewStringCopyZ(cx, json.c_str()));
+
         #if MOZJS_MAJOR_VERSION >= 31
             JS_CallFunctionName(cx, obj, func_name, JS::HandleValueArray::fromMarkedLocation(2, pvals ), &retval);
         #else
@@ -66,7 +65,7 @@ void NativeJSNotifier::__notifyImpl(int id, const std::string &json) {
     } else {
         CCLOGINFO("no function %s found.", func_name);
     }
-    
+
 }
 
 NativeJSNotifierScheduler::NativeJSNotifierScheduler( int id, const std::string& json ): _id(id), _json(json) {

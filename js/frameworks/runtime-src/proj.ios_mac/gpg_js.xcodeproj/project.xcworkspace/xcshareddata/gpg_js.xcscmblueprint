@@ -9,7 +9,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "BCBF02C9-BB4B-45FF-9BD3-BD4525D3D123",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8" : "sdkbox-sample-googleplay\/",
+    "D11BE1A834BC7DDF6EBE5B3527D6BED31EF220A8" : "sdkbox-sample-gpg\/",
     "81D6D44179E6F25DEFD75513229825753CC0073D" : "sdkbox-sample-sdkboxplay\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "gpg_js",
