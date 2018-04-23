@@ -80,6 +80,9 @@ bool SaveGameScene::init()
     menu->setPosition(size.width -220, size.height/2);
     addChild(menu);
 
+    _ws = new network::WebSocket();
+    _ws->init(*this, "ws://echo.websocket.org");
+    
     return true;
 }
 
@@ -251,4 +254,23 @@ void SaveGameScene::updateStats()
     _hero_name->setString(_game_data["player_name"].string_value());
     _hero_gold->setString(to_str(_game_data["gold"].int_value()));
     _hero_level->setString(to_str(_game_data["level"].int_value()));
+}
+
+// ws
+void SaveGameScene::onOpen(network::WebSocket* ws)
+{
+    CCLOG("%s", __FUNCTION__);
+    _ws->send("Hello WebSocket, I'm a text message.");
+}
+void SaveGameScene::onMessage(network::WebSocket* ws, const network::WebSocket::Data& data)
+{
+    CCLOG("%s: %s", __FUNCTION__, data.bytes);
+}
+void SaveGameScene::onClose(network::WebSocket* ws)
+{
+    CCLOG("%s", __FUNCTION__);
+}
+void SaveGameScene::onError(network::WebSocket* ws, const network::WebSocket::ErrorCode& error)
+{
+    CCLOG("%s", __FUNCTION__);
 }

@@ -4,11 +4,13 @@
 #include "BaseScene.h"
 #include "json98.h"
 
+#include "network/WebSocket.h"
+
 #define MAX_SAVES 8
 #define SAVE_GAME_NAME "GameSaveCPP"
 #define SAVE_GAME_DESC "A game save of cocos2d-x game"
 
-class SaveGameScene : public BaseScene
+class SaveGameScene : public BaseScene, public cocos2d::network::WebSocket::Delegate
 {
 public:
     static cocos2d::Scene* createScene();
@@ -39,4 +41,11 @@ protected:
     cocos2d::Label* _hero_level;
     cocos2d::Label* _hero_gold;
     json98::Json _game_data;
+    
+    // ws
+    void onOpen(cocos2d::network::WebSocket* ws);
+    void onMessage(cocos2d::network::WebSocket* ws, const cocos2d::network::WebSocket::Data& data);
+    void onClose(cocos2d::network::WebSocket* ws);
+    void onError(cocos2d::network::WebSocket* ws, const cocos2d::network::WebSocket::ErrorCode& error);
+    cocos2d::network::WebSocket* _ws;
 };
